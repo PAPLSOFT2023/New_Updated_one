@@ -1,0 +1,114 @@
+<div class="container1">
+  <h1 [ngClass]="'title'" class="user">Profile Management</h1>
+</div>
+
+<button (click)="toggleUserPopup()" [ngClass]="'Adduser'">Add User</button>
+
+<!-- User Popup for Add and Update -->
+<!-- User Popup for Add and Update -->
+<div *ngIf="isUserPopupOpen" class="user-popup">
+  <!-- <form> -->
+    <!-- Your form fields -->
+<h2>Profile Register</h2>
+<form>
+    <label for="NAME">Name:</label>
+
+    <input [(ngModel)]="NAME" NAME="NAME" [value]="user.NAME" [ngModelOptions]="{standalone: true}" required />
+    <label for="email_id">Email_id:</label>
+    <input [(ngModel)]="user.email_id" NAME="email_id" type="email" [value]="user.email_id" required />
+    
+    
+    <label for="PSN_NO">PSN_NO:</label>
+    <input [(ngModel)]="user.PSN_NO" NAME="PSN_NO" [value]="user.PSN_NO" required />
+
+    <label for="designation">Designation:</label>
+    <input [(ngModel)]="user.designation" NAME="designation" [value]="user.designation" required />
+
+    <label for="contact_no">Contact No:</label>
+    <input [(ngModel)]="user.contact_no" NAME="contact_no" [value]="user.contact_no" required />
+    <label for="date_of_joining">Date of Joining:</label>
+    <input [(ngModel)]="user.date_of_joining" name="date_of_joining" type="date" [value]="user.date_of_joining" required />
+    
+    <label for="date_of_birth">Date of Birth:</label>
+    <input [(ngModel)]="user.date_of_birth" name="date_of_birth" type="date" [value]="user.date_of_birth" required />
+    
+    <label for="Department">Department:</label>
+    <input [(ngModel)]="user.dept" NAME="Department" [value]="user.dept" required />
+    <button type="submit" (click)="onSubmit()">Add User</button>
+    <button type="button" (click)="resetUser(); closeUserPopup()">Cancel</button>
+  <!-- </form> -->
+</form>
+</div>
+
+  
+
+<!-- User Popup for Update Login -->
+<div *ngIf="isUserPopupOpen1" class="user-popup">
+  <form (ngSubmit)="Update_data()" #userForm="ngForm">
+    <h2>Update user</h2>
+    <label for="NAME">Name:</label>
+    <input [(ngModel)]="user.NAME" name="NAME" required />
+
+    <label for="email_id">Email_id:</label>
+    <input [(ngModel)]="user.email_id" name="email_id" type="email" required />
+
+    <label for="PSN_NO">PSN_NO:</label>
+    <input [(ngModel)]="user.PSN_NO" name="PSN_NO" required />
+
+    <label for="designation">Designation:</label>
+    <input [(ngModel)]="user.designation" name="designation" required />
+
+    <label for="contact_no">Contact No:</label>
+    <input [(ngModel)]="user.contact_no" name="contact_no" required />
+
+    <label for="date_of_joining">  Date of Joining:{{Join}}</label>
+    <input [(ngModel)]="user.date_of_joining" name="date_of_joining" type="date" required />
+
+    <label for="date_of_birth"> Date of Birth:{{DOB}}</label>
+    <input  type="date"  id="dateOfBirth"  [(ngModel)]="user.date_of_birth"  name="date_of_birth"  />
+
+    <label for="department">Department:</label>
+    <input [(ngModel)]="user.dept" name="department" required />
+
+    <button type="submit" (click)="Update_data">Update User</button>
+    <button type="button" (click)="closeUserPopup1()">Cancel</button>
+  </form>
+</div>
+
+
+
+
+
+<!-- Display Users in a Table -->
+<table>
+  <tr>
+    <th>NAME</th>
+    <th>Email_id</th>
+    <th>PSN_NO</th>
+    <th>Designation</th>
+    <th>Contact_no</th>
+    <th>Date_of_joining</th>
+    <th>Date_Of_Birth</th>
+    <th>Department</th>
+    <th>Action</th>
+  </tr>
+
+  <!-- NAME,email_id,PSN_NO,designation,contact_no,date_of_joining,date_of_birth,dept -->
+  <tr *ngFor="let user of users; let i = index" [ngClass]="{'green-row': i % 2 === 0, 'white-row': i % 2 !== 0}">
+    <td>{{ user.NAME }}</td>
+    <td>{{ user.email_id }}</td>
+    <td>{{ user.PSN_NO }}</td>
+    <td>{{ user.designation }}</td>
+    <td>{{ user.contact_no }}</td>
+    <td> {{ user.date_of_joining | date: 'MM/dd/yyyy' }}</td>
+    <td>{{ user.date_of_birth | date: 'MM/dd/yyyy' }}</td>
+    <td>{{ user.dept }}</td>
+    
+   
+    <td>
+      <button (click)="editUser(user.email_id)" [ngClass]="'editbutton'">Edit</button>
+      <button type="button" (click)="deleteUser(user.email_id)">Delete</button>
+    
+    </td>
+  </tr>
+</table>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PAPL DESK - Your One-Stop Solution</title>
+    <!-- Add your CSS and JavaScript links here -->
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="logo">
+            <span class="logo-text">PAPL DESK</span>
+        </div>
+        <nav class="nav">
+            <ul>
+                <li><a routerLink="/">Careers</a></li>
+                <li><a routerLink="/about">About</a></li>
+                <li><a routerLink="/services">Services</a></li>
+                <li><a routerLink="/contact">Contact</a></li>
+                <!-- Add more navigation links as needed -->
+            </ul>
+        </nav>
+        <div class="header-buttons">
+            <button class="signin-button" routerLink="/login">Sign In</button>
+            <button class="get-started-button" routerLink="/neworganization">Get Started</button>
+        </div>
+        <div class="language-selector">
+            <div class="language-content" (mouseenter)="showLanguageMenu()" (mouseleave)="hideLanguageMenu()">
+                <i class="fas fa-globe"></i>
+                <span>English</span>
+            </div>
+            <div class="language-menu" id="languageMenu" [ngClass]="{'show-menu': isLanguageMenuOpen}">
+                <ul>
+                    <li><a href="#" (click)="changeLanguage('en')">English</a></li>
+                    <!-- Add more language options as needed -->
+                </ul>
+            </div>
+        </div>
+        <!-- Search Bar -->
+        <div class="search-bar">
+            <input
+                type="text"
+                placeholder="Search..."
+                [(ngModel)]="searchQuery"
+                (keydown.enter)="performSearch()"
+            />
+            <button (click)="performSearch()">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Homepage Section -->
+    <div class="homepage">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1>Welcome to PAPL DESK</h1>
+                <p>Your One-Stop Solution for Elevators, Escalators, and Parking Services</p>
+                <a class="cta-button" routerLink="/services">Explore Our Services</a>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features-section">
+            <div class="feature">
+                <i class="fas fa-elevator"></i>
+                <h2>Elevators</h2>
+                <p>Discover our state-of-the-art elevator solutions designed for safety and convenience.</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-cogs"></i>
+                <h2>Escalators</h2>
+                <p>Experience smooth and efficient escalators that enhance building mobility.</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-car"></i>
+                <h2>Car Parking Lifts</h2>
+                <p>Optimize parking management with our intelligent car parking lift solutions.</p>
+            </div>
+        </section>
+
+        <!-- Testimonial Section -->
+        <section class="testimonial-section">
+            <div class="testimonial">
+                <blockquote>
+                    "PAPL DESK transformed our building's mobility and parking management. Their solutions are top-notch."
+                </blockquote>
+            </div>
+        </section>
+
+        <!-- Additional Sections -->
+        <section class="additional-content">
+            <h2>Our Commitment</h2>
+            <p>At PAPL DESK, we are committed to providing innovative solutions that improve the mobility and efficiency of your building. Our team of experts is dedicated to ensuring the safety and convenience of our customers.</p>
+        </section>
+
+        <section class="contact-us">
+            <h2>Contact Us</h2>
+            <p>If you have any questions or inquiries, please feel free to reach out to us. We are here to assist you in any way we can.</p>
+        </section>
+    </div>
+
+    <!-- Footer Section -->
+    <footer>
+        <!-- Add your footer content here -->
+    </footer>
+
+    <!-- Add your scripts here -->
+</body>
+</html>

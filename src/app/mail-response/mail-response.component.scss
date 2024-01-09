@@ -1,0 +1,617 @@
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+  
+  .row {
+    display: flex;
+    justify-content: space-between;
+    // width: 100%;
+  }
+  
+  .column {
+    flex: 0 0 48%;
+    text-align: center;
+    margin: 5px;
+  }
+  
+  .button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  .popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .popup-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .label {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+  
+  .select {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 20px;
+  }
+  
+  .button-container {
+    display: flex;
+    justify-content: space-around;
+  }
+  
+  .button-submit,
+  .button-close {
+    padding: 10px 20px;
+    font-size: 14px;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .button-submit {
+    background-color: #4caf50;
+  }
+  
+  .button-close {
+    background-color: #f44336;
+  }
+  
+  
+//   .popup {
+//     position: fixed;
+//     top: 0;
+//     left: 0;
+//     width: 100%;
+//     height: 100%;
+//     background: rgba(0, 0, 0, 0.5);
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//   }
+  
+//   .popup-content {
+//     background: #fafae3;
+//     padding: 20px;
+//     border-radius: 8px;
+//     text-align: center;
+//     display: flex;
+//     flex-direction: column; /* Set flex-direction to column for a vertical layout */
+//   }
+//   .popup-content label,
+// .popup-content select,
+// .popup-content button {
+//   margin-bottom: 10px; /* Add margin between elements for spacing */
+// }
+  
+   
+  /* Style for the container */
+
+
+/* Style for the button columns */
+
+/* Style for the Accept button */
+.button.accept {
+  background-color: #4caf50; /* Green background color */
+  color: white; /* White text color */
+  padding: 10px 20px; /* Add padding to the button */
+  border: none; /* Remove button border */
+  border-radius: 5px; /* Add border-radius for rounded corners */
+  cursor: pointer; /* Change cursor to pointer on hover */
+}
+
+/* Hover effect for the Accept button */
+.button.accept:hover {
+  background-color: #45a049; /* Darker green on hover */
+}
+
+/* Style for the Reject button */
+.button.reject {
+  background-color: #f44336; /* Red background color */
+  color: white; /* White text color */
+  padding: 10px 20px; /* Add padding to the button */
+  border: none; /* Remove button border */
+  border-radius: 5px; /* Add border-radius for rounded corners */
+  cursor: pointer; /* Change cursor to pointer on hover */
+}
+
+/* Hover effect for the Reject button */
+.button.reject:hover {
+  background-color: #d32f2f; /* Darker red on hover */
+}
+/* Style for the SUBMIT button */
+.button-submit {
+    background-color: #4caf50; /* Green background color */
+    color: white; /* White text color */
+    padding: 10px 20px; /* Add padding to the button */
+    border: none; /* Remove button border */
+    border-radius: 5px; /* Add border-radius for rounded corners */
+    cursor: pointer; /* Change cursor to pointer on hover */
+  }
+  
+  /* Hover effect for the SUBMIT button */
+  .button-submit:hover {
+    background-color: #45a049; /* Darker green on hover */
+  }
+  
+  /* Style for the CLOSE button */
+  .button-close {
+    background-color: #ba4239; /* Red background color */
+    color: white; /* White text color */
+    padding: 10px 20px; /* Add padding to the button */
+    border: none; /* Remove button border */
+    border-radius: 5px; /* Add border-radius for rounded corners */
+    cursor: pointer; /* Change cursor to pointer on hover */
+  }
+  
+  /* Hover effect for the CLOSE button */
+  .button-close:hover {
+    background-color: #d32f2f; /* Darker red on hover */
+  }
+  body {
+   
+    
+    height: 100px;
+  }
+  /* Set the background image for the body */
+body.images {
+ 
+    background-image: ("assets/elevator.jpg"); /* The image used */
+    background-color: #cccccc; /* Used if the image is unavailable */
+    height: 742px; /* You must set a specified height */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover; /* Resize the background image to cover the entire container */
+  }
+  /* ... Your existing CSS styles ... */
+/* ... Your existing CSS styles ... */
+
+.already_responded{
+  background-color: black; /* Set the background color to black */
+  color: white; /* Set text color to white */
+  font-size: 24px; 
+}
+
+/* ... Your existing CSS styles ... */
+
+
+/* ... Your existing CSS styles ... */
+
+  
+// /* Ensure content readability on a potentially busy background */
+// body.images * {
+//   color: #fff;        /* Set text color to white for contrast */
+//   text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.5); /* Add text shadow for better visibility */
+// }
+
+// /* Further adjustments based on visual preferences (optional) */
+// body.images h1,
+// body.images h2,
+// body.images h3 {
+//   font-weight: bold; /* Make headings stand out */
+// }
+
+// body.images a {
+//   text-decoration: none; /* Remove underline from links */
+//   color: #00f;            /* Set link color to blue (or another contrasting color) */
+// }
+
+  // .body1{
+  //   height: 100vh;
+
+  // }
+  // svg {
+  //   height: 100%;
+  //   width: auto;
+  //   display: block;
+  //   margin: 0 auto;
+  // }
+  
+  
+  // /* each step 'becomes' the step above it over the duration of 2s */
+  
+  
+  // #steps > *:nth-child(1) {
+  //   animation: first-step 2s linear infinite;
+  // }
+  
+  // @keyframes first-step {
+  //   0% {
+  //      transform: translateY(3px);
+  //      height: 3px;
+  //   }
+  //   25% {
+  //      height: 8.3px;
+  //      transform: translateY(-3px);
+  //   }
+  //   35% {
+  //      height: 9px;
+  //   }
+  //   40% {
+  //      height: 9px;
+  //   }
+  //   100% {
+  //      transform: translateY(-16.95px);
+  //      height: 4.703px;
+  //   }
+  // }
+  
+  // #steps > *:nth-child(2) {
+  //   animation: second-step 2s linear infinite;
+  // }
+  
+  // @keyframes second-step {
+  //   0% {
+  //      transform: translateY(0px);
+  //      height: 4.703px;
+  //   }
+  //   100% {
+  //      transform: translateY(-14.45px);
+  //      height: 2.9256px;
+  //   }
+  // }
+  
+  // #steps > *:nth-child(3) {
+  //   animation: third-step 2s linear infinite;
+  // }
+  
+  // @keyframes third-step {
+  //   0% {
+  //      transform: translateY(0px);
+  //      height: 2.9256px;
+  //   }
+  //   100% {
+  //      transform: translateY(-12.07px);
+  //      height: 1.7096px;
+  //   }
+  // }
+  
+  // #steps > *:nth-child(4) {
+  //   animation: fourth-step 2s linear infinite;
+  // }
+  
+  // @keyframes fourth-step {
+  //   0% {
+  //      transform: translateY(0px);
+  //      height: 1.7096px;
+  //   }
+  //   100% {
+  //      transform: translateY(-10.26px);
+  //      height: 0.96121px;
+  //   }
+  // }
+  
+  // #steps > *:nth-child(5) {
+  //   animation: fifth-step 2s linear infinite;
+  // }
+  
+  // @keyframes fifth-step {
+  //   0% {
+  //      transform: translateY(0px);
+  //      height: 0.96121px;
+  //   }
+  //   100% {
+  //      transform: translateY(-9.13px);
+  //      height: 0.56434px;
+  //   }
+  // }
+  
+  // #steps > *:nth-child(6) {
+  //   animation: sixth-step 2s linear infinite;
+  // }
+  
+  // @keyframes sixth-step {
+  //   0% {
+  //      transform: translateY(0px);
+  //      height: 0.56434px;
+  //   }
+  //   100% {
+  //      transform: translateY(-8.27px);
+  //      height: 0.42402px;
+  //   }
+  // }
+  
+  // #steps > *:nth-child(7) {
+  //   animation: seventh-step 2s linear infinite;
+  // }
+  
+  // @keyframes seventh-step {
+  //   0% {
+  //      transform: translateY(0px);
+  //      height: 0.42402px;
+  //   }
+  //   100% {
+  //      transform: translateY(-7.18px);
+  //      height: 0.42333px;
+  //   }
+  // }
+  
+  // #steps > *:nth-child(8) {
+  //   animation: eighth-step 2s linear infinite;
+  // }
+  
+  // @keyframes eighth-step {
+  //   0% {
+  //      transform: translateY(0px);
+  //      height: 0.42333px;
+  //   }
+  //   100% {
+  //      transform: translateY(-6.45px);
+  //      height: 0.28302px;
+  //   }
+  // }
+  
+  // #steps > *:nth-child(9) {
+  //   animation: ninth-step 2s linear infinite;
+  // }
+  
+  // @keyframes ninth-step {
+  //   0% {
+  //      transform: translateY(0px);
+  //      height: 0.28302px;
+  //   }
+  //   100% {
+  //      transform: translateY(-5.94px);
+  //      height: 0.26458px;
+  //   }
+  // }
+  
+  // #steps > *:nth-child(10) {
+  //   animation: tenth-step 2s linear infinite;
+  // }
+  
+  // @keyframes tenth-step {
+  //   0% {
+  //      transform: translateY(0px);
+  //   }
+  //   100% {
+  //      transform: translateY(-5.15px);
+  //      fill: #999999;
+  //   }
+  // }
+  
+  // #steps > *:nth-child(11) {
+  //   animation: eleventh-step 2s linear infinite;
+  // }
+  
+  // @keyframes eleventh-step {
+  //   0% {
+  //      transform: translateY(0px);
+  //   }
+  //   100% {
+  //      transform: translateY(-4.63px);
+  //   }
+  // }
+  
+  // #steps > *:nth-child(12) {
+  //   animation: twelfth-step 2s linear infinite;
+  // }
+  
+  // @keyframes twelfth-step {
+  //   0% {
+  //      transform: translateY(0px);
+  //   }
+  //   100% {
+  //      transform: translateY(-4.432px);
+  //   }
+  // }
+  
+  // #steps > *:nth-child(13) {
+  //   animation: thirteenth-step 2s linear infinite;
+  // }
+  
+  // @keyframes thirteenth-step {
+  //   0% {
+  //      transform: translateY(0px);
+  //   }
+  //   100% {
+  //      transform: translateY(-3.386px);
+  //   }
+  // }
+  
+  // #steps > *:nth-child(14) {
+  //   animation: fourteenth-step 2s linear infinite;
+  // }
+  
+  // @keyframes fourteenth-step {
+  //   0% {
+  //      transform: translateY(0px);
+  //   }
+  //   100% {
+  //      transform: translateY(-3.572px);
+  //   }
+  // }
+  
+  // #steps > *:nth-child(15) {
+  //   animation: fifteenth-step 2s linear infinite;
+  // }
+  
+  // @keyframes fifteenth-step {
+  //   0% {
+  //      transform: translateY(0px);
+  //   }
+  //   100% {
+  //      transform: translateY(-3.175px);
+  //   }
+  // }
+  
+  // #steps > *:nth-child(16) {
+  //   animation: sixteenth-step 2s linear infinite;
+  // }
+  
+  // @keyframes sixteenth-step {
+  //   0% {
+  //      transform: translateY(0px);
+  //   }
+  //   100% {
+  //      transform: translateY(-2.978px);
+  //   }
+  // }
+  
+  // #steps > *:nth-child(17) {
+  //   animation: seventeenth-step 2s linear infinite;
+  // }
+  
+  // @keyframes seventeenth-step {
+  //   0% {
+  //      transform: translateY(0px);
+  //   }
+  //   100% {
+  //      transform: translateY(-2.812px);
+  //   }
+  // }
+  
+  // #steps > *:nth-child(18) {
+  //   animation: second-top-step 2s linear infinite;
+  // }
+  
+  // @keyframes second-top-step {
+  //   0% { 
+  //      transform: translateY(0px);
+  //   }
+  //   100% { 
+  //   transform: translateY(-2.594px);
+  //   }
+  // }
+  
+  // #steps > *:nth-child(19) {
+  //   animation: top-step 2s linear infinite;
+  // }
+  
+  // @keyframes top-step {
+  //   0% { 
+  //      transform: translateY(0px);
+  //   }
+  //   100% { 
+  //      transform: translateY(-2.3px);
+  //   }
+  // }
+  
+  // /* the steps reflected off the ceiling should move as well */
+  
+  // #ceiling-steps > *:nth-child(1) {
+  //   animation: first-ceiling 2s linear infinite;
+  // }
+  
+  // @keyframes first-ceiling {
+  //   0% {
+  //      transform: translateY(0px);
+  //      height: 4.7498px;
+  //   }
+  //   100% {
+  //      transform: translateY(8.84px);
+  //      height: 2.7853px;
+  //   }
+  // }
+  
+  // #ceiling-steps > *:nth-child(2) {
+  //   animation: second-ceiling 2s linear infinite;
+  // }
+  
+  // @keyframes second-ceiling {
+  //   0% {
+  //      transform: translateY(0px);
+  //      height: 2.7853px;
+  //   }
+  //   100% {
+  //      transform: translateY(5.051px);
+  //      height: 1.6628px;
+  //   }
+  // }
+  
+  // #ceiling-steps > *:nth-child(3) {
+  //   animation: third-ceiling 2s linear infinite;
+  // }
+  
+  // @keyframes third-ceiling {
+  //   0% {
+  //      transform: translateY(0px);
+  //      height: 1.6628px;
+  //   }
+  //   100% {
+  //      transform: translateY(3.318px);
+  //      height: 1.1015px;
+  //   }
+  // }
+  
+  // #ceiling-steps > *:nth-child(4) {
+  //   animation: fourth-ceiling 2s linear infinite;
+  // }
+  
+  // @keyframes fourth-ceiling {
+  //   0% {
+  //      transform: translateY(0px);
+  //      height: 1.1015px;
+  //   }
+  //   100% {
+  //      transform: translateY(2.198px);
+  //      height: 0.96121px;
+  //   }
+  // }
+  
+  // #ceiling-steps > *:nth-child(5) {
+  //   animation: fifth-ceiling 2s linear infinite;
+  // }
+  
+  // @keyframes fifth-ceiling {
+  //   0% {
+  //      transform: translateY(0px);
+  //      height: 0.96121px;
+  //   }
+  //   100% {
+  //      transform: translateY(1.949px);
+  //      height: 0.63381px;
+  //   }
+  // }
+  
+  // #ceiling-steps > *:nth-child(6) {
+  //   animation: sixth-ceiling 2s linear infinite;
+  // }
+  
+  // @keyframes sixth-ceiling {
+  //   0% {
+  //      transform: translateY(0px);
+  //      height: 0.63381px;
+  //   }
+  //   100% {
+  //      transform: translateY(1.156px);
+  //      height: 0.54026px;
+  //   }
+  // }
+  
+  // #ceiling-steps > *:nth-child(7) {
+  //   animation: seventh-ceiling 2s linear infinite;
+  // }
+  
+  // @keyframes seventh-ceiling {
+  //   0% {
+  //      transform: translateY(0px);
+  //   }
+  //   100% {
+  //      transform: translateY(0.904px);
+  //   }
+  // }

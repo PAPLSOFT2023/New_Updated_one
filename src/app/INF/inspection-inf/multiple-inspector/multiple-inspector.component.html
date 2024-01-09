@@ -1,0 +1,44 @@
+<mat-dialog-content class="dialog-content">
+  <div class="div1">
+    <span class="span1">Names</span>
+    <span class="span2">Select Inspector & Lead</span>
+    <span class="span3"></span>
+    <span class="span4"></span>
+    <span class="span5"></span>
+  </div>
+  <mat-divider></mat-divider>
+
+  <div *ngFor="let item of items" class="data-row">
+    <div class="column" style="text-align: left;">
+      {{ item.name }}
+    </div>
+    <div class="column">
+      <mat-checkbox [(ngModel)]="item.checked" class="check"></mat-checkbox>
+    </div>
+    <div class="column">
+      <mat-checkbox [(ngModel)]="item.headChecked" class="check"></mat-checkbox>
+
+      
+    </div>
+    <div class="column">
+      <mat-form-field class="form-field">
+        <input matInput [matDatepicker]="fromPicker" placeholder="From" [(ngModel)]="item.fromDate" >
+        <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
+        <mat-datepicker #fromPicker></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div class="column">
+      <mat-form-field class="form-field">
+        <input matInput [matDatepicker]="toPicker" placeholder="To" [(ngModel)]="item.toDate">
+        <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
+        <mat-datepicker #toPicker></mat-datepicker>
+      </mat-form-field>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button style="margin-left:550px;" mat-raised-button color="primary" mat-dialog-close (click)="printItems()">Ok</button>
+</mat-dialog-actions>
+

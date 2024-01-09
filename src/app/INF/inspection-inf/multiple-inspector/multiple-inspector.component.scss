@@ -1,0 +1,59 @@
+.dialog-content {
+    width: 80vw;
+    height: 80vh;
+}
+
+.div1 {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.span3 {
+    font-weight: bold;
+    font-family: Georgia;
+    font-size: large;
+    color: black;
+    text-align: left; /* Align the column heading to the left */
+    margin-right: 20px; /* Add some space between the heading and the column */
+}
+
+.span1, .span2, .span3, .span4, .span5 {
+    font-weight: bold;
+    font-family: Georgia;
+    font-size: large;
+    color: black;
+}
+
+.data-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.column {
+    flex: 1;
+    text-align: center;
+}
+
+.check {
+    margin: 0 auto;
+}
+
+.form-field {
+    width: 100%;
+    text-align: center;
+}
+
+/* Adjust specific styles for the columns */
+.inspection-head-column {
+    flex: 0.8;
+}
+
+.from-to-columns {
+    flex: 1.2;
+}
+
+/* Adjust other styles as needed for your layout and design */
+

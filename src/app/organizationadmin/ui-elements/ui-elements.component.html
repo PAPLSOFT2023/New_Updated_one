@@ -1,0 +1,882 @@
+<!-- Profile -->
+<div>
+  <div class="modal-overlay" *ngIf="isPopupVisible1"></div>
+  <!-- Popup Form -->
+  <div class="popup-form" *ngIf="isPopupVisible1">
+    <h2>Profile</h2>
+    <form (submit)="onSubmit()">
+      <div class="form-group" [ngClass]="{'has-error': field1.invalid && (field1.dirty || field1.touched)}">
+        <label for="field1">Organization Name:</label>
+        <input type="text" id="field" name="field" [(ngModel)]="organization_name" required #field1="ngModel">
+        <div class="error-icon" *ngIf="field1.invalid && (field1.dirty || field1.touched)">
+          <i class="fas fa-exclamation-circle1"></i>
+        </div>
+        <div class="error-message" *ngIf="field1.invalid && (field1.dirty || field1.touched)">
+          </div>
+      </div>
+
+      <div class="form-group" [ngClass]="{'has-error': field2.invalid && (field2.dirty || field2.touched)}">
+        <label for="field2">Address:</label>
+        <input type="text" id="field2" name="field2" [(ngModel)]="address" required #field2="ngModel">
+        <div class="error-icon" *ngIf="field2.invalid && (field2.dirty || field2.touched)">
+          <i class="fas fa-exclamation-circle2"></i>
+        </div>
+        <div class="error-message" *ngIf="field2.invalid && (field2.dirty || field2.touched)">
+           </div>
+      </div>
+
+      <div class="form-group" [ngClass]="{'has-error': field3.invalid && (field3.dirty || field3.touched)}">
+        <label for="field3">Pincode:</label>
+        <input type="text" id="field3" name="field3" [(ngModel)]="pincode" required #field3="ngModel">
+        <div class="error-icon" *ngIf="field3.invalid && (field3.dirty || field3.touched)">
+          <i class="fas fa-exclamation-circle3"></i>
+        </div>
+        <div class="error-message" *ngIf="field3.invalid && (field3.dirty || field3.touched)">
+       </div>
+      </div>
+
+      <div class="form-group" [ngClass]="{'has-error': field4.invalid && (field4.dirty || field4.touched)}">
+        <label for="field4">State:</label>
+        <input type="text" id="field4" name="field4" [(ngModel)]="state" required #field4="ngModel">
+        <div class="error-icon" *ngIf="field4.invalid && (field4.dirty || field4.touched)">
+          <i class="fas fa-exclamation-circle4"></i>
+        </div>
+        <div class="error-message" *ngIf="field4.invalid && (field4.dirty || field4.touched)">
+      </div>
+      </div>
+
+      <div class="form-group" [ngClass]="{'has-error': field5.invalid && (field5.dirty || field5.touched)}">
+        <label for="field5">Country:</label>
+        <input type="text" id="field5" name="field5" [(ngModel)]="country" required #field5="ngModel">
+        <div class="error-icon" *ngIf="field5.invalid && (field5.dirty || field5.touched)">
+          <i class="fas fa-exclamation-circle5"></i>
+        </div>
+        <div class="error-message" *ngIf="field5.invalid && (field5.dirty || field5.touched)">
+        </div>
+      </div>
+
+      <div class="form-group" [ngClass]="{'has-error': field6.invalid && (field6.dirty || field6.touched)}">
+        <label for="field6">Contact:</label>
+        <input type="text" id="field6" name="field6" [(ngModel)]="contact" required #field6="ngModel">
+        <div class="error-icon" *ngIf="field6.invalid && (field6.dirty || field6.touched)">
+          <i class="fas fa-exclamation-circle6"></i>
+        </div>
+        <div class="error-message" *ngIf="field6.invalid && (field6.dirty || field6.touched)">
+          </div>
+      </div>
+
+      <!-- Add similar code for the rest of the fields -->
+
+      <!-- Add more form fields as needed -->
+      <button type="submit">Save</button>
+      <button (click)="cancelData1()" class="btn btn-danger">Cancel</button>
+  
+     </form>
+  </div>
+</div>
+
+
+
+<!-- Department Form -->
+<div>
+  <!-- Modal Overlay -->
+  <div class="modal-overlay" *ngIf="isPopupVisible2"></div>
+
+  <!-- Data Entry Container -->
+  <div class="data-entry-container" *ngIf="isPopupVisible2">
+    <h2>Department</h2>
+    <div class="form-group">
+      <label for="dataInput">Enter Data:</label>
+      <input type="text" id="dataInput" class="form-control" [(ngModel)]="departmenttext" placeholder="Enter Department">
+      <button (click)="addToDropdownDepartment()" class="btn btn-primary">Add</button>
+      
+    </div>
+
+    <div class="form-group">
+      <label for="dataDropdown">Existing Department:</label>
+      <select [(ngModel)]="selectedData">
+        <option *ngFor="let Dept of departments" [value]="Dept">{{ Dept }}</option>
+      </select>
+    </div>
+
+    <!-- Add a delete button -->
+    <div class="form-group">
+      
+      <button (click)="deleteData1()" class="btn btn-danger">Delete</button>
+      <button (click)="cancelData()" class="btn btn-danger">Cancel</button>
+    </div>
+  </div>
+</div>
+
+
+    
+
+
+
+
+ <!-- Department Form -->
+<div>
+  <!-- Modal Overlay -->
+  <div class="modal-overlay" *ngIf="isPopupVisible_dumpusage"></div>
+
+<!-- Data Entry Container -->
+<div class="data-entry-container" *ngIf="isPopupVisible_dumpusage">
+  <h2>Dumb Usage</h2>
+  <div class="form-group">
+
+    <label for="dataInput">Enter Dumb Usage:</label>
+    <input type="text" id="dataInput"  class="form-control"[(ngModel)]="Dump_Usage_INSERT" placeholder="Enter Dump Usage">
+    <button (click)="add_Dump_Usage()" class="btn btn-primary">Add</button>
+    
+  </div>
+
+  <div class="form-group">
+    <label for="dataDropdown">Existing Dum Usages:</label>
+   
+    <select [(ngModel)]="selectedData">
+      <option *ngFor="let Dept of Dump_Usage" [value]="Dept">{{ Dept }}</option>
+    </select>
+  </div>
+  
+    <!-- Add a delete button -->
+    <div class="form-group">
+    <button (click)="delete_Dump_Usage_Data1()" class="btn btn-danger">Delete</button>
+    <button (click)="cancelData()" class="btn btn-danger">Cancel</button>
+    
+    
+    </div>
+
+  
+    
+    
+    
+  </div>
+   <!-- Department Form -->
+<div>
+  <!-- Modal Overlay -->
+  <div class="modal-overlay" *ngIf="isPopupVisible_dumptype"></div>
+
+
+  <div class="data-entry-container" *ngIf="isPopupVisible_dumptype">
+    <h2>Dumb Type</h2>
+    <div class="form-group">
+  
+      <label for="dataInput">Enter Dumb Type:</label>
+      <input type="text" id="dataInput"  class="form-control"[(ngModel)]="Dump_Type_INSERT" placeholder="Enter Dump Usage">
+      <button (click)="addToDropdownDump_Type()" class="btn btn-primary">Add</button>
+      
+    </div>
+  
+    <div class="form-group">
+      <label for="dataDropdown">Existing Dum Types:</label>
+     
+      <select [(ngModel)]="selectedData">
+        <option *ngFor="let Dept of Dump_Type" [value]="Dept">{{ Dept }}</option>
+      </select>
+    </div>
+    
+      <!-- Add a delete button -->
+      <div class="form-group">
+      <button (click)="delete_Dump_Type_Data1()" class="btn btn-danger">Delete</button>
+      <button (click)="cancelData()" class="btn btn-danger">Cancel</button>
+      
+      
+      </div>
+  
+    
+      
+      
+      
+  </div>
+
+  <div>
+    <!-- Modal Overlay -->
+    <div class="modal-overlay" *ngIf="isPopupVisible_hometype"></div>
+  <div class="data-entry-container" *ngIf="isPopupVisible_hometype">
+    <h2>Home Type</h2>
+    <div class="form-group">
+  
+      <label for="dataInput">Enter Home Type:</label>
+      <input type="text" id="dataInput"  class="form-control"[(ngModel)]="Home_Type_INSERT" placeholder="Enter Dump Usage">
+      <button (click)="addToDropdownHome_Type()" class="btn btn-primary">Add</button>
+
+    </div>
+  
+    <div class="form-group">
+      <label for="dataDropdown">Existing Home Types:</label>
+     
+      <select [(ngModel)]="selectedData">
+        <option *ngFor="let Dept of Home_Type" [value]="Dept">{{ Dept }}</option>
+      </select>
+    </div>
+    
+      <!-- Add a delete button -->
+      <div class="form-group">
+      <button (click)="delete_Home_Type_Data1()" class="btn btn-danger">Delete</button>
+      <button (click)="cancelData()" class="btn btn-danger">Cancel</button>
+      
+      
+      </div>
+  
+    
+      
+      
+      
+  </div>
+  <div>
+    <!-- Modal Overlay -->
+    <div class="modal-overlay" *ngIf="isPopupVisible_homeusage"></div>
+
+  <div class="data-entry-container" *ngIf="isPopupVisible_homeusage">
+    <h2>Home Usages</h2>
+    <div class="form-group">
+  
+      <label for="dataInput">Enter Home Usage:</label>
+      <input type="text" id="dataInput"  class="form-control"[(ngModel)]="Home_Usage_INSERT" placeholder="Enter Home Usage">
+      <button (click)="addToDropdownHome_Usage()" class="btn btn-primary">Add</button>
+     
+    </div>
+  
+    <div class="form-group">
+      <label for="dataDropdown">Existing Home Usage:</label>
+     
+      <select [(ngModel)]="selectedData">
+        <option *ngFor="let Dept of Home_Usage" [value]="Dept">{{ Dept }}</option>
+      </select>
+    </div>
+    
+      <!-- Add a delete button -->
+      <div class="form-group">
+      <button (click)="delete_Home_Usage_Data1()" class="btn btn-danger">Delete</button>
+      <button (click)="cancelData()" class="btn btn-danger">Cancel</button>
+      
+      
+      </div>
+  
+    
+      
+      
+      
+  </div>
+
+
+
+  <div>
+    <!-- Modal Overlay -->
+    <div class="modal-overlay" *ngIf="isPopupVisible_ins_time"></div>
+  
+  <div class="data-entry-container" *ngIf="isPopupVisible_ins_time">
+    <h2>Inspection Time</h2>
+    <div class="form-group">
+  
+      <label for="dataInput">Enter Inspection time:</label>
+      <input type="text" id="dataInput"  class="form-control"[(ngModel)]="Ins_Time_INSERT" placeholder="Enter Home Usage">
+      <button (click)="addToDropdownIns_time()" class="btn btn-primary">Add</button>
+     
+    </div>
+  
+    <div class="form-group">
+      <label for="dataDropdown">Existing Times:</label>
+     
+      <select [(ngModel)]="selectedData">
+        <option *ngFor="let Dept of Ins_Time" [value]="Dept">{{ Dept }}</option>
+      </select>
+    </div>
+    
+      <!-- Add a delete button -->
+      <div class="form-group">
+      <button (click)="delete_Ins_time_Data1()" class="btn btn-danger">Delete</button>
+      <button (click)="cancelData()" class="btn btn-danger">Cancel</button>
+      
+      
+      </div>
+  
+    
+      
+      
+      
+  </div>
+  
+
+  <div>
+    <!-- Modal Overlay -->
+    <div class="modal-overlay" *ngIf="isPopupVisible_ins_time_insp"></div>
+  <div class="data-entry-container" *ngIf="isPopupVisible_ins_time_insp">
+    <h2>Inspection Time For Inspector</h2>
+    <div class="form-group">
+  
+      <label for="dataInput">Enter Inspection Time Inspector:</label>
+      <input type="text" id="dataInput"  class="form-control"[(ngModel)]="Ins_time_Insp_INSERT" placeholder="Enter Home Usage">
+      <button (click)="addToDropdownIns_time_insp()" class="btn btn-primary">Add</button>
+     
+    </div>
+  
+    <div class="form-group">
+      <label for="dataDropdown">Existing Times:</label>
+     
+      <select [(ngModel)]="selectedData">
+        <option *ngFor="let Dept of Ins_Time_Insp" [value]="Dept">{{ Dept }}</option>
+      </select>
+    </div>
+    
+      <!-- Add a delete button -->
+      <div class="form-group">
+      <button (click)="delete_Ins_time_insp_Data1()" class="btn btn-danger">Delete</button>
+      <button (click)="cancelData()" class="btn btn-danger">Cancel</button>
+      
+      
+      </div>
+  
+    
+      
+      
+      
+  </div>
+
+  <div>
+    <!-- Modal Overlay -->
+    <div class="modal-overlay" *ngIf="isPopupVisible_OEM"></div>
+
+  <div class="data-entry-container" *ngIf="isPopupVisible_OEM">
+    <h2>OEM Details</h2>
+    <div class="form-group">
+  
+      <label for="dataInput">Enter OEM Details:</label>
+      <input type="text" id="dataInput"  class="form-control"[(ngModel)]="OEM_Details_INSERT" placeholder="Enter OEM">
+      <button (click)="addToOEM_Details()" class="btn btn-primary">Add</button>
+     
+    </div>
+  
+    <div class="form-group">
+      <label for="dataDropdown">Existing OEM:</label>
+     
+      <select [(ngModel)]="selectedData">
+        <option *ngFor="let Dept of OEM_Details" [value]="Dept">{{ Dept }}</option>
+      </select>
+    </div>
+    
+      <!-- Add a delete button -->
+      <div class="form-group">
+      <button (click)="delete_OEM_Data1()" class="btn btn-danger">Delete</button>
+      <button (click)="cancelData()" class="btn btn-danger">Cancel</button>
+      
+      
+      </div> 
+  </div>
+
+  
+  <div>
+    <!-- Modal Overlay -->
+    <div class="modal-overlay" *ngIf="isPopupVisible_Region"></div>
+
+
+  <div class="data-entry-container" *ngIf="isPopupVisible_Region">
+    <h2>Region Details</h2>
+    <div class="form-group">
+  
+      <label for="dataInput">Enter Region Details:</label>
+      <input type="text" id="dataInput"  class="form-control"[(ngModel)]="Region_Details_INSERT" placeholder="Enter Region">
+      <button (click)="addToRegion_Details()" class="btn btn-primary">Add</button>
+      
+    </div>
+  
+    <div class="form-group">
+      <label for="dataDropdown">Existing Region:</label>
+     
+      <select [(ngModel)]="selectedData">
+        <option *ngFor="let Dept of Region_Details" [value]="Dept">{{ Dept }}</option>
+      </select>
+    </div>
+    
+      <!-- Add a delete button -->
+      <div class="form-group">
+      <button (click)="delete_Region_Data1()" class="btn btn-danger">Delete</button>
+      <button (click)="cancelData()" class="btn btn-danger">Cancel</button>
+      
+      
+      </div> 
+  </div>
+
+
+
+  <div>
+    <!-- Modal Overlay -->
+    <div class="modal-overlay" *ngIf="isPopupVisible_Travel_Acc"></div>
+  
+  <div class="data-entry-container" *ngIf="isPopupVisible_Travel_Acc">
+    <h2>Travel Accomodation</h2>
+    <div class="form-group">
+  
+      <label for="dataInput">Enter Travel Accomodation Details:</label>
+      <input type="text" id="dataInput"  class="form-control"[(ngModel)]="Travel_Acc_Details_INSERT" placeholder="Enter Travel Accomodation">
+      <button (click)="addToTravel_Acc_Details()" class="btn btn-primary">Add</button>
+   
+    </div>
+  
+    <div class="form-group">
+      <label for="dataDropdown">Existing Travel Accomodation:</label>
+     
+      <select [(ngModel)]="selectedData">
+        <option *ngFor="let Dept of Travel_Acc_Details" [value]="Dept">{{ Dept }}</option>
+      </select>
+    </div>
+    
+      <!-- Add a delete button -->
+      <div class="form-group">
+      <button (click)="delete_Travel_Acc_Data1()" class="btn btn-danger">Delete</button>
+      <button (click)="cancelData()" class="btn btn-danger">Cancel</button>
+      </div> 
+  </div>
+
+
+  <div>
+    <!-- Modal Overlay -->
+    <div class="modal-overlay" *ngIf="isPopupVisible_Type_Ele"></div>
+  
+
+  <div class="data-entry-container" *ngIf="isPopupVisible_Type_Ele">
+    <h2>Type of Elevators</h2>
+    <div class="form-group">
+  
+      <label for="dataInput">Enter Type of Elevator Details:</label>
+      <input type="text" id="dataInput"  class="form-control"[(ngModel)]="Type_ele_Details_INSERT" placeholder="Enter Type of Elevators">
+      <button (click)="addToType_EleDetails()" class="btn btn-primary">Add</button>
+    
+    </div>
+  
+    <div class="form-group">
+      <label for="dataDropdown">Existing Elevator types:</label>
+     
+      <select [(ngModel)]="selectedData">
+        <option *ngFor="let Dept of Type_ele_Details" [value]="Dept">{{ Dept }}</option>
+      </select>
+    </div>
+    
+      <!-- Add a delete button -->
+      <div class="form-group">
+      <button (click)="delete_Type_ele_Data1()" class="btn btn-danger">Delete</button>
+      <button (click)="cancelData()" class="btn btn-danger">Cancel</button>
+      </div> 
+  </div>
+
+
+
+  <div>
+    <!-- Modal Overlay -->
+    <div class="modal-overlay" *ngIf="isPopupVisible_Type_Bul"></div>
+  
+  
+  <div class="data-entry-container" *ngIf="isPopupVisible_Type_Bul">
+    <h2>Type of Building</h2>
+    <div class="form-group">
+  
+      <label for="dataInput">Enter Type of Building Details:</label>
+      <input type="text" id="dataInput"  class="form-control"[(ngModel)]="Type_Bul_Details_INSERT" placeholder="Enter Type of Building">
+      <button (click)="addToType_BulDetails()" class="btn btn-primary">Add</button>
+      
+    </div>
+  
+    <div class="form-group">
+      <label for="dataDropdown">Existing Building types:</label>
+     
+      <select [(ngModel)]="selectedData">
+        <option *ngFor="let Dept of Type_Bul_Details" [value]="Dept">{{ Dept }}</option>
+      </select>
+    </div>
+    
+      <!-- Add a delete button -->
+      <div class="form-group">
+      <button (click)="delete_Type_Bul_Data1()" class="btn btn-danger">Delete</button>
+      <button (click)="cancelData()" class="btn btn-danger">Cancel</button>
+      </div> 
+  </div>
+
+
+
+
+
+
+
+ <div>
+    <!-- Modal Overlay -->
+    <div class="modal-overlay" *ngIf="isPopupVisible3"></div>
+  
+    <!-- Data Entry Container -->
+    <div class="data-entry-container" *ngIf="isPopupVisible3">
+      <h2>User Role</h2>
+  
+      <div class="form-group">
+        <label for="dataInput">Enter Role:</label>
+        <input type="text" id="dataInput" placeholder="Enter the role to add" [(ngModel)]="NewRole_Data">
+        <button (click)="addToDropdownRole(NewRole_Data)" class="btn btn-primary">Add</button>
+      </div>
+  
+      <div class="form-group">
+        <label for="dataDropdown">Existing Role:</label>
+        <select [(ngModel)]="selectedData">
+          <option *ngFor="let Dept of roles" [value]="Dept">{{ Dept }}</option>
+        </select>
+      </div>
+  
+      <div class="form-group">
+        <button (click)="deleteData2()" class="btn btn-danger">Delete</button>
+        <button (click)="cancelData()" class="btn btn-danger">Cancel</button>
+      </div>
+    </div>
+  </div>
+  
+
+<!-- Inspector_cv.pop-form -->
+<div>
+  <!-- Modal Overlay -->
+  <div class="modal-overlay" *ngIf="ispopupvisible_insp_cv"></div>
+
+  <div class="data-entry-container" *ngIf="ispopupvisible_insp_cv">
+    <h2>INSPECTOR_CV</h2>
+    <table>
+      <tr>
+        <td>
+          <div class="form-group">
+            <!-- Add input field for email -->
+            <label for="email">Email:</label>
+            <input type="email" id="email" [(ngModel)]="inspectorCvData.email" class="form-control">
+          </div>
+        </td>
+        <td>
+          <div class="form-group">
+            <!-- Add input field for PDF -->
+            <label for="pdf">PDF:</label>
+            <input type="file" id="pdf" (change)="onFileChange($event)" class="form-control">
+          </div>
+        </td>
+      </tr>
+    </table>
+
+    <!-- Add a delete and upload button -->
+    <div class="form-group">
+      <button (click)="cancelData()" class="btn btn-danger">Cancel</button>
+      <button (click)="uploadInspectorCv()" class="btn btn-success">Upload</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+<!-- Email Automation -->
+<!-- <div>
+
+  <div class="data-entry-container" *ngIf="isPopupVisible4">
+    <h2>Email_Automation</h2>
+    <div class="form-group">
+      <label for="field1">Email:</label>
+      <input type="text" id="field1" [(ngModel)]="field1" required (ngModelChange)="onEmailChange()">
+    </div>
+    
+    <div class="form-group">
+      <label for="field1">App Password</label>
+      <div class="input-group">
+        <input type="password" id="field1" [(ngModel)]="field1" required
+          data-toggle="tooltip" data-trigger="manual" data-original-title="Your password message">
+          <p>* Not_a_login_password !</p>
+        <span class="input-group-append">
+          
+          <span class="input-group-text" data-toggle="tooltip" data-placement="top" [title]="'Go to your Google Account.\nSelect Security. Under Signing in to Google, select 2-Step Verification. At the bottom of the page, \n select App passwords.Enter a name that helps you remember where you’ll use the app password. Select Generate. To enter the app password, follow the instructions on your screen. The app password is the 16-character code that generates on your device. Select Done.'">
+            <i class="fas fa-info-circle"></i>
+          </span>
+        </span>
+      </div>
+    </div>
+   
+    <button type="submit">Save</button>
+    <button (click)="cancelData()" class="btn btn-danger">Cancel</button>
+  </div>
+</div> -->
+
+
+
+
+
+
+
+
+
+
+<div class="card-container">
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Profile</h3>
+      <img src="assets/profile1-removebg-preview.png" alt="Profile Logo" class="card-logo">
+    </div>
+    <div class="card-content">
+      This is the content of Organization Profile.
+    </div>
+    <div class="card-actions">
+      <!-- <a href="#" class="card-link" (click)="openPopupForm1()">View</a> -->
+      <button class="card-button" (click)="openPopupForm1()">view</button>
+      <button class="card-button" (click)="openPopupForm1()">Update</button>
+    </div>
+  </div>
+  
+
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Department</h3>
+      <img src="assets/department.png" alt="Department Logo" class="card-logo">
+    </div>
+    <div class="card-content">
+      This is the content of Department.
+    </div>
+    <div class="card-actions">
+      <button class="card-button" (click)="openPopupForm2()">Update</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">User_role</h3>
+      <img src="assets/userrole1@2x.png" alt="User Role Logo" class="card-logo">
+    </div>
+    <div class="card-content">
+      This is the content of User_role.
+    </div>
+    <div class="card-actions">
+      <button class="card-button" (click)="openPopupForm3()">Update</button>
+    </div>
+
+      <!-- <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Email_Automation</h3>
+      <img src="assets/mailautomation@2x.png" alt="Email Automation Logo" class="card-logo">
+    </div>
+    <div class="card-content">
+      This is the content of Email_Automation only for you.
+    </div>
+    <div class="card-actions">
+      <a href="#" class="card-link" (click)="openPopupForm1()">View</a>
+      <button class="card-button" (click)="openPopupForm4()">Update</button>
+    </div>
+
+  </div> -->
+  </div>
+
+
+
+
+
+
+
+
+
+  <!-- Additional Card -->
+
+
+</div>
+
+
+<!-- card 4 -->
+<div class="card-container">
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Dumb Type</h3>
+      <img src="assets/profile1-removebg-preview.png" alt="Profile Logo" class="card-logo">
+    </div>
+    <div class="card-content">
+      This is the content of Dumb Type.
+    </div>
+    <div class="card-actions">
+    
+      <button class="card-button" (click)="openPopup_Dump_type()">Update</button>
+    </div>
+  </div>
+  
+  
+
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Dumb Usage</h3>
+      <img src="assets/department.png" alt="Department Logo" class="card-logo">
+    </div>
+    <div class="card-content">
+      This is the content of Dumb Usage.
+    </div>
+    <div class="card-actions">
+      <button class="card-button" (click)="openPopupFormDump_Usage()">Update</button>
+    </div>
+    
+  </div>
+
+
+  
+
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Home Type</h3>
+      <img src="assets/userrole1@2x.png" alt="User Role Logo" class="card-logo">
+    </div>
+    <div class="card-content">
+      This is the content of Home Type.
+    </div>
+    <div class="card-actions">
+      <button class="card-button" (click)="openPopupFormHome_Type()">Update</button>
+    </div>
+  </div>
+
+</div>
+
+
+<div class="card-container">
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Home Usage</h3>
+      <img src="assets/profile1-removebg-preview.png" alt="Profile Logo" class="card-logo">
+    </div>
+    <div class="card-content">
+      This is the content of Home Usage.
+    </div>
+    <div class="card-actions">
+     
+      <button class="card-button" (click)="openPopupFormHome_Usage()">Update</button>
+    </div>
+  </div>
+  
+
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Inspection Time</h3>
+      <img src="assets/department.png" alt="Department Logo" class="card-logo">
+    </div>
+    <div class="card-content">
+      This is the content of Inspection Time.
+    </div>
+    <div class="card-actions">
+      <button class="card-button" (click)="openPopupForm_Ins_Time()">Update</button>
+    </div>
+  </div>
+
+
+
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Inspection Time Ins</h3>
+      <img src="assets/userrole1@2x.png" alt="User Role Logo" class="card-logo">
+    </div>
+    <div class="card-content">
+      This is the content of Inspection Time for Inspectors.
+    </div>
+    <div class="card-actions">
+      <button class="card-button" (click)="openPopupForm_Ins_time_insp()">Update</button>
+    </div>
+  </div>
+
+</div>
+
+
+<div class="card-container">
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">OEM Details</h3>
+      <img src="assets/profile1-removebg-preview.png" alt="Profile Logo" class="card-logo">
+    </div>
+    <div class="card-content">
+      This is the content of OEM Details.
+    </div>
+    <div class="card-actions">
+    
+      <button class="card-button" (click)="openPopupForm_OEM()">Update</button>
+    </div>
+  </div>
+  
+
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Region Details</h3>
+      <img src="assets/department.png" alt="Department Logo" class="card-logo">
+    </div>
+    <div class="card-content">
+      This is the content of Region Details.
+    </div>
+    <div class="card-actions">
+      <button class="card-button" (click)="openPopupForm_Region_Details()">Update</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Travel Accomodation</h3>
+      <img src="assets/userrole1@2x.png" alt="User Role Logo" class="card-logo">
+    </div>
+    <div class="card-content">
+      This is the content of Travel Accomodation.
+    </div>
+    <div class="card-actions">
+      <button class="card-button" (click)="openPopupForm_Travel_Acc()">Update</button>
+    </div>
+  </div>
+
+</div>
+
+
+<div class="card-container">
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Type of Elevators</h3>
+      <img src="assets/profile1-removebg-preview.png" alt="Profile Logo" class="card-logo">
+    </div>
+    <div class="card-content">
+      This is the content of Type Elevator.
+    </div>
+    <div class="card-actions">
+ 
+      <button class="card-button" (click)="openPopupForm_Type_Ele()">Update</button>
+    </div>
+  </div>
+  
+
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Type of Building</h3>
+      <img src="assets/department.png" alt="Department Logo" class="card-logo">
+    </div>
+    <div class="card-content">
+      This is the content of Type of Building.
+    </div>
+    <div class="card-actions">
+      <button class="card-button" (click)="openPopupForm_Type_Bul()">Update</button>
+    </div>
+  </div>
+
+
+
+ <!-- Inspector_cv card -->
+<div class="card">
+  <div class="card-header">
+    <h3 class="card-title">Inspector_cv</h3>
+    <img src="assets/department.png" alt="Department Logo" class="card-logo">
+  </div>
+  <div class="card-content">
+    This is the content of Inspector_cv.
+  </div>
+  <div class="card-actions">
+    <button class="card-button" (click)="togglePopupVisibility()">Open</button>
+  </div>
+</div>
+
+
+  <!-- <div class="card">f
+    <div class="card-header">
+      <h3 class="card-title">Travel Accomodation</h3>
+      <img src="assets/userrole1@2x.png" alt="User Role Logo" class="card-logo">
+    </div>
+    <div class="card-content">
+      This is the content of User_role.
+    </div>
+    <div class="card-actions">
+      <button class="card-button" (click)="openPopupForm3()">Update</button>
+    </div>
+  </div> -->
+
+</div>

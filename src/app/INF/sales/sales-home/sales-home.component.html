@@ -1,0 +1,27 @@
+<!-- <h2>INSPECTION SCHEDULE AUTHORIZATION</h2> -->
+
+<div class="container">
+    <h2>INSPECTION SCHEDULE AUTHORIZATION</h2>
+    <div class="form-container">
+      <mat-form-field appearance="outline" class="form-field4">
+        <mat-label>Job Type</mat-label>
+        <mat-select class="select_class" [(ngModel)]="selectedOption" #selectDropdown="ngModel" required>
+            <mat-option *ngFor="let val of values" [value]="val">{{val}}</mat-option>
+
+        </mat-select>
+      </mat-form-field>
+      <button mat-raised-button color="primary" class="new-inspection-button" style="text-align: center;" (click)="navigateToNewInspection()" [disabled]="!selectedOption">
+        <mat-icon class="icon">add</mat-icon>
+        CREATE 
+      </button>
+    </div>
+  </div>
+
+  <!-- <div *ngIf="selectDropdown.invalid && (selectDropdown.dirty || selectDropdown.touched)" class="error-message">
+    Please select an option.
+  </div>
+  <button mat-raised-button color="primary" class="new-inspection-button" [disabled]="selectDropdown.invalid">
+    <mat-icon class="icon">add</mat-icon>
+    New INF-26
+  </button> -->
+  

@@ -1,0 +1,50 @@
+<div class="container">
+    <header class="header">
+      <img class="header-logo" src="assets\papl_logo.png" alt="PAPL Services Logo">
+      <h1>PAPL Services</h1>
+      <p>#thinkinghigh</p>
+    </header>
+    <div class="card-container">
+      <div class="card" *ngFor="let service of services">
+        <img class="card-image" [src]="service.imageUrl" alt="{{ service.name }}" />
+        <div class="card-content">
+          <h2>{{ service.name }}</h2>
+          <p>{{ service.description }}</p>
+          <div class="features">
+            <div class="feature">
+              <i class="fas fa-check"></i>
+              <span>Comprehensive Inspections</span>
+            </div>
+            <div class="feature">
+              <i class="fas fa-check"></i>
+              <span>Experienced Technicians</span>
+            </div>
+            <div class="feature">
+              <i class="fas fa-check"></i>
+              <span>Thorough Reports</span>
+            </div>
+            <div class="feature">
+              <i class="fas fa-check"></i>
+              <span>Online Scheduling</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <button (click)="viewDetails()">View Details</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div *ngFor="let item of dataArray">
+    
+    <ul>
+      <li *ngFor="let name of item.names">
+        <p>Date: {{ item.date }}
+        {{ name }}
+      </p>
+      </li>
+    </ul>
+  </div>
+  
