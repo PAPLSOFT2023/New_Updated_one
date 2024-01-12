@@ -664,6 +664,35 @@ get_Rejection_schedule():Observable<any>
     return this.httpClient.get(url,options) ;
   }
 
+  // send_reset_link_To_user_mail (Forgot)
+  send_reset_link(email:string):Observable<any>{
+    console.log("sent mail Api called")
+    const url = `${this.apiURL}sent_Password_reset_link`;
+    const params = new HttpParams().set('Email', email);
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    const options = {
+      headers: headers,
+      params: params
+    };
+    return this.httpClient.get(url,options) ;
+  }
+  // reset_Password
+  reset_Password(token:string,Email:string,Password:string):Observable<any>
+  {
+    console.log("reset password api called ",Password,token,Email)
+    const body={Password,token,Email};
+      return this.httpClient.post(this.apiURL+'Reset_Password',body);
+  }
+
+
+
+
+
+
   login(username: string, password: string): Observable<any> {
     const body = { username, password };
     console.log("**** API Called")

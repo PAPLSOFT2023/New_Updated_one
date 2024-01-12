@@ -77,6 +77,7 @@ export class UiElementsComponent  {
 
   tooltipText: string = ''
   organizationRoles !:any[];
+  
   // Properties for controlling the popup forms
   isPopupVisible1: boolean = false;
   isPopupVisible2: boolean = false;
@@ -92,6 +93,7 @@ export class UiElementsComponent  {
   isPopupVisible_Type_Ele:boolean=false;
   isPopupVisible_Type_Bul:boolean=false;
   ispopupvisible_insp_cv : boolean = false;
+  cv_view_Popup:boolean=false;
 
 
 
@@ -1275,19 +1277,6 @@ openPopupForm_insp():void
   this.closePopupForm();
   this.ispopupvisible_insp_cv= true;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 //role update
   openPopupForm3(): void {
 
@@ -1307,4 +1296,13 @@ openPopupForm_insp():void
     togglePopupVisibility() {
       this.ispopupvisible_insp_cv = !this.ispopupvisible_insp_cv;
     }
+
+    ViewCv(){
+      // create pop up form call api the list of cv.pdf
+
+      this.cv_view_Popup= !this.cv_view_Popup;
+
+    }
+
+
   }

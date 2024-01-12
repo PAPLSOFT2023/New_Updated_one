@@ -76,6 +76,11 @@
       </div>
       <br>
 
+
+
+
+
+
       <div *ngFor="let request of records">
 
       <div class='job' style="padding-top: 20px;">
@@ -84,8 +89,7 @@
         <p class='department'>Location: {{request.location}}</p>
         <p class='department'>Types of inspection: {{request.type_of_inspection}}</p>
         <button class='apply-button' (click)="Send_Mail_Client(request.id)"> Send Mail </button>
-        <!-- <button><i class="apply-button">send Mail</i></button> -->
-        <!-- <button class="button">Send Mail <i class="material-icons">send</i></button> -->
+        
     
         
         <div class='job-footer'>

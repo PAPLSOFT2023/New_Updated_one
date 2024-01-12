@@ -105,6 +105,7 @@ import { RejectionComponent } from './inspector_dashboard/rejection/rejection.co
 import { RescheduleRequestComponent } from './INF/inspection-inf/reschedule-request/reschedule-request.component';
 import { ParseJsonPipe } from './parse-json.pipe';
 import { MailResponseComponent } from './mail-response/mail-response.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 // import { RejectionComponent } from './inspector_dashboard/rejection/rejection.component';
 
 
@@ -176,6 +177,7 @@ import { MailResponseComponent } from './mail-response/mail-response.component';
         RescheduleRequestComponent,
         ParseJsonPipe,
         MailResponseComponent,
+        ResetPasswordComponent,
         // RejectionComponent,
         
 

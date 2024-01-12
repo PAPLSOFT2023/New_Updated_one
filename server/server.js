@@ -7,6 +7,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const { v4: uuidv4 } = require('uuid');
+const uuid = require('uuid');
 
 const fs = require('fs');
 const PDFDocument = require('pdfkit');
@@ -902,29 +903,144 @@ app.post('/api/profileInsert',(req,res)=>{
 })
 
 
-app.get('/api/Email_exists',(req,res)=>{
- 
+// Assuming your endpoint looks like '/api/Email_exists?Email=someemail@example.com'
+app.get('/api/Email_exists', (req, res) => {
+  const { Email } = req.query; // Use req.query to get query parameters
+  console.log("server called", Email);
 
-  const {Email}= req.body;
-  console.log("server called",Email)
-  const query='SELECT Email,Emailverified FROM clientadmin where Email= ? ';
-  db.query(query,[Email],(err,results)=>{
-if(err){
+  const query = 'SELECT Email, Emailverified FROM clientadmin WHERE Email = ?';
 
-  return res.status(500).json({ error: 'Internal server error' });
-
-
-} 
-else {
- 
-  console.log(results)
-  return res.json(results)
-}
-
-
+  db.query(query, [Email], (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: 'Internal server error' });
+    } else {
+      if (results.length > 0) {
+        console.log("Email exists:", results);
+        return res.json(results);
+      } else {
+        console.log("Email does not exist");
+        return res.json({ error: 'Email does not exist' });
+      }
+    }
   });
-
 });
+// sent_Password_reset_link
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+app.get('/api/sent_Password_reset_link', (req, res) => {
+  const { Email } = req.query;
+
+  db.query('SELECT App_password, Email FROM mail_automation WHERE Organization=?', ["papl"], (error, result) => {
+    if (result.length > 0) {
+      console.log("mailsetup data", result);
+
+      const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: result[0].Email,
+          pass: result[0].App_password
+        }
+      });
+
+      const resetToken = uuid.v4();
+      db.query('UPDATE `clientadmin` SET `Emailtoken`= ? WHERE `Email`=?', [resetToken, Email], (error, updateResult) => {
+        if (updateResult) {
+          const resetLink = `http://localhost:4200/reset?token=${resetToken}`;
+          console.log(Email, resetToken);
+
+          const mailOptions = {
+            from: 'paplsoft.itservice@gmail.com',
+            to: Email,
+            subject: 'Password Reset Request',
+            html: `
+              <p>Hello,</p>
+              <p>We received a request to reset your password. If you didn't make this request, please ignore this email.</p>
+              <p>Click the following link to reset your password:</p>
+              <a href="${resetLink}">${resetLink}</a>
+              <p>If the link doesn't work, copy and paste it into your browser's address bar.</p>
+              <p>Thank you!</p>
+            `
+          };
+
+          transporter.sendMail(mailOptions, (sendMailError, info) => {
+            if (sendMailError) {
+              console.error('Error sending email:', sendMailError);
+              res.status(500).json({ error: 'Error sending email' });
+            } else {
+              console.log('Email sent:', info.response);
+              res.status(200).json({ success: 'Reset link sent to your mail. Please check it.' });
+            }
+          });
+        } else {
+          console.error('Error updating token in the database:', error);
+          res.status(500).json({ error: 'Internal server error' });
+        }
+      });
+    } else {
+      console.log('No mail setup data found');
+      res.status(500).json({ error: 'No mail setup data found' });
+    }
+  });
+});
+
+// Reset_Password
+app.post('/api/Reset_Password', async (req, res) => {
+  const { Password, token, Email } = req.body;
+
+  try {
+    // Hash the password using bcrypt
+    const hashedPassword = await bcrypt.hash(Password, 12);
+console.log("password",hashedPassword)
+console.log("token",token)
+console.log("Email",Email)
+    // Update the password in the database
+    const query = 'UPDATE clientadmin SET Password = ? WHERE Email = ? AND Emailtoken = ?';
+    db.query(query, [hashedPassword, Email, token], (err, results) => {
+      if (err) {
+        console.error('Error updating password:', err);
+        return res.status(500).json({ error: 'Internal server error' });
+      } else {
+        if (results.affectedRows > 0) {
+          console.log('Password updated successfully');
+          return res.json({ success: 'Password updated successfully' });
+        } else {
+          console.log('Email does not exist or token is invalid');
+          return res.json({ error: 'Email does not exist or Link is expired' });
+        }
+      }
+    });
+  } catch (hashError) {
+    console.error('Error hashing password:', hashError);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
+
 
 
 
@@ -967,6 +1083,28 @@ app.get('/api/loginData',(req, res)=>{
 
 }
 );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 app.delete('/api/Role_Data_Delete', (req, res) => {
   const { organization, role } = req.body;

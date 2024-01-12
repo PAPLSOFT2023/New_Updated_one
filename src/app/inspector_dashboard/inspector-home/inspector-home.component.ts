@@ -56,6 +56,7 @@ export class InspectorHomeComponent implements OnInit {
     this.getRecordCount1(this.name);
     
     
+    
   }
 
 
