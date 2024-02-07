@@ -30,17 +30,14 @@ import { ConfirmPageComponent } from './confirm-page/confirm-page.component';
 import { SchedulePageComponent } from './inspector_dashboard/schedule-page/schedule-page.component';
 import { RescheduleRequestComponent } from './INF/inspection-inf/reschedule-request/reschedule-request.component';
 import { MailResponseComponent } from './mail-response/mail-response.component';
-<<<<<<< HEAD
 import { BasicDateComponent } from './inspector_dashboard/basic-date/basic-date.component';
 import { UnitsDetailsComponent } from './inspector_dashboard/units-details/units-details.component';
 import { AuthoDetailsComponent } from './inspector_dashboard/autho-details/autho-details.component';
 import { ListingUnitsComponent } from './inspector_dashboard/listing-units/listing-units.component';
 import { SectionComponent } from './inspector_dashboard/section/section.component';
 import { BreifSpecComponent } from './inspector_dashboard/breif-spec/breif-spec.component';
-// import { UnitDetailsComponent } from './inspector_dashboard/unit-details/unit-details.component';
-=======
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
->>>>>>> 1d7bb8434f17d8a0fed7308678936f9e3d2a6dbd
+// import { UnitDetailsComponent } from './inspector_dashboard/unit-details/unit-details.component';
 const routes: Routes = [
 
   {path:'app-home',component:AppHomeComponent,},
