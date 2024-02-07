@@ -34,6 +34,13 @@
         <mat-datepicker #toPicker></mat-datepicker>
       </mat-form-field>
     </div>
+
+    <div class="column">
+      <mat-form-field class="form-field">
+        <input matInput type="number" placeholder="No Of Units" [(ngModel)]="item.units">
+       
+      </mat-form-field>
+    </div>
   </div>
   <mat-divider></mat-divider>
 </mat-dialog-content>

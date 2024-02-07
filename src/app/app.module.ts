@@ -105,7 +105,13 @@ import { RejectionComponent } from './inspector_dashboard/rejection/rejection.co
 import { RescheduleRequestComponent } from './INF/inspection-inf/reschedule-request/reschedule-request.component';
 import { ParseJsonPipe } from './parse-json.pipe';
 import { MailResponseComponent } from './mail-response/mail-response.component';
-// import { RejectionComponent } from './inspector_dashboard/rejection/rejection.component';
+import { BasicDateComponent } from './inspector_dashboard/basic-date/basic-date.component';
+import { UnitsDetailsComponent } from './inspector_dashboard/units-details/units-details.component';
+import { AuthoDetailsComponent } from './inspector_dashboard/autho-details/autho-details.component';
+import { ListingUnitsComponent } from './inspector_dashboard/listing-units/listing-units.component';
+import { SectionComponent } from './inspector_dashboard/section/section.component';
+import { BreifSpecComponent } from './inspector_dashboard/breif-spec/breif-spec.component';
+
 
 
 
@@ -176,7 +182,13 @@ import { MailResponseComponent } from './mail-response/mail-response.component';
         RescheduleRequestComponent,
         ParseJsonPipe,
         MailResponseComponent,
-        // RejectionComponent,
+        BasicDateComponent,
+        UnitsDetailsComponent,
+        AuthoDetailsComponent,
+        ListingUnitsComponent,
+        SectionComponent,
+        BreifSpecComponent,
+     
         
 
         

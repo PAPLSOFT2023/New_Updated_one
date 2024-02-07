@@ -125,8 +125,8 @@ export const inspector: INavbarData[] = [
         icon: "fa fa-envelope",
         label: 'Mail'
     },
-   
-   
+ 
+ 
 ];
 
 
