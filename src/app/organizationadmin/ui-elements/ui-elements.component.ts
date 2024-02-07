@@ -1,6 +1,7 @@
 import { Component, ElementRef, ViewChild,Renderer2,AfterViewInit} from '@angular/core';
 import { ApicallService } from 'src/app/apicall.service';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { response } from 'express';
 @Component({
   selector: 'app-ui-elements',
@@ -8,13 +9,23 @@ import { response } from 'express';
   styleUrls: ['./ui-elements.component.scss']
 })
 export class UiElementsComponent  {
+  
+  constructor(private http: HttpClient, private apicallservice: ApicallService, private router: Router) {}
 
-  constructor(private http: HttpClient, private apicallservice: ApicallService) {}
-
+  ngOnInit() {
+    // Assuming you want to fetch initial data when the component is initialized
+    // this.fetchData();
+  }
+ 
   
 
 
   // this is profile data 
+  
+  items:any[] = [];
+
+  formData: any = {};
+  isEdit: boolean = false;
   organization_name: string = '';
   address: string = '';
   pincode: string = '';
@@ -73,10 +84,13 @@ export class UiElementsComponent  {
   DepartmentdataItems: string[] = [];
    uniqueRolls = new Set<string>();
    uniqueDepartments = new Set<string>();
+   psnNumbers: string[] = [];
 
-
+  
   tooltipText: string = ''
   organizationRoles !:any[];
+ 
+  
   // Properties for controlling the popup forms
   isPopupVisible1: boolean = false;
   isPopupVisible2: boolean = false;
@@ -92,11 +106,17 @@ export class UiElementsComponent  {
   isPopupVisible_Type_Ele:boolean=false;
   isPopupVisible_Type_Bul:boolean=false;
   ispopupvisible_insp_cv : boolean = false;
+  cv_view_Popup:boolean=false;
+  flag_manual_Entry:boolean=false;
 
 
 
   isPopupVisible3: boolean = false;
   isPopupVisible4: boolean = false;
+  isPopupVisible5: boolean = false;
+  isPopupVisible6: boolean = false;
+  isPopupVisible7: boolean = false;
+
   field1: string = '';
   field2: string = '';
   field3: string = '';
@@ -107,33 +127,63 @@ inspectorCvData: any = {
 };
 
 // Uncomment the following line in your onFileChange method
-onFileChange(event: any) {
-  this.inspectorCvData.pdf = event.target.files[0];
-}
 
 
   // Reference to the popup form element in the template
   @ViewChild('popupForm') popupForm!: ElementRef;
 
 
-  ngOnInit() {
-    this.apicallservice.getInspectorCv().subscribe(
-      (data:any) => {
-        this.inspectorCvData = data;
-      },
-      (error:any) => {
-        console.error('Error fetching inspectorCv data:', error);
-      }
-    );
-    // Other initialization code if needed
-  }
+ 
 
   onEmailChange() {
     this.tooltipText = "";
   }
-  uploadInspectorCv(){
+getcv(){
+  this.apicallservice.getInspectorCv().subscribe(
+    (data:any) => {
 
+      this.psnNumbers = data.psnNumbers;
+
+      
+    
+    },
+    (error:any) => {
+      console.error('Error fetching inspectorCv data:', error);
+    }
+  );
+}
+
+onFileChange(event: any): void {
+  const fileList: FileList = event.target.files;
+  if (fileList.length > 0) {
+    this.inspectorCvData.pdf = fileList[0];
   }
+}
+
+// Your component file
+uploadInspectorCv(): void {
+//   this.apicallservice.uploaCV(
+//      this.inspectorCvData.email,
+//      this.inspectorCvData.pdf
+//  ).subscribe(
+//     (result: any) => {
+//       if (result) {
+//         alert(result.message);
+//       }
+//     },
+//     (error: any) => {
+//       console.error(error);
+//       if (error.status === 400 && error.error && error.error.error === 'PSN_NO already exists.') {
+//         alert('Already exists.');
+//       }
+//        else {
+//         alert('Already exists.');
+//       }
+//     }
+//   );
+}
+
+
 
   // Method to open the data entry form
   openDataEntry(): void {
@@ -267,6 +317,10 @@ onFileChange(event: any) {
     this.isPopupVisible2 = false;
     this.isPopupVisible3 = false;
     this.isPopupVisible4 = false;
+    this.isPopupVisible5 = false;
+    this.isPopupVisible6 = false;
+    this.isPopupVisible7 = false;
+    
     this.isPopupVisible_dumptype=false;
     this.isPopupVisible_dumpusage=false;
     this.isPopupVisible_hometype=false;
@@ -279,6 +333,8 @@ onFileChange(event: any) {
     this.isPopupVisible_Type_Ele=false;
     this.isPopupVisible_Type_Bul=false;
     this.ispopupvisible_insp_cv = false;
+    this.cv_view_Popup=false;
+
 
     
 
@@ -1120,6 +1176,7 @@ delete_Type_Bul_Data1  (): void {
     this.isPopupVisible2 = false;
     this.isPopupVisible3 = false;
     this.isPopupVisible4 = false;
+    this.isPopupVisible5 = false;
     this.isPopupVisible_dumptype=false;
     this.isPopupVisible_dumpusage=false;
     this.isPopupVisible_hometype=false;
@@ -1275,19 +1332,6 @@ openPopupForm_insp():void
   this.closePopupForm();
   this.ispopupvisible_insp_cv= true;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 //role update
   openPopupForm3(): void {
 
@@ -1307,4 +1351,93 @@ openPopupForm_insp():void
     togglePopupVisibility() {
       this.ispopupvisible_insp_cv = !this.ispopupvisible_insp_cv;
     }
+    
+
+    ViewCv(){
+      // create pop up form call api the list of cv.pdf
+      this.getcv()
+      this.cv_view_Popup= !this.cv_view_Popup;
+
+    }
+    toggleDataEntryContainer() {
+      this.isPopupVisible5 = !this.isPopupVisible5; // Toggle the visibility state
+    }
+    toggleDataEntryContainer2() {
+      this.isPopupVisible6 = !this.isPopupVisible6; // Toggle the visibility state
+    }
+    
+    toggleDataEntryContainer3() {
+      this.isPopupVisible7 = !this.isPopupVisible7; // Toggle the visibility state
+    }
+
+    manualentry_click(){
+     
+      this.isPopupVisible5= !this.isPopupVisible5
+      this.flag_manual_Entry= !this.flag_manual_Entry
+
+      this.apicallservice.get_master_checklist().subscribe((response:any)=>{
+
+        if(response)
+        {
+          this.items = response;
+      console.log(this.items);
+         
+
+
+         
+        }
+      },(error:any)=>{
+        alert(error.message)
+      });
+    }
+
+
+    
+  
+    addItem() {
+      // Call your service to add a new item
+      // Example: this.yourCrudService.addItem(this.formData);
+      this.resetForm();
+      // this.fetchData(); // Refresh the table after adding an item
+    }
+  
+    editItem(item: any) {
+      this.formData = { ...item };
+      this.isEdit = true;
+    }
+  
+    updateItem() {
+      // Call your service to update the item
+      // Example: this.yourCrudService.updateItem(this.formData);
+      this.resetForm();
+      // this.fetchData(); // Refresh the table after updating an item
+    }
+  
+    deleteItem(itemId: number) {
+      // Call your service to delete the item
+      // Example: this.yourCrudService.deleteItem(itemId);
+      // this.fetchData(); // Refresh the table after deleting an item
+    }
+  
+    cancelEdit() {
+      this.resetForm();
+    }
+  
+    resetForm() {
+      this.formData = {};
+      this.isEdit = false;
+    }
+
+    closeEntry() {
+      this.flag_manual_Entry = false;
+    }
+    OpenEntry() {
+      this.flag_manual_Entry = false;
+    }
+    editEntry(item: any) {
+      // Implement your logic to enter the edit mode for the selected item
+      console.log("Editing item:", item);
+      // You can, for example, set a flag to indicate that the row is in edit mode
+    }
+
   }

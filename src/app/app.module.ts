@@ -105,6 +105,7 @@ import { RejectionComponent } from './inspector_dashboard/rejection/rejection.co
 import { RescheduleRequestComponent } from './INF/inspection-inf/reschedule-request/reschedule-request.component';
 import { ParseJsonPipe } from './parse-json.pipe';
 import { MailResponseComponent } from './mail-response/mail-response.component';
+<<<<<<< HEAD
 import { BasicDateComponent } from './inspector_dashboard/basic-date/basic-date.component';
 import { UnitsDetailsComponent } from './inspector_dashboard/units-details/units-details.component';
 import { AuthoDetailsComponent } from './inspector_dashboard/autho-details/autho-details.component';
@@ -112,6 +113,10 @@ import { ListingUnitsComponent } from './inspector_dashboard/listing-units/listi
 import { SectionComponent } from './inspector_dashboard/section/section.component';
 import { BreifSpecComponent } from './inspector_dashboard/breif-spec/breif-spec.component';
 
+=======
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+// import { RejectionComponent } from './inspector_dashboard/rejection/rejection.component';
+>>>>>>> 1d7bb8434f17d8a0fed7308678936f9e3d2a6dbd
 
 
 
@@ -182,6 +187,7 @@ import { BreifSpecComponent } from './inspector_dashboard/breif-spec/breif-spec.
         RescheduleRequestComponent,
         ParseJsonPipe,
         MailResponseComponent,
+<<<<<<< HEAD
         BasicDateComponent,
         UnitsDetailsComponent,
         AuthoDetailsComponent,
@@ -189,6 +195,10 @@ import { BreifSpecComponent } from './inspector_dashboard/breif-spec/breif-spec.
         SectionComponent,
         BreifSpecComponent,
      
+=======
+        ResetPasswordComponent,
+        // RejectionComponent,
+>>>>>>> 1d7bb8434f17d8a0fed7308678936f9e3d2a6dbd
         
 
         

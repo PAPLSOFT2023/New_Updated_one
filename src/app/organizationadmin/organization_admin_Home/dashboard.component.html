@@ -31,20 +31,12 @@
         </div>
         <div class="card-footer">
           <button (click)="viewDetails()">View Details</button>
+          <input type="file" (change)="onFileChange($event)" />
+<button (click)="uploadFile()">Upload</button>
         </div>
       </div>
     </div>
   </div>
 
 
-  <div *ngFor="let item of dataArray">
-    
-    <ul>
-      <li *ngFor="let name of item.names">
-        <p>Date: {{ item.date }}
-        {{ name }}
-      </p>
-      </li>
-    </ul>
-  </div>
   

@@ -7,6 +7,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const { v4: uuidv4 } = require('uuid');
+const uuid = require('uuid');
 
 const fs = require('fs');
 const PDFDocument = require('pdfkit');
@@ -17,8 +18,11 @@ const secretKey = 'mySecretKeyForJWTAuthentication';// for token generation
 
 const app = express();
 
-// const ipAddress = '192.168.1.14';
+const multer = require('multer');
+const xlsx = require('xlsx');
 
+const storage = multer.memoryStorage(); // Use memory storage for handling files without saving to disk
+const upload = multer({ storage: storage });
 
 app.use(cors());
 app.use(express.json()); 
@@ -27,10 +31,12 @@ app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 
 // Firebase Next Link
+try{
 const admin = require('firebase-admin');
 const serviceAccount = require('./paplapplication-firebase-adminsdk-dlrxg-4adbf847ee.json');
 const { error, log } = require('console');
 const e = require('express');
+const { get } = require('http');
 // const { async } = require('rxjs');
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -39,6 +45,10 @@ admin.initializeApp({
 
 const Firebase_db = admin.database();
 const ref = Firebase_db.ref('/Leave/Leaveforleadknown/krishnannarayananpaplcorpcom');
+}
+catch(error){
+  console.error(error.message);
+}
 
 
 
@@ -702,10 +712,33 @@ app.get('/api/get_Rejection_schedule', (req, res) => {
   });
 });
 
+// get_checklistmaster
+
+app.get('/api/get_checklistmaster', (req, res) => {
+  // db.query('SELECT App_password, Email FROM mail_automation WHERE Organization=?', [organization], (error, result) => {
+    db1.query("SELECT * FROM `inspection_master` WHERE 1",(err,result)=>{
+    if (result.length > 0) {
+      // Send the result as a JSON response to the client
+      console.log(result)
+      return res.json(result);
+    } else {
+      // Send a response indicating that no data was found
+      return res.status(404).json({ message: 'No data found for the organization' });
+    }
+  });
+});
 
 
 
 
+// db1.query("SELECT * FROM `inspection_master` WHERE 1",(err,result)=>{
+//   if (result) {
+//     console.log(result);
+//     res.json(result);
+//   } else {
+//     res.json({ message: 'Mail status Not successfully' });
+//   }
+// })
 
 
 
@@ -902,29 +935,145 @@ app.post('/api/profileInsert',(req,res)=>{
 })
 
 
-app.get('/api/Email_exists',(req,res)=>{
- 
+// Assuming your endpoint looks like '/api/Email_exists?Email=someemail@example.com'
+app.get('/api/Email_exists', (req, res) => {
+  const { Email } = req.query; // Use req.query to get query parameters
+  console.log("server called", Email);
 
-  const {Email}= req.body;
-  console.log("server called",Email)
-  const query='SELECT Email,Emailverified FROM clientadmin where Email= ? ';
-  db.query(query,[Email],(err,results)=>{
-if(err){
+  const query = 'SELECT Email, Emailverified FROM clientadmin WHERE Email = ?';
 
-  return res.status(500).json({ error: 'Internal server error' });
-
-
-} 
-else {
- 
-  console.log(results)
-  return res.json(results)
-}
-
-
+  db.query(query, [Email], (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: 'Internal server error' });
+    } else {
+      if (results.length > 0) {
+        console.log("Email exists:", results);
+        return res.json(results);
+      } else {
+        console.log("Email does not exist");
+        return res.json({ error: 'Email does not exist' });
+      }
+    }
   });
-
 });
+// sent_Password_reset_link
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+app.get('/api/sent_Password_reset_link', (req, res) => {
+  const { Email } = req.query;
+
+  db.query('SELECT App_password, Email FROM mail_automation WHERE Organization=?', ["papl"], (error, result) => {
+    if (result.length > 0) {
+      console.log("mailsetup data", result);
+
+      const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: result[0].Email,
+          pass: result[0].App_password
+        }
+      });
+
+      const resetToken = uuid.v4();
+      db.query('UPDATE `clientadmin` SET `Emailtoken`= ? WHERE `Email`=?', [resetToken, Email], (error, updateResult) => {
+        if (updateResult) {
+          const resetLink = `http://localhost:4200/reset?token=${resetToken}`;
+          console.log(Email, resetToken);
+
+          const mailOptions = {
+            from: 'paplsoft.itservice@gmail.com',
+            to: Email,
+            subject: 'Password Reset Request',
+            html: `
+              <p>Hello,</p>
+              <p>We received a request to reset your password. If you didn't make this request, please ignore this email.</p>
+              <p>Click the following link to reset your password:</p>
+              <a href="${resetLink}">${resetLink}</a>
+              <p>If the link doesn't work, copy and paste it into your browser's address bar.</p>
+              <p>Thank you!</p>
+            `
+          };
+
+          transporter.sendMail(mailOptions, (sendMailError, info) => {
+            if (sendMailError) {
+              console.error('Error sending email:', sendMailError);
+              res.status(500).json({ error: 'Error sending email' });
+            } else {
+              console.log('Email sent:', info.response);
+              res.status(200).json({ success: 'Reset link sent to your mail. Please check it.' });
+            }
+          });
+        } else {
+          console.error('Error updating token in the database:', error);
+          res.status(500).json({ error: 'Internal server error' });
+        }
+      });
+    } else {
+      console.log('No mail setup data found');
+      res.status(500).json({ error: 'No mail setup data found' });
+    }
+  });
+});
+
+// Reset_Password
+app.post('/api/Reset_Password', async (req, res) => {
+  const { Password, token, Email } = req.body;
+
+  try {
+    // Hash the password using bcrypt
+    const hashedPassword = await bcrypt.hash(Password, 12);
+console.log("password",hashedPassword)
+console.log("token",token)
+console.log("Email",Email)
+    // Update the password in the database
+    const query = 'UPDATE clientadmin SET Password = ? WHERE Email = ? AND Emailtoken = ?';
+    db.query(query, [hashedPassword, Email, token], (err, results) => {
+      if (err) {
+        console.error('Error updating password:', err);
+        return res.status(500).json({ error: 'Internal server error' });
+      } else {
+        if (results.affectedRows > 0) {
+          console.log('Password updated successfully');
+          db.query("UPDATE `clientadmin` SET `Emailtoken`=? WHERE `Email`=?",['Empty',Email]);
+          return res.json({ success: 'Password updated successfully' });
+        } else {
+          console.log('Email does not exist or token is invalid');
+          return res.json({ error: 'Email does not exist or Link is expired' });
+        }
+      }
+    });
+  } catch (hashError) {
+    console.error('Error hashing password:', hashError);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
+
 
 
 
@@ -967,6 +1116,28 @@ app.get('/api/loginData',(req, res)=>{
 
 }
 );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 app.delete('/api/Role_Data_Delete', (req, res) => {
   const { organization, role } = req.body;
@@ -1215,17 +1386,63 @@ app.delete('/api/delete_emp_data', (req, res) => {
 
 //inspector cv database view //
 
-app.put('/api/inspectorCv', (req, res) => {
-  const query = 'SELECT email, pdf FROM pdf_cv'; 
-  db.query(query, (err, results) => {
-    if (err) {
-      console.log('Error executing MySQL query:', err);
-      res.status(500).send('Internal Server Error');
+// app.put('', (req, res) => {
+//   const query = 'SELECT email, pdf FROM pdf_cv'; 
+//   db.query(query, (err, results) => {
+//     if (err) {
+//       console.log('Error executing MySQL query:', err);
+//       res.status(500).send('Internal Server Error');
+//     } else {
+//       res.json(results);
+//     }
+//   });
+// });
+
+
+app.get('/api/inspectorCv', (req, res) => {
+  db1.query('SELECT PSN_NO FROM pdf_cv', (error, results) => {
+    if (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
     } else {
-      res.json(results);
+      const psnNumbers = results.map((result) => result.PSN_NO);
+      res.json({ psnNumbers });
     }
   });
 });
+
+
+// inspector_cv_upload
+// Assuming you have multer configured
+app.post('/api/inspector_cv_upload', upload.single('pdf'), (req, res) => {
+  const { psn } = req.body;
+  const pdfBuffer = req.file.buffer;
+
+  // Check if required values are present in the request body
+  if (!psn || !pdfBuffer) {
+    return res.status(400).json({ error: 'Missing required parameters (psn or pdf).' });
+  }
+
+  // Assuming you have a table named pdf_cv with columns pdf and PSN_NO
+  db1.query('INSERT INTO pdf_cv(pdf, PSN_NO) VALUES (?, ?)', [pdfBuffer, psn], (error, results) => {
+    if (error) {
+      if (error.code === 'ER_DUP_ENTRY') {
+        // Duplicate entry error (PSN_NO already exists)
+        console.log("ER_DUP_ENTRY")
+        return res.status(400).json({ error: 'PSN_NO already exists.' });
+      } 
+      else {
+        console.error(error);
+        return res.status(500).json({ error: 'Internal Server Error' });
+      }
+    } 
+    else {
+      return res.status(200).json({ message: 'Uploaded successfully' });
+    }
+  });
+});
+
+
 
 
 
@@ -1436,6 +1653,179 @@ app.get('/api/getRoleData', (req, res) => {
     }
   });
 });
+
+app.post('/upload', upload.single('file'), (req, res) => {
+  try {
+    
+    const workbook = xlsx.read(req.file.buffer, { type: 'buffer' });
+    console.log("server called")
+
+    if(workbook.SheetNames.length ==1){
+    const sheet_name = workbook.SheetNames[0];
+    const sheet_data = xlsx.utils.sheet_to_json(workbook.Sheets[sheet_name]);
+
+    const columns = Object.keys(sheet_data[0]);
+    const values = sheet_data.map((row) => Object.values(row));
+
+
+    const firstSubarrayLength = values[0].length;
+
+    let flag_check_cell_is_empty=false;
+    // Iterate through the array starting from the second subarray
+    for (let i = 1; i < values.length; i++) {
+        // Check if the current subarray's length is different from the first one
+        if (values[i].length !== firstSubarrayLength) {
+          //  console.log("Not a perfect matrix")
+         flag_check_cell_is_empty=true;
+        }
+    }
+
+    if(flag_check_cell_is_empty){
+    res.json({ message: "In the Excel file, certain cells are left unfilled." });
+    }
+    else{
+
+      let photo_index = -1;
+      let drop_Drown_index = -1;
+      let risk_Level_index = -1;
+      let product_index = -1;
+      let parts_index = -1;
+      let description_index = -1;
+      let reference_index = -1;
+
+      //  to find the columns index
+     
+      for (let i = 0; i < columns.length; i++) {
+        
+        const column = columns[i].trim().toLowerCase();
+      
+        
+        switch (column) {
+            case 'photo':
+            case 'photos':
+                photo_index = i;
+                break;
+            case 'drop down':
+            case 'drop_down':
+            case 'drop _ down':
+            case 'dropdown':
+                drop_Drown_index = i;
+                break;
+            case 'risk level':
+            case 'risk_level':
+            case 'risk _ level':
+            case 'risklevel':
+                risk_Level_index = i;
+                break;
+            case 'parts':
+            case 'part':
+                parts_index = i;
+                break;
+            case 'product':
+            case 'products':
+                product_index = i;
+                break;
+            case 'reference':
+            case 'references':
+                reference_index = i;
+                break;
+            case 'description':
+            case 'descriptions':
+                description_index = i;
+                break;
+            default:
+                // Handle unknown column names
+                break;
+        }
+    }
+  
+      let count_photo;
+      let count_dropdown;
+      let count_risklevel;
+      let check_innercell_equals=false;
+
+      if(photo_index > -1 &&
+       drop_Drown_index > -1 &&
+       risk_Level_index > -1 &&
+       product_index > -1 &&
+       parts_index > -1 &&
+       description_index > -1)
+      {
+         for(let k=0;k<values.length;k++)
+      {
+        
+        const matche_for_photo = values[k][photo_index].match(/~/g);
+        // If matches is null, return 0, otherwise return the length of matches
+         count_photo = matche_for_photo ? matche_for_photo.length : 0;
+
+         const matche_for_dropdown = values[k][drop_Drown_index].match(/~/g);
+        // If matches is null, return 0, otherwise return the length of matches
+        count_dropdown = matche_for_dropdown ? matche_for_dropdown.length : 0;
+
+
+        const matche_for_risklevel = values[k][risk_Level_index].match(/~/g);
+        // If matches is null, return 0, otherwise return the length of matches
+        count_risklevel = matche_for_risklevel ? matche_for_risklevel.length : 0;
+
+        // console.log("count of ",values[k][photo_index],count_photo+1)
+
+        //  console.log("count of ",values[k][drop_Drown_index],count_dropdown+1)
+        //  console.log("count of ",values[k][risk_Level_index],count_risklevel+1)
+
+         if(count_photo === count_dropdown && count_dropdown === count_risklevel)
+         {
+          check_innercell_equals=!check_innercell_equals;
+         }
+        }
+      }
+      else{
+        res.json({ message: "The column title is not defined." });
+
+      }
+
+      if(check_innercell_equals)
+      {
+        res.json({ message: "Check some index missing(Photo,Drop down,Risk level)" });
+      }
+      else{
+        // insert query
+
+        let sql = 'INSERT INTO `inspection_master`(`Product`, `Parts`, `Description`, `Reference`, `Risk level`, `Photo`, `Dropdown`) VALUES ';
+        for (let i = 0; i < values.length; i++) {
+         const row = values[i];
+         sql += `('${row[product_index]}', '${row[parts_index]}', '${row[description_index]}', '${row[reference_index]}', '${row[risk_Level_index]}', '${row[photo_index]}', '${row[drop_Drown_index]}')`;
+         if (i !== values.length - 1) {
+         sql += ', ';
+        }
+      }
+      db1.query(sql, (error, results, fields) => {
+        if (error) {
+          console.error('Error occurred while inserting data:', error);
+          return;
+        }
+        res.json({ message: "File merged into the database successfully." });
+      });
+       
+      }
+
+    }
+
+    }
+    else{
+      res.json({ message: "I am currently experiencing difficulty processing multiple sheets in Excel (need 1 sheet at a time)." });
+    
+    
+    }
+   
+    } catch (error) {
+      console.error('Error processing file:', error);
+      res.status(400).json({ message: 'Invalid file format' });
+    }
+});
+
+
+
+
 
 
 

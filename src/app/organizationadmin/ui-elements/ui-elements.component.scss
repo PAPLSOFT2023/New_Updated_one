@@ -1,5 +1,5 @@
 .popup-form {
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -21,8 +21,6 @@
 
 
 
-
-//user_role background blur 
 //profile background blur
 .modal-overlay {
   position: fixed;
@@ -34,33 +32,6 @@
   z-index: 999;
   backdrop-filter: blur(5px); /* Adjust the blur value for the desired level of blur */
 }
-
-
-
-
-.data-entry-container {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 5px;
-  z-index: 1000; /* Ensure it's above the overlay */
-}
-
-.data-entry-container {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 5px;
-  z-index: 1000; /* Ensure it's above the overlay */
-}
-
-
 
 //department background blur 
 .data-entry-container {
@@ -74,10 +45,49 @@
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Adjust the alpha value for the desired level of transparency */
+  z-index: 999;
+  backdrop-filter: blur(5px); /* Adjust the blur value for the desired level of blur */
+}
+
+//user_role background blur 
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Adjust the opacity as needed */
+  z-index: 999; /* Ensure it's on top of other elements */
+}
+
+.data-entry-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  z-index: 1000; /* Ensure it's above the overlay */
+}
+
+
+
 /* Add this to your component's CSS or styles.scss file */
 .card-container {
   background-color: #f0f0f0; /* Replace with your desired background color */
 }
+
+
+
 
 /* Assuming your form container has a class named "form-container" */
 .form-container {
@@ -122,7 +132,7 @@ button:hover, .btn-danger:hover {
   text-align: left;
 }
 .popup-form label {
-  // display: block;
+  display: block;
   font-weight: bold;
 }
 .popup-form .input-group{
@@ -144,13 +154,13 @@ button:hover, .btn-danger:hover {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 20px;
 }
 .card {
   flex: 0 0 calc(25% - 20px);
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  padding: 15px;
+  padding: 25px;
   background-color: #ffffff;
   transition: transform 0.2s, box-shadow 0.2s;
  &:hover {
@@ -197,21 +207,21 @@ button:hover, .btn-danger:hover {
   }
 }
 /* Styles for the data entry container */
-// .data-entry-container {
-//   position: absolute;
-//   top: 50%;
-//   left: 50%;
-//   transform: translate(-50%, -50%);
-//   width: 380px;
-//   margin: 0 auto;
-//   max-width: 400%;
-//   background-color: #ffffff;
-//   border: 1px solid #ffffff;
-//   border-radius: 10px;
-//   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-//   text-align: center;
-//   padding: 20px;
-// }
+.data-entry-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 380px;
+  margin: 0 auto;
+  max-width: 400%;
+  background-color: #ffffff;
+  border: 1px solid #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  padding: 20px;
+}
 .data-entry-container h2 {
   font-size: 1.5rem;
   margin-bottom: 20px;
@@ -444,64 +454,186 @@ div.popup-form {
 .popup-form input:required:valid {
   border-color: green; /* Green border for filled required fields */
 }
-.centered-form {
+
+
+.data-entry-container {
+  
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  max-height: 100%;
-  max-width: 100%;
-  overflow: hidden;
+  background-color: #fff;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    /* Apply backdrop blur effect */
+ }
+
+
+.manualentry {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  
+  
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent background outside the container */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Ensure it's above other elements */
 }
-
-// .data-entry-container {
-//   background-color: #fff;
-//   padding: 20px;
-//   border: 1px solid #ddd;
-//   border-radius: 4px;
-//   margin: 0 auto;
-//   width: 500px;
-//   position: fixed;
-//   top: 50%;
-//   left: 50%;
-//   transform: translate(-50%, -50%);
-//   z-index: 11;
-// }
-
-h2 {
+/* Center the buttons horizontally */
+.form-group {
   text-align: center;
-  font-size: 1.5em;
-  margin-bottom: 20px;
 }
 
-table {
+/* Style for the first button */
+.entry {
+  background-color: #2b75b2; /* Blue background color */
+  color: white; /* Text color */
+  border: none; /* Remove border */
+  padding: 6px 10px; /* Padding */
+  cursor: pointer; /* Cursor style */
+  border-radius: 5px; /* Rounded corners */
+  margin-right: 60px; /* Add margin between buttons */
+}
+
+/* Style for the second button */
+.entry2 {
+  background-color: #19731c; /* Green background color */
+  color: white; /* Text color */
+  border: none; /* Remove border */
+  padding: 6px 10px; /* Padding */
+  cursor: pointer; /* Cursor style */
+  border-radius: 5px; /* Rounded corners */
+}
+
+/* Hover effect for both buttons */
+.entry:hover, .entry2:hover {
+  opacity: 0.8; /* Reduce opacity on hover */
+}
+
+
+
+
+
+
+
+
+
+
+.manualentry {
+  width: 100%;
+  margin: 20px 0;
+}
+
+.data-entry-container1 {
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  padding: 20px;
+}
+
+
+
+// .closebtn1 {
+//   background-color: #4CAF50;
+//   color: white;
+//   border: none;
+  
+//   padding: 10px 20px;
+//   margin-right: 100px;
+//   cursor: pointer;
+//   border-radius: 5px;
+// }
+.closebtn1 {
+  display: flex;
+  margin: 0 auto; /* Center align the button horizontally */
+  background-color: rgb(134, 20, 20);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.closebtn1:hover {
+  background-color: #45a049;
+}
+.openbtn {
+  background-color: #136c53; /* Blue background color */
+  color: white; /* Text color */
+  border: none; /* Remove border */
+  padding: 10px 16px; /* Padding */
+  cursor: pointer; /* Cursor style */
+  margin: 6px;
+  border-radius: 5px; /* Rounded corners */
+  
+}
+.closebtn button {
+  background-color: #f44336; /* Red background color */
+  color: white; /* Text color */
+  border: none; /* Remove border */
+  padding: 10px 20px; /* Padding */
+  cursor: pointer; /* Cursor style */
+  border-radius: 5px; /* Rounded corners */
+}
+
+.closebtn button:hover {
+  background-color: #bf1e13; /* Darker red on hover */
+}
+.table-wrapper {
+  max-height: 400px; /* Set max height for the table */
+  overflow-y: auto;
+}
+
+.crud-container table {
   width: 100%;
   border-collapse: collapse;
-  margin-bottom: 20px;
 }
 
-tr {
-  border-bottom: 1px solid #ddd;
+.crud-container th, .crud-container td {
   padding: 10px;
-}
-
-td {
-  padding: 5px;
-}
-
-.form-group {
-  margin-bottom: 15px;
-}
-
-label {
-  
-  font-weight: bold;
-  margin-bottom: 5px;
-}
-
-input {
-  width: 100%;
-  padding: 8px;
+  text-align: left;
   border: 1px solid #ddd;
-  border-radius: 4px;
+}
+
+.crud-container th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.scrollable-td {
+  max-width: 200px; /* Set max-width for scrollable cells */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.edit-button1{
+  background-color: #2196F3;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-right: 5px;
+}
+.delete-button1 {
+  background-color: #961513;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-right: 50px;
+}
+
+.delete-button1 {
+  background-color: #f44336;
+}
+
+.edit-button1:hover, .delete-button1:hover {
+  background-color: #0b7dda;
 }
