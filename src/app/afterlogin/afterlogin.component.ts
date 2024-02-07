@@ -20,7 +20,7 @@ constructor(private router: Router,private route: ActivatedRoute){
     const organizationkey='Organization';
     const storedValue = sessionStorage.getItem(rolekey);
     const stored_organization=sessionStorage.getItem(organizationkey)
-    console.log("*****&*&*&&&",storedValue,stored_organization)
+    // console.log("*****&*&*&&&",storedValue,stored_organization)
 
     // This is for role based dashboard default loding home content
 

@@ -632,7 +632,7 @@
 </div>
 <div class="manualentry" *ngIf="flag_manual_Entry">
   <div *ngIf="flag_manual_Entry" class="data-entry-container1">
-    <h2>ENTRY MODE</h2>
+    <h2 >ENTRY MODE</h2>
 
     <!-- crud-table.component.html -->
     <div class="crud-container">
@@ -648,7 +648,7 @@
             <th>Dropdown</th>
             <th>Actions</th>
           </tr>
-          <tr *ngFor="let item of items">
+          <tr class="scroll_td" *ngFor="let item of items">
             <td class="scrollable-td">{{ item.Product }}</td>
             <td class="scrollable-td">{{ item.Parts }}</td>
             <td class="scrollable-td">{{ item.Description }}</td>

@@ -1,164 +1,73 @@
-/* Global */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f0f0f0;
-  }
-  
-  /* ... (previous styles) */
-  
-  /* ... (previous styles) */
-  
-  /* Card */
-  .card {
-    width: calc(33.33% - 1rem);
-    margin-bottom: 1rem;
-    border: 1px solid #ccc;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s, box-shadow 0.3s;
-    background-color: #fff;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between; /* Vertically align button at the bottom */
-  }
-  
-  .card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
-    z-index: 1;
-    transition: transform 0.3s, box-shadow 0.3s, z-index 0.1s;
-  }
-  
+.header {
+  height: 40px;
+  background-color: #FFFFFF; /* Header background color */
+  color: #8F949B; /* Text color */
+  padding: 10px; /* Padding for header */
+  display: flex; /* Use flexbox for layout */
+  justify-content: space-between; /* Align items to left and right */
+  align-items: center; /* Align items vertically */
+}
 
-  
-  
-  
-  
-  /* Container */
-  .container {
-    margin:  auto;
-    max-width: 960px;
-    padding: 2.5em;
-  }
-  
-  /* Header */
-  .header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.8rem;
-    background-color: #181a49;
-    border: 1px solid #000000;
-    transition: background-color 0.3s;
-  }
-  
-  
-  .header-logo {
-    width: 100px;
-    margin-right: 0.5rem;
-  }
-  
-  .header h1 {
-    font-size: 2rem;
-    font-weight: 600;
-    color: rgb(243, 166, 12)
-   
-  }
-  
-  .header p {
-    font-size: 1rem;
-    color: rgb(216, 217, 232);
-    margin: 0;
-  }
-  
-  /* Card container */
-  .card-container {
-    padding: 0.5rem;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
-  
-  .card {
-    width: calc(33.33% - 1rem);
-    margin-bottom: 1rem;
-    border: 1px solid #ccc;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-    transition: all 0.2s ease-in-out;
-    background-color: #fff;
-  }
-  
-  .card:hover {
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  }
-  
-  .card-image {
-    width: 50%;
-    height: 100px;
-    object-fit: cover;
-    margin: 0 auto; /* Center the card icon horizontally */
-    /* Ensure block-level element behavior */
-  }
-  
-  
-  .card-content {
-    padding: 1rem;
-  }
-  
-  .card-content h2 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin: 0;
-  }
-  
-  .card-content p {
-    font-size: 1rem;
-    line-height: 1.5;
-    margin: 0;
-    color: #333;
-  }
-  
-  .card-features {
-    display: flex;
-    flex-wrap: wrap;
-    margin-top: 1rem;
-  }
-  
-  .card-feature {
-    display: flex;
-    align-items: center;
-    margin-right: 1rem;
-    margin-bottom: 1rem;
-  }
-  
-  .card-feature i {
-    font-size: 1.2rem;
-    margin-right: 0.5rem;
-    color: #007BFF;
-  }
-  
-  .card-feature span {
-    font-size: 1rem;
-    color: #333;
-  }
-  
-  /* Card footer */
-  .card-footer {
-    padding: 1rem;
-    text-align: right;
-  }
-  
-  .card-footer button {
-    background-color: #007BFF;
-    color: #fff;
-    border-radius: 0.25rem;
-    padding: 0.5rem 1rem;
-    cursor: pointer;
-    border: none;
-    
-  }
-  
-  .card-footer button:hover {
-    background-color: #0056b3;
-  }
+.container-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 0 auto;
+}
+
+.container {
+  flex: 0 0 calc(25% - 16px); /* 4 cards, minus margins */
+  margin-bottom: 20px; /* Space between containers */
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.card {
+  width: 100%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+
+
+.card-title {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.card-text {
+  font-size: 16px;
+  color: #666;
+}
+
+
+.card-body {
+  padding: 20px;
+   /* Gradient color for card-body */
+}
+
+.card-body-1 {
+  background: linear-gradient(45deg, #ff6726, #FFB696);
+   /* Gradient color for card 1 */
+}
+
+.card-body-2 {
+  background: linear-gradient(45deg, #07C37D, #0BF4A7);
+  /* Gradient color for card 2 */
+}
+
+.card-body-3 {
+  background: linear-gradient(45deg, #FF5D6C, #FF8D9C);
+   /* Gradient color for card 3 */
+}
+
+.card-body-4 {
+  background: linear-gradient(45deg, #00A6AE, #63E1E3); /* Gradient color for card 4 */
+}
