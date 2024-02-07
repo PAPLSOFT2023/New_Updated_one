@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient,HttpHeaders, HttpParams } from '@angular/common/http';
-import{Observable}from 'rxjs';
+import { HttpClient,HttpHeaders, HttpParams,HttpErrorResponse } from '@angular/common/http';
+import{Observable, throwError}from 'rxjs';
 import { query } from 'express';
+import { catchError } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
@@ -73,9 +74,28 @@ addProfileData(NAME:string ,email_id:string,PSN_NO:string,designation:string,con
 
 //inspector_cv 
 getInspectorCv(): Observable<any> {
-  return this.http.get(`${this.apiURL}/inspectorCv`);
+  return this.http.get(this.apiURL+'inspectorCv')
+}
+uploaCV(psn: string, pdf: File): Observable<any> {
+  const formData = new FormData();
+  formData.append('psn', psn);
+  formData.append('pdf', pdf, pdf.name);
+
+  return this.http.post(this.apiURL + 'inspector_cv_upload', formData)
+    .pipe(
+      catchError(this.handleError)
+    );
 }
 
+private handleError(error: HttpErrorResponse) {
+  if (error.error instanceof ErrorEvent) {
+    console.error('An error occurred:', error.error.message);
+  } else {
+    console.error(`Backend returned code ${error.status}, body was: ${JSON.stringify(error.error)}`);
+  }
+
+  return throwError('Something bad happened; please try again later.');
+}
 
 
 
@@ -498,21 +518,7 @@ deleteLoginDetails(email: string): Observable<any> {
 
   }
 
-  // getInsp_CV(inspectors:any){
-  //   // console.log("CV get api called")
-  //   const url = `${this.apiURL}getInspector_CV_data_forMail`;
-  //   const params = new HttpParams().set('inspectors', inspectors);
 
-  //   const headers = new HttpHeaders({
-  //     'Content-Type': 'application/json'
-  //   });
-
-  //   const options = {
-  //     headers: headers,
-  //     params: params
-  //   };
-  //   return this.httpClient.get(url, options);
-  // }
 
 
   
@@ -604,6 +610,12 @@ set_send_Mail_status(id:string):Observable<any>
 get_Rejection_schedule():Observable<any>
 {
   return this.httpClient.get(this.apiURL+'get_Rejection_schedule')
+}
+
+get_master_checklist():Observable<any>
+{
+  console.log("apicallservice")
+  return this.httpClient.get(this.apiURL+'get_checklistmaster')
 }
 
 

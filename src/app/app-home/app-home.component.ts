@@ -40,4 +40,10 @@ constructor(private apiCall:ApicallService, private httpclient:HttpClient){}
       }
     );
   }
+
+
+  callapi(){
+    console.log("button clicked")
+    this.apiCall.get_master_checklist();
+  }
 }

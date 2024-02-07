@@ -247,7 +247,7 @@
     
       <!-- Add a delete button -->
       <div class="form-group">
-      <button (click)="delete_Home_Usage_Data1()" class="btn btn-danger">Delete</button>
+      <button (click) ="delete_Home_Usage_Data1()" class="btn btn-danger">Delete</button>
       <button (click)="cancelData()" class="btn btn-danger">Cancel</button>
       
       
@@ -524,7 +524,154 @@
       </div>
     </div>
   </div>
+ 
+<!-- inspection product card  -->
+<!-- <div>
   
+  <div class="modal-overlay" *ngIf="isPopupVisible5"></div> -->
+
+  <!-- Data Entry Container -->
+  <!-- <div class="data-entry-container" *ngIf="isPopupVisible5">
+    <h2>Product</h2>
+
+    <div class="form-group">
+      <label for="dataInput">Enter Product:</label>
+      <input type="text" id="dataInput" placeholder="Enter the product to add" [(ngModel)]="NewRole_Data">
+      <button (click)="addToDropdownRole(NewRole_Data)" class="btn btn-primary">Add</button>
+    </div>
+
+    <div class="form-group">
+      <label for="dataDropdown">Existing Product:</label>
+      <select [(ngModel)]="selectedData">
+        <option *ngFor="let Dept of roles" [value]="Dept">{{ Dept }}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <button (click)="deleteData2()" class="btn btn-danger">Delete</button>
+      <button (click)="cancelData()" class="btn btn-danger">Cancel</button>
+    </div>
+  </div> -->
+<!-- </div> -->
+
+ <!-- inspection product card  -->
+ <div>
+  
+  <div class="modal-overlay" *ngIf="isPopupVisible6"></div>
+
+  <!-- Data Entry Container -->
+  <div class="data-entry-container" *ngIf="isPopupVisible6">
+    <h2>Parts</h2>
+
+    
+    <div class="form-group">
+      <label for="dataDropdown">Enter Part:</label>
+      <select [(ngModel)]="selectedData">
+        <option *ngFor="let Dept of roles" [value]="Dept">{{ Dept }}</option>
+      </select>
+    </div>
+    <div class="form-group">
+    <label for="dataDropdown">Choose Part:</label>
+    <input type="text" id="dataInput" placeholder="Choose Product" [(ngModel)]="NewRole_Data">
+    <button (click)="addToDropdownRole(NewRole_Data)" class="btn btn-primary">Add</button>
+  </div>
+    <div class="form-group">
+      <label for="dataDropdown">Existing Part:</label>
+      <select [(ngModel)]="selectedData">
+        <option *ngFor="let Dept of roles" [value]="Dept">{{ Dept }}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <button (click)="deleteData2()" class="btn btn-danger">Delete</button>
+      <button (click)="cancelData()" class="btn btn-danger">Cancel</button>
+    </div>
+  </div>
+</div>
+  
+<!-- inspection product card  -->
+ <div>
+  
+  <div class="modal-overlay" *ngIf="isPopupVisible7"></div>
+
+  <!-- Data Entry Container -->
+  <div class="data-entry-container" *ngIf="isPopupVisible7">
+    <h2>Observation & Requirement</h2>
+
+    <div class="form-group">
+      <label for="dataDropdown">Enter Observation:</label>
+      <input type="text" id="dataInput" placeholder="Enter Observation" [(ngModel)]="NewRole_Data">
+      <button (click)="addToDropdownRole(NewRole_Data)" class="btn btn-primary">Add</button>
+    </div>
+
+    <div class="form-group">
+      <label for="dataDropdown">Enter Requirement:</label>
+      <input type="text" id="dataInput" placeholder="Enter Requirement" [(ngModel)]="NewRole_Data">
+      <button (click)="addToDropdownRole(NewRole_Data)" class="btn btn-primary">Add</button>
+    </div>
+
+    <div class="form-group">
+      <label for="dataDropdown">Existing Observation:</label>
+      <select [(ngModel)]="selectedData">
+        <option *ngFor="let Dept of roles" [value]="Dept">{{ Dept }}</option>
+      </select>
+    </div>
+    
+    <div class="form-group">
+      <label for="dataDropdown">Existing Requirement:</label>
+      <select [(ngModel)]="selectedData">
+        <option *ngFor="let Dept of roles" [value]="Dept">{{ Dept }}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <button (click)="deleteData2()" class="btn btn-danger">Delete</button>
+      <button (click)="cancelData()" class="btn btn-danger">Cancel</button>
+    </div>
+  </div>
+</div>
+<div class="manualentry" *ngIf="flag_manual_Entry">
+  <div *ngIf="flag_manual_Entry" class="data-entry-container1">
+    <h2>ENTRY MODE</h2>
+
+    <!-- crud-table.component.html -->
+    <div class="crud-container">
+      <button class="openbtn" (click)="OpenEntry()">ADD</button>
+      <div class="table-wrapper">
+        <table *ngIf="items.length > 0">
+          <tr>
+            <th>Product</th>
+            <th>Parts</th>
+            <th>Description</th>
+            <th>Reference</th>
+            <th>Photo</th>
+            <th>Dropdown</th>
+            <th>Actions</th>
+          </tr>
+          <tr *ngFor="let item of items">
+            <td class="scrollable-td">{{ item.Product }}</td>
+            <td class="scrollable-td">{{ item.Parts }}</td>
+            <td class="scrollable-td">{{ item.Description }}</td>
+            <td class="scrollable-td">{{ item.Reference }}</td>
+            <td class="scrollable-td">{{ item.Photo }}</td>
+            <td class="scrollable-td">{{ item.Dropdown }}</td>
+            <td>
+              <button class="edit-button1">Edit</button>
+              <button class="delete-button1">Delete</button>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <button class="closebtn1" (click)="closeEntry()">Close</button>
+    </div>
+    
+    
+  </div>
+</div>
+
+   
+  
+  </div>
 
 <!-- Inspector_cv.pop-form -->
 <div>
@@ -538,13 +685,13 @@
         <td>
           <div class="form-group">
             <!-- Add input field for email -->
-            <label for="email">Email:</label>
-            <input type="email" id="email" [(ngModel)]="inspectorCvData.email" class="form-control">
+            <label for="email">PSN:</label>
+            <input type="number" id="email" [(ngModel)]="inspectorCvData.email" class="form-control">
           </div>
         </td>
         <td>
           <div class="form-group">
-            <!-- Add input field for PDF -->
+           
             <label for="pdf">PDF:</label>
             <input type="file" id="pdf" (change)="onFileChange($event)" class="form-control">
           </div>
@@ -559,7 +706,6 @@
     </div>
   </div>
 </div>
-
 
 
 
@@ -596,11 +742,33 @@
   </div>
 </div> -->
 
+<!-- inspection product card  -->
+<!-- my-modal.component.html -->
+<!-- my-modal.component.html -->
+<div *ngIf="isPopupVisible5" class="modal-overlay" (click)="cancelData1()"></div>
+
+<!-- Data Entry Container -->
+<div *ngIf="isPopupVisible5" class="data-entry-container">
+  <h2>Choose Entry Mode</h2>
+
+  <div class="form-group">
+    <button for="manualEntryButton" class="entry" (click)="manualentry_click()">Manual Entry</button>
+    <button class="entry2" for="uploadEntryButton">
+       Upload File
+     
+    </button>
+  </div>
+  
+  <div class="closebtn">
+    <button (click)="closePopupForm()">Close</button>
+  </div>
+</div>
 
 
 
 
 
+  
 
 
 
@@ -646,21 +814,6 @@
     <div class="card-actions">
       <button class="card-button" (click)="openPopupForm3()">Update</button>
     </div>
-
-      <!-- <div class="card">
-    <div class="card-header">
-      <h3 class="card-title">Email_Automation</h3>
-      <img src="assets/mailautomation@2x.png" alt="Email Automation Logo" class="card-logo">
-    </div>
-    <div class="card-content">
-      This is the content of Email_Automation only for you.
-    </div>
-    <div class="card-actions">
-      <a href="#" class="card-link" (click)="openPopupForm1()">View</a>
-      <button class="card-button" (click)="openPopupForm4()">Update</button>
-    </div>
-
-  </div> -->
   </div>
 
 
@@ -774,7 +927,7 @@
 
 </div>
 
-
+<!-- oem details -->
 <div class="card-container">
   <div class="card">
     <div class="card-header">
@@ -790,7 +943,7 @@
     </div>
   </div>
   
-
+ <!-- region details -->
   <div class="card">
     <div class="card-header">
       <h3 class="card-title">Region Details</h3>
@@ -804,6 +957,8 @@
     </div>
   </div>
 
+
+  <!-- Travel Acc -->
   <div class="card">
     <div class="card-header">
       <h3 class="card-title">Travel Accomodation</h3>
@@ -852,7 +1007,7 @@
 
 
  <!-- Inspector_cv card -->
-<div class="card">
+ <div class="card">
   <div class="card-header">
     <h3 class="card-title">Inspector_cv</h3>
     <img src="assets/department.png" alt="Department Logo" class="card-logo">
@@ -861,12 +1016,57 @@
     This is the content of Inspector_cv.
   </div>
   <div class="card-actions">
-    <button class="card-button" (click)="ViewCv()">View</button>
+    
     <button class="card-button" (click)="togglePopupVisibility()">Open</button>
   </div>
 </div>
 
 
+</div>
+
+<div class="header-container">
+  <h1>INSPECTION DATA</h1>
+</div>
+<div class="Container1">
+  <!-- Header Section -->
   
 
+  <div class="card-container">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Inspection Check List</h3>
+        <img src="assets/department.png" alt="Department Logo" class="card-logo">
+      </div>
+      <div class="card-content">
+        This is the content of Requirement and Observation.
+      </div>
+      <div class="card-actions">
+        
+        <button class="card-button" (click)="toggleDataEntryContainer()">Open</button>
+      </div>
+    </div>
+ 
+
+
+</div>
+
+
+  <!-- <div class="form-container">
+    <h3>{{ isEdit ? 'Edit Item' : 'Add Item' }}</h3>
+
+    <form (ngSubmit)="isEdit ? updateItem() : addItem()">
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" [(ngModel)]="formData.name" required>
+
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" [(ngModel)]="formData.email" required>
+
+      <button type="submit">{{ isEdit ? 'Update' : 'Add' }}</button>
+      <button type="button" (click)="cancelEdit()">Cancel</button>
+    </form>
+  </div>
+</div> -->
+
+    
+  </div>
 </div>

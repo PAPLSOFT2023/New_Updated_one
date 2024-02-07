@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ApicallService } from '../../apicall.service';
 import { response } from 'express';
+import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -8,11 +9,38 @@ import { response } from 'express';
 })
 export class DashboardComponent  {
 
+  selectedFile: File | null = null;
+
   
-constructor(private apicall:ApicallService){
+constructor(private apicall:ApicallService,private http: HttpClient){
 console.log("&&&&&&&&&&&&&&&",sessionStorage.getItem("UserName"));
 
 
+}
+
+onFileChange(event: any): void {
+  this.selectedFile = event.target.files[0];
+}
+uploadFile(): void {
+  console.log("function called")
+  if (!this.selectedFile) {
+    alert('No file selected');
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append('file', this.selectedFile);
+
+  this.http.post('http://localhost:3000/upload', formData)
+    .subscribe(
+      (response: any) => {
+        alert(response.message );
+      },
+      (error) => {
+        console.error('Error uploading file:', error);
+        alert(error);
+      }
+    );
 }
 
 // dataArray: any[] = [
@@ -39,10 +67,6 @@ dataArray: any[] = [];
   ];
 
   viewDetails() {
-   // Implement the logic to show service details, e.g., open a modal or navigate to a details page.
-
-//  Subject,Attention, Total_units,Client_Name,Order_Ref,Customer_Order_Ref,Inspection_Start_Date,Inspection_End_Date,Total_days,Inspectin_Type,Inspection_Time,Inspector_Array
-  
    
   }
 }

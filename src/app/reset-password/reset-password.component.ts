@@ -52,6 +52,9 @@ export class ResetPasswordComponent {
           // Handle success
           console.log('Password updated successfully:', result);
           alert('Password updated successfully');
+          this.password1=""
+          this.password2=""
+          this.email=""
           }
           else{
             alert(result.error)
