@@ -2823,6 +2823,58 @@ app.get('/api/home_usages', (req, res) => {
     });
   });
 
+
+  //to fetch sections 
+  app.get('/api/fetch_section', (req, res) => {
+    const query = 'SELECT section_value FROM section';
+  
+    db1.query(query, (err, results) => {
+      if (err) {
+        console.error('Error fetching values from MySQL:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+        return;
+      }
+  
+      const values = results.map((row) => row.section_value);
+      res.json(values);
+    });
+  });
+
+  //fetch unit details
+//   app.get('/api/fetch_units',(req,res)=>{
+//     const encodedValue = req.query.encodedValue;
+//     const query=`SELECT unit_no FROM unit_details WHERE document_id='${encodedValue}'`;
+//     db1.query(query,(err,result)=>{
+//       if (err) {
+//         console.error('Error storeing values:', err);
+//         res.status(500).json({ error: 'Error storing values' });
+//       } else {
+//         console.log('success:', result);
+
+//         // // const data = result.map(row => row.unit_no); // Extracting unit_no from each row
+//         // res.status(200).json(u_no);
+        
+//       }
+
+//     })
+// })
+app.get('/api/fetch_units', (req, res) => {
+  const encodedValue = req.query.encodedValue;
+  const query = `SELECT unit_no FROM unit_details WHERE document_id='${encodedValue}'`;
+  db1.query(query, (err, result) => {
+      if (err) {
+          console.error('Error storing values:', err);
+          res.status(500).json({ error: 'Error storing values' });
+      } else {
+          console.log('success:', result);
+          const unitNos = result.map(row => row.unit_no); // Extracting unit_no from each row
+          res.status(200).json(unitNos);
+      }
+  });
+});
+
+  
+
 app.get('/api/inspector', (req, res) => {
 
 
@@ -2956,6 +3008,22 @@ app.get('/api/inspector', (req, res) => {
     });
   });
 
+  //api for unit_details table
+  app.post('/api/store_data11',(req,res)=>{
+    const {unit_values,insp_name,  contract_number}=req.body;
+    const query='INSERT INTO unit_details(contract_number,unit_no,inspector_name) VALUES (?,?,?)';
+    db1.query(query,[contract_number,JSON.stringify(unit_values),insp_name],(err,result)=>{
+      if (err) {
+        console.error('Error storeing values:', err);
+        res.status(500).json({ error: 'Error storing values' });
+      } else {
+        console.log('success:', result.insertId);
+        res.status(200).json(result.insertId);
+      }
+
+    })
+  })
+
   //sales when about V job
   app.post('/api/store_data2', (req, res) => {
     // const { contractNumber,region,location,elevator_values,home,dump,pincode,master_customer,work_order_no,customer_name_workorder,project_name,building_name,building_type,inspection_type_sync,site_address,customer_contact_name,customer_contact_number,customer_contact_mailid,total_number_of_units,no_of_elevator,no_of_stops_elevator,no_of_escalator,no_of_travelator,no_of_mw,no_of_dw,no_of_stops_dw,no_of_home_elevator,no_of_stops_home_elevator,no_of_car_parking,travel_expenses_by,accomodation_by,	no_of_visits_as_per_work_order,no_of_mandays_as_per_work_order,inspection_time,tpt6,tpt7,load_test,pmt,rope_condition,client_whatsapp_number,customer_workorder_date, oem_details } = req.body;
@@ -2993,7 +3061,25 @@ app.get('/api/inspector', (req, res) => {
       }
     });
   });
+ 
+  //witness details update
+  app.put('/api/update_data_w',(req,res)=>{
+    const {witness_details,document_id}=req.body;
+    const query = 'UPDATE unit_details SET witness_details=? WHERE document_id=?';
+    db1.query(query,[JSON.stringify(witness_details),document_id],(err,result)=>{
+      if (err) {
+        console.error('Error executing SQL query:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+      } else {
+        if (result.affectedRows === 0) {
+          res.status(404).json({ error: ' not found' });
+        } else {
+          res.json({ message: 'witness updated successfully' });
+        }
+      }
 
+    })
+  })
 
   //p&e update
   app.put('/api/update_data1', (req, res) => {
@@ -3116,14 +3202,16 @@ app.get('/api/inspector', (req, res) => {
     });
   });
 
- 
+
 
   app.get('/api/countRecords', (req, res) => {
     const { name } = req.query;
     console.log(name);
   
     // Construct the SQL query to check if 'name' exists within 'inspector_like' JSON array
-    let sqlQuery = `SELECT COUNT(*) AS count FROM inf_26 WHERE JSON_CONTAINS(inspector_list, ${db1.escape(`"${name}"`)}) and i_approved=0 and i_rejected=0`;
+    // let sqlQuery = `SELECT COUNT(*) AS count FROM inf_26 WHERE JSON_CONTAINS(inspector_list, ${db1.escape(`"${name}"`)}) and i_approved=0 and i_rejected=0`;
+    let sqlQuery = `SELECT COUNT(*) AS count FROM inf_26 WHERE JSON_CONTAINS(inspector_array, ${db1.escape(`{"name": "${name}", "i_approved": 0,"i_rejected":0}`)})`;
+
   
     db1.query(sqlQuery, (error, results) => {
       if (error) {
@@ -3136,12 +3224,105 @@ app.get('/api/inspector', (req, res) => {
     });
   });
 
+  // SELECT JSON_EXTRACT(inspector_array, '$[*].units') as units
+  // FROM inf_26
+  // WHERE JSON_CONTAINS(inspector_array, '{"name": "${name}"}', '$') AND id = "${id}"
+
+  //working query
+    // SELECT JSON_EXTRACT(inspector_array, '$[0].units') as units
+    // FROM inf_26
+    // WHERE JSON_CONTAINS(inspector_array, '{"name": "${name}"}', '$') AND id = "${id}"
+ 
+
+//   app.get('/api/countRecords_u', (req, res) => {
+//     const { name, id } = req.query;
+//     console.log('id is ', id);
+
+    
+    
+
+//     // Construct the SQL query with parameterized query to avoid SQL injection
+//     let sqlQuery = `
+//     SELECT JSON_EXTRACT(inspector_array, '$[0].units') as units
+//     FROM inf_26
+//     WHERE JSON_CONTAINS(inspector_array, '{"name": "${name}"}', '$') AND id = "${id}"
+
+   
+    
+    
+
+//     `;
+
+//     db1.query(sqlQuery, (error, results) => {
+//         if (error) {
+//             res.status(500).json({ error: 'Error fetching units value' });
+//         } else {
+//             const count = results.length > 0 ? results[0].units : null;
+//             console.log('count is ', count);
+//             res.status(200).json(count);
+//         }
+//     });
+// });
+
+app.get('/api/countRecords_u', (req, res) => {
+  const { name, id } = req.query;
+  console.log('id is ', id);
+
+  // Construct the SQL query with parameterized query to avoid SQL injection
+  let sqlQuery = `
+      SELECT inspector_array
+      FROM inf_26
+      WHERE id = ${id};
+  `;
+
+  db1.query(sqlQuery, (error, results) => {
+      if (error) {
+          res.status(500).json({ error: 'Error fetching inspector_array' });
+      } else {
+          const inspectorArray = JSON.parse(results[0].inspector_array);
+          const index = inspectorArray.findIndex(record => record.name === name);
+
+          if (index !== -1) {
+                                // res.status(200).json(index);
+
+
+            let sqlQuery1 = `
+            SELECT JSON_EXTRACT(inspector_array, '$[${index}].units') as units
+            FROM inf_26
+            WHERE JSON_CONTAINS(inspector_array, '{"name": "${name}"}', '$') AND id = "${id}"
+        
+            `;
+        
+            db1.query(sqlQuery1, (error, results) => {
+                if (error) {
+                    res.status(500).json({ error: 'Error fetching units value' });
+                } else {
+                    const count = results.length > 0 ? results[0].units : null;
+                    console.log('count is ', count);
+                    res.status(200).json(count);
+                }
+            });
+
+          } else {
+              res.status(404).json({ error: 'Record not found' });
+          }
+      }
+  });
+});
+
+
+
+  
+  
+
   app.get('/api/countRecords1', (req, res) => {
     const { name } = req.query;
     console.log(name);
   
     // Construct the SQL query to check if 'name' exists within 'inspector_like' JSON array
-    let sqlQuery = `SELECT * FROM inf_26 WHERE JSON_CONTAINS(inspector_list, ${db1.escape(`"${name}"`)}) and i_approved=0 and i_rejected=0`;
+    // let sqlQuery = `SELECT * FROM inf_26 WHERE JSON_CONTAINS(inspector_list, ${db1.escape(`"${name}"`)}) and i_approved=0 and i_rejected=0`;
+    let sqlQuery = `SELECT * FROM inf_26 WHERE JSON_CONTAINS(inspector_array, ${db1.escape(`{"name": "${name}", "i_approved": 0,"i_rejected":0}`)})`;
+
   
     db1.query(sqlQuery, (error, results) => {
       if (error) {
@@ -3158,7 +3339,26 @@ app.get('/api/inspector', (req, res) => {
     console.log(name);
   
     // Construct the SQL query to check if 'name' exists within 'inspector_like' JSON array
-    let sqlQuery = `SELECT * FROM inf_26 WHERE JSON_CONTAINS(inspector_list, ${db1.escape(`"${name}"`)}) and i_approved=1`;
+    // let sqlQuery = `SELECT * FROM inf_26 WHERE JSON_CONTAINS(inspector_list, ${db1.escape(`"${name}"`)}) and i_approved=1`;
+    let sqlQuery = `SELECT * FROM inf_26 WHERE JSON_CONTAINS(inspector_array, ${db1.escape(`{"name": "${name}", "i_approved": 1}`)})`;
+  
+    db1.query(sqlQuery, (error, results) => {
+      if (error) {
+        res.status(500).json({ error: 'Error fetching record count' });
+      } else {
+       
+        res.status(200).json(results);
+      }
+    });
+  });
+
+  app.get('/api/countRecords22', (req, res) => {
+    const { name } = req.query;
+    console.log(name);
+  
+    // Construct the SQL query to check if 'name' exists within 'inspector_like' JSON array
+    // let sqlQuery = `SELECT * FROM inf_26 WHERE JSON_CONTAINS(inspector_list, ${db1.escape(`"${name}"`)}) and i_approved=1`;
+    let sqlQuery = `SELECT * FROM inf_26 WHERE JSON_CONTAINS(inspector_array, ${db1.escape(`{"name": "${name}", "i_approved": 1}`)}) and 	mailset_status=1`;
   
     db1.query(sqlQuery, (error, results) => {
       if (error) {
@@ -3277,24 +3477,452 @@ app.get('/api/inspector', (req, res) => {
   //   });
   // });
 
+  // app.put('/api/approveRecords', (req, res) => {
+  //   const { id} = req.query;
+  //   const { name } = req.query;
+  //   console.log('id is ', id);
+  
+  //   let sqlQuery = 'UPDATE inf_26 SET i_approved = ? WHERE id = ?';
+    
+  
+  //   // Use parameterized queries to prevent SQL injection
+  //   db1.query(sqlQuery, (error, results) => {
+  //     if (error) {
+  //       console.error('Error updating record:', error);
+  //       res.status(500).json({ error: 'Error updating record' });
+  //     } else {
+  //       res.status(200).json({ message: 'Record approved successfully' });
+  //     }
+  //   });
+   
 
+   
+  // });
 
   app.put('/api/approveRecords', (req, res) => {
-    const { id } = req.query;
-    console.log('id is ', id);
+    const { id, reason, name } = req.query;
   
-    // Construct the SQL query with parameter placeholders
-    let sqlQuery = 'UPDATE inf_26 SET i_approved = ? WHERE id = ?';
+    // Construct the SQL query to retrieve the existing JSON data
+    let selectQuery = 'SELECT name_reason, inspector_array FROM inf_26 WHERE id = ?';
   
-    // Use parameterized queries to prevent SQL injection
-    db1.query(sqlQuery, [1, id], (error, results) => {
-      if (error) {
-        console.error('Error updating record:', error);
-        res.status(500).json({ error: 'Error updating record' });
+    db1.query(selectQuery, [id], (selectError, selectResults) => {
+      if (selectError) {
+        console.error('Error retrieving record:', selectError);
+        res.status(500).json({ error: 'Error retrieving record' });
       } else {
-        res.status(200).json({ message: 'Record approved successfully' });
+        let existingNameReason = selectResults[0].name_reason || '{}'; // Get existing name_reason data or initialize an empty object if none
+        let existingInspectorArray = selectResults[0].inspector_array || '[]'; // Get existing inspector_array data or initialize an empty array if none
+  
+        try {
+          // Parse the existing JSON strings
+          let existingNameReasonObject = JSON.parse(existingNameReason);
+          let inspectorArray = JSON.parse(existingInspectorArray);
+  
+          // Add a new key-value pair to the existing name_reason object
+          existingNameReasonObject[name] = reason;
+  
+          // Convert the updated object back to a JSON string
+          let updatedNameReason = JSON.stringify(existingNameReasonObject);
+  
+          // Find the element in the inspector_array that matches the provided name
+          const foundIndex = inspectorArray.findIndex(item => item.name === name);
+  
+          if (foundIndex !== -1) {
+            // Update the i_approved field to 1 for the found inspector
+            inspectorArray[foundIndex].i_approved = 1;
+  
+            // Convert the modified array back to JSON
+            const updatedInspectorArray = JSON.stringify(inspectorArray);
+  
+            // Construct the SQL query to update the record with the modified JSON strings
+            let updateQuery = 'UPDATE inf_26 SET inspector_array = ? WHERE id = ?';
+  
+            // Use parameterized queries to prevent SQL injection
+            db1.query(updateQuery, [updatedInspectorArray, id], (updateError, updateResults) => {
+              if (updateError) {
+                console.error('Error updating record:', updateError);
+                res.status(500).json({ error: 'Error updating record' });
+              } else {
+                res.status(200).json({ message: 'Record approved successfully' });
+              }
+            });
+          } else {
+            res.status(404).json({ message: 'Record not found in inspector_array' });
+          }
+        } catch (parseError) {
+          console.error('Error parsing JSON:', parseError);
+          res.status(500).json({ error: 'Error parsing JSON' });
+        }
       }
     });
+ 
+  });
+  
+
+  // app.put('/api/approveRecords', (req, res) => {
+  //   const { name } = req.query;
+  //   console.log('name is ', name);
+  
+  //   // Retrieve the existing inspector_array from the database for the given name
+  //   db1.query('SELECT inspector_array FROM inf_26 WHERE JSON_CONTAINS(inspector_array, ?)', [`{"name": "${name}"}`], (error, results) => {
+  //     if (error) {
+  //       console.error('Error retrieving data:', error);
+  //       res.status(500).json({ error: 'Error retrieving data' });
+  //     } else {
+  //       try {
+  //         if (results.length > 0) {
+  //           const inspectorArray = JSON.parse(results[0].inspector_array);
+  
+  //           // Find the element in the array that matches the provided name
+  //           const foundIndex = inspectorArray.findIndex(item => item.name === name);
+  
+  //           if (foundIndex !== -1) {
+  //             // Update the i_approved field to 1 for the found inspector
+  //             inspectorArray[foundIndex].i_approved = 1;
+  
+  //             // Convert the modified array back to JSON
+  //             const updatedInspectorArray = JSON.stringify(inspectorArray);
+  
+  //             // Update the table with the modified inspector_array
+  //             db1.query(
+  //               'UPDATE inf_26 SET inspector_array = ? WHERE JSON_CONTAINS(inspector_array, ?)',
+  //               [updatedInspectorArray, `{"name": "${name}"}`],
+  //               (updateError, updateResults) => {
+  //                 if (updateError) {
+  //                   console.error('Error updating record:', updateError);
+  //                   res.status(500).json({ error: 'Error updating record' });
+  //                 } else {
+  //                   res.status(200).json({ message: 'Record approved successfully' });
+  //                 }
+  //               }
+  //             );
+  //           } else {
+  //             res.status(404).json({ message: 'Record not found' });
+  //           }
+  //         } else {
+  //           res.status(404).json({ message: 'Record not found' });
+  //         }
+  //       } catch (parseError) {
+  //         console.error('Error parsing JSON:', parseError);
+  //         res.status(500).json({ error: 'Error parsing JSON' });
+  //       }
+  //     }
+  //   });
+  // });
+  
+
+
+  // app.put('/api/approveRecords', (req, res) => {
+  //   const { name } = req.query;
+  //   console.log('name is ', name);
+  
+  //   // Retrieve the existing inspector_array from the database for the given name
+  //   db1.query('SELECT inspector_array FROM inf_26 WHERE JSON_CONTAINS(inspector_array, ?)', [`{"name": "${name}"}`], (error, results) => {
+  //     if (error) {
+  //       console.error('Error retrieving data:', error);
+  //       res.status(500).json({ error: 'Error retrieving data' });
+  //     } else {
+  //       try {
+  //         if (results.length > 0) {
+  //           const inspectorArray = JSON.parse(results[0].inspector_array);
+  
+  //           // Find the element in the array that matches the provided name
+  //           const foundIndex = inspectorArray.findIndex(item => item.name === name);
+  
+  //           if (foundIndex !== -1) {
+  //             // Update the i_approved field to 1 for the found inspector
+  //             inspectorArray[foundIndex].i_approved = 1;
+  
+  //             // Convert the modified array back to JSON
+  //             const updatedInspectorArray = JSON.stringify(inspectorArray);
+  
+  //             // Update the table with the modified inspector_array
+  //             db1.query(
+  //               'UPDATE inf_26 SET inspector_array = ? WHERE JSON_CONTAINS(inspector_array, ?)',
+  //               [updatedInspectorArray, `{"name": "${name}"}`],
+  //               (updateError, updateResults) => {
+  //                 if (updateError) {
+  //                   console.error('Error updating record:', updateError);
+  //                   res.status(500).json({ error: 'Error updating record' });
+  //                 } else {
+  //                   res.status(200).json({ message: 'Record approved successfully' });
+  //                 }
+  //               }
+  //             );
+  //           } else {
+  //             res.status(404).json({ message: 'Record not found' });
+  //           }
+  //         } else {
+  //           res.status(404).json({ message: 'Record not found' });
+  //         }
+  //       } catch (parseError) {
+  //         console.error('Error parsing JSON:', parseError);
+  //         res.status(500).json({ error: 'Error parsing JSON' });
+  //       }
+  //     }
+  //   });
+  // });
+  
+  
+
+
+
+  //rejection reason
+  app.put('/api/approveRecords3', (req, res) => {
+    const { id, reason, name } = req.query;
+  
+    // Construct the SQL query to retrieve the existing JSON data
+    let selectQuery = 'SELECT name_reason, inspector_array FROM inf_26 WHERE id = ?';
+  
+    db1.query(selectQuery, [id], (selectError, selectResults) => {
+      if (selectError) {
+        console.error('Error retrieving record:', selectError);
+        res.status(500).json({ error: 'Error retrieving record' });
+      } else {
+        let existingNameReason = selectResults[0].name_reason || '{}'; // Get existing name_reason data or initialize an empty object if none
+        let existingInspectorArray = selectResults[0].inspector_array || '[]'; // Get existing inspector_array data or initialize an empty array if none
+  
+        try {
+          // Parse the existing JSON strings
+          let existingNameReasonObject = JSON.parse(existingNameReason);
+          let inspectorArray = JSON.parse(existingInspectorArray);
+  
+          // Add a new key-value pair to the existing name_reason object
+          existingNameReasonObject[name] = reason;
+  
+          // Convert the updated object back to a JSON string
+          let updatedNameReason = JSON.stringify(existingNameReasonObject);
+  
+          // Find the element in the inspector_array that matches the provided name
+          const foundIndex = inspectorArray.findIndex(item => item.name === name);
+  
+          if (foundIndex !== -1) {
+            // Update the i_approved field to 1 for the found inspector
+            inspectorArray[foundIndex].i_rejected = 1;
+  
+            // Convert the modified array back to JSON
+            const updatedInspectorArray = JSON.stringify(inspectorArray);
+  
+            // Construct the SQL query to update the record with the modified JSON strings
+            let updateQuery = 'UPDATE inf_26 SET reason = ?, name_reason = ?, inspector_array = ? WHERE id = ?';
+  
+            // Use parameterized queries to prevent SQL injection
+            db1.query(updateQuery, [ reason, updatedNameReason, updatedInspectorArray, id], (updateError, updateResults) => {
+              if (updateError) {
+                console.error('Error updating record:', updateError);
+                res.status(500).json({ error: 'Error updating record' });
+              } else {
+                res.status(200).json({ message: 'Record approved successfully' });
+              }
+            });
+          } else {
+            res.status(404).json({ message: 'Record not found in inspector_array' });
+          }
+        } catch (parseError) {
+          console.error('Error parsing JSON:', parseError);
+          res.status(500).json({ error: 'Error parsing JSON' });
+        }
+      }
+    });
+  });
+
+ 
+
+  // app.get('/api/countRecords', (req, res) => {
+  //   const { name } = req.query;
+  //   console.log(name);
+  
+  //   // Construct the SQL query to check if 'name' exists within 'inspector_like' JSON array
+  //   let sqlQuery = `SELECT COUNT(*) AS count FROM inf_26 WHERE JSON_CONTAINS(inspector_list, ${db1.escape(`"${name}"`)}) and i_approved=0 and i_rejected=0`;
+  
+  //   db1.query(sqlQuery, (error, results) => {
+  //     if (error) {
+  //       res.status(500).json({ error: 'Error fetching record count' });
+  //     } else {
+  //       const count = results[0].count;
+  //       console.log(count);
+  //       res.status(200).json(count);
+  //     }
+  //   });
+  // });
+
+  // app.get('/api/countRecords1', (req, res) => {
+  //   const { name } = req.query;
+  //   console.log(name);
+  
+  //   // Construct the SQL query to check if 'name' exists within 'inspector_like' JSON array
+  //   let sqlQuery = `SELECT * FROM inf_26 WHERE JSON_CONTAINS(inspector_list, ${db1.escape(`"${name}"`)}) and i_approved=0 and i_rejected=0`;
+  
+  //   db1.query(sqlQuery, (error, results) => {
+  //     if (error) {
+  //       res.status(500).json({ error: 'Error fetching record count' });
+  //     } else {
+       
+  //       res.status(200).json(results);
+  //     }
+  //   });
+  // });
+
+  // app.get('/api/countRecords2', (req, res) => {
+  //   const { name } = req.query;
+  //   console.log(name);
+  
+  //   // Construct the SQL query to check if 'name' exists within 'inspector_like' JSON array
+  //   let sqlQuery = `SELECT * FROM inf_26 WHERE JSON_CONTAINS(inspector_list, ${db1.escape(`"${name}"`)}) and i_approved=1`;
+  
+  //   db1.query(sqlQuery, (error, results) => {
+  //     if (error) {
+  //       res.status(500).json({ error: 'Error fetching record count' });
+  //     } else {
+       
+  //       res.status(200).json(results);
+  //     }
+  //   });
+  // });
+
+  // app.get('/api/countRecords22', (req, res) => {
+  //   const { name } = req.query;
+  //   console.log(name);
+  
+  //   // Construct the SQL query to check if 'name' exists within 'inspector_like' JSON array
+  //   // let sqlQuery = `SELECT * FROM inf_26 WHERE JSON_CONTAINS(inspector_list, ${db1.escape(`"${name}"`)}) and i_approved=1`;
+  //   let sqlQuery = `SELECT * FROM inf_26 WHERE JSON_CONTAINS(inspector_array, ${db1.escape(`{"name": "${name}", "i_approved": 1}`)}) and 	mailset_status=1`;
+  
+  //   db1.query(sqlQuery, (error, results) => {
+  //     if (error) {
+  //       res.status(500).json({ error: 'Error fetching record count' });
+  //     } else {
+       
+  //       res.status(200).json(results);
+  //     }
+  //   });
+  // });
+
+  // //reschedule request 
+  // app.get('/api/countRecords3', (req, res) => {
+  //   const { name } = req.query;
+  //   console.log(name);
+  
+  //   // Construct the SQL query to check if 'name' exists within 'inspector_like' JSON array
+  //   let sqlQuery = `SELECT * FROM inf_26 WHERE i_rejected=1`;
+  
+  //   db1.query(sqlQuery, (error, results) => {
+  //     if (error) {
+  //       res.status(500).json({ error: 'Error fetching record count' });
+  //     } else {
+       
+  //       res.status(200).json(results);
+  //     }
+  //   });
+  // });
+
+  
+
+
+  // app.get('/api/approveRecords', (req, res) => {
+  //   const { id } = req.query;
+  //   console.log('id is ',id);
+  
+  //   // Construct the SQL query to check if 'name' exists within 'inspector_like' JSON array
+  //   let sqlQuery = `UPDATE inf_26 SET i_approved = ? where id=?`;
+  
+  //   db1.query(sqlQuery,[1,id] ,(error, results) => {
+  //     if (error) {
+  //       res.status(500).json({ error: 'Error fetching record count' });
+  //     } else {
+       
+  //       res.status(200).json(results);
+  //     }
+  //   });
+  // });
+
+  // app.put('/api/approveRecords', (req, res) => {
+  //   const { name } = req.query;
+  
+  //   // Update i_approved to 1 where 'name' matches
+  //   const updateQuery = `
+  //     UPDATE inf_26
+  //     SET inspector_array = JSON_SET(
+  //       inspector_array,
+  //       CONCAT('$[', JSON_UNQUOTE(JSON_SEARCH(inspector_array, 'one', ?, NULL, '$[*].name')), '].i_approved'),
+  //       1
+  //     )
+  //     WHERE JSON_SEARCH(inspector_array, 'one', ?, NULL, '$[*].name') IS NOT NULL
+  //   `;
+  
+  //   db1.query(updateQuery, [name, name], (error, results) => {
+  //     if (error) {
+  //       console.error('Error updating data:', error);
+  //       res.status(500).json({ error: 'Error updating data' });
+  //     } else {
+  //       if (results.affectedRows > 0) {
+  //         res.status(200).json({ message: 'i_approved updated successfully' });
+  //       } else {
+  //         res.status(404).json({ message: 'No matching data found for the given name' });
+  //       }
+  //     }
+  //   });
+  // });
+  
+
+  // app.put('/api/approveRecords', (req, res) => {
+  //   const { name } = req.query;
+  
+  //   // Fetch the JSON array for the specific record based on 'name'
+  //   const selectQuery = `SELECT inspector_array FROM inf_26 WHERE JSON_CONTAINS(inspector_array, '{"name": "${name}" }')`;
+  
+  //   db1.query(selectQuery, (error, results) => {
+  //     if (error) {
+  //       console.error('Error fetching data:', error);
+  //       res.status(500).json({ error: 'Error fetching data' });
+  //     } else {
+  //       if (results.length > 0) {
+  //         let inspectorArray = JSON.parse(results[0].inspector_array);
+  
+  //         // Update the 'i_approved' field to 1 where 'name' matches
+  //         inspectorArray = inspectorArray.map(inspector => {
+  //           if (inspector.name === name) {
+  //             inspector.i_approved = 1;
+  //           }
+  //           return inspector;
+  //         });
+  
+  //         // Update the modified JSON array back into the database
+  //         const updateQuery = `UPDATE inf_26 SET inspector_array = ? WHERE JSON_CONTAINS(inspector_array, '{"name": "${name}" }')`;
+  
+  //         db1.query(updateQuery, [JSON.stringify(inspectorArray)], (error, results) => {
+  //           if (error) {
+  //             console.error('Error updating data:', error);
+  //             res.status(500).json({ error: 'Error updating data' });
+  //           } else {
+  //             res.status(200).json({ message: 'i_approved updated successfully' });
+  //           }
+  //         });
+  //       } else {
+  //         res.status(404).json({ message: 'No matching data found for the given name' });
+  //       }
+  //     }
+  //   });
+  // });
+
+
+
+  // app.put('/api/approveRecords', (req, res) => {
+  //   const { id } = req.query;
+  //   console.log('id is ', id);
+  
+  //   // Construct the SQL query with parameter placeholders
+  //   let sqlQuery = 'UPDATE inf_26 SET i_approved = ? WHERE id = ?';
+  
+  //   // Use parameterized queries to prevent SQL injection
+  //   db1.query(sqlQuery, [1, id], (error, results) => {
+  //     if (error) {
+  //       console.error('Error updating record:', error);
+  //       res.status(500).json({ error: 'Error updating record' });
+  //     } else {
+  //       res.status(200).json({ message: 'Record approved successfully' });
+  //     }
+  //   });
     // const { name } = req.query;
 
     // // Update i_approved to 1 where 'name' matches
@@ -3316,7 +3944,7 @@ app.get('/api/inspector', (req, res) => {
     //     }
     //   }
     // });
-  });
+  // });
   
 
   // app.put('/api/approveRecords3', (req, res) => {
@@ -3341,43 +3969,43 @@ app.get('/api/inspector', (req, res) => {
   // });
 
 
-  app.put('/api/approveRecords3', (req, res) => {
-    const { id, reason, name } = req.query;
+  // app.put('/api/approveRecords3', (req, res) => {
+  //   const { id, reason, name } = req.query;
   
-    // Construct the SQL query to retrieve the existing JSON data
-    let selectQuery = 'SELECT name_reason FROM inf_26 WHERE id = ?';
+  //   // Construct the SQL query to retrieve the existing JSON data
+  //   let selectQuery = 'SELECT name_reason FROM inf_26 WHERE id = ?';
   
-    db1.query(selectQuery, [id], (selectError, selectResults) => {
-      if (selectError) {
-        console.error('Error retrieving record:', selectError);
-        res.status(500).json({ error: 'Error retrieving record' });
-      } else {
-        let existingData = selectResults[0].name_reason || '{}'; // Get existing data or initialize an empty object if none
+  //   db1.query(selectQuery, [id], (selectError, selectResults) => {
+  //     if (selectError) {
+  //       console.error('Error retrieving record:', selectError);
+  //       res.status(500).json({ error: 'Error retrieving record' });
+  //     } else {
+  //       let existingData = selectResults[0].name_reason || '{}'; // Get existing data or initialize an empty object if none
   
-        // Parse the existing JSON string
-        let existingObject = JSON.parse(existingData);
+  //       // Parse the existing JSON string
+  //       let existingObject = JSON.parse(existingData);
   
-        // Add a new key-value pair to the existing object
-        existingObject[name] = reason;
+  //       // Add a new key-value pair to the existing object
+  //       existingObject[name] = reason;
   
-        // Convert the updated object back to a JSON string
-        let updatedData = JSON.stringify(existingObject);
+  //       // Convert the updated object back to a JSON string
+  //       let updatedData = JSON.stringify(existingObject);
   
-        // Construct the SQL query to update the record with the modified JSON string
-        let updateQuery = 'UPDATE inf_26 SET i_rejected = ?, reason = ?, name_reason = ? WHERE id = ?';
+  //       // Construct the SQL query to update the record with the modified JSON string
+  //       let updateQuery = 'UPDATE inf_26 SET i_rejected = ?, reason = ?, name_reason = ? WHERE id = ?';
   
-        // Use parameterized queries to prevent SQL injection
-        db1.query(updateQuery, [1, reason, updatedData, id], (updateError, updateResults) => {
-          if (updateError) {
-            console.error('Error updating record:', updateError);
-            res.status(500).json({ error: 'Error updating record' });
-          } else {
-            res.status(200).json({ message: 'Record approved successfully' });
-          }
-        });
-      }
-    });
-  });
+  //       // Use parameterized queries to prevent SQL injection
+  //       db1.query(updateQuery, [1, reason, updatedData, id], (updateError, updateResults) => {
+  //         if (updateError) {
+  //           console.error('Error updating record:', updateError);
+  //           res.status(500).json({ error: 'Error updating record' });
+  //         } else {
+  //           res.status(200).json({ message: 'Record approved successfully' });
+  //         }
+  //       });
+  //     }
+  //   });
+  // });
   
   
   

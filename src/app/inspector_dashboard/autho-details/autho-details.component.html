@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Four Column Five Row Table</title>
+
+</head>
+<body>
+
+<table>
+    <thead>
+        <tr>
+            <th colspan="4">Inspection Conducted in the Presence Of</th>
+        </tr>
+        <tr>
+            <th>Name</th>
+            <th>Designation</th>
+            <th>Company</th>
+            <th>Contact Number</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- <tr *ngFor="let row of rows">
+            <td contenteditable="true"></td>
+            <td contenteditable="true"></td>
+            <td contenteditable="true"></td>
+            <td contenteditable="true"></td>
+          </tr> -->
+
+          <tr *ngFor="let row of rows">
+            <td>
+                <input type="text" [(ngModel)]="row.name">
+            </td>
+            <td>
+                <input type="text" [(ngModel)]="row.designation">
+            </td>
+            <td>
+                <input type="text" [(ngModel)]="row.company">
+            </td>
+            <td>
+                <input type="text" [(ngModel)]="row.contact_number">
+            </td>
+        </tr>
+           
+     </tbody>
+  
+</table>
+<div class="btn-container">
+    <button class="btn" (click)="addRow()">Add Row</button>
+    <button class="btn" (click)="show()">Proceed</button>
+</div>
+</body>
+</html>

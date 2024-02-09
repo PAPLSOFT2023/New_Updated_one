@@ -30,7 +30,14 @@ import { ConfirmPageComponent } from './confirm-page/confirm-page.component';
 import { SchedulePageComponent } from './inspector_dashboard/schedule-page/schedule-page.component';
 import { RescheduleRequestComponent } from './INF/inspection-inf/reschedule-request/reschedule-request.component';
 import { MailResponseComponent } from './mail-response/mail-response.component';
+import { BasicDateComponent } from './inspector_dashboard/basic-date/basic-date.component';
+import { UnitsDetailsComponent } from './inspector_dashboard/units-details/units-details.component';
+import { AuthoDetailsComponent } from './inspector_dashboard/autho-details/autho-details.component';
+import { ListingUnitsComponent } from './inspector_dashboard/listing-units/listing-units.component';
+import { SectionComponent } from './inspector_dashboard/section/section.component';
+import { BreifSpecComponent } from './inspector_dashboard/breif-spec/breif-spec.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+// import { UnitDetailsComponent } from './inspector_dashboard/unit-details/unit-details.component';
 const routes: Routes = [
 
   {path:'app-home',component:AppHomeComponent,},
@@ -82,7 +89,13 @@ const routes: Routes = [
          {path:'sales_v/:selectedOption',component:SalesVComponent},
          {path:'plan_eg_home',component:PlanningEngHomeComponent },
          {path:'plan_eng_inf/:c_no',component:PlanningEngInfComponent},
-         {path:'pdf/:c_no',component:InfPdfComponent}
+         {path:'pdf/:c_no',component:InfPdfComponent},
+         {path:'basic_data/:c_no',component:BasicDateComponent},
+         {path:'unit_details/:c_no',component:UnitsDetailsComponent},
+         {path:'auth/:c_no',component:AuthoDetailsComponent},
+         {path:'unit/:c_no',component:ListingUnitsComponent},
+         {path:'section/:c_no',component:SectionComponent},
+         {path:'spec/:c_no',component:BreifSpecComponent}
          
     ],
   },

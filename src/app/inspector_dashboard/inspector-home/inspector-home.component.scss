@@ -162,10 +162,16 @@ cursor: pointer;
     margin-top: 10px;
     cursor: pointer;
   }
-
-  .apply-button:hover {
-    background-color: #3e8e41;
+  .apply-button:disabled {
+    /* Your button styles when it's disabled */
+    /* Add your disabled button styles here */
+    /* For example: */
+    background-color: #cccccc; /* Grey color */
+    color: #999999; /* Lighter text color */
+    cursor: not-allowed;
+    
   }
+
   
 
   /* .button{

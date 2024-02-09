@@ -1,0 +1,86 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   
+    <title>Rows Columns Input Fields</title>
+</head>
+<body>
+    <div class="container">
+        <h2>UNIT DETAILS</h2>
+        <table>
+            <tbody>
+               
+                <tr class="row1">
+                    <td>Document ID</td>
+                    <td>1352</td>
+                    <td>Report No</td>
+                    <td>PAPL/2024/A1-A4/1352</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr class="row">
+                    <td>Unit No</td>
+                    <td>Machine S No</td>
+                    <td>Usage</td>
+                    <td>Capacity</td>
+                    <td>Stops/Openings</td>
+                    <td>Speed MPS</td>
+                </tr>
+
+                <tr *ngFor="let _ of [].constructor(vals); let i = index">
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td>
+                        <select>
+                            <option value="Option 1">PASSENGER</option>
+                            <option value="Option 2">CUSTOMER</option>
+                            <option value="Option 3">LUCKAGE</option>
+                        </select>
+                    </td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+                    <td><input type="text"></td>
+               
+                </tr>
+                
+            </tbody>
+        </table>
+        <div class="btn1">
+        <button class="ubtn">Update</button>
+        <button class="pbtn">Print</button>
+        <button class="dbtn">Delete</button>
+    </div>
+    </div>
+</body>
+</html> -->
+
+<!-- <div class="mat-card">
+    <div class="mat-card">
+        <p>Value of val: {{ val }}</p>
+        ... rest of your code
+     </div>
+    <mat-form-field appearance="outline" class="form-field3" *ngFor="let _ of [].constructor(val); let i = index">
+        <mat-label>NomenClature</mat-label>
+                <input matInput [(ngModel)]="moving_walk_fieldValues[i]" name="moving_walk{{i}}">
+                
+    </mat-form-field>
+
+    
+    <mat-dialog-actions>
+        <button style="margin-left: 180px;" mat-raised-button  color="primary" mat-dialog-close>Ok</button>
+    </mat-dialog-actions>
+</div> -->
+
+<div class="mat-card">
+    <mat-form-field appearance="outline" class="form-field3" *ngFor="let _ of arrayFromVal(); let i = index">
+      <mat-label>Unit No</mat-label>
+      <input matInput [(ngModel)]="moving_walk_fieldValues[i]" name="moving_walk{{i}}">
+    </mat-form-field>
+  
+    <mat-dialog-actions>
+      <button style="margin-left: 180px;" mat-raised-button color="primary" mat-dialog-close>Ok</button>
+    </mat-dialog-actions>
+  </div>
+  

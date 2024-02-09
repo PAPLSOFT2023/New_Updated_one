@@ -452,6 +452,20 @@ openDialog3(){
     const inspector_list = this.dataService.inspector_list;
 
     const inspector_array = this.dataService.inspector_array;
+    // inspector_array.push({name:this.inspector_name, headChecked:false,fromDate:new Date(),toDate:new Date(), i_approved:0,i_rejected:0,units:checkedCount});
+// Check if the array is empty
+if (inspector_array.length === 0) {
+  // Push the new object into the array
+  inspector_array.push({
+      name: this.inspector_name,
+      headChecked: false,
+      fromDate: new Date(),
+      toDate: new Date(),
+      i_approved: 0,
+      i_rejected: 0,
+      units: checkedCount
+  });
+}
 
     inspector_list.push(this.inspector_name);
     console.log('items',checked_items_values);
