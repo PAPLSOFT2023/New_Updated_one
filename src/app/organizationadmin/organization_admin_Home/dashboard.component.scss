@@ -38,36 +38,39 @@
 
 
 .card-title {
-  font-size: 18px;
+  color: #ffffff;
+
+  font-size: 20px;
   margin-bottom: 10px;
 }
 
 .card-text {
-  font-size: 16px;
-  color: #666;
+  font-size: 14px;
+  color: #ffffff;
 }
 
 
 .card-body {
+  
   padding: 20px;
-   /* Gradient color for card-body */
+   /* Gradie22nt color for card-body */
 }
 
 .card-body-1 {
-  background: linear-gradient(45deg, #ff6726, #FFB696);
+  background: linear-gradient(45deg, #FF8551, #FFAE85);
    /* Gradient color for card 1 */
 }
 
 .card-body-2 {
-  background: linear-gradient(45deg, #07C37D, #0BF4A7);
+  background: linear-gradient(45deg, #00C57E, #08F394);
   /* Gradient color for card 2 */
 }
 
 .card-body-3 {
-  background: linear-gradient(45deg, #FF5D6C, #FF8D9C);
+  background: linear-gradient(45deg, #F94960, #FF8C9A);
    /* Gradient color for card 3 */
 }
 
 .card-body-4 {
-  background: linear-gradient(45deg, #00A6AE, #63E1E3); /* Gradient color for card 4 */
+  background: linear-gradient(45deg, #00A6AE, #00DDE9); /* Gradient color for card 4 */
 }
