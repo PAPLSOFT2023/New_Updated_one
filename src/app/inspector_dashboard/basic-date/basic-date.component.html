@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <title>Styled Project Information</title>
+</head>
+<body>
+   
+    <p>BASIC DATA</p>
+    <table>
+        <thead>
+            <th>Project Details</th>
+            <th>KRC Mind Space</th>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Location</td>
+                <td>{{inf_26.location}}</td>
+            </tr>
+            <tr>
+                <td>No. Of Units</td>
+                <td>{{recordCount}}<img class="plus" [src]="plusloc" (click)="openDialog1()" alt="Logo"> 
+                </td>  
+            </tr>
+              <tr>
+                <td>No. Of Inspection Days</td>
+                <td>{{differenceInDays}}</td>
+            </tr>
+            <tr>
+                <td>Shift</td>
+                <td>{{inf_26.inspection_time_ins}}</td>
+            </tr>
+        </tbody>
+      
+
+      
+    </table>
+    <button class="btn" (click)="view()">Proceed</button>
+    <router-outlet ></router-outlet>
+
+    
+</body>
+</html>
+
+<!-- {{inf_26|json}} -->
+
+<!-- <p>{{inf_26}}</p> -->
+
+
+
+

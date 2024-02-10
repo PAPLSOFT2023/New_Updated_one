@@ -270,7 +270,34 @@ export class InspectorHomeComponent implements OnInit {
     }
 
   }
- 
+
+  public isSendMailEnabled(inspectorArrayString: string): boolean {
+    try {
+      const inspectorArray: any[] = JSON.parse(inspectorArrayString);
+      
+      console.log('Parsed inspectorArray:', inspectorArray);
+      
+      if (Array.isArray(inspectorArray) && inspectorArray.length > 0) {
+        const result = inspectorArray.every((inspector: any) => inspector.i_approved === 1);
+        console.log('All i_approved values are 1:', result);
+        
+        // Check for name and headChecked condition
+        const nameMatchesAndHeadChecked = inspectorArray.some((inspector: any) => {
+          return inspector.name === this.name && inspector.headChecked === true;
+        });
+  
+        console.log('Name matches and headChecked is true:', nameMatchesAndHeadChecked);
+        
+        return result && nameMatchesAndHeadChecked;
+      } else {
+        console.log('Array is not valid or empty');
+        return false; // If inspectorArray is not an array or empty, disable the button
+      }
+    } catch (error) {
+      console.error('Error processing inspectorArray:', error);
+      return false; // Return false in case of any errors
+    }
+  }
 
 
 
@@ -285,7 +312,7 @@ export class InspectorHomeComponent implements OnInit {
       .subscribe(
         count => {
             this.records = count;
-            // console.log("IIIIIIIiiiiiiiiiii",count)
+            console.log("IIIIIIIiiiiiiiiiii",count)
         },
         error => {
           console.error('Error fetching record count:', error);

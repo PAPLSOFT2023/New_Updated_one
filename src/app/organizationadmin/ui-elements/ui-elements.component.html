@@ -639,7 +639,11 @@
 <!-- your-component.component.html -->
 <div class="manualentry" *ngIf="flag_manual_Entry">
   <div *ngIf="flag_manual_Entry" class="data-entry-container1">
+<<<<<<< HEAD
     <h2 class="center-text">ENTRY MODE</h2>
+=======
+    <h2 >ENTRY MODE</h2>
+>>>>>>> 44a0fa0958def93f7a54f066afd3c538f24c9d27
 
     <div class="crud-container">
       <button class="openbtn" (click)="OpenEntry()">ADD</button>
@@ -655,7 +659,7 @@
             <th>Dropdown</th>
             <th>Actions</th>
           </tr>
-          <tr *ngFor="let item of items">
+          <tr class="scroll_td" *ngFor="let item of items">
             <td class="scrollable-td">{{ item.Product }}</td>
             <td class="scrollable-td">{{ item.Parts }}</td>
             <td class="scrollable-td">{{ item.Description }}</td>

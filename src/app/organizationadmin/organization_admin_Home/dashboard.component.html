@@ -1,42 +1,63 @@
-<div class="container">
-    <header class="header">
-      <img class="header-logo" src="assets\papl_logo.png" alt="PAPL Services Logo">
-      <h1>PAPL Services</h1>
-      <p>#thinkinghigh</p>
-    </header>
-    <div class="card-container">
-      <div class="card" *ngFor="let service of services">
-        <img class="card-image" [src]="service.imageUrl" alt="{{ service.name }}" />
-        <div class="card-content">
-          <h2>{{ service.name }}</h2>
-          <p>{{ service.description }}</p>
-          <div class="features">
-            <div class="feature">
-              <i class="fas fa-check"></i>
-              <span>Comprehensive Inspections</span>
-            </div>
-            <div class="feature">
-              <i class="fas fa-check"></i>
-              <span>Experienced Technicians</span>
-            </div>
-            <div class="feature">
-              <i class="fas fa-check"></i>
-              <span>Thorough Reports</span>
-            </div>
-            <div class="feature">
-              <i class="fas fa-check"></i>
-              <span>Online Scheduling</span>
-            </div>
+<header class="header">
+  <div class="search-icon">
+    <i class="fas fa-search"></i> <!-- Font Awesome search icon -->
+  </div>
+  <div class="login-details_div">
+    <p class="login_Details">{{userEmail}}</p> 
+  </div>
+</header>
+
+<div class="container-wrapper">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-lg-4 mb-4">
+        <div class="card">
+          <div class="card-body card-body-1">
+            <h5 class="card-title">30</h5>
+            <p class="card-text">Total Employees</p>
           </div>
-        </div>
-        <div class="card-footer">
-          <button (click)="viewDetails()">View Details</button>
-          <input type="file" (change)="onFileChange($event)" />
-<button (click)="uploadFile()">Upload</button>
         </div>
       </div>
     </div>
   </div>
 
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-lg-4 mb-4">
+        <div class="card">
+          <div class="card-body card-body-2">
+            <h5 class="card-title">12</h5>
+            <p class="card-text">Total Inspectors</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-  
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-lg-4 mb-4">
+        <div class="card">
+          <div class="card-body card-body-3">
+            <h5 class="card-title">12</h5>
+            <p class="card-text">Some content</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-lg-4 mb-4">
+        <div class="card">
+          <div class="card-body card-body-4">
+            <h5 class="card-title">12</h5>
+            <p class="card-text">Some content</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

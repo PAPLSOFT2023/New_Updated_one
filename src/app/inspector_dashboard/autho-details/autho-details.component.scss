@@ -1,0 +1,105 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: whitesmoke;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 10px;
+}
+table {
+    width: 70%;
+    border-collapse: collapse;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+    border-radius: 8px;
+    overflow: hidden;
+}
+td input[type="text"] {
+    border: none; /* Hide the border of input boxes */
+    outline: none; /* Hide the outline when focused */
+    width: 100%; /* Ensure the input boxes expand to fill the table cell */
+    box-sizing: border-box; /* Include padding and border in the width calculation */
+  }
+th, td {
+    padding: 10px;
+    width: 200px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+th {
+    color: white;
+    text-transform: uppercase;
+    font-size: 18px;
+    text-align: center;
+}
+td {
+    position: relative;
+}
+td:before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 0;
+    width: 1px;
+    height: 80%;
+    background: #ddd;
+    transform: translateY(-50%);
+}
+td[contenteditable="true"] {
+    width: 150px; 
+    min-width: 150px; 
+    max-width: 150px; 
+    text-align: center;
+}
+td[contenteditable]:focus{
+    outline:none;
+}
+.btn-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+.btn {
+    padding: 10px 20px;
+    background-image: linear-gradient(125deg, #2c3e50 50%,#000000 50%);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    margin: 0 10px; 
+}
+thead{
+    background-image: linear-gradient(125deg, #2c3e50 50%,#000000 50%);
+}
+
+@media screen and (max-width: 768px) {
+    table {
+        font-size: 18px;
+    }
+    th, td {
+        padding: 8px;
+    }
+    td[contenteditable="true"] {
+        width: 120px; 
+        min-width: 120px;
+        max-width: 120px;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    table {
+        font-size: 12px;
+    }
+    th, td {
+        padding: 6px;
+    }
+    td[contenteditable="true"] {
+        width: 100px; 
+        min-width: 100px;
+        max-width: 100px;
+    }
+}

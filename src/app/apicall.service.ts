@@ -863,13 +863,18 @@ get_master_checklist():Observable<any>
   //moving_walk
   moving_walk_values:string[]=[];
 
+  //unit_details
+  unit_values:string[]=[];
+
+  //unit count
+  recordCount:number=0;
+
 
   //travelator
   travelator_values:string[]=[];
 
 
   //filtered inspectors 
-  inspector_array: { name: string; headChecked: boolean; fromDate: Date; toDate: Date; }[] = [];
 
 
 
@@ -878,7 +883,7 @@ get_master_checklist():Observable<any>
   
   checkedCount:number=0;
 
-  //unchecked counts
+  //unchecked counts 
 
   total_unchecked_items:string[]=[];
   unCheckedCount:number=0;
@@ -896,6 +901,8 @@ get_master_checklist():Observable<any>
   getCheckedCount() {
     return this.checkedCount;
   }
+  inspector_array: { name: string; headChecked: boolean; fromDate: Date; toDate: Date;  i_approved:number;i_rejected:number;units: number}[] = [];
+
 
   
   

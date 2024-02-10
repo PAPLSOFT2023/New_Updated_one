@@ -10,9 +10,9 @@ import { ApicallService } from 'src/app/apicall.service';
 })
 export class MultipleInspectorComponent {
 
-  items: { name: string, checked: boolean, headChecked:boolean,fromDate:Date,toDate:Date }[] = [];
-  items1:{name: string, checked: boolean,headChecked:boolean,fromDate:Date,toDate:Date}[]=[];
-  checkedItems1: { name: string, headChecked: boolean, fromDate: Date, toDate: Date }[] = [];
+  items: { name: string, checked: boolean, headChecked:boolean,fromDate:Date,toDate:Date,units:number }[] = [];
+  items1:{name: string, checked: boolean,headChecked:boolean,fromDate:Date,toDate:Date,units:number}[]=[];
+  checkedItems1: { name: string, headChecked: boolean, fromDate: Date, toDate: Date , i_approved:number,i_rejected:number,units:number}[] = [];
 
   checkedItems: string[] = []; // Array to store checked item names
   uncheckedItems: string[] = []; // Array to store unchecked item names
@@ -32,7 +32,7 @@ export class MultipleInspectorComponent {
     this.dataService.setCheckedCount(this.checkedCount);
     this.dataService.unCheckedCount=this.uncheckedCount;
     this.dataService.total_items=this.itemNames;
-    this.checkedItems1 = this.items.filter(item => item.checked).map(item => ({ name: item.name, headChecked: item.headChecked, fromDate: item.fromDate, toDate: item.toDate, i_approved:0,i_rejected:0 }));
+    this.checkedItems1 = this.items.filter(item => item.checked).map(item => ({ name: item.name, headChecked: item.headChecked, fromDate: item.fromDate, toDate: item.toDate, i_approved:0,i_rejected:0,units:item.units }));
     this.checkedItems = this.items .filter(item => item.checked) // Filter items where checked is true
     .map(item => item.name); 
 
@@ -58,7 +58,7 @@ export class MultipleInspectorComponent {
 
   ngOnInit() {
  
-   this.items = this.itemNames.map(name => ({ name, checked: false,headChecked:false,fromDate:new Date(),toDate:new Date() }));
+   this.items = this.itemNames.map(name => ({ name, checked: false,headChecked:false,fromDate:new Date(),toDate:new Date(),units:0 }));
 
   }
 
