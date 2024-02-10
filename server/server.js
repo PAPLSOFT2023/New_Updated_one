@@ -717,7 +717,7 @@ app.get('/api/get_Rejection_schedule', (req, res) => {
 app.get('/api/get_checklistmaster', (req, res) => {
   // db.query('SELECT App_password, Email FROM mail_automation WHERE Organization=?', [organization], (error, result) => {
     db1.query("SELECT * FROM `inspection_master` WHERE 1",(err,result)=>{
-    if (result.length > 0) {
+    if (result) {
       // Send the result as a JSON response to the client
       console.log(result)
       return res.json(result);
