@@ -9,6 +9,13 @@ import { response } from 'express';
   styleUrls: ['./ui-elements.component.scss']
 })
 export class UiElementsComponent  {
+
+
+//   submitEditForm() {
+//     this.closeEntry();
+
+
+// }
   
   constructor(private http: HttpClient, private apicallservice: ApicallService, private router: Router) {}
 
@@ -21,9 +28,11 @@ export class UiElementsComponent  {
 
 
   // this is profile data 
+  editForm: boolean = false; // Assume this flag controls the visibility of the edit form
+  editEntryForm: any; // Your FormGroup for the edit form
   
   items:any[] = [];
-
+  entryForm: any;
   formData: any = {};
   isEdit: boolean = false;
   organization_name: string = '';
@@ -32,11 +41,15 @@ export class UiElementsComponent  {
   state: string = '';
   country: string = '';
   contact: string = ''; // end of profile data
+  isUploadPopupVisible: boolean = false;
   
+  isUploading: boolean = false; // Add this line
+  fileName: string = ''; // Add this line
 
   selectedData: string = ''; // selected Department Data
   NewRole_Data:string='';// getting new role
   isDataEntryVisible: boolean = false;
+ 
 
 
   departments: string[] = [];
@@ -108,6 +121,7 @@ export class UiElementsComponent  {
   ispopupvisible_insp_cv : boolean = false;
   cv_view_Popup:boolean=false;
   flag_manual_Entry:boolean=false;
+  addForm:boolean=false;
 
 
 
@@ -124,6 +138,15 @@ export class UiElementsComponent  {
   // Add the following property to your UiElementsComponent class
 inspectorCvData: any = {
   pdf: null, // You might want to initialize this based on your data structure
+};
+
+newItem: { Product: string, Parts: string, Description: string, Reference: string, Photo: string, Dropdown: string } = {
+  Product: '',
+  Parts: '',
+  Description: '',
+  Reference: '',
+  Photo: '',
+  Dropdown: ''
 };
 
 // Uncomment the following line in your onFileChange method
@@ -1431,13 +1454,78 @@ openPopupForm_insp():void
     closeEntry() {
       this.flag_manual_Entry = false;
     }
+   
     OpenEntry() {
-      this.flag_manual_Entry = false;
+      this.addForm = !this.addForm;
     }
     editEntry(item: any) {
       // Implement your logic to enter the edit mode for the selected item
       console.log("Editing item:", item);
       // You can, for example, set a flag to indicate that the row is in edit mode
     }
+    submitForm(): void {
+      // Handle form submission logic here
+      // Access form values using this.entryForm.value
+      // Add the logic to save the data or perform other actions
+  
+      // After handling submission, close the form
+      this.closeEntry();
 
-  }
+      // Method to open the edit form and pre-fill the fields
+    }
+    openEditForm() {
+      // This function will be called when the "Edit" button is clicked
+      // It toggles the value of `editForm` to show/hide the form
+      this.editForm = !this.editForm;
+    }
+  
+    submitEditForm() {
+      // Handle form submission logic here
+      // You can access form values using this.editEntryForm.value
+      if (this.editEntryForm.valid) {
+        // Form is valid, handle the submission (e.g., send data to the server)
+        console.log('Form submitted successfully:', this.editEntryForm.value);
+  
+        // Close the form after submission
+        this.editForm = false;
+      } else {
+        // Form is not valid, highlight errors or display a message
+        console.log('Form is invalid. Please check the fields.');
+      }
+    }
+  
+    cancel_Edit() {
+      // This function will be called when the "Cancel" button is clicked
+      // It closes the form by setting `editForm` to false
+      this.editForm = false;
+    }
+
+      openUploadPopup(){
+      this.isUploadPopupVisible = true;
+
+    }
+    handleFileChange(event: any) {
+      // Handle file change logic if needed
+    }
+    uploadFile() {
+      // Set isUploading to true when upload starts
+      this.isUploading = true;
+  
+      // Your file upload logic
+      // After uploading, you might want to close the popup and set isUploading back to false
+      // For example, you can use a setTimeout to simulate an asynchronous upload process
+      setTimeout(() => {
+        this.isUploading = false;
+        this.isUploadPopupVisible = false;
+        alert('Upload successful!');
+      }, 2000);
+    }
+    close_popform() {
+      // Method to close the popup form
+      this.isUploadPopupVisible = false;
+    }
+    }
+    
+  
+      
+    
