@@ -16,8 +16,16 @@
                     <button>Proceed</button>
                 </div>
             </li> -->
-            <li *ngFor="let unit of units">
+            <!-- <li *ngFor="let unit of units">
                 <button (click)="proceed(unit)"><p>{{ unit }}</p></button>
+               
+              </li> -->
+              <li>
+                <button (click)="proceed('Breif_specification')"><p>Breif Specification</p></button>
+               
+              </li>
+              <li>
+                <button (click)="proceed1('pit')"><p>Pit</p></button>
                
               </li>
           
