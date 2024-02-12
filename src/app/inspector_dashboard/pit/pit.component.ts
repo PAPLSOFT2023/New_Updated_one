@@ -5,12 +5,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 // import { DataService } from 'src/app/data.service';
 import { ApicallService } from 'src/app/apicall.service';
 
+
 @Component({
-  selector: 'app-breif-spec',
-  templateUrl: './breif-spec.component.html',
-  styleUrls: ['./breif-spec.component.scss']
+  selector: 'app-pit',
+  templateUrl: './pit.component.html',
+  styleUrls: ['./pit.component.scss']
 })
-export class BreifSpecComponent {
+export class PitComponent {
   val:string | null='';
   name:string | null ='';
   document_id:string | null ='';
