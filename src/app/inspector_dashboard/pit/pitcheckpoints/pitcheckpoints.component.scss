@@ -1,0 +1,163 @@
+.card-container {
+    padding: 20px; /* Add padding around the card container */
+    display: flex;
+    justify-content: center; /* Center align the card container horizontally */
+}
+/* Style for the card */
+.card {
+   
+    width: 80%; /* Adjusted width */
+    margin: 0 auto; /* Center align the card */
+    margin-bottom: 20px;
+    border-radius: 10px; /* Optional: Add rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 162, 255, 0.549); /* Optional: Add shadow */
+    
+}
+.PitTitle {
+    font-size: 20px;
+    color: #000000;
+    font-family: 'Recoleta Medium', sans-serif; /* Ensure proper syntax and correct font name */
+}
+
+
+/* Style for the table */
+.table th,
+.table td {
+    padding: 12px;
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid #ccc;
+}
+
+.table th {
+    background-color: #f2f2f2;
+}
+
+.table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Style for form controls */
+.form-control,
+.form-control-file {
+    width: calc(100% - 12px); /* Adjusted width */
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-bottom: 10px; /* Optional: Add spacing between elements */
+}
+
+/* Style for checkbox */
+input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    vertical-align: middle;
+}
+
+/* Style for input group container */
+.input-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px; /* Optional: Add spacing between elements */
+}
+
+/* Style for "OR" text */
+.input-group p {
+    margin: 0 10px; /* Adjust spacing as needed */
+}
+
+/* Style for camera icon label */
+.input-group-text {
+    cursor: pointer;
+    background-color: #007bff; /* Adjust as needed */
+    color: #fff; /* Adjust as needed */
+    border: 1px solid #007bff; /* Adjust as needed */
+    padding: 8px;
+}
+
+/* Additional styling for the camera icon if needed */
+.input-group-text i {
+    font-size: 16px; /* Adjust as needed */
+}
+.tr_button {
+    display: flex; /* Use Flexbox */
+    justify-content: center; /* Center align the content horizontally */
+}
+
+/* Style for the button */
+.btn-save {
+    padding: 10px 20px; /* Adjust padding as needed */
+    font-size: 16px; /* Adjust font size as needed */
+    background-color: #007bff; /* Button background color */
+    color: #fff; /* Button text color */
+    border: none; /* Remove button border */
+    border-radius: 5px; /* Add border radius */
+    cursor: pointer; /* Change cursor to pointer on hover */
+    transition: background-color 0.3s ease; /* Add smooth transition effect */
+}
+
+.btn-save:hover {
+    background-color: #0056b3; /* Change background color on hover */
+}
+
+
+
+
+.image-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    background-color: white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+    padding: 10px;
+    /* Add any additional styling as needed */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media (max-width: 576px) {
+    /* Adjust card width for mobile devices */
+    .card {
+        width: 100%;
+    }
+
+    /* Adjust form control width for mobile devices */
+    .form-control,
+    .form-control-file {
+        width: calc(100% - 12px);
+    }
+}

@@ -728,6 +728,42 @@ app.get('/api/get_checklistmaster', (req, res) => {
   });
 });
 
+// getpitContent
+
+app.get('/api/getpitContent', (req, res) => {
+  const { product } = req.query;
+  console.log("PPP called", product);
+
+  const query = 'SELECT `Description` FROM `inspection_master` WHERE `Parts`= ?';
+  db1.query(query, [product], (err, results) => {
+    if (results) {
+      console.log(results);
+      res.json(results); // Send the results back to the client
+    } else {
+      console.error(err);
+      res.status(500).send('Error occurred');
+    }
+  });
+});
+
+
+// get_insp_master_checklist_description
+app.get('/api/get_insp_master_checklist_description', (req, res) => {
+  const { Description } = req.query;
+  console.log("PPP called", Description);
+
+  const query = 'SELECT   `Reference`, `Photo`, `Dropdown` FROM `inspection_master` WHERE `Description`= ?';
+  db1.query(query, [Description], (err, results) => {
+    if (results) {
+      console.log("/////",results);
+      res.json(results); // Send the results back to the client
+    } else {
+      console.error(err);
+      res.status(500).send('Error occurred');
+    }
+  });
+});
+
 
 
 

@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 // import { DataService } from 'src/app/data.service';
 import { ApicallService } from 'src/app/apicall.service';
+import { response } from 'express';
 
 
 @Component({
@@ -16,7 +17,14 @@ export class PitComponent {
   name:string | null ='';
   document_id:string | null ='';
   unit_no:string|null='';
-  constructor(private route: ActivatedRoute,private dataService: ApicallService,private http :HttpClient,private router:Router){
+
+
+  steps: string[] = [];
+  completedStatus: boolean[] = [true, true, false, false];
+
+
+
+  constructor(private route: ActivatedRoute,private apicallService: ApicallService,private http :HttpClient,private router:Router){
      this.route.paramMap.subscribe(params => {
       this.val = params.get('c_no');
       console.log(this.val);
@@ -32,10 +40,35 @@ export class PitComponent {
     console.log('section is ',this.val);
     this.name = sessionStorage.getItem('UserName') as string;
     console.log('inspector name',this.name);
-    
 
-    
-    
+    this.apicallService.getpitContent("Pit").subscribe((response:any)=>{
+
+      if(response)
+      {
+
+        this.steps = response.map((item: { Description: any; }) => item.Description);
+      }
+    }
+    ,(error:any)=>{
+    })   
   }
 
+
+
+  getLogoLetters(step: string): string {
+    const words = step.split(' '); // Split step into words
+    let logo = ''; // Initialize the logo string
+    if (words.length > 0) {
+      logo += words[0].charAt(0); // Add the first letter of the first word
+    }
+    if (words.length > 1) {
+      logo += words[1].charAt(0); // Add the first letter of the second word
+    }
+    return logo;
+  }
+
+  handleCardClick(step: string) {
+    const id = encodeURIComponent(step);
+    this.router.navigate(['afterlogin', 'pitcheckpoint',id,this.document_id,this.unit_no,this.name]);
+  }
 }

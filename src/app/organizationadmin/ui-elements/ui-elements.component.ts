@@ -1,4 +1,6 @@
 import { Component, ElementRef, ViewChild,Renderer2,AfterViewInit} from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 import { ApicallService } from 'src/app/apicall.service';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -17,7 +19,17 @@ export class UiElementsComponent  {
 
 // }
   
-  constructor(private http: HttpClient, private apicallservice: ApicallService, private router: Router) {}
+  constructor(private http: HttpClient, private apicallservice: ApicallService, private router: Router,private formBuilder: FormBuilder) {
+
+    this.entryForm = this.formBuilder.group({
+      product: ['', Validators.required],
+      parts: ['', Validators.required],
+      description: ['', Validators.required],
+      reference: ['', Validators.required],
+      photo: ['', Validators.required],
+      dropdown: ['', Validators.required]
+  });
+  }
 
   ngOnInit() {
     // Assuming you want to fetch initial data when the component is initialized
@@ -32,7 +44,10 @@ export class UiElementsComponent  {
   editEntryForm: any; // Your FormGroup for the edit form
   
   items:any[] = [];
-  entryForm: any;
+  // entryForm: any;
+  entryForm: FormGroup;
+
+
   formData: any = {};
   isEdit: boolean = false;
   organization_name: string = '';
@@ -1464,14 +1479,12 @@ openPopupForm_insp():void
       // You can, for example, set a flag to indicate that the row is in edit mode
     }
     submitForm(): void {
-      // Handle form submission logic here
-      // Access form values using this.entryForm.value
-      // Add the logic to save the data or perform other actions
-  
-      // After handling submission, close the form
+      
+      const formValues = this.entryForm.value;
+      console.log('Form values:', formValues);
       this.closeEntry();
 
-      // Method to open the edit form and pre-fill the fields
+      
     }
     openEditForm() {
       // This function will be called when the "Edit" button is clicked
