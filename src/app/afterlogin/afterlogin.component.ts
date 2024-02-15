@@ -72,7 +72,8 @@ constructor(private router: Router,private route: ActivatedRoute){
       this.router.navigate(['inspectorHome'], { relativeTo: this.route });
     }
     else{
-     alert("Your Role is not available")
+     alert("Your login credentials are not available, Please Login")
+     this.router.navigate(["login"]);
     }
     
 

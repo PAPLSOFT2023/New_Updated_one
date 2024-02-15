@@ -1,0 +1,62 @@
+<div class="card-container">
+<div class="card">
+    <div class="card-body">
+        <h1 class="PitTitle">{{ title }}</h1>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Dropdown</th>
+                        <th>Photo</th>
+                        <th>Checkpoint</th>
+                        <th>Need for Report(Photo)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Loop over each item in dropdownArray and display in a row -->
+                    <tr *ngFor="let item of dropdownArray; let index = index">
+                        <td>{{ item }}</td>
+                        <td>
+                            <div class="input-group">
+                                <!-- Display a file input to select an image from the file system -->
+                           
+                                <input *ngIf="!cameraActive" type="file" accept="image/*" class="form-control-file" [id]="'photoUpload_img'+ index" (change)="handleFileInput($event, index)">
+
+                                <p *ngIf="photoArray[index] && (photoArray[index].toLowerCase() === 'y')">OR</p>
+                                <!-- When the camera icon is clicked, call the openCamera() method -->
+                                <!-- HTML Template -->
+                                <label *ngIf="photoArray[index] && (photoArray[index].toLowerCase() === 'y')" class="input-group-text" [attr.id]="'photoUpload' + index" (click)="openCamera(index)">
+                                    <i class="fas fa-camera"></i>
+                                </label>
+                                
+
+                            </div>
+                        </td>
+                        <td><input type="checkbox" [(ngModel)]="checkpoints[index]"></td>
+                        <td><input type="checkbox" [(ngModel)]="reports[index]"></td>
+                    </tr>
+                    
+                    <tr>
+                        <!-- Save button -->
+                        <td colspan="4" class="text-center">
+                            <button (click)="save()" class="btn-save">Save</button>
+                        </td>
+                    </tr>
+                </tbody>
+
+
+            </table>
+            
+            
+        </div>
+    </div>
+   
+</div>
+<!-- HTML Template -->
+
+
+</div>
+<div class="image-container" *ngIf="cameraActive">
+    <img [src]="photoUrl" width="640" height="480" alt="Selected Image">
+</div>
+

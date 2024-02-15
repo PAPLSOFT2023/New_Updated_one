@@ -1,0 +1,50 @@
+.order-status {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow-y: auto;
+  }
+  
+  .step {
+    width: calc(25% - 20px);
+    margin: 0 10px 20px;
+  }
+  
+  .card {
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    background-color: white;
+  }
+  
+  .completed .card {
+    background-color: lightgreen;
+    border-color: green;
+  }
+  
+  .card-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center; /* Center text horizontally */
+  }
+  
+  .logo {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  .progress-bar {
+    width: 100px; /* Adjust width as needed */
+    height: 10px;
+    background-color: lightblue;
+    margin-top: 10px; /* Add margin to separate progress bar from text */
+  }  

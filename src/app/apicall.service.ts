@@ -225,7 +225,7 @@ addHome_usage(home_usage:string):Observable<any>{
 delete_Home_Usage_Data( homeusage: string): Observable<any> {
   
   const headers = new HttpHeaders({
-    'Content-Type': 'application/json'
+      
   });
  console.log("api called")
   return this.httpClient.delete(`${this.apiURL}HomeUsage_Data_Delete`, { headers, body: {  homeusage } });
@@ -616,6 +616,38 @@ get_master_checklist():Observable<any>
 {
   console.log("apicallservice")
   return this.httpClient.get(this.apiURL+'get_checklistmaster')
+}
+
+getpitContent(product:string):Observable<any>{
+  console.log("Api called-->",product)
+  const url = `${this.apiURL}getpitContent`;
+  const params = new HttpParams().set('product', product);
+
+  const headers = new HttpHeaders({
+    'Content-Type': 'application/json'
+  });
+
+  const options = {
+    headers: headers,
+    params: params
+  };
+  return this.httpClient.get(url,options) ;
+}
+
+get_insp_master_checklist(Description:string):Observable<any>{
+  console.log("Api called-->",Description)
+  const url = `${this.apiURL}get_insp_master_checklist_description`;
+  const params = new HttpParams().set('Description', Description);
+
+  const headers = new HttpHeaders({
+    'Content-Type': 'application/json'
+  });
+
+  const options = {
+    headers: headers,
+    params: params
+  };
+  return this.httpClient.get(url,options) ;
 }
 
 

@@ -38,6 +38,7 @@ import { SectionComponent } from './inspector_dashboard/section/section.componen
 import { BreifSpecComponent } from './inspector_dashboard/breif-spec/breif-spec.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { PitComponent } from './inspector_dashboard/pit/pit.component';
+import { PitcheckpointsComponent } from './inspector_dashboard/pit/pitcheckpoints/pitcheckpoints.component';
 // import { UnitDetailsComponent } from './inspector_dashboard/unit-details/unit-details.component';
 const routes: Routes = [
 
@@ -97,7 +98,8 @@ const routes: Routes = [
          {path:'unit/:c_no',component:ListingUnitsComponent},
          {path:'section/:c_no',component:SectionComponent},
          {path:'spec/:c_no',component:BreifSpecComponent},
-         {path:'pit/:c_no',component:PitComponent}
+         {path:'pit/:c_no',component:PitComponent},
+         { path: 'pitcheckpoint/:id/:documentid/:unitno/:inspectorname', component: PitcheckpointsComponent }
          
     ],
   },
