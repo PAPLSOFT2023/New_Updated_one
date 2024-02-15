@@ -1,0 +1,94 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0 auto;
+    padding: 20px;
+    // background-color:whitesmoke;
+}
+
+table {
+    width: 70%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    background-color: #f0f0f0;
+    border: 2px solid black;
+    margin: auto;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid black;
+    text-align: left;
+}
+td input[type="text"] {
+    border: none; /* Hide the border of input boxes */
+    outline: none; /* Hide the outline when focused */
+    width: 100%; /* Ensure the input boxes expand to fill the table cell */
+    box-sizing: border-box; /* Include padding and border in the width calculation */
+    background-color: #f0f0f0;
+
+  }
+
+  td select {
+    border: none; /* Hide the border of input boxes */
+    outline: none; /* Hide the outline when focused */
+    width: 130%; /* Ensure the input boxes expand to fill the table cell */
+    box-sizing: border-box; /* Include padding and border in the width calculation */
+    background-color: #f0f0f0;
+
+  }
+
+th {
+    background-color: #f0f0f0;
+    font-weight: bold;
+}
+
+.span {
+    background-color: #f0f0f0;
+    font-weight: bold;
+}
+
+h3 {
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    color: black;
+    font-size: 30px;
+}
+
+thead th, tbody th, tbody td {
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+
+td{
+  padding: 120px;
+  min-width: 120px;
+  max-width: 120px;
+}
+
+td[contenteditable="true"] {
+       background-color: #f0f0f0;
+    }
+    
+td[contenteditable]:focus{
+        outline:none;
+        
+    }
+
+@media screen and (max-width: 768px) {
+    table {
+        font-size: 14px;
+    }
+    th, td {
+        padding: 8px;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    table {
+        font-size: 12px;
+    }
+    th, td {
+        padding: 6px;
+    }
+}

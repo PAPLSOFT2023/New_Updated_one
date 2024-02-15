@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,ElementRef, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 // import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -11,10 +11,15 @@ import { ApicallService } from 'src/app/apicall.service';
   styleUrls: ['./breif-spec.component.scss']
 })
 export class BreifSpecComponent {
+  video: any;
   val:string | null='';
   name:string | null ='';
   document_id:string | null ='';
   unit_no:string|null='';
+
+
+  //variables of breif spec
+  elevator_number:string='';
   constructor(private route: ActivatedRoute,private dataService: ApicallService,private http :HttpClient,private router:Router){
      this.route.paramMap.subscribe(params => {
       this.val = params.get('c_no');
@@ -31,10 +36,18 @@ export class BreifSpecComponent {
     console.log('section is ',this.val);
     this.name = sessionStorage.getItem('UserName') as string;
     console.log('inspector name',this.name);
+
+    
     
 
     
     
   }
+  check(){
+    console.log('elevator number is ',this.elevator_number);
+    
+  }
+
+  
 
 }

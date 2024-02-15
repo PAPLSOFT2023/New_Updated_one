@@ -1,1 +1,528 @@
-<p>breif-spec works!</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Elevator Details</title>
+
+</head>
+<body>
+  <h3>BRIEF SPECIFICATION OF THE ELEVATOR</h3>
+  <button (click)="check()">check</button>
+  <table>
+    <tbody>
+      <tr>
+        <th rowspan="9" scope="rowgroup">Suppliers Detail</th>
+        <th>Elevator Numbers</th>
+        <td><input type="text" [(ngModel)]="elevator_number" ></td>
+      </tr>
+         <tr>
+        <th scope="row">OEM</th>
+        <td><select>
+          <option value="Option 1">PASSENGER</option>
+          <option value="Option 2">CUSTOMER</option>
+          <option value="Option 3">LUCKAGE</option>
+      </select></td>
+      </tr>
+      <tr>
+        <th scope="row">Year of Manufacture</th>
+        <td contenteditable="true"></td>
+      </tr>
+      <tr>
+        <th scope="row">Type of eqipment</th>
+        <td contenteditable="true"><select>
+          <option value="Option 1">PASSENGER</option>
+          <option value="Option 2">CUSTOMER</option>
+          <option value="Option 3">LUCKAGE</option>
+      </select></td>
+      </tr>
+      <tr>
+        <th scope="row">Type of usage</th>
+        <td contenteditable="true"><select>
+          <option value="Option 1">PASSENGER</option>
+          <option value="Option 2">CUSTOMER</option>
+          <option value="Option 3">LUCKAGE</option>
+      </select></td>
+      </tr>
+      <tr>
+        <th scope="row">Machine location</th>
+        <td contenteditable="true"><select>
+          <option value="Option 1">PASSENGER</option>
+          <option value="Option 2">CUSTOMER</option>
+          <option value="Option 3">LUCKAGE</option>
+      </select></td>
+      </tr>
+      <tr>
+        <th scope="row">Controller &Drive Type</th>
+        <td contenteditable="true"><select>
+          <option value="Option 1">PASSENGER</option>
+          <option value="Option 2">CUSTOMER</option>
+          <option value="Option 3">LUCKAGE</option>
+      </select></td>
+      </tr>
+      <tr>
+        <th scope="row">Controller name as per OEM</th>
+        <td contenteditable="true"></td>
+      </tr>
+      <tr>
+        <th scope="row">Type of operation</th>
+        <td contenteditable="true"><select>
+          <option value="Option 1">PASSENGER</option>
+          <option value="Option 2">CUSTOMER</option>
+          <option value="Option 3">LUCKAGE</option>
+      </select></td>
+      </tr>
+      
+      <tr>
+        <th  class="span" colspan="2" scope="colgroup">Groping Type Type</th>
+        <td contenteditable="true"><select>
+          <option value="Option 1">PASSENGER</option>
+          <option value="Option 2">CUSTOMER</option>
+          <option value="Option 3">LUCKAGE</option>
+      </select></td>
+      </tr>
+      <tr>
+        <th  class="span" colspan="2" scope="colgroup">Name of the group</th>
+        <td contenteditable="true">
+          <select>
+          <option value="Option 1">PASSENGER</option>
+          <option value="Option 2">CUSTOMER</option>
+          <option value="Option 3">LUCKAGE</option>
+      </select>
+    </td>
+      </tr>
+      <tr>
+        <th rowspan="7" scope="rowgroup">Floor Details</th>
+        <th scope="row">Stops</th>
+        <td contenteditable="true"></td>
+      </tr>
+      <tr>
+        <th scope="row">Openings</th>
+        <td contenteditable="true"></td>
+      </tr>
+      <tr>
+        <th scope="row">Floor Designations</th>
+        <td contenteditable="true"></td>
+      </tr>
+      <tr>
+        <th scope="row">Front Opening Floors</th>
+        <td contenteditable="true"></td>
+      </tr>
+      <tr>
+        <th scope="row">Rear Opening Floors</th>
+        <td contenteditable="true"></td>
+      </tr>
+      <tr>
+        <th scope="row">Non-Stop/Service Floors</th>
+        <td contenteditable="true"></td>
+      </tr>
+      <tr>
+        <th scope="row">Emergency Stop Floors</th>
+        <td contenteditable="true"></td>
+      </tr>
+      <tr>
+        <th rowspan="3" scope="rowgroup">Traction Details</th>
+        <th scope="row">Rope Category</th>
+        <td contenteditable="true">   <select>
+          <option value="Option 1">PASSENGER</option>
+          <option value="Option 2">CUSTOMER</option>
+          <option value="Option 3">LUCKAGE</option>
+      </select></td>
+      </tr>
+      <tr>
+        <th scope="row">No.of Ropes/Belts</th>
+        <td contenteditable="true"></td>
+      </tr>
+      <tr>
+        <th scope="row">Rope Size</th>
+        <td contenteditable="true"></td>
+      </tr>
+      <tr>
+        <th rowspan="1" scope="rowgroup">Machine Details</th>
+        <th scope="row">Machine Type</th>
+        <td contenteditable="true"> <select>
+          <option value="Option 1">PASSENGER</option>
+          <option value="Option 2">CUSTOMER</option>
+          <option value="Option 3">LUCKAGE</option>
+      </select></td>
+      </tr>
+      <tr>
+        <th rowspan="9" scope="rowgroup">Motor Data</th>
+        <th scope="row">Kilo Watt</th>
+        <td contenteditable="true"></td>
+      </tr>
+      <tr>
+        <th scope="row">Voltage</th>
+        <td contenteditable="true"></td>
+      </tr>
+      <tr>
+        <th scope="row">Current in Ampere</th>
+        <td contenteditable="true"></td>
+      </tr>
+      <tr>
+        <th scope="row">RPM</th>
+        <td contenteditable="true"></td>
+      </tr>
+      <tr>
+        <th scope="row">Insulation Class</th>
+        <td contenteditable="true"></td>
+      </tr>
+      <tr>
+        <th scope="row">Ingress Protection</th>
+        <td contenteditable="true"></td>
+      </tr>
+      <tr>
+        <th scope="row">No.of Poles</th>
+        <td contenteditable="true"></td>
+      </tr>
+      <tr>
+        <th scope="row">St/Hr.</th>
+        <td contenteditable="true"></td>
+      </tr>
+      <tr>
+        <th scope="row">Serial No.</th>
+        <td contenteditable="true"></td>
+      </tr>
+      <tr>
+        <th rowspan="4" scope="rowgroup">Car Governor Details</th>
+        <th scope="row">Rope dia.(mm)</th>
+        <td contenteditable="true"></td>
+      </tr>
+      <tr>
+        <th scope="row">Normal Speed(m/s)</th>
+        <td contenteditable="true"></td>
+      </tr>
+      <tr>
+        <th scope="row">Electrical Tripping Speed</th>
+        <td contenteditable="true"></td>
+      </tr>
+      <tr>
+        <th scope="row">Mechanical Tripping Speed</th>
+        <td contenteditable="true"></td>
+      </tr>
+      <tr>
+        <th  class="span" colspan="2" scope="colgroup">CWT Governor Details</th>
+        <td contenteditable="true"><input type="checkbox"></td>
+      </tr>
+      <tr>
+        <th rowspan="4" scope="rowgroup">CWT Governor Details</th>
+        <th scope="row">Rope dia.(mm)</th>
+        <td contenteditable="true"></td>
+      </tr>
+      <tr>
+        <th scope="row">Normal Speed(m/s)</th>
+        <td contenteditable="true"></td>
+      </tr>
+      <tr>
+        <th scope="row">Electrical Tripping Speed</th>
+        <td contenteditable="true"></td>
+      </tr>
+      <tr>
+        <th scope="row">Mechanical Tripping Speed</th>
+        <td contenteditable="true"></td>
+      </tr>
+      <tr>
+        <th rowspan="1" scope="rowgroup">Door Operator</th>
+        <th scope="row">Door Operator</th>
+        <td contenteditable="true"><select>
+          <option value="Option 1">PASSENGER</option>
+          <option value="Option 2">CUSTOMER</option>
+          <option value="Option 3">LUCKAGE</option>
+      </select></td>
+      </tr>
+      <tr>
+        <th rowspan="3" scope="rowgroup">Entrance Details</th>
+        <th scope="row">Entrance Size</th>
+        <td contenteditable="true"></td>
+      </tr>
+      <tr>
+        <th scope="row">Entrance Height</th>
+        <td contenteditable="true"></td>
+      </tr>
+      <tr>
+        <th scope="row">Type Of Openings</th>
+        <td contenteditable="true"><select>
+          <option value="Option 1">PASSENGER</option>
+          <option value="Option 2">CUSTOMER</option>
+          <option value="Option 3">LUCKAGE</option>
+      </select></td>
+      </tr>
+      <tr>
+        <th rowspan="3" scope="rowgroup">C.O.P</th>
+        <th scope="row">Cabin Width</th>
+        <td contenteditable="true"></td>
+      </tr>
+      <tr>
+        <th scope="row">Cabin Height</th>
+        <td contenteditable="true"></td>
+      </tr>
+      <tr>
+        <th scope="row">No.of Car Operating Panels(C.O.P)</th>
+        <td contenteditable="true"><select>
+          <option value="Option 1">PASSENGER</option>
+          <option value="Option 2">CUSTOMER</option>
+          <option value="Option 3">LUCKAGE</option>
+      </select></td>
+      </tr>
+      <tr>
+        <th rowspan="14" scope="rowgroup">Car Features</th>
+        <th scope="row">Car Indicator Type</th>
+        <td contenteditable="true"><select>
+          <option value="Option 1">PASSENGER</option>
+          <option value="Option 2">CUSTOMER</option>
+          <option value="Option 3">LUCKAGE</option>
+      </select></td>
+      </tr>
+      <tr>
+        <th scope="row">Multimedia Display</th>
+        <td contenteditable="true"><select>
+          <option value="Option 1">PASSENGER</option>
+          <option value="Option 2">CUSTOMER</option>
+          <option value="Option 3">LUCKAGE</option>
+      </select></td>
+      </tr>
+      <tr>
+        <th scope="row">No.Cabin Fans</th>
+        <td contenteditable="true"><select>
+          <option value="Option 1">PASSENGER</option>
+          <option value="Option 2">CUSTOMER</option>
+          <option value="Option 3">LUCKAGE</option>
+      </select></td>
+      </tr>
+      <tr>
+        <th scope="row">Type of Cabin Fan</th>
+        <td contenteditable="true"><select>
+          <option value="Option 1">PASSENGER</option>
+          <option value="Option 2">CUSTOMER</option>
+          <option value="Option 3">LUCKAGE</option>
+      </select></td>
+      </tr>
+      <tr>
+        <th scope="row">Type Of Call Buttons</th>
+        <td contenteditable="true"><select>
+          <option value="Option 1">PASSENGER</option>
+          <option value="Option 2">CUSTOMER</option>
+          <option value="Option 3">LUCKAGE</option>
+      </select></td>
+      </tr>
+      <tr>
+        <th scope="row">STOP Button</th>
+        <td contenteditable="true"><select>
+          <option value="Option 1">PASSENGER</option>
+          <option value="Option 2">CUSTOMER</option>
+          <option value="Option 3">LUCKAGE</option>
+      </select></td>
+      </tr>
+      <tr>
+        <th scope="row">Service Cabinet</th>
+        <td contenteditable="true"><select>
+          <option value="Option 1">PASSENGER</option>
+          <option value="Option 2">CUSTOMER</option>
+          <option value="Option 3">LUCKAGE</option>
+      </select></td>
+      </tr>
+      <tr>
+        <th scope="row">Voice Announcement</th>
+        <td contenteditable="true"><select>
+          <option value="Option 1">PASSENGER</option>
+          <option value="Option 2">CUSTOMER</option>
+          <option value="Option 3">LUCKAGE</option>
+      </select></td>
+      </tr>
+      <tr>
+        <th scope="row">Handrail</th>
+        <td contenteditable="true"><select>
+          <option value="Option 1">PASSENGER</option>
+          <option value="Option 2">CUSTOMER</option>
+          <option value="Option 3">LUCKAGE</option>
+      </select></td>
+      </tr>
+      <tr>
+        <th scope="row">Cabin Bumper</th>
+        <td contenteditable="true"><select>
+          <option value="Option 1">PASSENGER</option>
+          <option value="Option 2">CUSTOMER</option>
+          <option value="Option 3">LUCKAGE</option>
+      </select></td>
+      </tr>
+      <tr>
+        <th scope="row">Auto /Attendant</th>
+        <td contenteditable="true"><select>
+          <option value="Option 1">PASSENGER</option>
+          <option value="Option 2">CUSTOMER</option>
+          <option value="Option 3">LUCKAGE</option>
+      </select></td>
+      </tr>
+      <tr>
+        <th scope="row">Auto /Independant</th>
+        <td contenteditable="true"><select>
+          <option value="Option 1">PASSENGER</option>
+          <option value="Option 2">CUSTOMER</option>
+          <option value="Option 3">LUCKAGE</option>
+      </select></td>
+      </tr>
+      <tr>
+        <th scope="row">Stop</th>
+        <td contenteditable="true"><select>
+          <option value="Option 1">PASSENGER</option>
+          <option value="Option 2">CUSTOMER</option>
+          <option value="Option 3">LUCKAGE</option>
+      </select></td>
+      </tr>
+      <tr>
+        <th scope="row">Fan Switch</th>
+        <td contenteditable="true"><select>
+          <option value="Option 1">PASSENGER</option>
+          <option value="Option 2">CUSTOMER</option>
+          <option value="Option 3">LUCKAGE</option>
+      </select></td>
+      </tr>
+      <tr>
+        <th rowspan="6" scope="rowgroup">Hall Features </th>
+        <th scope="row">Hall Indicator Type</th>
+        <td contenteditable="true"><select>
+          <option value="Option 1">PASSENGER</option>
+          <option value="Option 2">CUSTOMER</option>
+          <option value="Option 3">LUCKAGE</option>
+      </select></td>
+      </tr>
+      <tr>
+        <th scope="row">Hall Laterns</th>
+        <td contenteditable="true"><select>
+          <option value="Option 1">PASSENGER</option>
+          <option value="Option 2">CUSTOMER</option>
+          <option value="Option 3">LUCKAGE</option>
+      </select></td>
+      </tr>
+      <tr>
+        <th scope="row">Arrival Chime</th>
+        <td contenteditable="true"><select>
+          <option value="Option 1">PASSENGER</option>
+          <option value="Option 2">CUSTOMER</option>
+          <option value="Option 3">LUCKAGE</option>
+      </select></td>
+      </tr>
+      <tr>
+        <th scope="row">No.Of Risers at Other Floors</th>
+        <td contenteditable="true"><select>
+          <option value="Option 1">PASSENGER</option>
+          <option value="Option 2">CUSTOMER</option>
+          <option value="Option 3">LUCKAGE</option>
+      </select></td>
+      </tr>
+      <tr>
+        <th scope="row">Hall Call Type at Main Lobby</th>
+        <td contenteditable="true"><select>
+          <option value="Option 1">PASSENGER</option>
+          <option value="Option 2">CUSTOMER</option>
+          <option value="Option 3">LUCKAGE</option>
+      </select></td>
+      </tr>
+      <tr>
+        <th scope="row">Hall Call Type at All Floors</th>
+        <td contenteditable="true"><select>
+          <option value="Option 1">PASSENGER</option>
+          <option value="Option 2">CUSTOMER</option>
+          <option value="Option 3">LUCKAGE</option>
+      </select></td>
+      </tr>
+      <tr>
+        <th rowspan="2" scope="rowgroup">Car Buffer </th>
+        <th scope="row">No.Of.Buffers</th>
+        <td contenteditable="true"><select>
+          <option value="Option 1">PASSENGER</option>
+          <option value="Option 2">CUSTOMER</option>
+          <option value="Option 3">LUCKAGE</option>
+      </select></td>
+      </tr>
+      <tr>
+        <th scope="row">Type Of Buffer</th>
+        <td contenteditable="true"><select>
+          <option value="Option 1">PASSENGER</option>
+          <option value="Option 2">CUSTOMER</option>
+          <option value="Option 3">LUCKAGE</option>
+      </select></td>
+      </tr>
+      <tr>
+        <th rowspan="2" scope="rowgroup">Counter Weight Buffer</th>
+        <th scope="row">No.Of.Buffers</th>
+        <td contenteditable="true"><select>
+          <option value="Option 1">PASSENGER</option>
+          <option value="Option 2">CUSTOMER</option>
+          <option value="Option 3">LUCKAGE</option>
+      </select></td>
+      </tr>
+      <tr>
+        <th scope="row">Type Of Buffer</th>
+        <td contenteditable="true"><select>
+          <option value="Option 1">PASSENGER</option>
+          <option value="Option 2">CUSTOMER</option>
+          <option value="Option 3">LUCKAGE</option>
+      </select></td>
+      </tr>
+      <tr>
+        <th rowspan="15" scope="rowgroup">Emergency Feature</th>
+        <th scope="row">E.LIGHT</th>
+        <td contenteditable="true"><input type="checkbox"></td>
+      </tr>
+      <tr>
+        <th scope="row">E.ALARM</th>
+        <td contenteditable="true"><input type="checkbox"></td>
+      </tr>
+      <tr>
+      <th scope="row">E.INTERCOM(3 WAYS)</th>
+      <td contenteditable="true"><input type="checkbox"></td>
+    </tr>
+    <tr>
+    <th scope="row">AUTOMATIC RESCUE DEVICE(ARD) OPERATION</th>
+    <td contenteditable="true"><input type="checkbox"></td>
+  </tr>
+    <tr>
+  <th scope="row">ARD AUDIO</th>
+  <td contenteditable="true"><input type="checkbox"></td>
+</tr>
+<tr>
+<th scope="row">ARD VISUALS</th>
+<td contenteditable="true"><input type="checkbox"></td>
+</tr>
+<tr>
+<th scope="row">FIREMAN OPERATION(FEO)</th>
+<td contenteditable="true"><input type="checkbox"></td>
+</tr>
+<tr>
+  <th scope="row">FIREMAN EMERG.RETURN(FER)</th>
+  <td contenteditable="true"><input type="checkbox"></td>
+  </tr>
+  <tr>
+    <th scope="row">FIREMAN AUDIO</th>
+    <td contenteditable="true"><input type="checkbox"></td>
+    </tr>
+    <tr>
+      <th scope="row">FIREMAN VISUAL</th>
+      <td contenteditable="true"><input type="checkbox"></td>
+      </tr>
+      <tr>
+        <th scope="row">MANUAL RESCUE</th>
+        <td contenteditable="true"><input type="checkbox"></td>
+        </tr>
+        <tr>
+          <th scope="row">PASSENGER OVERLOAD OPERATION</th>
+          <td contenteditable="true"><input type="checkbox"></td>
+          </tr>
+          <tr>
+            <th scope="row">PASSENGER OVERLOAD VISUAL</th>
+            <td contenteditable="true"><input type="checkbox"></td>
+            </tr>
+            <tr>
+              <th scope="row">PASSENGER OVERLOAD AUDIO</th>
+              <td contenteditable="true"><input type="checkbox"></td>
+              </tr>
+              <tr>
+                <th scope="row">SEISMIC SENSOR OPERATION</th>
+                <td contenteditable="true"><input type="checkbox"></td>
+                </tr>
+              
+    </tbody>
+  </table>
+</body>
+</html>
