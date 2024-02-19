@@ -23,7 +23,7 @@ export class MailResponseComponent {
     });
     this.apicallservice.Check_Client_response(this.id).subscribe((check:any)=>{
 
-      if(check[0].client_approval_status=="1" || ((check[0].client_rejection_reason.length >0 )) )
+      if(check[0].client_approval_status=="1" || ((check[0].client_rejection_reason.length >2 )) )
       {
 
 

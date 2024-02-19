@@ -32,19 +32,27 @@ app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 // Firebase Next Link
 try{
-const admin = require('firebase-admin');
+  const admin = require('firebase-admin');
 const serviceAccount = require('./paplapplication-firebase-adminsdk-dlrxg-4adbf847ee.json');
-const { error, log } = require('console');
-const e = require('express');
-const { get } = require('http');
-// const { async } = require('rxjs');
+
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: 'https://paplapplication-default-rtdb.firebaseio.com',
 });
-
-const Firebase_db = admin.database();
+  
+  // Wait for Firebase to initialize
+  admin.database().ref('/').once('value', (snapshot) => {
+    // Firebase initialized successfully
+    const Firebase_db = admin.database();
 const ref = Firebase_db.ref('/Leave/Leaveforleadknown/krishnannarayananpaplcorpcom');
+
+    
+    // Now you can use 'ref' and perform database operations
+  }).catch((error) => {
+    // Error occurred during Firebase initialization
+    console.error('Firebase initialization error:', error);
+  });
+  
 }
 catch(error){
   console.error(error.message);

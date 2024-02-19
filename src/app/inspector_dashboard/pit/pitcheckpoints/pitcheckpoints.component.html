@@ -19,9 +19,7 @@
                         <td>
                             <div class="input-group">
                                 <!-- Display a file input to select an image from the file system -->
-                           
-                                <input *ngIf="!cameraActive" type="file" accept="image/*" class="form-control-file" [id]="'photoUpload_img'+ index" (change)="handleFileInput($event, index)">
-
+                                <input *ngIf="photoArray[index] && (photoArray[index].toLowerCase() === 'y')" type="file" accept="image/*" class="form-control-file" id="'photoUpload_img'+index" (change)="handleFileInput($event, index)">
                                 <p *ngIf="photoArray[index] && (photoArray[index].toLowerCase() === 'y')">OR</p>
                                 <!-- When the camera icon is clicked, call the openCamera() method -->
                                 <!-- HTML Template -->
@@ -38,7 +36,7 @@
                     
                     <tr>
                         <!-- Save button -->
-                        <td colspan="4" class="text-center">
+                        <td colspan="4" clasxs="text-center">
                             <button (click)="save()" class="btn-save">Save</button>
                         </td>
                     </tr>
@@ -52,11 +50,5 @@
     </div>
    
 </div>
-<!-- HTML Template -->
-
 
 </div>
-<div class="image-container" *ngIf="cameraActive">
-    <img [src]="photoUrl" width="640" height="480" alt="Selected Image">
-</div>
-

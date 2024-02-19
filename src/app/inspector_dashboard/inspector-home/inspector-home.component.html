@@ -105,20 +105,18 @@
           <p [ngClass]="{ 'gray-text': request.mailset_status !== 1 || request.mailset_status== null , 'green-text': request.mailset_status === 1 }">
             <i class="fas fa-envelope"></i> Mail Sent </p>
           <p [ngClass]="{
-            'gray-text': ((request.client_approval_status === 0 ||request.client_approval_status ===null) && ( request.client_rejection_reason == null || request.client_rejection_reason == '' || request.client_rejection_reason == 'null')),
-            'green-text': request.client_approval_status === 1 ||
-                          (request.client_rejection_reason != null &&
-                           request.client_rejection_reason.length > 0 &&
-                           request.client_rejection_reason !== 'null')
+            'gray-text': ((request.client_approval_status !== 1) && ( request.client_rejection_reason !== 0)),
+            'green-text': request.client_approval_status === 1 ||(request.client_rejection_reason.length > 2)
           }">
             <i class="fas fa-eye" ></i> Client Responded  
             
           </p>
-          <i class="fas fa-comments"  *ngIf="request.client_approval_status == 0 && request.client_approval_status !== null && request.client_rejection_reason !==null " ></i>
-            <span *ngIf="request.client_approval_status !== 1 && request.client_approval_status !== null && request.client_rejection_reason !== 0" class="red-text">
+          <i class="fas fa-comments red-text "  *ngIf="request.client_approval_status !== 1 && request.client_rejection_reason.length > 2 " ></i>
+            <span *ngIf="request.client_approval_status !== 1 && (request.client_rejection_reason !== 0) && (request.client_rejection_reason.length > 2)" class="red-text">
               Cause : {{ request.client_rejection_reason }}
             </span>
-              <i class="fas fa-comments green-text"  *ngIf="request.client_approval_status == 1 && request.client_approval_status !== null"  ></i>
+
+              <i class="fas fa-comments green-text"  *ngIf="request.client_approval_status !== 0 "  ></i>
             <span *ngIf="request.client_approval_status === 1" class="green-text">
               Accepted the mail
             </span>

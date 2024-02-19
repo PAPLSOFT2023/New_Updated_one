@@ -1,4 +1,4 @@
-import { Component,  ElementRef, ViewChild , AfterViewInit  } from '@angular/core';
+import { Component, OnInit, AfterViewInit  } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { response } from 'express';
 import { ApicallService } from 'src/app/apicall.service';
@@ -8,7 +8,7 @@ import { ApicallService } from 'src/app/apicall.service';
   templateUrl: './pitcheckpoints.component.html',
   styleUrls: ['./pitcheckpoints.component.scss']
 })
-export class PitcheckpointsComponent implements  AfterViewInit {
+export class PitcheckpointsComponent implements OnInit, AfterViewInit {
   title: string = "Card Title";
   referencea: string = "Card Reference";
   photoUrl: string = "https://example.com/photo.jpg";
@@ -27,33 +27,10 @@ export class PitcheckpointsComponent implements  AfterViewInit {
   checkpoints: boolean[] = []; // Array to store checkpoint values (true or false)
   reports: boolean[] = []; //
 
-  @ViewChild('videoElement') videoElement!: ElementRef;
 
-  @ViewChild('canvas')
-  public canvas!: ElementRef;
-
-  public captures: Array<any> = [];
-  cameraActive: boolean = false;
-
-
-
-  ngAfterViewInit() {
-    // Access the native element of the ViewChild after the view has been initialized
-    const video: HTMLVideoElement = this.videoElement.nativeElement;
-
-    // Do something with the video element, such as setting up camera access
-    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      navigator.mediaDevices.getUserMedia({ video: true })
-        .then((stream) => {
-          video.srcObject = stream;
-          video.play();
-        })
-        .catch((error) => {
-          console.error('Error accessing camera:', error);
-        });
-    } else {
-      console.error('getUserMedia is not supported');
-    }
+  ngAfterViewInit(): void {
+    // Call openCamera here to ensure that the DOM is ready
+   
   }
   
   constructor(private route: ActivatedRoute,private apicallservice:ApicallService) { } 
@@ -109,40 +86,16 @@ export class PitcheckpointsComponent implements  AfterViewInit {
     // You can perform any save operations or define any logic you need here
   }
   // Component Logic (TypeScript)
-
-  public openCamera(index: number) {
-    // Toggle the cameraActive property
-    this.cameraActive = !this.cameraActive;
-    if (this.cameraActive) {
-      // If camera is active, show the video element
-      this.showVideo();
-    } else {
-      // If camera is not active, show the photo element
-      this.showPhoto(index);
-    }
-  }
-  
-  private showVideo() {
-    // Assuming this.photoUrl contains the URL of the image to be displayed
-    const video: HTMLVideoElement = this.videoElement.nativeElement;
-    video.srcObject = null; // Reset any previous video stream
-    video.src = this.photoUrl; // Set the image URL as the source
-    video.play(); // Start playing the image
-  }
-  
-  
-  private showPhoto(index: number) {
+  openCamera(index: number): void {
     const inputId = 'photoUpload' + index;
     const fileInput = document.getElementById(inputId) as HTMLInputElement;
     if (fileInput) {
       fileInput.setAttribute('capture', 'environment');
       fileInput.click();
     } else {
-      console.error(`Element with ID '${inputId}' not found.`);
+      console.error(`Element with ID '${inputId}' not found-->.`);
     }
   }
-  
-
   
 
 handleFileInput(event: any, index: number): void {
