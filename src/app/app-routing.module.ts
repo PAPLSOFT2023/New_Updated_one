@@ -39,6 +39,7 @@ import { BreifSpecComponent } from './inspector_dashboard/breif-spec/breif-spec.
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { PitComponent } from './inspector_dashboard/pit/pit.component';
 import { PitcheckpointsComponent } from './inspector_dashboard/pit/pitcheckpoints/pitcheckpoints.component';
+import { OutBoxComponent } from './out-box/out-box.component';
 // import { UnitDetailsComponent } from './inspector_dashboard/unit-details/unit-details.component';
 const routes: Routes = [
 
@@ -79,6 +80,7 @@ const routes: Routes = [
         {path:'schedule_page',component:SchedulePageComponent},
         {path:'scheduledWork', component:ScheduledWorkComponent},
         {path:"mail_automation",component:MailAutomationInspComponent},
+        {path:"outbox",component:OutBoxComponent},
        
 
         

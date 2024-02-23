@@ -100,6 +100,8 @@ export class InspectorHomeComponent implements OnInit {
     this.open_popUp=!this.open_popUp;
     // console.log(id);
     // const sender=sessionStorage.getItem("Email") as string
+
+    
     if(id){
       this.apicallservice.getinfdata_forMail(id).subscribe(
         (response: any) => {

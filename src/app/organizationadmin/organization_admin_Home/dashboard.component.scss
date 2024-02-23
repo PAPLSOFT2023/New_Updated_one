@@ -1,76 +1,135 @@
-.header {
-  height: 40px;
-  background-color: #FFFFFF; /* Header background color */
-  color: #8F949B; /* Text color */
-  padding: 10px; /* Padding for header */
-  display: flex; /* Use flexbox for layout */
-  justify-content: space-between; /* Align items to left and right */
-  align-items: center; /* Align items vertically */
+body {
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f8f8f8;
 }
 
-.container-wrapper {
+header {
   display: flex;
-  flex-wrap: wrap;
   justify-content: space-between;
-  margin: 0 auto;
+  align-items: center;
+  padding: 10px;
+  background-color: #333;
+  color: white;
 }
 
-.container {
-  flex: 0 0 calc(25% - 16px); /* 4 cards, minus margins */
-  margin-bottom: 20px; /* Space between containers */
+.admin {
+  font-size: large;
+  color: #bead10;
 }
 
-.row {
-  display: flex;
-  flex-direction: row;
+.search-bar {
+  margin-left: auto; /* Push the search bar to the right */
+}
+
+.search-bar1 {
+  text-align: center; /* Center the content in search-bar1 */
+}
+
+h1 {
+  margin: 10px; /* Remove default margin for h1 to avoid extra spacing */
+  font-size: small;
+  color: #1b73f9;
 }
 
 .card {
-  width: 100%;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.3s ease;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  margin: 20px;
 }
 
-.card:hover {
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+.overview {
+  background-color: #e0f7fa;
 }
 
-
-
-.card-title {
-  color: #ffffff;
-
-  font-size: 20px;
-  margin-bottom: 10px;
+.status {
+  background-color: #c8e6c9;
 }
 
-.card-text {
-  font-size: 14px;
-  color: #ffffff;
-}
-
-
-.card-body {
-  
+.stats {
+  display: flex;
+  justify-content: space-around;
   padding: 20px;
-   /* Gradie22nt color for card-body */
 }
 
-.card-body-1 {
-  background: linear-gradient(45deg, #FF8551, #FFAE85);
-   /* Gradient color for card 1 */
+.stat-box {
+  text-align: center;
+  padding: 20px;
 }
 
-.card-body-2 {
-  background: linear-gradient(45deg, #00C57E, #08F394);
-  /* Gradient color for card 2 */
+.stat-box h3 {
+  margin: 0;
+  font-size: 1.5em;
+  color: #555;
 }
 
-.card-body-3 {
-  background: linear-gradient(45deg, #F94960, #FF8C9A);
-   /* Gradient color for card 3 */
+.stat-box p {
+  margin: 5px 0;
+  font-size: 1.2em;
+  color: #333;
 }
 
-.card-body-4 {
-  background: linear-gradient(45deg, #00A6AE, #00DDE9); /* Gradient color for card 4 */
+.lift-status,
+.elevator-status,
+.car-parking-status,
+.escalator-status {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  padding: 20px;
+}
+
+.lift-tile {
+  flex: 0 0 calc(33.33% - 20px);
+  margin: 20px 10px;
+  padding: 20px;
+  text-align: center;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+.lift-tile.active {
+  background-color: #4caf50;
+  color: #fff;
+}
+
+.lift-tile.inactive {
+  background-color: #f44336;
+  color: #fff;
+}
+
+.lift-tile.maintenance {
+  background-color: #ff9800;
+  color: #fff;
+}
+
+footer {
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  padding: 8px 0;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+/* Media Query for Small Screens */
+@media screen and (max-width: 768px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .search-bar {
+    margin-left: 0; /* Reset margin for small screens */
+    margin-top: 10px; /* Add top margin for spacing */
+  }
+
+  .search-bar1 {
+    text-align: center; /* Reset text-align for small screens */
+  }
 }

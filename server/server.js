@@ -713,7 +713,7 @@ app.get('/api/get_Rejection_schedule', (req, res) => {
   db1.query("SELECT * FROM `reject_cause` WHERE 1", (err, result) => {
     if (result) {
       console.log(result);
-      res.json(result);
+      res.json(result);   
     } else {
       res.json({ message: 'Mail status Not successfully' });
     }
@@ -771,6 +771,48 @@ app.get('/api/get_insp_master_checklist_description', (req, res) => {
     }
   });
 });
+
+// insert_Pit_Values
+
+app.post('/api/insert_Pit_Values', (req, res) => {
+  const { documentId, inspectorName, unitNo, title, valueArray, checkpoint, capturedImages, NeedforReport } = req.body;
+
+  // Construct the SQL query
+  const query = `INSERT INTO pit (document_id, inspector_name, unit_no, description, dropdown_option, checked, img, needforReport) VALUES ?`;
+
+  // Prepare the data to be inserted
+  const values = [];
+  for (let i = 0; i < valueArray.length; i++) {
+      values.push([parseInt(documentId), inspectorName, unitNo, title, valueArray[i], checkpoint[i], capturedImages[i], NeedforReport[i]]);
+  }
+
+  // Execute the SQL query
+  db1.query(query, [values], (error, results, fields) => {
+      if (error) {
+          console.error('Error inserting into pit:', error);
+          res.status(500).json({ error: 'An error occurred while inserting into pit.' });
+      } else {
+          if (results && results.affectedRows > 0) {
+              res.json("Upload Successful");
+          } else {
+              res.status(500).json({ error: 'No rows were inserted into the pit.' });
+          }
+      }
+  });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1268,7 +1310,7 @@ app.post('/api/login', (req, res) => {
         const mail_status=user.Emailverified;
 
         // This is get the Inspector name From insp_data Database
-        db1.query('SELECT inspector_name FROM `insp_data` WHERE emailid= ?  ',username,(err,result)=>{
+        db1.query('SELECT inspector_name FROM insp_data WHERE emailid= ?  ',username,(err,result)=>{
           if(result)
           {
             // user_name=result[0].inspector_name;
@@ -1679,8 +1721,12 @@ app.get('/api/getRoleData', (req, res) => {
   });
 });
 
-app.post('/upload', upload.single('file'), (req, res) => {
+app.post('/api/upload', upload.single('file'), (req, res) => {
   try {
+    // Check if file exists in request
+    if (!req.file) {
+      return res.status(400).json({ message: 'No file uploaded' });
+    }
     
     const workbook = xlsx.read(req.file.buffer, { type: 'buffer' });
     console.log("server called")
@@ -1693,20 +1739,26 @@ app.post('/upload', upload.single('file'), (req, res) => {
     const values = sheet_data.map((row) => Object.values(row));
 
 
+
     const firstSubarrayLength = values[0].length;
+    console.log("First Sub array",values[0])
 
     let flag_check_cell_is_empty=false;
+    let string_find_Mistake_inCell;
     // Iterate through the array starting from the second subarray
     for (let i = 1; i < values.length; i++) {
         // Check if the current subarray's length is different from the first one
         if (values[i].length !== firstSubarrayLength) {
           //  console.log("Not a perfect matrix")
          flag_check_cell_is_empty=true;
+
+         string_find_Mistake_inCell=values[i][0]+" "+values[i][1]+" "+values[i][2];
+         
         }
     }
 
     if(flag_check_cell_is_empty){
-    res.json({ message: "In the Excel file, certain cells are left unfilled." });
+    res.json({ message: "In the Excel file, certain cells are left unfilled. Please check this Row \n' "+string_find_Mistake_inCell+"'" });
     }
     else{
 
@@ -1815,7 +1867,7 @@ app.post('/upload', upload.single('file'), (req, res) => {
       else{
         // insert query
 
-        let sql = 'INSERT INTO `inspection_master`(`Product`, `Parts`, `Description`, `Reference`, `Risk level`, `Photo`, `Dropdown`) VALUES ';
+        let sql = 'INSERT INTO `inspection_master`(`Product`, `Parts`, `Description`, `Reference`, `Risklevel`, `Photo`, `Dropdown`) VALUES ';
         for (let i = 0; i < values.length; i++) {
          const row = values[i];
          sql += `('${row[product_index]}', '${row[parts_index]}', '${row[description_index]}', '${row[reference_index]}', '${row[risk_Level_index]}', '${row[photo_index]}', '${row[drop_Drown_index]}')`;
@@ -4050,6 +4102,90 @@ app.get('/api/countRecords_u', (req, res) => {
   //     }
   //   });
   // });
+  app.post('/api/insp_check_list_ADD', (req, res) => {
+    const {  description,
+      dropdown,
+     parts,
+      photo,
+      product,
+     reference} = req.body;
+ console.log(dropdown,
+  parts,
+   photo,
+   product,
+  reference)
+  
+    // Construct the SQL query with parameter placeholders
+    let sqlQuery ='INSERT INTO inspection_master(Product, Parts, Description, Reference, Risklevel, Photo, Dropdown) VALUES (?,?,?,?,?,?,?)' ;
+  
+    // Use parameterized queries to prevent SQL injection
+    db1.query(sqlQuery, [product,parts,description,reference,"---",photo,dropdown], (error, results) => {
+      if (error) {
+        console.error('Error updating record:', error);
+        res.status(500).json({ error: 'Error updating record' });
+      } else {
+        res.status(200).json({ message: 'Record insert successfully' });
+      }
+    });
+  });
+  app.put('/api/insp_check_list_update', (req, res) => {
+    console.log("Route hit");
+    console.log('update works');
+  
+    const { description, dropdown, parts, photo, product, reference } = req.body;
+    console.log("Request Body:", req.body);
+  
+    let sqlQuery =
+      'UPDATE inspection_master SET Product=?, Parts=?, Description=?, Reference=?, Risklevel=?, Photo=?, Dropdown=? WHERE Description=?';
+  
+    // Log the SQL query before executing
+    console.log("Update Query:", sqlQuery);
+  
+    db1.query(
+      sqlQuery,
+      [product, parts, description, reference, '---', photo, dropdown, description],
+      (error, result) => {
+        if (error) {
+          console.error("Error:", error);
+          return res.status(500).json({ error: 'Internal Server Error', message: error.message });
+        }
+  
+        if (result.affectedRows === 0) {
+          console.log('No rows affected');
+          return res.status(404).json({ error: 'Existing data not found' });
+        }
+  
+        console.log('Update success');
+        res.json({ message: 'Updated successfully' });
+      }
+    );
+  });
+  app.delete('/api/inspection_delete', (req, res) => {
+      
+    // const {item} = req.body;
+    // // console.log('id is',itemId);
+    // console.log('item is',item);
+    const items = req.query.items;
+  
+    // Delete the item from the 'inspection_master' table
+    const inspectionSql = 'DELETE FROM inspection_master WHERE id = ?';
+  
+    db1.query(inspectionSql, [items], (err, result) => {
+      if (err) {
+        console.error('Error deleting item from inspection_master:', err);
+        return res.status(500).json({ error: 'Internal Server Error' });
+      }
+  
+      if (result.affectedRows === 0) {
+        return res.status(404).json({ error: 'Item not found in inspection_master' });
+      }
+  
+      return res.status(204).send();
+    });
+  });
+
+
+
   
   
   

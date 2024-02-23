@@ -639,7 +639,10 @@
 <!-- your-component.component.html -->
 <div class="manualentry" *ngIf="flag_manual_Entry">
   <div *ngIf="flag_manual_Entry" class="data-entry-container1">
-    <h2  >ENTRY MODE</h2>
+    <h2 class="center-text">ENTRY MODE</h2>
+
+    
+
 
     <div class="crud-container">
       <button class="openbtn" (click)="OpenEntry()">ADD</button>
@@ -663,17 +666,19 @@
             <td class="scrollable-td">{{ item.Photo }}</td>
             <td class="scrollable-td">{{ item.Dropdown }}</td>
             <td>
-              <button class="edit-button1" (click)="openEditForm()">Edit</button>
-              <button class="delete-button1">Delete</button>
+              <button class="edit-button1" (click)="openEditForm(item)">Edit</button>
+              <button class="delete-button1" (click)="deleteItem1(item.id)">Delete</button>
+
             </td>
           </tr>
         </table>
       </div>
       
       <div *ngIf="addForm" class="popup-formed">
-        <form [formGroup]="entryForm" (ngSubmit)="submitForm()">
+       
+        <form [formGroup]="entryForm" (ngSubmit)="submitForm($event)">          
           <label for="product">Product:</label>
-          <div class="input"></div>
+          
           <input type="text" class="input" id="product" formControlName="product" required>
 
           <label for="parts">Parts:</label>
@@ -694,22 +699,23 @@
           <!-- Your existing HTML code -->
 
 
-          <div class="button-container1">
-          <button type="submit" class="edit-button2">Save</button>
-          <button class="delete-button2" (click)="OpenEntry()">Cancel</button>
-          </div>
+<div class="button-container1">
+    <button type="submit" class="edit-button2">Save</button>
+    <button class="delete-button2" (click)="OpenEntry()">Cancel</button>
+</div>
 
-        </form>
+</form>
 </div>
 
 
 <div *ngIf="editForm" class="popup_formed">
   <form [formGroup]="editEntryForm" (ngSubmit)="submitEditForm()">
+    
     <label for="product">Product:</label>
     <input type="text" class="input" id="product" formControlName="product" required>
 
     <label for="parts">Parts:</label>
-    <input type="text" class="input" id="parts" formControlName="parts" required>
+    <input type="text" class="input" id="parts"  formControlName="parts" required>
 
     <label for="description">Description:</label>
     <input type="text" class="input" id="description" formControlName="description" required>
@@ -735,6 +741,13 @@
 
 
       <button class="closebtn3" (click)="closeEntry()">Close</button>
+    </div>
+  </div>
+</div>
+
+
+
+      
     </div>
   </div>
 </div>
@@ -828,8 +841,14 @@
 <div *ngIf="isUploadPopupVisible" class="upload-popup">
   <label class="heading" for="fileInput">CHOOSE A FILE</label>
   
-  <input type="file" id="fileInput" (change)="handleFileChange($event)">
-  <button  class="uploadbtn" (click)="uploadFile()">Upload</button>
+
+
+  <input type="file" #fileInput accept=".xlsx,.xls" (change)="onFileChange_XL($event)" />
+
+
+
+<button  class="uploadbtn" (click)="uploadFile()">Upload</button>
+
 
   <!-- Loading Overlay -->
   <div *ngIf="isUploading" class="loading-overlay">
