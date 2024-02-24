@@ -54,7 +54,7 @@ const getAllRequest: IDBRequest<ValuesObj[]> = offlineStore.getAll();
 
 getAllRequest.onsuccess = () => {
    this.allValues = getAllRequest.result;
-  console.log("All records:", this.allValues);
+  console.log("All records:", JSON.stringify(this.allValues));
 };
 
 getAllRequest.onerror = () => console.error("Error retrieving records", getAllRequest.error);

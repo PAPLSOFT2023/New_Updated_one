@@ -790,12 +790,12 @@ app.post('/api/insert_Pit_Values', (req, res) => {
   db1.query(query, [values], (error, results, fields) => {
       if (error) {
           console.error('Error inserting into pit:', error);
-          res.status(500).json({ error: 'An error occurred while inserting into pit.' });
+          res.status(500).json({ error: 'An error occurred while inserting into database.' });
       } else {
           if (results && results.affectedRows > 0) {
-              res.json("Upload Successful");
+              res.json("Data Saved Successfully");
           } else {
-              res.status(500).json({ error: 'No rows were inserted into the pit.' });
+              res.status(500).json({ error: 'No rows were inserted into the database.' });
           }
       }
   });
@@ -1770,6 +1770,9 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
       let description_index = -1;
       let reference_index = -1;
 
+
+      
+
       //  to find the columns index
      
       for (let i = 0; i < columns.length; i++) {
@@ -1820,6 +1823,8 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
       let count_dropdown;
       let count_risklevel;
       let check_innercell_equals=false;
+      let cell_check_index_string_size='';
+      let indexval;
 
       if(photo_index > -1 &&
        drop_Drown_index > -1 &&
@@ -1834,38 +1839,61 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
         const matche_for_photo = values[k][photo_index].match(/~/g);
         // If matches is null, return 0, otherwise return the length of matches
          count_photo = matche_for_photo ? matche_for_photo.length : 0;
+         
 
          const matche_for_dropdown = values[k][drop_Drown_index].match(/~/g);
         // If matches is null, return 0, otherwise return the length of matches
         count_dropdown = matche_for_dropdown ? matche_for_dropdown.length : 0;
+        
 
 
-        const matche_for_risklevel = values[k][risk_Level_index].match(/~/g);
+        const matche_for_risklevel = String(values[k][risk_Level_index]).match(/~/g);
+
         // If matches is null, return 0, otherwise return the length of matches
         count_risklevel = matche_for_risklevel ? matche_for_risklevel.length : 0;
+        
+         // Assuming count_photo, count_dropdown, and count_risklevel are already defined
+          if (count_photo === count_dropdown && count_dropdown === count_risklevel) {
+            console.log("All R equal");
+           check_innercell_equals = true;
 
-        // console.log("count of ",values[k][photo_index],count_photo+1)
+          } 
+          else {
+             check_innercell_equals = false;
+             // If they are not all equal, determine which one is different
+            if (count_photo !== count_dropdown && count_photo !== count_risklevel) {
+             cell_check_index_string_size=" Photo "
+             indexval=k;
+            // Handle the case where count_photo is different
+           } else if (count_dropdown !== count_photo && count_dropdown !== count_risklevel) {
+            cell_check_index_string_size=" Dropdown "
+            indexval=k;
+           // Handle the case where count_dropdown is different
+           } else if (count_risklevel !== count_photo && count_risklevel !== count_dropdown) {
+           cell_check_index_string_size=" Risklevel "
+           indexval=k;
+           // Handle the case where count_risklevel is different
+           } 
+          }
 
-        //  console.log("count of ",values[k][drop_Drown_index],count_dropdown+1)
-        //  console.log("count of ",values[k][risk_Level_index],count_risklevel+1)
-
-         if(count_photo === count_dropdown && count_dropdown === count_risklevel)
-         {
-          check_innercell_equals=!check_innercell_equals;
-         }
         }
+
+
       }
       else{
-        res.json({ message: "The column title is not defined." });
+        res.json({ message: "The column title is not defined. "});
 
       }
 
-      if(check_innercell_equals)
+      if(!check_innercell_equals)
       {
-        res.json({ message: "Check some index missing(Photo,Drop down,Risk level)" });
+        console.log("Check some index missing "+indexval +" "+ product_index +" "+indexval + " "+parts_index+" "+indexval+""+description_index+" " +cell_check_index_string_size+" ");
+        res.json({ message: "Check some index missing "+values[indexval][product_index]+" "+values[indexval][parts_index]+" "+values[indexval][description_index]+" " +cell_check_index_string_size+" "});
+        
       }
       else{
         // insert query
+        console.log("insert area");
 
         let sql = 'INSERT INTO `inspection_master`(`Product`, `Parts`, `Description`, `Reference`, `Risklevel`, `Photo`, `Dropdown`) VALUES ';
         for (let i = 0; i < values.length; i++) {
@@ -1875,13 +1903,16 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
          sql += ', ';
         }
       }
-      db1.query(sql, (error, results, fields) => {
+      db1.query(sql, (error, results) => {
         if (error) {
-          console.error('Error occurred while inserting data:', error);
-          return;
+            console.error('Error executing SQL query:', error);
+            return res.status(500).json({ error: 'An error occurred while executing the database query.', details: error.message });
+        } else {
+            res.json({ message: "File merged into the database successfully." });
         }
-        res.json({ message: "File merged into the database successfully." });
-      });
+    });
+    
+    
        
       }
 

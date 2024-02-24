@@ -29,8 +29,7 @@ export class PitcheckpointsComponent  {
   unitNo:string='';
   inspectorName:string='';
   Camera_popup:boolean=false;
- 
-
+ disable:boolean=true;
 
  
 
@@ -43,7 +42,9 @@ export class PitcheckpointsComponent  {
   showImageView: boolean = false; // Controls whether to display the image view container
 selectedImageUrl: string = ''; // Holds the URL of the selected image
 
-
+defect_button_flag:boolean=true;
+satisfied_button_flag:boolean=true;
+save_button_enable_flag:boolean=false
   capturedImages!: Blob[];
   inputValues: number[] = new Array(this.dropdownArray.length).fill(0);
   checkpoint!: boolean[];
@@ -312,146 +313,107 @@ closeImageView(): void {
 
 
 
-
-
-save(): void {
-  const valueArray: string[] = [];
-  var indexedDB_support:Boolean=false;
-  if ( ('indexedDB' in window)) {
-    // IndexedDB is supported
-    indexedDB_support=true
-    console.log('IndexedDB is supported',(navigator.onLine));
-}
- else {
-  alert("Your browser does not have a data sync option. Please ensure that the internet connection is active.");
-  indexedDB_support=false;
-   
-    console.log('IndexedDB is not supported');
+save_button_enable_fun(){
+ this.disable=!this.disable
+  
+  this.save_button_enable_flag=!this.save_button_enable_flag;
 }
 
 
-
-  for (let i = 0; i < this.dropdownArray.length; i++) {
-    const item = this.dropdownArray[i];
+async save(): Promise<void> {
+  const valueArray: string[] = this.dropdownArray.map((item, index) => {
     if (item.includes('---')) {
       const parts = item.split('---');
-      const newValue = `${parts[0]} ${this.inputValues[i]} ${parts[1]}`;
-      valueArray.push(newValue.replace(/\bundefined\b/g, '---'));
+      return `${parts[0]} ${this.inputValues[index] || '---'} ${parts[1]}`;
+    }
+    return item;
+  });
+
+  if (navigator.onLine) {
+    // Online - Submit data to server
+    this.submitDataToServer(valueArray).then(() => {
+      console.log("Data submitted successfully");
+    }).catch((error) => {
+      console.error("Error submitting data to server:", error);
+    });
+  } 
+  else {
+    // Offline - Save data locally
+    if ('indexedDB' in window) {
+      this.saveDataLocally(valueArray).then(() => {
+        console.log("Data saved locally");
+      }).catch((error) => {
+        console.error("Error saving data locally:", error);
+      });
     } else {
-      valueArray.push(item);
+      alert("Your browser does not support offline data saving.");
     }
   }
-
-
-
-  if((navigator.onLine) )
-  {
-
-    if(indexedDB_support)
-    {
-
-      interface ValuesObj {
-        key: string;
-        documentId: string;
-        inspectorName: string;
-        unitNo: string;
-        title: string;
-        valueArray: string[];
-        checkpoint: boolean[];
-        capturedImages: any[];
-        needForReport: boolean[]; // Corrected the casing of 'needForReport'
-        
-        updatedAt: Date; // Property to store the last update date and time
-      }
-        
-        const openRequest: IDBOpenDBRequest = indexedDB.open("OutBox", 1);
-    
-        openRequest.onupgradeneeded = (event: IDBVersionChangeEvent) => {
-      const db: IDBDatabase = (event.target as IDBOpenDBRequest).result;
-      const offlineStore: IDBObjectStore = db.createObjectStore("Offline", { keyPath: "key" });
-        };
-        openRequest.onerror = (event) => {
-      console.error("IndexedDB error:", openRequest.error);
-        };
-        openRequest.onsuccess = (event) => {
-      const db: IDBDatabase = openRequest.result;
-      // Example: Adding a record
-      const transaction: IDBTransaction = db.transaction("Offline", "readwrite");
-      const offlineStore: IDBObjectStore = transaction.objectStore("Offline");
-    
-      const now = new Date(); // Get the current date and time
-
-const valueObj: ValuesObj = {
-  key: this.documentId + "+" + this.title,
-  documentId: this.documentId,
-  inspectorName: this.inspectorName,
-  unitNo: this.unitNo,
-  title: this.title,
-  valueArray: valueArray,
-  checkpoint: this.checkpoint,
-  capturedImages: this.capturedImages,
-  needForReport: this.NeedforReport,
- 
-  updatedAt: now // Set the last update date and time
-};
-    
-      const request: IDBRequest<IDBValidKey> = offlineStore.add(valueObj);
-    
-      request.onsuccess = () => {
-       
-      alert("Your device doesn't have an internet connection. Data saved locally.")
-      
-      }
-      request.onerror = () => {
-        console.log(request.error)
-
-        if (request.error instanceof DOMException && request.error.message === "Key already exists in the object store.") {
-          // Handle the case where the key already exists
-          alert("This Data already exists!");
-      } 
-      }
-    
-      // Example: Retrieving all records
-      const getAllRequest: IDBRequest<ValuesObj[]> = offlineStore.getAll();
-    
-      getAllRequest.onsuccess = () => {
-        const allValues: ValuesObj[] = getAllRequest.result;
-        console.log("All records:", allValues);
-      };
-    
-      getAllRequest.onerror = () => console.error("Error retrieving records", getAllRequest.error);
-       
-    
-    
-    
-    
-    };   
-      }
-    
-      else{
-        alert("Warning: No internet connection and No Data Sync.in Locally, You cannot store data.")
-      }
-        
-           
-
-
-
-  }
-  else{
-
-    this.apicallservice.insert_Pit_Values(this.documentId,this.inspectorName,this.unitNo,this.title,valueArray,this.checkpoint,this.capturedImages,this.NeedforReport).subscribe((result:any)=>{
-      if(result)
-      {
-        console.log("res",result,"--",navigator.onLine);
-        alert(result)
-      }
-  
-     },(error:any)=>{ 
-      alert(error)
-     });
-  }
- 
 }
+
+private async submitDataToServer(valueArray: string[]): Promise<void> {
+  // Replace with your API call logic
+ 
+  try {
+    const result = await this.apicallservice.insert_Pit_Values(
+      this.documentId, 
+      this.inspectorName, 
+      this.unitNo, 
+      this.title, 
+      valueArray, 
+      this.checkpoint, 
+      this.capturedImages, 
+      this.NeedforReport
+    ).toPromise();
+    alert(result);
+  } catch (error) {
+    alert("Failed to submit data: " + error);
+  }
+}
+
+private async saveDataLocally(valueArray: string[]): Promise<void> {
+  const db = await this.openIndexedDB();
+  const transaction = db.transaction("Offline", "readwrite");
+  const store = transaction.objectStore("Offline");
+
+  const valueObj = {
+    key: `${this.documentId}+${this.title}`,
+    documentId: this.documentId,
+    inspectorName: this.inspectorName,
+    unitNo: this.unitNo,
+    title: this.title,
+    valueArray,
+    checkpoint: this.checkpoint,
+    capturedImages: this.capturedImages,
+    needForReport: this.NeedforReport,
+    updatedAt: new Date()
+  };
+
+  try {
+    await store.add(valueObj);
+    alert("Your device doesn't have an internet connection. Data saved locally.");
+  } catch (error) {
+    if (error instanceof DOMException && error.name === "ConstraintError") {
+      alert("This data already exists!");
+    } else {
+      console.error("Error saving data locally:", error);
+    }
+  }
+}
+
+private async openIndexedDB(): Promise<IDBDatabase> {
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open("OutBox", 1);
+    request.onupgradeneeded = event => {
+      const db = request.result;
+      db.createObjectStore("Offline", { keyPath: "key" });
+    };
+    request.onerror = () => reject(request.error);
+    request.onsuccess = () => resolve(request.result);
+  });
+}
+
+
 
 
 }

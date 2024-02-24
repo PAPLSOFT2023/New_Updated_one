@@ -1644,7 +1644,7 @@ openPopupForm_insp():void
           },
           (error) => {
             console.error('Error uploading file:', error);
-            alert('Error uploading file. Please try again.');
+            alert('Error uploading file. Please try again. '+ JSON.stringify(error.details));
           }
         );
     }

@@ -12,6 +12,11 @@
     color: rgb(0, 255, 0); /* Set the color to green */
   }
   
+  .disabled {
+    pointer-events: none;
+    opacity: 0.5;
+   
+}
 
 /* Add appropriate CSS styles to display the image view container and its contents */
 .image-view-container {
@@ -223,7 +228,34 @@ input[type="checkbox"] {
     background-color: #0056b3; /* Change background color on hover */
 }
 
+.Positive-btn {
+  padding: 10px 20px; /* Adjust padding as needed */
+  font-size: 16px; /* Adjust font size as needed */
+  background-color: #06c229; /* Button background color */
+  color: #fff; /* Button text color */
+  border: none; /* Remove button border */
+  border-radius: 5px; /* Add border radius */
+  cursor: pointer; /* Change cursor to pointer on hover */
+  transition: background-color 0.3s ease; /* Add smooth transition effect */
+}
 
+.Positive-btn:hover {
+  background-color: #006f23; /* Change background color on hover */
+}
+.negative-btn {
+  padding: 10px 20px; /* Adjust padding as needed */
+  font-size: 16px; /* Adjust font size as needed */
+  background-color: #ff6a00; /* Button background color */
+  color: #fff; /* Button text color */
+  border: none; /* Remove button border */
+  border-radius: 5px; /* Add border radius */
+  cursor: pointer; /* Change cursor to pointer on hover */
+  transition: background-color 0.3s ease; /* Add smooth transition effect */
+}
+
+.negative-btn:hover {
+  background-color: #f55a00; /* Change background color on hover */
+}
 
 
 .image-container {
