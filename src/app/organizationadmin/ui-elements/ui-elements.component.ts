@@ -1,10 +1,11 @@
 import { Component, ElementRef, ViewChild,Renderer2,AfterViewInit} from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators,FormControl } from '@angular/forms';
 
 import { ApicallService } from 'src/app/apicall.service';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { response } from 'express';
+import { firstValueFrom } from 'rxjs';
 @Component({
   selector: 'app-ui-elements',
   templateUrl: './ui-elements.component.html',
@@ -27,13 +28,22 @@ export class UiElementsComponent  {
       description: ['', Validators.required],
       reference: ['', Validators.required],
       photo: ['', Validators.required],
-      dropdown: ['', Validators.required]
-  });
+      dropdown: ['', Validators.required]});
   }
+  
+  items:any[] = [];
+  entryForm: FormGroup = new FormGroup({
+    product: new FormControl('', Validators.required),
+    parts: new FormControl('', Validators.required),
+    description: new FormControl('', Validators.required),
+    reference: new FormControl('', Validators.required),
+    photo: new FormControl('', Validators.required),
+    dropdown: new FormControl('', Validators.required),
+  });
+
 
   ngOnInit() {
-    // Assuming you want to fetch initial data when the component is initialized
-    // this.fetchData();
+    
   }
  
   
@@ -41,11 +51,15 @@ export class UiElementsComponent  {
 
   // this is profile data 
   editForm: boolean = false; // Assume this flag controls the visibility of the edit form
-  editEntryForm: any; // Your FormGroup for the edit form
-  
-  items:any[] = [];
-  // entryForm: any;
-  entryForm: FormGroup;
+  editEntryForm: FormGroup = new FormGroup({
+    product: new FormControl('', Validators.required),
+    parts: new FormControl('', Validators.required),
+    description: new FormControl('', Validators.required),
+    reference: new FormControl('', Validators.required),
+    photo: new FormControl('', Validators.required),
+    dropdown: new FormControl('', Validators.required),
+    // Add other form controls as needed
+  }); 
 
 
   formData: any = {};
@@ -113,6 +127,7 @@ export class UiElementsComponent  {
    uniqueRolls = new Set<string>();
    uniqueDepartments = new Set<string>();
    psnNumbers: string[] = [];
+   selectedFile: File | null = null;
 
   
   tooltipText: string = ''
@@ -164,7 +179,7 @@ newItem: { Product: string, Parts: string, Description: string, Reference: strin
   Dropdown: ''
 };
 
-// Uncomment the following line in your onFileChange method
+
 
 
   // Reference to the popup form element in the template
@@ -198,27 +213,29 @@ onFileChange(event: any): void {
   }
 }
 
+
+
 // Your component file
 uploadInspectorCv(): void {
-//   this.apicallservice.uploaCV(
-//      this.inspectorCvData.email,
-//      this.inspectorCvData.pdf
-//  ).subscribe(
-//     (result: any) => {
-//       if (result) {
-//         alert(result.message);
-//       }
-//     },
-//     (error: any) => {
-//       console.error(error);
-//       if (error.status === 400 && error.error && error.error.error === 'PSN_NO already exists.') {
-//         alert('Already exists.');
-//       }
-//        else {
-//         alert('Already exists.');
-//       }
-//     }
-//   );
+  this.apicallservice.uploaCV(
+     this.inspectorCvData.email,
+     this.inspectorCvData.pdf
+ ).subscribe(
+    (result: any) => {
+      if (result) {
+        alert(result.message);
+      }
+    },
+    (error: any) => {
+      console.error(error);
+      if (error.status === 400 && error.error && error.error.error === 'PSN_NO already exists.') {
+        alert('Already exists.');
+      }
+       else {
+        alert('Already exists.');
+      }
+    }
+  );
 }
 
 
@@ -1450,11 +1467,23 @@ openPopupForm_insp():void
       this.resetForm();
       // this.fetchData(); // Refresh the table after updating an item
     }
-  
-    deleteItem(itemId: number) {
-      // Call your service to delete the item
-      // Example: this.yourCrudService.deleteItem(itemId);
-      // this.fetchData(); // Refresh the table after deleting an item
+    //delete crud inspection_checklist direct api call//
+    deleteItem1(item: any): void {
+      console.log('item id is ',item);
+      const params = { params: { items: item } };      // Assuming 'deleteItem' is a method in your ApiService
+      this.http.delete('http://localhost:3000/api/inspection_delete', params).subscribe(
+        (response) => {
+          console.log('Data delete successfully', response);
+          const successMessage = 'Data Delete Success...!';
+          const userConfirmation = window.confirm(successMessage);
+          if(userConfirmation){
+            // this.router.navigate(['afterlogin/plan_eg_home']);
+          }
+        },
+        (error) => {
+          console.error('Error storing data', error);
+        }
+      );
     }
   
     cancelEdit() {
@@ -1478,29 +1507,98 @@ openPopupForm_insp():void
       console.log("Editing item:", item);
       // You can, for example, set a flag to indicate that the row is in edit mode
     }
-    submitForm(): void {
-      
-      const formValues = this.entryForm.value;
-      console.log('Form values:', formValues);
-      this.closeEntry();
+    submitForm(event: Event): void {
+      event.preventDefault(); // Prevent the default form submission behavior
+    
+      if (this.entryForm.valid) {
+        // Access form values using this.entryForm.value
+        const formData = this.entryForm.value;
+    
+        // Print the form data to the console
 
+        console.log('Form submitted:', formData);
+        this.apicallservice.insp_check_list_ADD(
+          formData.description,formData.dropdown,formData.parts,formData.photo,formData.product,formData.reference
+                    )
+                    .subscribe((response:any)=>{
+                      if(response)
+                      {
+                        console.log(response.message)
+                        if(response.message=="Record insert successfully")
+                        {
+                          alert("Record insert successfull")
+   
+    // const newItem = {
+    //   Product: formData.product,
+    //   Parts: formData.parts,
+    //   Description: formData.description,
+    //   Reference: formData.reference,
+    //   Photo:formData.photo,
+    //   Dropdown:formData.dropdown,
       
+    // };
+                          // this.items.push(newItem)
+
+
+
+
+                        }
+                        else{
+                          alert("Record Not insert")
+                        }
+                      }
+                    },(error:any)=>{})
+    
+        // Add the logic to save the data or perform other actions
+    
+        // After handling submission, close the form
+        this.closeEntry();
+      } else {
+        // Form is not valid, highlight errors or display a message
+        console.log('Form is invalid. Please check the fields.');
+      }
     }
-    openEditForm() {
+    openEditForm(item:any) {
       // This function will be called when the "Edit" button is clicked
-      // It toggles the value of `editForm` to show/hide the form
+      // It toggles the value of editForm to show/hide the form
+     
+      this.editEntryForm.setValue({
+        product: item.Product || '', // Assuming item[0] corresponds to the first form control
+        parts: item.Parts  || '',   // Assuming item[1] corresponds to the second form control
+        description: item.Description || '',
+        reference: item.Reference || '',
+        photo: item.Photo || '',
+        dropdown: item.Dropdown || ''
+        // Add other form controls as needed
+      });
       this.editForm = !this.editForm;
     }
-  
-    submitEditForm() {
-      // Handle form submission logic here
-      // You can access form values using this.editEntryForm.value
+    submitEditForm(): void {
       if (this.editEntryForm.valid) {
-        // Form is valid, handle the submission (e.g., send data to the server)
-        console.log('Form submitted successfully:', this.editEntryForm.value);
-  
-        // Close the form after submission
-        this.editForm = false;
+        const formData = this.editEntryForm.value;
+        console.log('Form submitted:', formData);
+    
+        // Assuming you have an identifier for the data and a method in ApiCallService to update data
+        this.apicallservice.insp_check_list_update(
+          formData.description, formData.dropdown, formData.parts, formData.photo, formData.product, formData.reference
+        ).subscribe(
+          (response: any) => {
+            if (response) {
+              console.log(response.message);
+              if (response.message == "Record insert successfully") {
+                alert("Record insert successful");
+              } else {
+                alert("Record Not inserted");
+              }
+            }
+          },
+          (error: any) => {
+            // Handle error, you might want to log or display an error message
+            console.error('Error:', error);
+          }
+        );
+    
+        this.closeEntry();
       } else {
         // Form is not valid, highlight errors or display a message
         console.log('Form is invalid. Please check the fields.');
@@ -1517,22 +1615,44 @@ openPopupForm_insp():void
       this.isUploadPopupVisible = true;
 
     }
-    handleFileChange(event: any) {
-      // Handle file change logic if needed
+
+    
+    
+
+
+
+
+    onFileChange_XL(event: any): void {
+      this.selectedFile = event.target.files[0];
     }
-    uploadFile() {
-      // Set isUploading to true when upload starts
-      this.isUploading = true;
+
+    uploadFile(): void {
+      console.log("function called")
+      if (!this.selectedFile) {
+        alert('No file selected');
+        return;
+      }
+    
+      const formData = new FormData();
+      formData.append('file', this.selectedFile);
+    
+ 
+       
+      this.apicallservice.uploadFile(formData).subscribe(
+          (response: any) => {
+            alert(response.message );
+          },
+          (error) => {
+            console.error('Error uploading file:', error);
+            alert('Error uploading file. Please try again. '+ JSON.stringify(error.details));
+          }
+        );
+    }
+    
   
-      // Your file upload logic
-      // After uploading, you might want to close the popup and set isUploading back to false
-      // For example, you can use a setTimeout to simulate an asynchronous upload process
-      setTimeout(() => {
-        this.isUploading = false;
-        this.isUploadPopupVisible = false;
-        alert('Upload successful!');
-      }, 2000);
-    }
+    
+
+
     close_popform() {
       // Method to close the popup form
       this.isUploadPopupVisible = false;

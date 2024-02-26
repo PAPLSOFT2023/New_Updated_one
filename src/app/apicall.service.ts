@@ -3,10 +3,17 @@ import { HttpClient,HttpHeaders, HttpParams,HttpErrorResponse } from '@angular/c
 import{Observable, throwError}from 'rxjs';
 import { query } from 'express';
 import { catchError } from 'rxjs/operators';
+import { firstValueFrom } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
 export class ApicallService {
+  
+  
+  
+  
+  
+
 
 
   
@@ -634,6 +641,7 @@ getpitContent(product:string):Observable<any>{
   return this.httpClient.get(url,options) ;
 }
 
+
 get_insp_master_checklist(Description:string):Observable<any>{
   console.log("Api called-->",Description)
   const url = `${this.apiURL}get_insp_master_checklist_description`;
@@ -650,6 +658,13 @@ get_insp_master_checklist(Description:string):Observable<any>{
   return this.httpClient.get(url,options) ;
 }
 
+
+// 
+insert_Pit_Values(documentId: string, inspectorName: string, unitNo: string, title: string, valueArray: string[], checkpoint: boolean[], capturedImages: any[], NeedforReport: boolean[]):Observable<any> {
+  const body={documentId, inspectorName, unitNo, title, valueArray, checkpoint, capturedImages, NeedforReport};  
+ console.log("api called ")
+  return this.httpClient.post(this.apiURL+'insert_Pit_Values',body);
+}
 
 
 
@@ -758,6 +773,15 @@ get_insp_master_checklist(Description:string):Observable<any>{
  {
   return this.httpClient.post(this.apiURL+'addRoleData',data);
  }
+
+// this is for XL file upload to Database for Inspection checkList master
+uploadFile(formData: FormData): Observable<any> {
+  console.log("apicalled")
+  return this.http.post<any>(this.apiURL + 'upload', formData);
+}
+
+
+
 
 
  getRoleDepartmentData(organization:string):Observable<any>
@@ -935,8 +959,50 @@ get_insp_master_checklist(Description:string):Observable<any>{
   }
   inspector_array: { name: string; headChecked: boolean; fromDate: Date; toDate: Date;  i_approved:number;i_rejected:number;units: number}[] = [];
 
+  insp_check_list_ADD(description: string, dropdown: string, parts: string, photo: string, product: string, reference: string):Observable<any> {
+    const requestBody = {
+      description,
+      dropdown,
+     parts,
+      photo,
+      product,
+     reference
+    };
 
+    // Replace 'your-endpoint' with the actual endpoint you want to call
+    console.log("api called",description,
+      dropdown,
+     parts,
+      photo,
+      product,
+     reference)
+    
+    // Assuming you're making a POST request
+    // return this.http.post<any>(${this.apiURL}${}, requestBody);
+    return this.httpClient.post(this.apiURL+'insp_check_list_ADD',requestBody);
+  }
+
+
+
+  insp_check_list_update(description: string, dropdown: string, parts: string, photo: string, product: string, reference: string):Observable<any>{
+  const requestBody = {
+    description,dropdown,parts,photo,product,reference
+  };
+  // Replace 'your-endpoint' with the actual endpoint you want to call
+  console.log("api called successfully",description,
+  dropdown,
+ parts,
+  photo,
+  product,
+ reference)
+
+return this.httpClient.put(this.apiURL + 'insp_check_list_update', requestBody);
+}
   
-  
+deleteItem1(id: number): Observable<any> {
+  console.log("api delete called")
+  const url = `${this.apiURL}/inspection_delete/${id}`;
+  return this.http.delete(url);
+}  
 
 }

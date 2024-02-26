@@ -1,7 +1,7 @@
 <div class="card-container">
 <div class="card">
     <div class="card-body">
-        <h1 class="PitTitle">{{ title }}</h1>
+        <h1  class="PitTitle"> <b>{{ title }}</b></h1>
         <div class="table-responsive">
             <table class="table table-bordered">
                 <thead>
@@ -9,46 +9,88 @@
                         <th>Dropdown</th>
                         <th>Photo</th>
                         <th>Checkpoint</th>
-                        <th>Need for Report(Photo)</th>
+                        <th>Photo Enhancement for Report </th>
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Loop over each item in dropdownArray and display in a row -->
-                    <tr *ngFor="let item of dropdownArray; let index = index">
-                        <td>{{ item }}</td>
+                    <tr *ngFor="let item of dropdownArray; let index = index" >
+                        <td>
+                            <ng-container *ngIf="item.includes('---')">
+                                {{ item.split('---')[0] }}
+                                <input type="number" [(ngModel)]="inputValues[index]" class="input-field">
+                                {{ item.split('---')[1] }}
+                            </ng-container>
+                            <ng-container *ngIf="!item.includes('---')">
+                                {{ item }}
+                            </ng-container>
+                        </td>
                         <td>
                             <div class="input-group">
-                                <!-- Display a file input to select an image from the file system -->
-                                <input *ngIf="photoArray[index] && (photoArray[index].toLowerCase() === 'y')" type="file" accept="image/*" class="form-control-file" id="'photoUpload_img'+index" (change)="handleFileInput($event, index)">
+                                <input [disabled]="disable" *ngIf="photoArray[index] && (photoArray[index].toLowerCase() === 'y')" type="file" accept="image/*" class="form-control-file" id="'photoUpload_img'+index" (change)="handleFileInput($event, index)" [class.selected-file]="photoSelected[index]">
                                 <p *ngIf="photoArray[index] && (photoArray[index].toLowerCase() === 'y')">OR</p>
-                                <!-- When the camera icon is clicked, call the openCamera() method -->
-                                <!-- HTML Template -->
-                                <label *ngIf="photoArray[index] && (photoArray[index].toLowerCase() === 'y')" class="input-group-text" [attr.id]="'photoUpload' + index" (click)="openCamera(index)">
-                                    <i class="fas fa-camera"></i>
-                                </label>
                                 
+                                
+                        
 
+                                <span [class.disabled]="disable">
+                                    <label *ngIf="photoArray[index] && (photoArray[index].toLowerCase() === 'y')" class="input-group-text" [attr.id]="'photoUpload' + index" (click)="takePicture(index)">
+                                        <i class="fas fa-camera"></i>
+                                    </label>
+                                </span>
+
+
+
+                                <span class="spacer"></span> 
+                                <button [disabled]="disable" (click)="viewImage(index)" class="view-image-button" *ngIf="photoArray[index] && (photoArray[index].toLowerCase() === 'y')">
+                                    <i class="fas fa-eye"></i>
+                                </button>
                             </div>
                         </td>
-                        <td><input type="checkbox" [(ngModel)]="checkpoints[index]"></td>
-                        <td><input type="checkbox" [(ngModel)]="reports[index]"></td>
+                        <td>
+                            <input [disabled]="disable" type="checkbox" [checked]="checkpoint[index]" (change)="checkpoint[index] = !checkpoint[index]">
+                        </td>
+                        <td>
+                            <input [disabled]="disable|| !photoArray[index] || (photoArray[index].toLowerCase() !== 'y')" type="checkbox" [checked]="NeedforReport[index]" (change)="NeedforReport[index] = !NeedforReport[index]">
+                        </td>                       
                     </tr>
+
+                    <td colspan="4" clasxs="text-center">
+                        <button (click)="save()" *ngIf="satisfied_button_flag" id="positive" class="Positive-btn">All Are Done</button>
+                        <span class="spacer"></span> 
+                        <button (click)="save_button_enable_fun()" id="negative" *ngIf="defect_button_flag" class="negative-btn">Issue</button>
+                    </td>
                     
                     <tr>
                         <!-- Save button -->
                         <td colspan="4" clasxs="text-center">
-                            <button (click)="save()" class="btn-save">Save</button>
+                            <button (click)="save()" *ngIf="save_button_enable_flag"  class="btn-save">Save</button>
                         </td>
                     </tr>
                 </tbody>
-
-
             </table>
-            
-            
         </div>
     </div>
-   
 </div>
 
+<div class="floating-container" *ngIf="isCameraActive">
+    <video #videoElement autoplay playsinline></video>
+    <canvas #canvasElement style="display: none;"></canvas>
+    <img #imageElement style="max-width: 100%; max-height: 100%; display: none;">
+    <div class="button-container">
+      <button *ngIf="!isImageCaptured" (click)="captureImage()"   class="custom-button"  >Capture</button>
+      <button *ngIf="isImageCaptured" (click)="retakePicture()"  class="custom-button" >Retake</button>
+      <button *ngIf="isImageCaptured" (click)="confirmImage()"  class="custom-button" >OK</button>
+      <button (click)="cancelCapture()"   class="custom-button cancel-button"     >Cancel</button>
+    </div>
+  </div>
+  
+  
+   <div *ngIf="showImageView" class="image-view-container">
+    <div class="image-view-content">
+       <img [src]="selectedImageUrl" alt="Selected Image" class="selected-image">
+       <button (click)="closeImageView()" class="close-button">
+         <i class="fas fa-times"></i>
+       </button>
+    </div>
+   </div>
 </div>
