@@ -115,6 +115,7 @@ import { BreifSpecComponent } from './inspector_dashboard/breif-spec/breif-spec.
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { PitComponent } from './inspector_dashboard/pit/pit.component';
 import { PitcheckpointsComponent } from './inspector_dashboard/pit/pitcheckpoints/pitcheckpoints.component';
+import { CabinComponent } from './inspector_dashboard/cabin/cabin.component';
 // import { RejectionComponent } from './inspector_dashboard/rejection/rejection.component';
 
 
@@ -196,6 +197,7 @@ import { PitcheckpointsComponent } from './inspector_dashboard/pit/pitcheckpoint
         ResetPasswordComponent,
                PitComponent,
                PitcheckpointsComponent,
+               CabinComponent,
         // RejectionComponent,
         
 

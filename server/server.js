@@ -20,6 +20,7 @@ const app = express();
 
 const multer = require('multer');
 const xlsx = require('xlsx');
+const { log } = require('console');
 
 const storage = multer.memoryStorage(); // Use memory storage for handling files without saving to disk
 const upload = multer({ storage: storage });
@@ -2689,6 +2690,21 @@ app.get('/api/building_type', (req, res) => {
     res.json(values);
   });
 });
+//vendor
+app.get('/api/vendor', (req, res) => {
+  const query = 'SELECT VENDOR_NAME FROM VENDOR_MASTER';
+
+  db1.query(query, (err, results) => {
+    if (err) {
+      console.error('Error fetching values from MySQL:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
+      return;
+    }
+
+    const values = results.map((row) => row.VENDOR_NAME);
+    res.json(values);
+  });
+});
 
 
 app.get('/api/region', (req, res) => {
@@ -2751,6 +2767,7 @@ app.get('/api/region', (req, res) => {
       res.json(values);
     });
   });
+  
   
 
 
@@ -3015,6 +3032,23 @@ app.get('/api/inspector', (req, res) => {
   
       const values = results.map((row) => row.inspector_type);
       res.json(values);
+    });
+  });
+
+  //store breif spec
+  app.post('/api/breif_spec_add', (req, res) => {
+  console.log('breif spec called');
+  const {manual_rescue,document_id,unit_no,inspector_name,oem,elevator_number,type_of_equipment,year_of_manufacture,type_of_usage,machine_location,controller_drive_type,controller_name_as_per_oem,type_of_operation,grouping_type,name_of_the_group,floor_details,openings,floor_designations,front_opening_floors,rear_opening_floors,non_stop_service_floors,emergency_stop_floors,rope_category,no_of_ropes_belts,rope_size,no_of_drive_sheave_grooves,ropes_wrap_details,type_of_roping,machine_type,kilo_watt,voltage,current_in_ampere,frequency,rpm,insulation_class,ingress_protection,no_of_poles,st_hr,serial_no,rope_dia,normal_speed,electrical_tripping_speed,mechanical_tripping_speed,cwt_governor_details,door_operator,cwt_rope_dia,cwt_normal_speed,cwt_electrical_tripping_speed,cwt_mechanical_tripping_speed,entrance_width,entrance_height,type_of_openings,cabin_width,cabin_height,no_of_car_operating_panels,car_indicator_type,multimedia_display,no_cabin_fans,type_of_cabin_fan,type_of_call_buttons,stop_button,service_cabinet,voice_announcement,handrail,cabin_bumper,auto_attendant,auto_independant,non_stop,fan_switch,hall_indicator_type,hall_laterns,arrival_chime,no_of_risers_at_main_lobby,no_of_risers_at_other_floors,hall_call_type_at_main_lobby,hall_call_type_at_all_floors,no_of_car_buffers,type_of_car_buffers,no_of_cwt_buffer,type_of_cwt_buffer,e_light,e_alarm,e_intercom,ard_operation,ard_audio,ard_visuals,fireman_operation,fireman_emerg_return,fireman_audio,fireman_visual,passenger_overload_operation,passenger_overload_visual,passenger_overload_audio,seismic_sensor_operation,battery}=req.body;
+  const query = 'INSERT INTO breif_spec(document_id,unit_no,inspector_name,oem,elevator_number,year_of_manufacture,machine_location,controller_driver_type,controller_name_as_per_oem,type_of_equipment,type_of_usage,type_of_operation,grouping_type,name_of_the_group,floor_stops,floor_opening,floor_designation,front_opening_floors,rear_opening_floors,service_floors,emergency_stop_floors,rope_category,number_of_rope_belt,rope_size,no_of_drive_sheave_grooves,ropes_wrap_details,type_of_roping,machine_type,motor_kilo_watt,motor_voltage,motor_current_in_ampere,motor_frequency,motor_rpm,motor_insulation_class,motor_ingress_protection,motor_no_of_poles,motor_st_hr,motor_serial_number,car_governor_rope_dia,car_governor_normal_speed,car_governor_electric_tripping_speed,car_governor_mechanical_tripping_speed,cwt_governor,cwt_governor_rope_dia,cwt_governor_normal_speed,cwt_governor_electrical_tripping_speed,cwt_governor_mechanical_tripping_speed,door_operator,entrance_height,entrance_width,entrance_type_of_opening,cabin_height,cabin_width,no_of_cop,car_indicator_type,multimedia_display,no_of_cabin_fans,type_of_cabin_fans,type_of_call_buttons,car_stop_button,car_service_cabinet,car_voice_announcement,car_handrail,car_cabin_bumper,car_auto_attendant,car_auto_independent,car_non_stop,car_fan_switch,hall_indicator_type,hall_lantems,hall_arrival_chime,no_of_risers_at_main_lobby,no_of_risers_at_other_floors,hall_call_type_at_main_lobby,hall_call_type_at_all_floors,no_of_car_buffers,type_of_car_buffers,no_of_counter_weight_buffer,type_of_cwt_buffer,e_light,e_alarm,e_intercom,ard_operation,ard_audio,ard_visual,fireman_operation,fer,fireman_audio,fireman_visual,manual_rescue,passenger_overload_operation,passenger_overload_visual,passenger_overload_audio,seismic_sensor_operation) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
+  
+    db1.query(query, [document_id,unit_no,inspector_name,oem,elevator_number,year_of_manufacture,machine_location,controller_drive_type,controller_name_as_per_oem,type_of_equipment,type_of_usage,type_of_operation,grouping_type,name_of_the_group,floor_details,openings,floor_designations,front_opening_floors,rear_opening_floors,non_stop_service_floors,emergency_stop_floors,rope_category,no_of_ropes_belts,rope_size,no_of_drive_sheave_grooves,ropes_wrap_details,type_of_roping,machine_type,kilo_watt,voltage,current_in_ampere,frequency,rpm,insulation_class,ingress_protection,no_of_poles,st_hr,serial_no,rope_dia,normal_speed,electrical_tripping_speed,mechanical_tripping_speed,cwt_governor_details,cwt_rope_dia,cwt_normal_speed,cwt_electrical_tripping_speed,cwt_mechanical_tripping_speed,door_operator,entrance_height,entrance_width,type_of_openings,cabin_height,cabin_width,no_of_car_operating_panels,car_indicator_type,multimedia_display,no_cabin_fans,type_of_cabin_fan,type_of_call_buttons,stop_button,service_cabinet,voice_announcement,handrail,cabin_bumper,auto_attendant,auto_independant,non_stop,fan_switch,hall_indicator_type,hall_laterns,arrival_chime,no_of_risers_at_main_lobby,no_of_risers_at_other_floors,hall_call_type_at_main_lobby,hall_call_type_at_all_floors,no_of_car_buffers,type_of_car_buffers,no_of_cwt_buffer,type_of_cwt_buffer,e_light,e_alarm,e_intercom,ard_operation,ard_audio,ard_visuals,fireman_operation,fireman_emerg_return,fireman_audio,fireman_visual,manual_rescue,passenger_overload_operation,passenger_overload_visual,passenger_overload_audio,seismic_sensor_operation], (err, result) => {
+      if (err) {
+        console.error('Error storing values:', err);
+        res.status(500).json(err);
+      } else {
+        console.log('success:', result);
+        res.status(200).json({ message: 'data stored successfully successfully' });
+      }
     });
   });
 
