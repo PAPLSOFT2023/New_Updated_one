@@ -1,5 +1,5 @@
 import { Component,ElementRef, ViewChild } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient,HttpParams } from '@angular/common/http';
 // import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 // import { DataService } from 'src/app/data.service';
@@ -12,12 +12,14 @@ import { inspector } from 'src/app/sidenav/nav-data';
   styleUrls: ['./breif-spec.component.scss']
 })
 export class BreifSpecComponent {
+  total_values:string[]|any|null = [];
   video: any;
   val:string | null='';
   name:string | null ='';
-  document_id:string | null ='';
+  document_id:string | null |any ='';
   unit_no:string|null='';
   values:string[]=[];
+  units_values:any=[];
 
   //breif spec variables
   oem:string='';
@@ -121,6 +123,10 @@ export class BreifSpecComponent {
     });
 
   }
+  // getValueFromSessionStorage() {
+  //   let unitValues = this.sessionStorage.retrieve('unit_values');
+  //   console.log(unitValues); // Do whatever you need with the value
+  // }
   ngOnInit(){
     this.document_id = sessionStorage.getItem('document_id');
     console.log('document id is ',this.document_id);
@@ -129,6 +135,14 @@ export class BreifSpecComponent {
     console.log('section is ',this.val);
     this.name = sessionStorage.getItem('UserName') as string;
     console.log('inspector name',this.name);
+    const unitValuesString = sessionStorage.getItem('unit_values');
+    if (unitValuesString) {
+      this.units_values = JSON.parse(unitValuesString); // Parse the string into an array
+    } else {
+      console.error('unit_values not found in sessionStorage');
+    }
+    
+ 
 
     this.http.get<string[]>('http://localhost:3000/api/vendor').subscribe((data) => {
       this.values = data;
@@ -140,6 +154,126 @@ export class BreifSpecComponent {
   check(){
     console.log('elevator number is ',this.elevator_number);
     
+  }
+  fetch(unit:any){
+    const values ={
+      unit_no:this.unit_no,
+      document_id:this.document_id
+    }
+    const params = new HttpParams().set('unit_no',unit ).set('document_id',this.document_id);
+    this.http.get<string[]>('http://localhost:3000/api/breif_spec_fetch',{params}).subscribe(
+      (response) => {
+        // this.router.navigate(['afterlogin', 'unit',this.document_id]);
+        console.log('saved successfully...!');
+        this.total_values=response;
+        this.elevator_number=this.total_values.elevator_number;
+        this.oem=this.total_values.oem,
+        this.year_of_manufacture=this.total_values.year_of_manufacture,
+        this.type_of_usage=this.total_values.type_of_usage,
+        this.machine_location=this.total_values.machine_location,
+        this.controller_drive_type=this.total_values.controller_driver_type,
+        this.controller_name_as_per_oem=this.total_values.controller_name_as_per_oem,
+        this.type_of_operation= this.total_values.type_of_operation,
+        this.grouping_type = this.total_values.grouping_type,
+        this.name_of_the_group=this.total_values.name_of_the_group,
+        this.floor_details=this.total_values.floor_stops,
+        this.openings=this.total_values.floor_opening,
+        this.floor_designations = this.total_values.floor_designation,
+        this.front_opening_floors=this.total_values.front_opening_floors,
+        this.rear_opening_floors=this.total_values.rear_opening_floors,
+        this.non_stop_service_floors =this.total_values.service_floors,
+        this.emergency_stop_floors = this.total_values.emergency_stop_floors,
+        this.rope_category = this.total_values.rope_category,
+        this.no_of_ropes_belts = this.total_values.number_of_rope_belt,
+        this.rope_size = this.total_values.rope_size,
+        this.no_of_drive_sheave_grooves = this.total_values.no_of_drive_sheave_grooves,
+        this.ropes_wrap_details = this.total_values.ropes_wrap_details,
+        this.type_of_roping = this.total_values.type_of_roping,
+        this.machine_type = this.total_values.machine_type,
+        this.kilo_watt = this.total_values.motor_kilo_watt,
+        this.voltage = this.total_values.motor_voltage,
+        this.current_in_ampere = this.total_values.motor_current_in_ampere,
+        this.frequency = this.total_values.motor_frequency,
+        this.rpm = this.total_values.motor_rpm,
+        this.insulation_class = this.total_values.motor_insulation_class,
+        this.ingress_protection = this.total_values.motor_ingress_protection,
+        this.no_of_poles = this.total_values.motor_no_of_poles,
+        this.st_hr = this.total_values.motor_st_hr,
+        this.serial_no = this.total_values.motor_serial_number,
+        this.rope_dia = this.total_values.car_governor_rope_dia,
+        this.normal_speed = this.total_values.car_governor_normal_speed,
+        this.electrical_tripping_speed = this.total_values.car_governor_electric_tripping_speed,
+        this.mechanical_tripping_speed = this.total_values.car_governor_mechanical_tripping_speed	,
+        this.cwt_governor_details = this.total_values.cwt_governor,
+        this.cwt_rope_dia = this.total_values.cwt_governor_rope_dia,
+        this.cwt_normal_speed = this.total_values.cwt_governor_normal_speed,
+        this.cwt_electrical_tripping_speed = this.total_values.cwt_governor_electrical_tripping_speed,
+        this.cwt_mechanical_tripping_speed = this.total_values.cwt_governor_mechanical_tripping_speed,
+        this.door_operator = this.total_values.door_operator,
+        this.entrance_height = this.total_values.entrance_height,
+        this.entrance_width = this.total_values.entrance_width,
+        this.type_of_openings = this.total_values.entrance_type_of_opening,
+        this.cabin_height = this.total_values.cabin_height,
+        this.cabin_width = this.total_values.cabin_width,
+        this.no_of_car_operating_panels = this.total_values.no_of_cop,
+        this.car_indicator_type = this.total_values.car_indicator_type,
+        this.multimedia_display = this.total_values.multimedia_display,
+        this.no_cabin_fans = this.total_values.no_of_cabin_fans,
+        this.type_of_cabin_fan = this.total_values.type_of_cabin_fans,
+        this.type_of_call_buttons = this.total_values.type_of_call_buttons,
+        this.stop_button = this.total_values.car_stop_button,
+        this.service_cabinet =this.total_values.car_service_cabinet,
+        this.voice_announcement = this.total_values.car_voice_announcement,
+        this.handrail = this.total_values.car_handrail,
+        this.cabin_bumper = this.total_values.car_cabin_bumper,
+        this.auto_attendant = this.total_values.car_auto_attendant,
+        this.auto_independant = this.total_values.car_auto_independent,
+        this.non_stop = this.total_values.car_non_stop,
+        this.fan_switch = this.total_values.car_fan_switch,
+        this.hall_indicator_type = this.total_values.hall_indicator_type,
+        // this.hall_laterns = this.total_values.hall_lantems,
+        this.hall_laterns = this.total_values.hall_lantems,
+        this.arrival_chime = this.total_values.hall_arrival_chime,
+        this.no_of_risers_at_main_lobby = this.total_values.no_of_risers_at_main_lobby,
+        this.no_of_risers_at_other_floors = this.total_values.no_of_risers_at_other_floors,
+        this.hall_call_type_at_main_lobby = this.total_values.hall_call_type_at_main_lobby,
+        this.hall_call_type_at_all_floors = this.total_values.hall_call_type_at_all_floors,
+        this.no_of_car_buffers = this.total_values.no_of_car_buffers,
+        this.type_of_car_buffers = this.total_values.type_of_car_buffers,
+        this.no_of_cwt_buffer = this.total_values.no_of_counter_weight_buffer,
+        this.type_of_cwt_buffer = this.total_values.type_of_cwt_buffer,
+        this.e_light = this.total_values.e_light,
+        this.e_alarm = this.total_values.e_alarm,
+        this.e_intercom = this.total_values.e_intercom,
+        this.ard_operation = this.total_values.ard_audio,
+        this.ard_audio = this.total_values.ard_audio,
+        this.ard_visuals = this.total_values.ard_visual,
+        this.fireman_operation = this.total_values.fireman_operation,
+        this.fireman_emerg_return = this.total_values.fer,
+        this.fireman_audio = this.total_values.fireman_audio,
+        this.fireman_visual = this.total_values.fireman_visual,
+        this.manual_rescue = this.total_values.manual_rescue,
+        this.passenger_overload_operation = this.total_values.passenger_overload_operation,
+        this.passenger_overload_visual = this.total_values.passenger_overload_visual,
+        this.passenger_overload_audio = this.total_values.passenger_overload_audio,
+        this.seismic_sensor_operation = this.total_values.seismic_sensor_operation,
+        this.type_of_equipment = this.total_values.type_of_equipment
+
+
+
+
+
+
+
+        console.log('response is',this.total_values);
+        },
+      (error) => {
+        console.error('Error storing data', error);
+      }
+    );
+
+    
+
   }
 
   submit(){

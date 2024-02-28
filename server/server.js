@@ -1277,6 +1277,7 @@ app.post('/api/login', (req, res) => {
   db.query(query, [username], (err, results) => {
     if (err) {
       // console.log("+++", err);
+      console.log(err);
 
       return res.status(500).json({ error: 'Internal server error' });
     }
@@ -3424,6 +3425,29 @@ app.get('/api/inspector', (req, res) => {
 //         }
 //     });
 // });
+
+app.get('/api/breif_spec_fetch',(req,res)=>{
+  const {unit_no,document_id}=req.query;
+  console.log('api',unit_no);
+  console.log('document_id',document_id);
+  const query = 'SELECT * FROM breif_spec WHERE unit_no = ? and document_id=?';
+  
+  db1.query(query, [unit_no,document_id], (err, results) => {
+    if (err) {
+      console.error('Error executing SQL query:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      if (results.length === 0) {
+        console.log(err);
+        res.status(404).json({ error: 'Name not found'});
+      } else {
+        const details = results[0]; // Assuming there's only one row with the name
+        res.json(details);
+      }
+    }
+  });
+
+})
 
 app.get('/api/countRecords_u', (req, res) => {
   const { name, id } = req.query;

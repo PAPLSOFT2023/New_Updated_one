@@ -6,13 +6,11 @@
 <title>Elevator Details</title>
 </head>
 <body>
-  <div class="container">
-    <div class="app">APPLY</div>
-    <div class="box">P1</div>
-    <div class="box">P2</div>
-    <div class="box">P3</div>
-    <div class="box">P4</div>
-  </div>
+<div class="container">
+  <div class="app">APPLY</div>
+  <div class="box" *ngFor="let unit of units_values" (click)="fetch(unit)">{{ unit }}</div>
+</div>
+
   <h3>BRIEF SPECIFICATION OF THE ELEVATOR</h3>
   <!-- <button (click)="view()">click</button> -->
   <table>
@@ -20,7 +18,10 @@
       <tr>
         <th rowspan="9" scope="rowgroup">Suppliers Detail</th>
         <th>Elevator Numbers</th>
+        <!-- <td><input type="text" [(ngModel)]="elevator_number"></td> -->
         <td><input type="text" [(ngModel)]="elevator_number"></td>
+
+
       </tr>
          <tr>
         <th scope="row">OEM</th>
@@ -73,8 +74,8 @@
       <tr>
         <th scope="row">Type of operation</th>
         <td class="dropdown-container"><select [(ngModel)]="type_of_operation">
-          <option value="Option 1">Simplex</option>
-          <option value="Option 2">Duplex</option>
+          <option value="Simplex">Simplex</option>
+          <option value="Duplex">Duplex</option>
       </select></td>
       </tr>
       
@@ -122,8 +123,8 @@
         <th rowspan="6" scope="rowgroup">Traction Details</th>
         <th scope="row">Rope Category</th>
         <td class="dropdown-container"> <select [(ngModel)]="rope_category">
-          <option value="Option 1">Rope</option>
-          <option value="Option 2">Belt</option>
+          <option value="Rope">Rope</option>
+          <option value="Belt">Belt</option>
       </select></td>
       </tr>
       <tr>
@@ -156,8 +157,8 @@
         <th rowspan="1" scope="rowgroup">Machine Details</th>
         <th scope="row">Machine Type</th>
         <td class="dropdown-container"> <select [(ngModel)]="machine_type">
-          <option value="Option 1">Geared</option>
-          <option value="Option 2">Gearedless</option>
+          <option value="Geared">Geared</option>
+          <option value="Gearedless">Gearedless</option>
       </select></td>
       </tr>
       <tr>
@@ -349,7 +350,7 @@
           <option value="Self illuminated push button">Self illuminated push button</option>
           <option value="Self illuminated push button with vandal proof">Self illuminated push button with vandal proof</option>
           <option value="Braille marked Self illuminated push button">Braille marked Self illuminated push button</option>
-          <option value="Braille maPush button without illuminationrked Self illuminated push button with vandal proof">Braille marked Self illuminated push button with vandal proof</option>
+          <option value="Braille marked Self illuminated push button with vandal proof">Braille marked Self illuminated push button with vandal proof</option>
           <option value="Push button without illumination">Push button without illumination</option>
           <option value="Braille marked Push button without illumination">Braille marked Push button without illumination</option>
       </select></td>
@@ -358,7 +359,7 @@
         <th scope="row">STOP Button</th>
         <td class="dropdown-container"><select  [(ngModel)]="stop_button">
           <option value="A-stable push button">A-stable push button</option>
-          <option value="Bi-stable push button">CUSTOMER</option>
+          <option value="Bi-stable push button">Bi-stable push button</option>
           <option value="Bi-stable push button inside service panel">Bi-stable push button inside service panel</option>
           <option value="Not provided">Not provided</option>
       </select></td>

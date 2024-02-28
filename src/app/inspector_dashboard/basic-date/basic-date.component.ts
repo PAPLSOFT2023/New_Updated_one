@@ -322,6 +322,9 @@ const se_to1 = datePipe.transform(se_to,'yyyy-MM-dd')
     console.log('inspector name',this.name);
     console.log('contract number',this.inf_26.contract_number);
     const unit_values=this.dataService.unit_values;
+    sessionStorage.setItem('unit_values', JSON.stringify(unit_values)); 
+
+
     const contract_number=this.inf_26.contract_number;
 
     const store_values={
