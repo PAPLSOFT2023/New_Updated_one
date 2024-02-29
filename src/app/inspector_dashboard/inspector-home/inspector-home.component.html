@@ -89,7 +89,7 @@
         <p class='department'>No.of.units: {{request.total_units_schedule}}</p>
         <p class='department'>Location: {{request.location}}</p>
         <p class='department'>Types of inspection: {{request.type_of_inspection}}</p>
-        <button class='apply-button' (click)="Send_Mail_Client(request.id)"> Send Mail </button>
+        <button class='apply-button' (click)="Send_Mail_Client(request.id)"  [disabled]="!isSendMailEnabled(request.inspector_array)"> Send Mail </button>
         
     
         

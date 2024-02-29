@@ -56,5 +56,19 @@ export class SectionComponent {
       console.error('Invalid unit value:', unit);
     }
   }
+  proceed2(unit: string) {
+    console.log("Clicked on unit:", unit);
+  
+    if (unit) {
+      this.router.navigate(['afterlogin', 'cabin', unit]).then(
+        () => console.log('Navigation successful'),
+        (error) => console.error('Navigation failed:', error)
+      );
+    } else {
+      console.error('Invalid unit value:', unit);
+    }
+  }
 
 }
+
+
