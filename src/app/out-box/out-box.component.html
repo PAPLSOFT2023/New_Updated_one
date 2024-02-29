@@ -1,1 +1,23 @@
-<p>{{allValues}}</p>
+<!-- out-box.component.html -->
+<div class="container">
+    <h2>Locally Saved Data</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>UnitNo.</th>
+          <th>Inspection Parts</th>
+          <th>Inspector Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let value of allValues">
+          <td>{{ value.updatedAt | date: 'yyyy-MM-dd' }}</td>
+          <td>{{ value.unitNo }}</td>
+          <td>{{ value.title }}</td>
+          <td>{{ value.inspectorName }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+      

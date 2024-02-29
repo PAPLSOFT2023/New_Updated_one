@@ -332,7 +332,18 @@ async save(): Promise<void> {
   if (navigator.onLine) {
     // Online - Submit data to server
     this.submitDataToServer(valueArray).then(() => {
-      console.log("Data submitted successfully");
+      // console.log("Data submitted successfully");
+      if ('indexedDB' in window) {
+        this.saveDataLocally(valueArray).then(() => {
+          // console.log("Data saved successfully");
+          alert("Data saved successfully")
+        }).catch((error) => {
+          console.error("Error saving data locally:", error);
+        });
+      }
+      else{
+        alert("Data submitted to Server")
+      }
     }).catch((error) => {
       console.error("Error submitting data to server:", error);
     });
