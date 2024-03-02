@@ -54,11 +54,14 @@
                         </td>                       
                     </tr>
 
-                    <td colspan="4" clasxs="text-center">
-                        <button (click)="save()" *ngIf="satisfied_button_flag" id="positive" class="Positive-btn">All Are Done</button>
+                    <td colspan="4" class="text-center">
+                        <button *ngIf="!hideAllDoneButton" (click)="save()"  id="positive" class="Positive-btn">All Are Done</button>
                         <span class="spacer"></span> 
                         <button (click)="save_button_enable_fun()" id="negative" *ngIf="defect_button_flag" class="negative-btn">Issue</button>
                     </td>
+                    
+                    
+                    
                     
                     <tr>
                         <!-- Save button -->
