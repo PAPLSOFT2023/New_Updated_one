@@ -67,6 +67,8 @@ getAllRequest.onerror = () => console.error("Error retrieving records", getAllRe
 
 syncData(): void {
   this.syncing = true;
+
+  
   // Simulate synchronization process (replace with actual synchronization logic)
   setTimeout(() => {
       // After synchronization is complete (replace with actual callback)
