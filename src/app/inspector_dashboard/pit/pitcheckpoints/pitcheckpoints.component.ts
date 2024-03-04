@@ -41,6 +41,7 @@ export class PitcheckpointsComponent  {
   camera_index!:number;
   showImageView: boolean = false; // Controls whether to display the image view container
 selectedImageUrl: string = ''; // Holds the URL of the selected image
+hideAllDoneButton: boolean = false;
 
 defect_button_flag:boolean=true;
 satisfied_button_flag:boolean=true;
@@ -315,6 +316,7 @@ closeImageView(): void {
 
 save_button_enable_fun(){
  this.disable=!this.disable
+ this.hideAllDoneButton = !this.hideAllDoneButton;
   
   this.save_button_enable_flag=!this.save_button_enable_flag;
 }
@@ -332,7 +334,18 @@ async save(): Promise<void> {
   if (navigator.onLine) {
     // Online - Submit data to server
     this.submitDataToServer(valueArray).then(() => {
-      console.log("Data submitted successfully");
+      // console.log("Data submitted successfully");
+      if ('indexedDB' in window) {
+        this.saveDataLocally(valueArray).then(() => {
+          // console.log("Data saved successfully");
+          alert("Data saved successfully")
+        }).catch((error) => {
+          console.error("Error saving data locally:", error);
+        });
+      }
+      else{
+        alert("Data submitted to Server")
+      }
     }).catch((error) => {
       console.error("Error submitting data to server:", error);
     });

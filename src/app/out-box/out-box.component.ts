@@ -10,6 +10,7 @@ import { ApicallService } from '../apicall.service';
 export class OutBoxComponent {
 
    allValues!: any[];
+   syncing: boolean = false;
 
   constructor(private route: ActivatedRoute,private apicallservice:ApicallService) {
 
@@ -61,5 +62,20 @@ getAllRequest.onerror = () => console.error("Error retrieving records", getAllRe
  
   }
 }
+
+
+
+syncData(): void {
+  this.syncing = true;
+
+  
+  // Simulate synchronization process (replace with actual synchronization logic)
+  setTimeout(() => {
+      // After synchronization is complete (replace with actual callback)
+      this.syncing = false;
+  }, 3000); // Example: 3 seconds delay, replace with actual sync time
+}
+
+
 
 }
