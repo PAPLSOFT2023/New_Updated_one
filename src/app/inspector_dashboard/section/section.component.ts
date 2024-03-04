@@ -80,6 +80,31 @@ export class SectionComponent {
       console.error('Invalid unit value:', unit);
     }
   }
+  proceed4(unit: string) {
+    console.log("Clicked on unit:", unit);
+  
+    if (unit) {
+      this.router.navigate(['afterlogin', 'machineroom', unit]).then(
+        () => console.log('Navigation successful'),
+        (error) => console.error('Navigation failed:', error)
+      );
+    } else {
+      console.error('Invalid unit value:', unit);
+    }
+  }
+
+  proceed5(unit: string) {
+    console.log("Clicked on unit:", unit);
+  
+    if (unit) {
+      this.router.navigate(['afterlogin', 'floorlanding', unit]).then(
+        () => console.log('Navigation successful'),
+        (error) => console.error('Navigation failed:', error)
+      );
+    } else {
+      console.error('Invalid unit value:', unit);
+    }
+  }
 
 }
 
