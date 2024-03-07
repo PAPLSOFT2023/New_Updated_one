@@ -117,6 +117,9 @@ import { PitComponent } from './inspector_dashboard/pit/pit.component';
 import { PitcheckpointsComponent } from './inspector_dashboard/pit/pitcheckpoints/pitcheckpoints.component';
 import { CabinComponent } from './inspector_dashboard/cabin/cabin.component';
 import { OutBoxComponent } from './out-box/out-box.component';
+import { CartopComponent } from './inspector_dashboard/cartop/cartop.component';
+import { MachineroomComponent } from './inspector_dashboard/machineroom/machineroom.component';
+import { FloorlandingComponent } from './inspector_dashboard/floorlanding/floorlanding.component';
 
 // import { RejectionComponent } from './inspector_dashboard/rejection/rejection.component';
 
@@ -201,6 +204,9 @@ import { OutBoxComponent } from './out-box/out-box.component';
                PitcheckpointsComponent,
                CabinComponent,
                OutBoxComponent,
+               CartopComponent,
+               MachineroomComponent,
+               FloorlandingComponent,
              
         // RejectionComponent,
         

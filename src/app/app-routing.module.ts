@@ -41,6 +41,9 @@ import { PitComponent } from './inspector_dashboard/pit/pit.component';
 import { PitcheckpointsComponent } from './inspector_dashboard/pit/pitcheckpoints/pitcheckpoints.component';
 import { CabinComponent } from './inspector_dashboard/cabin/cabin.component';
 import { OutBoxComponent } from './out-box/out-box.component';
+import { CartopComponent } from './inspector_dashboard/cartop/cartop.component';
+import { MachineroomComponent } from './inspector_dashboard/machineroom/machineroom.component';
+import { FloorlandingComponent } from './inspector_dashboard/floorlanding/floorlanding.component';
 // import { OutBoxComponent } from './out-box/out-box.component';
 // import { UnitDetailsComponent } from './inspector_dashboard/unit-details/unit-details.component';
 const routes: Routes = [
@@ -103,8 +106,12 @@ const routes: Routes = [
          {path:'section/:c_no',component:SectionComponent},
          {path:'spec/:c_no',component:BreifSpecComponent},
          {path:'pit/:c_no',component:PitComponent},
+         { path: 'pitcheckpoint/:id/:documentid/:unitno/:inspectorname/:section', component: PitcheckpointsComponent },
          {path:'cabin/:c_no',component:CabinComponent},
-         { path: 'pitcheckpoint/:id/:documentid/:unitno/:inspectorname/:section', component: PitcheckpointsComponent }
+         {path:'cartop/:c_no',component:CartopComponent},
+         {path:'machineroom/:c_no',component:MachineroomComponent},
+         {path:'floorlanding/:c_no',component:FloorlandingComponent},
+         { path: 'pitcheckpoint/:id/:documentid/:unitno/:inspectorname', component: PitcheckpointsComponent }
          
     ],
   },

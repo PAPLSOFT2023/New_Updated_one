@@ -8,8 +8,8 @@
                     <tr>
                         <th>Dropdown</th>
                         <th>Photo</th>
-                        <th>Checkpoint</th>
-                        <th>Photo Enhancement for Report </th>
+                        <th>Choose One or More</th>
+                        <th>Image Required for Report </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -55,7 +55,7 @@
                     </tr>
 
                     <td colspan="4" class="text-center">
-                        <button *ngIf="!hideAllDoneButton" (click)="save()"  id="positive" class="Positive-btn">All Are Done</button>
+                        <button *ngIf="!hideAllDoneButton" (click)="save()"  id="positive" class="Positive-btn">Satisfactory</button>
                         <span class="spacer"></span> 
                         <button (click)="save_button_enable_fun()" id="negative" *ngIf="defect_button_flag" class="negative-btn">Issue</button>
                     </td>

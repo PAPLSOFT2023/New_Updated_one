@@ -113,9 +113,6 @@ db1.connect((err) => {
 });
 
 
-
-
-
 const TransporterData = () => {
   return new Promise((resolve, reject) => {
     db.execute('SELECT App_password, Email, Organization FROM mail_automation ', (error, result) => {
@@ -136,6 +133,8 @@ const TransporterData = () => {
     });
   });
 };
+
+
 
 
 
