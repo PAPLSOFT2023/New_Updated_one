@@ -104,7 +104,7 @@ const routes: Routes = [
          {path:'spec/:c_no',component:BreifSpecComponent},
          {path:'pit/:c_no',component:PitComponent},
          {path:'cabin/:c_no',component:CabinComponent},
-         { path: 'pitcheckpoint/:id/:documentid/:unitno/:inspectorname', component: PitcheckpointsComponent }
+         { path: 'pitcheckpoint/:id/:documentid/:unitno/:inspectorname/:section', component: PitcheckpointsComponent }
          
     ],
   },

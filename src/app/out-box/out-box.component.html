@@ -14,7 +14,7 @@
   
   <div class="table-container">
     <!-- Check if allValues array is empty -->
-    <ng-container *ngIf="allValues.length > 0; else noData">
+    <ng-container *ngIf="allValues && allValues.length > 0; else noData">
         <table class="responsive-table">
             <thead>
                 <tr>

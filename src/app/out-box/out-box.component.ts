@@ -55,7 +55,7 @@ const getAllRequest: IDBRequest<ValuesObj[]> = offlineStore.getAll();
 
 getAllRequest.onsuccess = () => {
    this.allValues = getAllRequest.result;
-  console.log("All records:", JSON.stringify(this.allValues));
+  // console.log("All records:", JSON.stringify(this.allValues));
 };
 
 getAllRequest.onerror = () => console.error("Error retrieving records", getAllRequest.error);
@@ -65,17 +65,111 @@ getAllRequest.onerror = () => console.error("Error retrieving records", getAllRe
 
 
 
+
+
 syncData(): void {
   this.syncing = true;
-
-  
-  // Simulate synchronization process (replace with actual synchronization logic)
-  setTimeout(() => {
-      // After synchronization is complete (replace with actual callback)
-      this.syncing = false;
-  }, 3000); // Example: 3 seconds delay, replace with actual sync time
+  const syncPromises = this.allValues.map((value) => {
+    console.log("OutBox ",value)
+    return this.apicallservice.syncValue(value).toPromise();
+  });
+  const syncStartedAt = Date.now();
+  Promise.all(syncPromises)
+    .then((results) => {
+      console.log('Data synchronized successfully', results);
+      // Update UI or local data as necessary
+      deleteMultipleFromIndexedDB(results);
+    })
+    .catch((error) => {
+      console.error('Error synchronizing data', error); 
+    })
+    .finally(() => {
+      const syncEndedAt = Date.now();
+      const elapsedTime = syncEndedAt - syncStartedAt;
+      const minDisplayTime = 3000;
+      if (elapsedTime < minDisplayTime) {
+        setTimeout(() => {
+          this.syncing = false;
+        }, minDisplayTime - elapsedTime);
+      } else {
+        this.syncing = false;
+      }
+    });
 }
 
 
 
+}
+
+
+
+
+async function openIndexedDB(): Promise<IDBDatabase> {
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open("OutBox", 1); // Adjust the name and version as needed
+
+    request.onupgradeneeded = (event) => {
+      const db = request.result;
+      if (!db.objectStoreNames.contains("Offline")) {
+        db.createObjectStore("Offline", { keyPath: "id" }); // Adjust according to your keyPath or use autoIncrement
+      }
+    };
+
+    request.onsuccess = () => {
+      console.log("Database opened successfully");
+      resolve(request.result);
+    };
+
+    request.onerror = () => {
+      console.error("Error opening database:", request.error);
+      reject(request.error);
+    };
+  });
+}
+
+
+async function deleteFromIndexedDB(key: string): Promise<void> {
+  try {
+    const db = await openIndexedDB();
+    const transaction = db.transaction(["Offline"], "readwrite");
+    const store = transaction.objectStore("Offline");
+    const request = store.delete(key);
+
+    return new Promise((resolve, reject) => {
+      transaction.oncomplete = () => {
+        console.log(`Transaction completed for key: ${key}`);
+      };
+
+      request.onsuccess = () => {
+        console.log("Entry deleted successfully");
+        
+        resolve();
+      };
+
+      request.onerror = () => {
+        console.error("Error deleting entry from IndexedDB", request.error);
+        reject(request.error);
+      };
+    });
+  } catch (error) {
+    console.error("Error deleting entry from IndexedDB", error);
+    throw error; // Ensure upstream error handling
+  }
+}
+
+
+
+
+
+
+async function deleteMultipleFromIndexedDB(keyObjects: { key: string }[]): Promise<void> {
+  try {
+    for (const keyObject of keyObjects) {
+      const key = keyObject.key; // Extract the key from the object
+      console.log("deleteMultipleFrom called", key);
+      await deleteFromIndexedDB(key);
+    }
+  } catch (error) {
+    console.error("Error deleting multiple entries from IndexedDB", error);
+  }
 }
