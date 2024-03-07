@@ -1,1 +1,18 @@
-<p>machineroom works!</p>
+<div class="order-status">
+
+    <a class="step" *ngFor="let step of steps; let i = index" [ngClass]="{'completed': completedStatus[i]}" (click)="handleCardClick(step)">
+        <div class="card">
+            <div class="card-body">
+              <div class="content">
+                <div class="logo">{{ getLogoLetters(step) }}</div>
+                <span>{{ step }}</span>
+                
+              </div>
+            </div>
+            <div class="progress-bar"></div>
+          </div>
+      </a>
+      
+  </div>
+  <router-outlet ></router-outlet>
+  

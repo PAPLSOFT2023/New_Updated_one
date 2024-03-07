@@ -44,6 +44,10 @@ import { OutBoxComponent } from './out-box/out-box.component';
 import { CartopComponent } from './inspector_dashboard/cartop/cartop.component';
 import { MachineroomComponent } from './inspector_dashboard/machineroom/machineroom.component';
 import { FloorlandingComponent } from './inspector_dashboard/floorlanding/floorlanding.component';
+import { CabincheckpointsComponent } from './inspector_dashboard/cabin/cabincheckpoints/cabincheckpoints.component';
+import { CartopcheckpointComponent } from './inspector_dashboard/cartop/cartopcheckpoint/cartopcheckpoint.component';
+import { FloorlandingcheckpointComponent } from './inspector_dashboard/floorlanding/floorlandingcheckpoint/floorlandingcheckpoint.component';
+import { MachinroomcheckpointComponent } from './inspector_dashboard/machineroom/machinroomcheckpoint/machinroomcheckpoint.component';
 // import { OutBoxComponent } from './out-box/out-box.component';
 // import { UnitDetailsComponent } from './inspector_dashboard/unit-details/unit-details.component';
 const routes: Routes = [
@@ -105,13 +109,23 @@ const routes: Routes = [
          {path:'unit/:c_no',component:ListingUnitsComponent},
          {path:'section/:c_no',component:SectionComponent},
          {path:'spec/:c_no',component:BreifSpecComponent},
+        
          {path:'pit/:c_no',component:PitComponent},
          { path: 'pitcheckpoint/:id/:documentid/:unitno/:inspectorname/:section', component: PitcheckpointsComponent },
+         
          {path:'cabin/:c_no',component:CabinComponent},
+        { path: 'cabincheckpoint/:id/:documentid/:unitno/:inspectorname/:section', component: CabincheckpointsComponent },
+        
          {path:'cartop/:c_no',component:CartopComponent},
+         { path: 'carcheckpoint/:id/:documentid/:unitno/:inspectorname/:section', component: CartopcheckpointComponent },
+         
          {path:'machineroom/:c_no',component:MachineroomComponent},
+         { path: 'machineroomcheckpoint/:id/:documentid/:unitno/:inspectorname/:section', component: FloorlandingcheckpointComponent },
+         
+         
          {path:'floorlanding/:c_no',component:FloorlandingComponent},
-         { path: 'pitcheckpoint/:id/:documentid/:unitno/:inspectorname', component: PitcheckpointsComponent }
+         { path: 'floorcheckpoint/:id/:documentid/:unitno/:inspectorname/:section', component: FloorlandingcheckpointComponent },
+         
          
     ],
   },
