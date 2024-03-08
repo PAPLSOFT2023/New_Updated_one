@@ -4,6 +4,7 @@ import{Observable, throwError}from 'rxjs';
 import { query } from 'express';
 import { catchError } from 'rxjs/operators';
 import { firstValueFrom } from 'rxjs';
+import { ReturnStatement } from '@angular/compiler';
 @Injectable({
   providedIn: 'root'
 })
@@ -660,13 +661,23 @@ get_insp_master_checklist(Description:string):Observable<any>{
 
 
 // 
-insert_Pit_Values(documentId: string, inspectorName: string, unitNo: string, title: string, valueArray: string[], checkpoint: boolean[], capturedImages: any[], NeedforReport: boolean[]):Observable<any> {
-  const body={documentId, inspectorName, unitNo, title, valueArray, checkpoint, capturedImages, NeedforReport};  
+insert_Record_Values(documentId: string, inspectorName: string,section:string, unitNo: string, title: string, valueArray: string[], checkpoint: boolean[], capturedImages: any[], NeedforReport: boolean[]):Observable<any> {
+  const body={documentId, inspectorName,section, unitNo, title, valueArray, checkpoint, capturedImages, NeedforReport};  
  console.log("api called ")
-  return this.httpClient.post(this.apiURL+'insert_Pit_Values',body);
+  return this.httpClient.post(this.apiURL+'insert_Record_Values',body);
+}
+// Check_check_data_exists
+Check_check_data_exists(Doc:any,unit:any,section:any,insp_name:any,String_array:string[]):Observable<any>
+{
+const body_data={Doc,unit,section,insp_name,String_array}
+  return this.http.post(this.apiURL+"Check_check_data_exists",body_data)
 }
 
 
+syncValue(value: any): Observable<any> {
+  console.log("Api called")
+  return this.http.post(this.apiURL+'syncOff', value);
+}
 
 
 

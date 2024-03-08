@@ -3,14 +3,12 @@ import { ActivatedRoute } from '@angular/router';
 import { response } from 'express';
 import { ApicallService } from 'src/app/apicall.service';
 import { fromEvent, Subscription } from 'rxjs';
-
 @Component({
-  selector: 'app-pitcheckpoints',
-  templateUrl: './pitcheckpoints.component.html',
-  styleUrls: ['./pitcheckpoints.component.scss']
+  selector: 'app-machinroomcheckpoint',
+  templateUrl: './machinroomcheckpoint.component.html',
+  styleUrls: ['./machinroomcheckpoint.component.scss']
 })
-export class PitcheckpointsComponent  {
-
+export class MachinroomcheckpointComponent {
 
   @ViewChild('videoElement') videoElement!: ElementRef;
   @ViewChild('canvasElement') canvasElement!: ElementRef;

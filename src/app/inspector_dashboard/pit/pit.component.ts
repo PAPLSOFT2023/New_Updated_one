@@ -13,14 +13,14 @@ import { response } from 'express';
   styleUrls: ['./pit.component.scss']
 })
 export class PitComponent {
-  val:string | null='';
+  val :string | null='';
   name:string | null ='';
   document_id:string | null ='';
   unit_no:string|null='';
 
 
   steps: string[] = [];
-  completedStatus: boolean[] = [true, true, false, false];
+  completedStatus: boolean[] =[];
 
 
 
@@ -41,16 +41,30 @@ export class PitComponent {
     this.name = sessionStorage.getItem('UserName') as string;
     console.log('inspector name',this.name);
 
-    this.apicallService.getpitContent("Pit").subscribe((response:any)=>{
+    if (this.val !== null) {
+    this.apicallService.getpitContent(this.val).subscribe((response:any)=>{
 
       if(response)
       {
 
+       
         this.steps = response.map((item: { Description: any; }) => item.Description);
+        console.log("Respeonse",this.steps)
+        this.apicallService.Check_check_data_exists(this.document_id,this.unit_no,this.val,this.name,this.steps).subscribe((responseArray:any)=>{
+if(responseArray)
+{
+  this.completedStatus=responseArray
+  // console.log("response",responseArray)
+}
+        })
       }
     }
     ,(error:any)=>{
     })   
+  }
+  else{
+    alert("Session Expired, Please Login again")
+  }
   }
 
 
@@ -69,6 +83,6 @@ export class PitComponent {
 
   handleCardClick(step: string) {
     const id = encodeURIComponent(step);
-    this.router.navigate(['afterlogin', 'pitcheckpoint',id,this.document_id,this.unit_no,this.name]);
+    this.router.navigate(['afterlogin', 'pitcheckpoint',id,this.document_id,this.unit_no,this.name,this.val]);
   }
 }

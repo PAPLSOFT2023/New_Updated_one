@@ -14,13 +14,14 @@
   
   <div class="table-container">
     <!-- Check if allValues array is empty -->
-    <ng-container *ngIf="allValues.length > 0; else noData">
+    <ng-container *ngIf="allValues && allValues.length > 0; else noData">
         <table class="responsive-table">
             <thead>
                 <tr>
                     <th>Date</th>
                     <th>UnitNo.</th>
                     <th>Inspection Parts</th>
+                    <th>Description</th>
                     <th>Inspector Name</th>
                 </tr>
             </thead>
@@ -28,6 +29,7 @@
                 <tr *ngFor="let value of allValues">
                     <td>{{ value.updatedAt | date: 'yyyy-MM-dd' }}</td>
                     <td>{{ value.unitNo }}</td>
+                    <td style="text-transform: uppercase">{{ value.section}}</td>
                     <td>{{ value.title }}</td>
                     <td>{{ value.inspectorName }}</td>
                 </tr>

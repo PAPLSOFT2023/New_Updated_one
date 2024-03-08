@@ -774,31 +774,95 @@ app.get('/api/get_insp_master_checklist_description', (req, res) => {
 
 // insert_Pit_Values
 
-app.post('/api/insert_Pit_Values', (req, res) => {
-  const { documentId, inspectorName, unitNo, title, valueArray, checkpoint, capturedImages, NeedforReport } = req.body;
+app.post('/api/insert_Record_Values', (req, res) => {
+  const { documentId, inspectorName, section, unitNo, title, valueArray, checkpoint, capturedImages, NeedforReport } = req.body;
 
-  // Construct the SQL query
-  const query = `INSERT INTO pit (document_id, inspector_name, unit_no, description, dropdown_option, checked, img, needforReport) VALUES ?`;
+  // Construct the SQL query to check if the record already exists
+  const checkQuery = `SELECT COUNT(*) AS count FROM record_values WHERE document_id = ? AND section = ? AND inspector_name = ? AND unit_no = ? AND description = ? AND dropdown_option = ?`;
 
-  // Prepare the data to be inserted
-  const values = [];
-  for (let i = 0; i < valueArray.length; i++) {
-      values.push([parseInt(documentId), inspectorName, unitNo, title, valueArray[i], checkpoint[i], capturedImages[i], NeedforReport[i]]);
-  }
+  // Execute the check query
+  db1.query(checkQuery, [documentId, section, inspectorName, unitNo, title, valueArray[0]], (error, results) => {
+    if (error) {
+      console.error('Error checking if record already exists:', error);
+      return res.status(500).json({ error: 'An error occurred while checking if record already exists.' });
+    }
 
-  // Execute the SQL query
-  db1.query(query, [values], (error, results, fields) => {
+    // Check if any records with the same constraints already exist
+    const count = results[0].count;
+    if (count > 0) {
+      return res.json("Data Already Exists in DataBase '"+section+" "+ inspectorName+" "+ unitNo+" "+ title+"'");
+    }
+
+    // If the record doesn't exist, proceed with insertion
+    // Construct the SQL query for insertion
+    const query = `INSERT INTO record_values (document_id, section, inspector_name, unit_no, description, dropdown_option, checked, img, needforReport) VALUES ?`;
+
+    // Prepare the data to be inserted
+    const values = [];
+    for (let i = 0; i < valueArray.length; i++) {
+      values.push([documentId, section, inspectorName, unitNo, title, valueArray[i], checkpoint[i], capturedImages[i], NeedforReport[i]]);
+    }
+
+    // Execute the insertion query
+    db1.query(query, [values], (error, results) => {
       if (error) {
-          console.error('Error inserting into pit:', error);
-          res.status(500).json({ error: 'An error occurred while inserting into database.' });
-      } else {
-          if (results && results.affectedRows > 0) {
-              res.json("Data Saved Successfully");
-          } else {
-              res.status(500).json({ error: 'No rows were inserted into the database.' });
-          }
+        console.error('Error inserting into pit:', error);
+        return res.status(500).json({ error: 'An error occurred while inserting into database.' });
       }
+      if (results && results.affectedRows > 0) {
+        return res.json("Data Saved Successfully");
+      } else {
+        return res.status(500).json({ error: 'No rows were inserted into the database.' });
+      }
+    });
   });
+});
+
+// Check_check_data_exists
+app.post('/api/Check_check_data_exists', (req, res) => {
+  const { Doc, unit, section, insp_name, String_array } = req.body;
+
+  // Array to store boolean values indicating data existence
+  const dataExistsArray = [];
+
+  // Function to check if data exists based on provided criteria
+  const checkDataExists = (criteria) => {
+    return new Promise((resolve, reject) => {
+      // Execute database query to check if data exists based on the criteria
+      const query = `
+        SELECT COUNT(*) AS count 
+        FROM record_values 
+        WHERE document_id=? AND unit_no=? AND section=? AND inspector_name=? AND description=?
+      `;
+      db1.query(query, criteria, (error, results) => {
+        if (error) {
+          reject(error);
+        } else {
+          // Check if any records exist based on the query result
+          const count = results[0].count;
+          resolve(count > 0);
+        }
+      });
+    });
+  };
+
+  // Loop through each element of String_array to check data existence
+  const promises = String_array.map(async (item) => {
+    const dataExists = await checkDataExists([Doc, unit, section, insp_name, item]);
+    dataExistsArray.push(dataExists);
+  });
+
+  // Wait for all promises to resolve
+  Promise.all(promises)
+    .then(() => {
+      // console.log("Data exists array:", dataExistsArray);
+      // Send the dataExistsArray as the response
+      res.json(dataExistsArray);
+    })
+    .catch((error) => {
+      console.error("Error checking data existence:", error);
+      res.status(500).json({ error: 'An error occurred while checking data existence.' });
+    });
 });
 
 
@@ -1931,6 +1995,69 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
       res.status(400).json({ message: 'Invalid file format' });
     }
 });
+
+
+
+app.post('/api/syncOff', async (req, res) => {
+  const data = req.body;
+
+  let recordPromises = [];
+
+  data.valueArray.forEach((value, i) => {
+    let record = [
+      data.documentId,
+      data.section,
+      data.inspectorName,
+      data.unitNo,
+      data.title, // Description
+      value, // Dropdown option
+      data.checkpoint[i] ? 1 : 0, // Convert boolean to 0 or 1
+      data.capturedImages[i], // Image paths/identifiers
+      data.needForReport[i] ? 1 : 0, // Convert boolean to 0 or 1
+    ];
+
+    let promise = new Promise((resolve, reject) => {
+      const checkSql = `SELECT * FROM record_values WHERE document_id = ? AND section = ? AND inspector_name = ? AND unit_no = ? AND description = ? AND dropdown_option = ?`;
+      db1.query(checkSql, [data.documentId, data.section, data.inspectorName, data.unitNo, data.title, value], (err, result) => {
+        if (err) {
+          return reject(err);
+        }
+        if (result.length === 0) {
+          const insertSql = `INSERT INTO record_values (document_id, section, inspector_name, unit_no, description, dropdown_option, checked, img, needForReport) VALUES (?)`;
+          db1.query(insertSql, [record], (insertErr, insertResult) => {
+            if (insertErr) {
+              return reject(insertErr);
+            }
+            resolve(insertResult);
+          });
+        } else {
+          resolve('Record already exists, skipping insertion.');
+        }
+      });
+    });
+
+    recordPromises.push(promise);
+  });
+
+  Promise.all(recordPromises).then(results => {
+    // Assuming all operations are successful, return the key and a success message
+    res.status(200).json({ 
+      message: 'Data synchronization complete',
+      key: data.key,
+      details: results.filter(result => typeof result !== 'string') // Optionally filter out the skip messages
+    });
+  }).catch(err => {
+    console.error('Error during record handling:', err);
+    res.status(500).json({ message: 'Failed to synchronize data', error: err });
+  });
+});
+
+
+
+
+
+
+
 
 
 

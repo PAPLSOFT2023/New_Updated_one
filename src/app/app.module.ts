@@ -120,6 +120,10 @@ import { OutBoxComponent } from './out-box/out-box.component';
 import { CartopComponent } from './inspector_dashboard/cartop/cartop.component';
 import { MachineroomComponent } from './inspector_dashboard/machineroom/machineroom.component';
 import { FloorlandingComponent } from './inspector_dashboard/floorlanding/floorlanding.component';
+import { CabincheckpointsComponent } from './inspector_dashboard/cabin/cabincheckpoints/cabincheckpoints.component';
+import { CartopcheckpointComponent } from './inspector_dashboard/cartop/cartopcheckpoint/cartopcheckpoint.component';
+import { FloorlandingcheckpointComponent } from './inspector_dashboard/floorlanding/floorlandingcheckpoint/floorlandingcheckpoint.component';
+import { MachinroomcheckpointComponent } from './inspector_dashboard/machineroom/machinroomcheckpoint/machinroomcheckpoint.component';
 
 // import { RejectionComponent } from './inspector_dashboard/rejection/rejection.component';
 
@@ -207,6 +211,10 @@ import { FloorlandingComponent } from './inspector_dashboard/floorlanding/floorl
                CartopComponent,
                MachineroomComponent,
                FloorlandingComponent,
+               CabincheckpointsComponent,
+               CartopcheckpointComponent,
+               FloorlandingcheckpointComponent,
+               MachinroomcheckpointComponent,
              
         // RejectionComponent,
         
