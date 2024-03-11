@@ -3,6 +3,8 @@ import { ApicallService } from 'src/app/apicall.service';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { ActivatedRoute,Router } from '@angular/router';
 // import { NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import { DatePipe } from '@angular/common';
+
 import { response } from 'express';
 import * as fs from 'fs';
 
@@ -43,7 +45,7 @@ export class InspectorHomeComponent implements OnInit {
 
   location:string='/assets/logo1.png'
 
-  constructor(private apicallservice: ApicallService, private http: HttpClient,private router:Router,private route: ActivatedRoute) {}
+  constructor(private datePipe:DatePipe,private apicallservice: ApicallService, private http: HttpClient,private router:Router,private route: ActivatedRoute) {}
 
   ngOnInit() {
     
@@ -164,9 +166,7 @@ export class InspectorHomeComponent implements OnInit {
                     console.log("88", inspector_Data);
 
                     this.isSendingMailEnabled=true;
-                      
-                   
-                    
+            
                     this.apicallservice.send_mail_to_client(
                       response[0].id,
                       response[0].master_customer_name,
