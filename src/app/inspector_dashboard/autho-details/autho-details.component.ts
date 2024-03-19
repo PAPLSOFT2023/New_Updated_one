@@ -21,6 +21,9 @@ export class AuthoDetailsComponent {
      this.route.paramMap.subscribe(params => {
       this.val = params.get('c_no');
       console.log(this.val);
+      if(this.val){
+        sessionStorage.setItem('document_id', this.val); 
+      }
       
     });
 
@@ -48,7 +51,7 @@ export class AuthoDetailsComponent {
     // console.log(this.rows);
     this.http.put('http://localhost:3000/api/update_data_w', store_values).subscribe(
       (response) => {
-        this.router.navigate(['afterlogin', 'unit',this.val]);
+        this.router.navigate(['afterlogin', 'risk',this.val]);
 
         
       },

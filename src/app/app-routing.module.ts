@@ -48,6 +48,9 @@ import { CabincheckpointsComponent } from './inspector_dashboard/cabin/cabinchec
 import { CartopcheckpointComponent } from './inspector_dashboard/cartop/cartopcheckpoint/cartopcheckpoint.component';
 import { FloorlandingcheckpointComponent } from './inspector_dashboard/floorlanding/floorlandingcheckpoint/floorlandingcheckpoint.component';
 import { MachinroomcheckpointComponent } from './inspector_dashboard/machineroom/machinroomcheckpoint/machinroomcheckpoint.component';
+import { AgreementPageComponent } from './inspector_dashboard/agreement-page/agreement-page.component';
+import { SiteRiskAssessmentComponent } from './inspector_dashboard/site-risk-assessment/site-risk-assessment.component';
+import { PreInspectionComponent } from './inspector_dashboard/pre-inspection/pre-inspection.component';
 // import { OutBoxComponent } from './out-box/out-box.component';
 // import { UnitDetailsComponent } from './inspector_dashboard/unit-details/unit-details.component';
 const routes: Routes = [
@@ -109,6 +112,9 @@ const routes: Routes = [
          {path:'unit/:c_no',component:ListingUnitsComponent},
          {path:'section/:c_no',component:SectionComponent},
          {path:'spec/:c_no',component:BreifSpecComponent},
+         {path:'agreement/:c_no',component:AgreementPageComponent},
+         {path:'risk/:c_no',component:SiteRiskAssessmentComponent},
+         {path:'pre_ins/:c_no',component:PreInspectionComponent},
         
          {path:'pit/:c_no',component:PitComponent},
          { path: 'pitcheckpoint/:id/:documentid/:unitno/:inspectorname/:section', component: PitcheckpointsComponent },

@@ -18,7 +18,7 @@ export class ListingUnitsComponent {
       this.val = params.get('c_no');
       console.log(this.val);
       if (this.val) {
-        sessionStorage.setItem('document_id', this.val); 
+        // sessionStorage.setItem('document_id', this.val); 
       }
 
 

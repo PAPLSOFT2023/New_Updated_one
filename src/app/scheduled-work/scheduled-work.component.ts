@@ -353,10 +353,13 @@ export class ScheduledWorkComponent implements OnInit {
 
 
   }
+  // start(no:string){
+  //   this.router.navigate(['../basic_data',no], { relativeTo: this.route });
+  
+  
+  // }
   start(no:string){
-    this.router.navigate(['../basic_data',no], { relativeTo: this.route });
-  
-  
+    this.router.navigate(['../agreement',no], { relativeTo: this.route });
   }
 
  

@@ -124,6 +124,10 @@ import { CabincheckpointsComponent } from './inspector_dashboard/cabin/cabinchec
 import { CartopcheckpointComponent } from './inspector_dashboard/cartop/cartopcheckpoint/cartopcheckpoint.component';
 import { FloorlandingcheckpointComponent } from './inspector_dashboard/floorlanding/floorlandingcheckpoint/floorlandingcheckpoint.component';
 import { MachinroomcheckpointComponent } from './inspector_dashboard/machineroom/machinroomcheckpoint/machinroomcheckpoint.component';
+import { AgreementPageComponent } from './inspector_dashboard/agreement-page/agreement-page.component';
+import { SiteRiskAssessmentComponent } from './inspector_dashboard/site-risk-assessment/site-risk-assessment.component';
+import { PreInspectionComponent } from './inspector_dashboard/pre-inspection/pre-inspection.component';
+import { MailAutomationInspComponent } from './inspector_dashboard/mail-automation-insp/mail-automation-insp.component';
 
 // import { RejectionComponent } from './inspector_dashboard/rejection/rejection.component';
 
@@ -140,6 +144,7 @@ import { MachinroomcheckpointComponent } from './inspector_dashboard/machineroom
     SublevelMenuComponent,
     LoginComponent,
     UiElementsComponent,
+    MailAutomationInspComponent,
   
    
     NeworganizationComponent,
@@ -215,6 +220,9 @@ import { MachinroomcheckpointComponent } from './inspector_dashboard/machineroom
                CartopcheckpointComponent,
                FloorlandingcheckpointComponent,
                MachinroomcheckpointComponent,
+               AgreementPageComponent,
+               SiteRiskAssessmentComponent,
+               PreInspectionComponent,
              
         // RejectionComponent,
         
