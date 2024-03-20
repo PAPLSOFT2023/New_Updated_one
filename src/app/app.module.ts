@@ -132,6 +132,10 @@ import { ExistingReportComponent } from './inspector_dashboard/report-home/exist
 
 
 
+import { AgreementPageComponent } from './inspector_dashboard/agreement-page/agreement-page.component';
+import { SiteRiskAssessmentComponent } from './inspector_dashboard/site-risk-assessment/site-risk-assessment.component';
+import { PreInspectionComponent } from './inspector_dashboard/pre-inspection/pre-inspection.component';
+import { MailAutomationInspComponent } from './inspector_dashboard/mail-automation-insp/mail-automation-insp.component';
 
 // import { RejectionComponent } from './inspector_dashboard/rejection/rejection.component';
 
@@ -148,6 +152,7 @@ import { ExistingReportComponent } from './inspector_dashboard/report-home/exist
     SublevelMenuComponent,
     LoginComponent,
     UiElementsComponent,
+    MailAutomationInspComponent,
   
    
     NeworganizationComponent,
@@ -227,6 +232,9 @@ import { ExistingReportComponent } from './inspector_dashboard/report-home/exist
                ReportHomeComponent,
                NewReportComponent,
                ExistingReportComponent,
+               AgreementPageComponent,
+               SiteRiskAssessmentComponent,
+               PreInspectionComponent,
              
         // RejectionComponent,
         

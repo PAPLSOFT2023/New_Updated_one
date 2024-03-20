@@ -438,6 +438,7 @@ app.post('/api/sendmailtocli', async (req, res) => {
     senderEmail,
     inspectors
   } = req.body;
+  console.log('difference between days',noOfDays);
 
   // console.log("customer name", customername);
   
@@ -3317,10 +3318,37 @@ app.get('/api/inspector', (req, res) => {
   });
 
   //api for unit_details table
-  app.post('/api/store_data11',(req,res)=>{
-    const {unit_values,insp_name,  contract_number}=req.body;
-    const query='INSERT INTO unit_details(contract_number,unit_no,inspector_name) VALUES (?,?,?)';
-    db1.query(query,[contract_number,JSON.stringify(unit_values),insp_name],(err,result)=>{
+  app.put('/api/store_data11',(req,res)=>{
+    const {unit_values,insp_name,  contract_number,document_id,building_name}=req.body;
+    const query='UPDATE unit_details SET unit_no=?,building_name=? WHERE document_id=?';
+    db1.query(query,[JSON.stringify(unit_values),building_name,document_id],(err,result)=>{
+      if (err) {
+        console.error('Error storeing values:', err);
+        res.status(500).json({ error: 'Error storing values' });
+      } else {
+        console.log('success:', result.insertId);
+        res.status(200).json('success');
+      }
+
+    })
+  })
+  //pending document
+  app.get('/api/pending', (req, res) => {
+    const query = 'SELECT * FROM unit_details'; // Modify this query according to your table structure
+    db1.query(query, (err, results) => {
+      if (err) {
+        res.status(500).json({ error: 'Error fetching unit details from database' });
+        return;
+      }
+      res.json(results);
+    });
+  });
+
+  //agreement page 
+  app.post('/api/store_data_agreement',(req,res)=>{
+    const {check,name, contract_no,selfAssigned,salesProcess}=req.body;
+    const query='INSERT INTO unit_details(contract_number,checks,inspector_name,selfAssigned,salesProcess) VALUES (?,?,?,?,?)';
+    db1.query(query,[contract_no,check,name,selfAssigned,salesProcess],(err,result)=>{
       if (err) {
         console.error('Error storeing values:', err);
         res.status(500).json({ error: 'Error storing values' });
@@ -3331,6 +3359,20 @@ app.get('/api/inspector', (req, res) => {
 
     })
   })
+
+  //site risk assessment
+  app.get('/api/risk-assessments', (req, res) => {
+    const query = 'SELECT id,description, remarks FROM site_risk_assessment';
+  
+    db1.query(query, (error, results) => {
+      if (error) {
+        console.error('Error fetching data from MySQL: ', error);
+        res.status(500).json({ error: 'Error fetching data from MySQL' });
+        return;
+      }
+      res.json(results);
+    });
+  });
 
   //sales when about V job
   app.post('/api/store_data2', (req, res) => {
@@ -3383,6 +3425,25 @@ app.get('/api/inspector', (req, res) => {
           res.status(404).json({ error: ' not found' });
         } else {
           res.json({ message: 'witness updated successfully' });
+        }
+      }
+
+    })
+  })
+
+  //site risk assessment update
+  app.put('/api/update_data_s',(req,res)=>{
+    const {risk,document_id}=req.body;
+    const query = 'UPDATE unit_details SET risk=? WHERE document_id=?';
+    db1.query(query,[JSON.stringify(risk),document_id],(err,result)=>{
+      if (err) {
+        console.error('Error executing SQL query:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+      } else {
+        if (result.affectedRows === 0) {
+          res.status(404).json({ error: ' not found' });
+        } else {
+          res.json({ message: 'site risk updated successfully' });
         }
       }
 
