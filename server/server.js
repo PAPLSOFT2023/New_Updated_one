@@ -2053,7 +2053,27 @@ app.post('/api/syncOff', async (req, res) => {
 });
 
 
+// getUnit_details
+app.get('/api/getUnit_details',(req,res)=>{
 
+  
+ 
+  const query = 'SELECT `document_id`, `contract_number`, `unit_no`, `inspector_name` ,`ReportComplete` FROM `unit_details` ';
+
+  db1.query(query, (err, results) => {
+    if (err) {
+      console.error("Error:", err);
+      return res.status(500).json({ error: 'Internal server error' });
+    } 
+     
+    else {
+
+     console.log("Unit Details",results)
+      res.json(results);
+    }
+  });
+}
+);
 
 
 

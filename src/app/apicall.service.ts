@@ -682,7 +682,13 @@ syncValue(value: any): Observable<any> {
 
 
 
+// getUnit_details
 
+getUnit_details():Observable<any>{
+  console.log("api call service");
+  
+  return this.http.get(this.apiURL+"getUnit_details");
+}
 
 
 

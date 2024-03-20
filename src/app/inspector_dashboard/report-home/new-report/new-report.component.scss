@@ -1,0 +1,23 @@
+.report-cards-container {
+  display: flex;
+  flex-wrap: wrap; /* Allow cards to wrap onto the next line */
+  justify-content: flex-start; /* Align cards to the start of the container */
+}
+
+.report-card {
+  margin: 10px;
+  width: 200px; /* Fixed width for each card */
+  flex: 1 0 auto; /* Allow cards to grow to fill the available space */
+  box-sizing: border-box; /* Include padding and border in the width calculation */
+  border-radius: 10px; /* Adjust the border radius as needed */
+}
+
+.centered-title {
+  text-align: center;
+  font-size: 22px;
+}
+
+.inspectorname,
+.units {
+  font-size: 10px;
+}
