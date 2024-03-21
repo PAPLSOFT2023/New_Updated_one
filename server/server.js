@@ -3295,7 +3295,8 @@ app.get('/api/inspector', (req, res) => {
         res.status(200).json({ message: 'data stored successfully successfully' });
       }
     });
-  });
+  }); 
+  
 
   //api for unit_details table
   app.put('/api/store_data11',(req,res)=>{
