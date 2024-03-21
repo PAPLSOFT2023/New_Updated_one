@@ -3,14 +3,15 @@
       <h2>OutBox Saved Data</h2>
   </div>
   <div class="sync-container">
-      <button class="sync-button" (click)="syncData()">
-          <i class="fas fa-sync"></i> Sync
-      </button>
-      <div class="sync-loader-overlay" *ngIf="syncing"></div>
-<div class="sync-loader" *ngIf="syncing">
-    <div class="loader"></div>
+    <button class="sync-button" [disabled]="allValues && allValues.length <= 0" (click)="syncData()">
+        <i class="fas fa-sync"></i> Sync
+    </button>
+    <div class="sync-loader-overlay" *ngIf="syncing"></div>
+    <div class="sync-loader" *ngIf="syncing">
+        <div class="loader"></div>
+    </div>
 </div>
-  </div>
+
   
   <div class="table-container">
     <!-- Check if allValues array is empty -->

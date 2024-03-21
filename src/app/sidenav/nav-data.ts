@@ -122,8 +122,14 @@ export const inspector: INavbarData[] = [
     },
     {
         routeLink: '/afterlogin/mail_automation',
-        icon: "fa fa-envelope",
-        label: 'Mail'
+        icon: "fa fa-clock",
+        label: 'Pending CheckList'
+    },
+
+    {
+        routeLink: '/afterlogin/ReportHome',
+        icon: "fa fa-file",
+        label: 'Inspection Report'
     },
     {
         routeLink: '/afterlogin/outbox',

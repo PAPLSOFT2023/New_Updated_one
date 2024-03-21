@@ -48,6 +48,8 @@ import { CabincheckpointsComponent } from './inspector_dashboard/cabin/cabinchec
 import { CartopcheckpointComponent } from './inspector_dashboard/cartop/cartopcheckpoint/cartopcheckpoint.component';
 import { FloorlandingcheckpointComponent } from './inspector_dashboard/floorlanding/floorlandingcheckpoint/floorlandingcheckpoint.component';
 import { MachinroomcheckpointComponent } from './inspector_dashboard/machineroom/machinroomcheckpoint/machinroomcheckpoint.component';
+import { ReportForElevComponent } from './inspector_dashboard/report-home/report-for-elev/report-for-elev.component';
+import { ReportHomeComponent } from './inspector_dashboard/report-home/report-home.component';
 import { AgreementPageComponent } from './inspector_dashboard/agreement-page/agreement-page.component';
 import { SiteRiskAssessmentComponent } from './inspector_dashboard/site-risk-assessment/site-risk-assessment.component';
 import { PreInspectionComponent } from './inspector_dashboard/pre-inspection/pre-inspection.component';
@@ -57,13 +59,17 @@ const routes: Routes = [
 
   {path:'app-home',component:AppHomeComponent,},
   {path:'pdf/:c_no',component:InfPdfComponent},
-  {path:"",redirectTo:"app-home",pathMatch:'full'},
+  // {path:"",redirectTo:"app-home",pathMatch:'full'},
   {path: "services",component:ServicesComponent}, 
   {path:"login",component:LoginComponent},
   {path:"Mail_Response",component:MailResponseComponent},
   {path:"neworganization", component:NeworganizationComponent},
   {path:"forgotpassword",component:ForgotpasswordComponent},
   {path:"reset",component:ResetPasswordComponent},
+
+
+  {path:"ReportElevator1",component:ReportForElevComponent},
+
   // '/afterlogin/software_admin_dashboard_user_manage/organization_admin_login_details'
   {path: 'afterlogin',component: AfterloginComponent,
     children: [
@@ -92,6 +98,8 @@ const routes: Routes = [
         {path:'schedule_page',component:SchedulePageComponent},
         {path:'scheduledWork', component:ScheduledWorkComponent},
         {path:"mail_automation",component:MailAutomationInspComponent},
+        {path:"ReportHome",component:ReportHomeComponent},
+        {path:"ReportElevator",component:ReportForElevComponent},
         {path:"outbox",component:OutBoxComponent},
        
 

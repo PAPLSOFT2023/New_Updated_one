@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Page PDF</title>
+   
+    <script src="https://unpkg.com/html2pdf.js"></script>
+</head>
+<body>
+    <!-- Page 1 -->
+    <div class="page">
+        <div class="content-container">
+            <div class="header">
+                <img class="company-logo" src="\assets\papl_logo_report.png">
+                <img class="report-logo" src="\assets\nabcb-logo.png">
+                
+            </div>
+           
+                <p class="nabcb">IB 062</p>
+                <p class="side">VHT PLANNERS, ENGINEERS & INSPECTORS</p>
+                <p class="side">ELEVATORS, ESCALATORS & MOVING WALKS</p>
+                <h1 class="head">ELEVATOR INSPECTION REPORT</h1>
+          
+            
+            <div class="details">
+                <p><strong>Project Name:</strong> {{projectName}}</p>
+                <p><strong>Building No:</strong> {{buildingNO}}</p>
+                <p><strong>Place:</strong> {{place}}</p>
+                <p><strong>Contract No:</strong> {{contractNo}}</p>
+                <p><strong>Report No:</strong> {{reportNo}}</p>
+                <p><strong>Date of Inspection:</strong>{{dateOfInspection}}</p>
+                <p><strong>Inspector Name / Code:</strong>{{inspectorNameandCode}}</p>
+            </div>
+            <img class="additional-image" src="\assets\one_logo.jpg" alt="Additional Image">
+            <div class="footer">
+                <p class="footer-content">Cycle - 1, Inspection - 2 of 2</p>
+                <p class="footer-address">Flat No 1, 3rd Floor, No.3, "Viswapriya Apartments", 1st Cross Kasturibai Nagar, Adyar, Chennai - 600020. India.</p>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Page 2 -->
+
+      <div class="page">
+            <div class="details-page2"><p>{{headervalue}}</p></div>
+            <div class="contact-info">
+                <p><strong>PREPARED BY:</strong> PVN ASSOCIATES PRIVATE LIMITED,VHT PLANNERS, ENGINEERS & INSPECTORS.</p>
+                <p><strong>CORPORATE OFFICE:</strong> Flat No 1, 3rd Floor, No.3, "Viswapriya Apartments", 1st Cross Kasturibai Nagar, Adyar, Chennai - 600020. India.</p>
+                <p><strong>CONTACT INFORMATION:</strong> Tel: 044 42613912, E: <a href="mailto:info@paplcorp.com">info@paplcorp.com</a>, W: <a href="http://www.paplcorp.com" target="_blank">www.paplcorp.com</a></p>
+            </div>
+            </div>
+            <div class="sign">
+                <p class="topic">Inspection carried out on<span class="dark-text"> {{approved_product}} </span>installed in <span class="dark-text"> {{projectName}},{{place}}   </span>, as per IS 14665 (Part 5): 1999. NBC 2016 PART 8/ Sec.
+                    5A, ANNEX- A (Clause15.5) & EN 81-1 from <span class="dark-text">{{dateOfInspection}} </span>
+                    </p>
+                    <p class="behalf">For & on behalf of</p>
+
+                   <p class="company-name"> PVN Associates Private Limited</p>
+
+                   <p class="Inspector_sign">Inspected By_________{{inspectedBy}} INSPECTOR
+                   </p>
+                   <p class="manager">Approved By_________{{approvedBy}} General Manager - QuEST
+                   </p>
+                   <p class="place">
+                    Place : {{approvedPlace}}.</p>
+                   <p class="place"> Date: {{approvedDate}}.
+                </p>
+                <p class="seal">
+                    Official Seal 
+                </p>
+            </div>
+            <div>
+           <p class="pvn">PVN Associates Private Limited disclaims any responsibility to the clients and others in respect of any matter beyond the scope of contract.</p>
+            </div>
+
+
+
+      
+    <!-- Page 3 -->
+    
+    <div class="page">
+        <body>
+            <p class="kone">{{headervalue}}</p>
+            <div >
+            
+                <h1 class="Disclaimer" >Disclaimer</h1>
+                <div class="inspection-container">
+                    <p class="inspection">THIS IS A VISUAL INSPECTION ONLY limited to those areas and sections of the elevator, hoistway, pit, machine room and lobbies fully
+                        accessible and visible to the Inspector on the date of Inspection. The Use of Photo's: The report may include photographs. Some picture
+                        are intended as a courtesy and are added for information. Some are to help clarify where the inspector has been, what was looked at
+                        and the condition of the component at the time of the inspection. Some pictures may be of deficiencies or problem areas, these are to
+                        help you better understand what is documented in the report and may allow you to see areas or items you normally would not see. Not
+                        all problem areas or conditions will be supported with photos. DISCLAIMER OF LIABILITY: No Liability shall be accepted on an account of
+                        failure of the Report to notify any problems in the area(s) or section(s) related to vertical transportation of the subject property
+                        physically inaccessible for inspection, or to which access for Inspection is denied by or to the Inspector (including but not limited to or
+                        any area(s) or section(s) so specified by the Report). DISCLAIMER OF LIABILITY TO THE THIRD PARTIES: This Report is made solely for the
+                        use and benefit of the Client named on the front of this report. No liability or responsibility whatsoever, in contract or tort, is accepted to
+                        any third party who may rely on the report wholly or in part. Any third party acting or relying on this report, in whole or in part does so
+                        at his or her own risk. This report will assist client and their maintenance team in identifying ways to improve rider safety and will not be
+                        used to assign blame or liability</p>
+                  </div>
+                        <p class="document">PAPL/INF/22 A VER.1.1, 10-06-2020</p>
+                    </div>
+                
+       
+        </body>
+    </div>
+
+    <!-- Page 4 -->
+    
+    <div class="page">
+        <p class="kone">{{headervalue}}</p>
+       
+            <table>
+                <thead>
+                    <tr>
+                        <th>S.No</th>
+                        <th>Content</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>EXECUTIVE SUMMARY </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>BRIEF SPECIFICATION</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>EXTRACT OF QUALITY EVALUATION</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>EMERGENCY OPERATIONS</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>QUALITY EVALUATION & PERFORMANCE RATING</td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>PIT DETAILED REPORT</td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td>CABIN DETAILED REPORT</td>
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <td>CAR TOP DETAILED REPORTt</td>
+                    </tr>
+                    <tr>
+                        <td>9</td>
+                        <td>MACHINE ROOM DETAILED REPORT</td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>FLOOR LANDING DETAILED REPORT</td>
+                    </tr>
+                   
+                </tbody>
+            </table>
+            <div >
+                <p class="document">PAPL/INF/22 A VER.1.1, 10-06-2020</p>
+            </div>
+        </div>
+ 
+      
+
+     <!-- Page 5 -->
+     <div class="page">
+        <p class="kone">{{headervalue}}</p>
+        <p class="summary">EXECUTIVE SUMMARY</p>
+        
+        <p class="basics">BASIC INFORMATION</p>
+        
+        <p>The inspection was carried out on <span class="dark-text">  {{nos_Product}} Nos </span> of {{OEM}} by <span class="dark-text">   {{inspectorNameandCode}} - ENGINEER - INSPECTION SERVICE </span> of PVN Associates Private Limited
+         from  <span class="dark-text">{{approvedDate}}</span> in the presence of</p>
+         <table>
+            <thead>
+              <tr>
+                <th>Si.No</th>
+                <th>Names</th>
+                <th>Company Name</th>
+                <th>Designation</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let person of people">
+                <td>{{ person.siNo }}</td>
+                <td>{{ person.names }}</td>
+                <td>{{ person.companyName }}</td>
+                <td>{{ person.designation }}</td>
+              </tr>
+            </tbody>
+          </table>
+          
+         <p class="record">We place on record that the representative of <span class="dark-text">{{OEM}}</span> was present on all days and gave full co operation and testing instruments and materials to perform
+             the inspection.</p>
+
+         <div class="document">
+             <p>PAPL/INF/22 A VER.1.1, 10-06-2020</p>
+         </div>
+     </div>
+ 
+        <div >
+           
+   
+
+     <!-- Page 6 -->
+     <div class="page">
+        <div class="page">
+            <p class="kone">{{headervalue}}</p>
+            <p class="basic">BASIC SPECIFICATION</p>
+            <table>
+                <thead class="thr">
+                    <tr>
+                        <th>UNIT NOMENCLATURE</th>
+                        <th>ESC25</th>
+                        <th>ESC26</th>
+                        <th>ESC27</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="ficl">OEM Supplier</td>
+                        <td>FUJITEC INDIA PVT LTD</td> 
+                        <td>FUJITEC INDIA PVT LTD</td> 
+                        <td>FUJITEC INDIA PVT LTD</td> 
+                    </tr>
+                    <tr>
+                        <td class="ficl">Unit Number</td>
+                       <td>19021071</td>
+                       <td>19021071</td>
+                       <td>19021071</td>
+                    </tr>
+                    <tr>
+                        <td class="ficl">Year</td>
+                        <td>2019</td>
+                        <td>2019</td>
+                        <td>2019</td>
+                    </tr>
+                    <tr>
+                        <td class="ficl">Type of drive:</td>
+                        <td>Chain</td>
+                        <td>Chain</td>
+                        <td>Chain</td>
+                    </tr>
+                    <tr>
+                        <td class="ficl">Speed</td>
+                        <td>0.50 MPS</td>
+                        <td>0.50 MPS</td>
+                        <td>0.50 MPS</td>
+                    </tr>
+                    <tr>
+                        <td class="ficl">Angle of inclination</td>
+                        <td>35 DEG</td>
+                        <td>35 DEG</td>
+                        <td>35 DEG</td>
+                    </tr>
+                    <tr>
+                        <td class="ficl">Rise</td>
+                        <td>3.9 METER</td>
+                        <td>3.9 METER</td>
+                        <td>3.9 METER</td>
+                    </tr>
+                    <tr>
+                        <td class="ficl">Height of Balustrade (Hand rail) in "mm"</td>
+                        <td>900</td>
+                        <td>900</td>
+                        <td>900</td>
+                    </tr>
+                    <tr>
+                        <td class="ficl">Type of Balustrade</td>
+                        <td>Glass</td>
+                        <td>Glass</td>
+                        <td>Glass</td>
+                    </tr>
+                    <tr>
+                        <td class="ficl">Number of auxiliary brakes</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>   
+                    <tr>
+                        <td class="ficl">Arrangement</td>
+                        <td>Parallel</td>
+                <td>Parallel</td>
+                <td>Parallel</td>
+            </tr>
+            <tr>
+                <td class="ficl">Number of Flat steps</td>
+                <td>2</td>
+                <td>2</td>
+                <td>2</td>
+            </tr>
+            <tr>
+                <td class="ficl">Step/Pallet width in "mm"</td>
+                <td>1000</td>
+                <td>1000</td>
+                <td>1000</td>
+            </tr>
+            <tr>
+                <td class="ficl">Intermediate Support provided</td>
+                <td>NO</td>
+                <td>NO</td>
+                <td>NO</td>
+            </tr>
+            <tr>
+                <td class="ficl">Motor - KVA</td>
+                <td>5.5 KW</td>
+                <td>5.5 KW</td>
+                <td>5.5 KW</td>
+            </tr>
+            <tr>
+                <td class="ficl">Motor - VOLTS</td>
+                <td>415 V</td>
+                <td>415 V</td>
+                <td>415 V</td>
+            </tr>   
+            <tr>
+                <td class="ficl">Motor - RPM</td>
+                <td>960</td>
+                <td>960</td>
+                <td>960</td>
+            </tr>
+            <tr>
+                <td class="ficl">Drive control</td>
+                <td>VVVF</td>
+                <td>VVVF</td>
+                <td>VVVF</td>
+            </tr>
+            <tr>
+                <td class="ficl">Type of start</td>
+                <td>AUTO</td>
+                <td>AUTO</td>
+                <td>AUTO</td>
+            </tr>
+            <tr>
+                <td class="ficl">Type of Step</td>
+                <td>ALLOYED CAST</td>
+                <td>ALLOYED CAST</td>
+                <td>ALLOYED CAST</td>
+            </tr> 
+            <tr>
+                <td class="ficl">Step/ Pallet Demarcation</td>
+                <td>YES</td>
+                <td>YES</td>
+                <td>YES</td>
+            </tr>
+            <tr>
+                <td class="ficl">Provision of Cleat riser</td>
+                <td>NO</td>
+                <td>NO</td>
+                <td>NO</td>
+            </tr>
+            <tr>
+                <td class="ficl">Type of Step Connector</td>
+                <td>Link</td>
+                <td>Link</td>
+                <td>Link</td>
+            </tr>
+            <tr>
+                <td class="ficl">Type of Combs</td>
+                <td>PVC</td>
+                <td>PVC</td>
+                <td>PVC</td>
+            </tr>    
+        </tbody>
+    </table>
+
+    <br><br>
+
+    
+    <div class="document">
+        <p>PAPL/INF/22 A VER.1.1, 10-06-2020</p>
+    </div>
+</div>
+        
+   
+      </div>
+    
+    
+
+     <!-- Page 7 -->
+     <div class="page">
+        <p class="kone">PAPL/0268/B/KONE/One International Center/One International Center/1 No./Parel, Mumbai/2024/REV 00</p>
+    </div>
+    <div class="table_content_header_div">
+     <h2 class="table_content_header">EXTRACT OF QUALITY EVALUATION</h2>
+
+    </div>
+     
+
+    <table>
+        <thead class="page_head">
+          <tr>
+            <th>Elevator No</th>
+            <th>Maintenance %</th>
+            <th>Adjustment %</th>
+            <th>Rating %</th>
+            <th>Remark</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let data of performanceData; let i = index">
+            <tr>
+              <td>{{ data.elevatorNo }}</td>
+              <td>{{ data.maintenancePercentage }}</td>
+              <td>{{ data.adjustmentPercentage }}</td>
+              <td>{{ data.ratingPercentage }}</td>
+              <td *ngIf="i === 0" class="row" [attr.rowspan]="performanceData.length">
+                {{ remark }}
+              </td>
+            </tr>
+          </ng-container>
+          <tr>
+            <td class="range" colspan="5">
+              <p class="content-segment1">≤ 75% - Unsatisfactory</p>
+              <p class="content-segment2">76% to 85% - Average</p>
+              <p class="content-segment3">86% to 95% - Good</p>
+              <p class="content-segment4">96% to 100% - Excellent</p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      
+ </div>
+              
+        
+        
+   
+
+     <!-- Page 8 -->
+     <div class="page">
+        <p class="kone">PAPL/0268/B/KONE/One International Center/One International Center/1 No./Parel, Mumbai/2024/REV 00</p>
+        <a class="emergency">EMERGENCY OPERATIONS</a>
+        <table>
+          <thead>
+            <tr>
+              <th rowspan="2">Inspection Functions</th>
+              <th >Elevator Nos</th>
+              <th rowspan="2">Risk Level</th>
+              <th rowspan="2" colspan="2">Remarks</th>
+            </tr>
+            <tr>
+              <th>P1</th>
+            </tr>
+          </thead>  
+          <tbody>
+            <tr>
+              <td>Emergency Alarm</td>
+              <td class="tick-icon">&#10004;</td>
+              <td>1</td>
+              <td class="tick-icon">&#10004;</td>
+              <td>Working </td>
+            </tr>
+            <tr>
+              <td>Emergency Light</td>
+              <td class="tick-icon">&#10004;</td>
+              <td>4</td>
+              <td class="times-icon"><i class="fas fa-times"></i></td>
+              <td>Not Working</td>
+            </tr>
+            <tr>
+              <td>Intercom</td>
+              <td class="combined-icons"><span class="tick-icon">&#10004;</span><span class="star-icon">&#9733;</span></td>
+              <td>3</td>
+              <td><span class="star-icon">&#9733;</span></td>
+              <td>Intercom audibility is poor.</td>
+            </tr>
+            <tr>
+              <td>ARD</td>
+              <td class="tick-icon">&#10004;</td>
+              <td>4</td>
+              <td style="font-size: 10px">
+                  <i class= "fa fa-asterisk"> </i> 
+              <td>In ARD operation car door did not open.</td>
+            </tr>
+            <tr>
+              <td>Fireman</td>
+              <td class="combined-icons"><span class="tick-icon">&#10004;</span><span class="diamond-icon">&#9830;</span></td>
+              <td>1</td>
+              <td><span class="diamond-icon">&#9830;</span></td>
+              <td>Fireman operation audio & visual not working, need to rectify in all lifts.</td>
+            </tr>
+            <tr>
+              <td rowspan="2" >Manual Rescue</td>
+              <td rowspan="2" class="tick-icon">&#10004;</td>
+              <td rowspan="2">1</td>
+              <td><b>#</b></td>
+              <td colspan="6">---NIL---</td>
+            </tr>
+            <tr>
+              <td><b>NP</b></td>
+              <td colspan="6">---NIL---</td>
+            </tr>
+          </tbody>
+        </table>
+      
+         
+</div>
+
+
+
+    
+
+
+
+
+
+
+
+        
+        
+
+
+     <!-- Page 9 -->
+     <div class="page">
+        <h1>Page 9</h1>
+        <p>This is the content of page 3.</p>
+    </div>
+
+     <!-- Page 10 -->
+     <div class="page">
+        <h1>Page 10</h1>
+        <p>This is the content of page 3.</p>
+    </div>
+
+     <!-- Page 11 -->
+     <div class="page">
+        <h1>Page 11</h1>
+        <p>This is the content of page 3.</p>
+    </div>
+
+
+    
+
+    <!-- Add a button to trigger PDF generation -->
+    <button id="generate-pdf">Generate PDF</button>
+
+    <!-- TypeScript script to handle PDF generation -->
+    <!-- <script src="app.ts"></script> -->
+</body>
+</html>

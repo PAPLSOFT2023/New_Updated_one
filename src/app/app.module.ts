@@ -111,7 +111,7 @@ import { AuthoDetailsComponent } from './inspector_dashboard/autho-details/autho
 import { ListingUnitsComponent } from './inspector_dashboard/listing-units/listing-units.component';
 import { SectionComponent } from './inspector_dashboard/section/section.component';
 import { BreifSpecComponent } from './inspector_dashboard/breif-spec/breif-spec.component';
-
+import { MatTabsModule } from '@angular/material/tabs';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { PitComponent } from './inspector_dashboard/pit/pit.component';
 import { PitcheckpointsComponent } from './inspector_dashboard/pit/pitcheckpoints/pitcheckpoints.component';
@@ -124,6 +124,14 @@ import { CabincheckpointsComponent } from './inspector_dashboard/cabin/cabinchec
 import { CartopcheckpointComponent } from './inspector_dashboard/cartop/cartopcheckpoint/cartopcheckpoint.component';
 import { FloorlandingcheckpointComponent } from './inspector_dashboard/floorlanding/floorlandingcheckpoint/floorlandingcheckpoint.component';
 import { MachinroomcheckpointComponent } from './inspector_dashboard/machineroom/machinroomcheckpoint/machinroomcheckpoint.component';
+import { ReportForElevComponent } from './inspector_dashboard/report-home/report-for-elev/report-for-elev.component';
+import { ReportHomeComponent } from './inspector_dashboard/report-home/report-home.component';
+import { NewReportComponent } from './inspector_dashboard/report-home/new-report/new-report.component';
+import { ExistingReportComponent } from './inspector_dashboard/report-home/existing-report/existing-report.component';
+
+
+
+
 import { AgreementPageComponent } from './inspector_dashboard/agreement-page/agreement-page.component';
 import { SiteRiskAssessmentComponent } from './inspector_dashboard/site-risk-assessment/site-risk-assessment.component';
 import { PreInspectionComponent } from './inspector_dashboard/pre-inspection/pre-inspection.component';
@@ -220,6 +228,10 @@ import { MailAutomationInspComponent } from './inspector_dashboard/mail-automati
                CartopcheckpointComponent,
                FloorlandingcheckpointComponent,
                MachinroomcheckpointComponent,
+               ReportForElevComponent,
+               ReportHomeComponent,
+               NewReportComponent,
+               ExistingReportComponent,
                AgreementPageComponent,
                SiteRiskAssessmentComponent,
                PreInspectionComponent,
@@ -259,6 +271,7 @@ import { MailAutomationInspComponent } from './inspector_dashboard/mail-automati
     MatMenuModule,
     MatCheckboxModule,
     MatDialogModule,
+    MatTabsModule,
     
     MatIconModule,
     MatDividerModule,

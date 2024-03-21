@@ -1,0 +1,474 @@
+.page {
+    // display: flex;
+    box-sizing: border-box;
+    page-break-before: always;
+    position: relative;
+}
+.side {
+    font-weight: bold;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+}
+
+.head {
+    text-align: center;
+    margin-top: 35px;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.content-container {
+    max-width: 600px;
+    margin: auto;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Align items vertically in the header */
+    margin-bottom: 25px;
+}
+
+.company-logo,
+.report-logo {
+    max-height: 80px;
+    width: auto;
+}
+
+.nabcb {
+    margin-left: auto; /* Push nabcb to the right edge */
+    margin-right: 10px; /* Add some right margin for spacing */
+    font-weight: bolder;
+}
+
+.content1 {
+    font-weight: bold;
+}
+
+.details {
+    text-align: left;
+    flex: 1;
+    margin-top: 35px;
+}
+
+.details p {
+    margin: 16px 0; /* Simplify margin for paragraphs */
+}
+
+
+.additional-image {
+    display: inline-block;
+    border: 1px solid #000;
+    padding: 10px;
+    max-width: 200px;
+    height: auto;
+    margin-left: 350px; /* Adjust left margin */
+    margin-top: -350px;
+}
+
+.footer-content {
+    display: inline-block;
+    border: 1px solid #000;
+    padding: 5px;
+    text-align: right;
+    font-weight: bold;
+    margin: 5px 0;
+    font-size: 14px; /* Adjust font size for better readability */
+    margin-left: 348px;
+}
+
+.footer-address {
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    margin: 50px 0; /* Simplify margin for better consistency */
+}
+
+
+//////////////////////page:2///////////////////////
+
+.header_page {
+ width: auto;
+}
+
+.details-page2 {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 5px;
+    background-color: #fff;
+    font-size: 10px;
+}
+
+/* Contact information section styling */
+  .contact-info {
+    // border: 1px solid #ddd;  /* Add a subtle border */
+    // border-radius: 2px;  /* Round corners for a softer look */
+    padding: 50px;  /* Add some padding within the section */
+    margin-top: 30px;
+  }
+  
+  /* Styling for paragraphs within contact info */
+  .contact-info p {
+    margin-bottom: 5px;  /* Add some space between paragraphs */
+  }
+  
+  /* Bold styling for "Prepared By" and "Corporate Office" text */
+  .contact-info p strong {
+    font-weight: bold;
+  }
+  
+  /* Styling for contact details (phone, email, website) */
+  .contact-info a {
+    color: #007bff;  /* Blue color for links */
+    text-decoration: none;  /* Remove underline from links */
+  }
+  
+  /* Hover effect for contact details (links) */
+  .contact-info a:hover {
+    text-decoration: underline;  /* Add underline on hover */
+    }
+
+    .topic{
+        margin-bottom: 100px;
+       
+    }
+
+  .sign{
+    border: 2.2px solid #1835b8;  /* Add a subtle border */
+    border-radius: 2px;  /* Round corners for a softer look */
+    
+   
+    padding: 50px;  /* Add some padding within the section */
+   
+    }
+    .behalf{
+        font-weight: bolder;
+    //     margin-bottom: 50px;
+    }
+    .company-name{
+        color: #007bff;
+        font-weight: bolder;
+        margin-bottom: px;
+    }
+    .Inspector_sign{
+        font-size: 15px;
+        font-weight: bolder;
+        
+    }
+    .manager{
+        font-size: 15px;
+        font-weight: bolder;
+        margin-bottom: 50px;
+    }
+    .place{
+        font-weight: bolder;
+      
+    }   
+    .seal {
+        text-decoration: underline;
+        color: #0f151b; /* Optional: Set the color of the underline */
+        margin-left: 550px
+    }
+
+    .pvn{
+        margin-left: 160px;
+        font-weight: bold;
+        font-size: 10px
+       
+    }
+
+   
+////////////////page-3//////////////////    
+
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+.range {
+    text-align: center; /* Center the text horizontally */
+    padding: 10px;
+}
+
+th {
+    background-color: #fdfffd;
+    color: rgb(12, 12, 12);
+}
+
+
+.content-segment {
+    margin-bottom: 5px;
+}
+
+.table_content_header_div {
+    text-align: center;
+}
+
+.table_content_header {
+    color: #1d5fbc;
+    font-weight: bolder;}
+
+.kone {
+    
+    font-size: 10px;
+    margin-bottom: 20px;
+    margin-left: 480px;
+}
+/* Existing styles... */
+.content-segment1, 
+.content-segment2,
+.content-segment3,
+.content-segment4 {
+    display: inline-block;
+    text-align: center;
+    margin: 0 5px;
+    color: #333; /* Text color */
+    padding: 6px;
+    margin-bottom: 5px;
+}
+
+.content-segment1 {
+    border: 3px solid #c63d3d; /* Border color for Unsatisfactory */
+    color: #c63d3d;
+}
+
+.content-segment2 {
+    border: 3px solid #f8bc08; /* Border color for Average */
+    color: #f8bc08;
+}
+
+.content-segment3 {
+    border: 3px solid #212bb3; /* Border color for Good */
+    color: #212bb3;
+}
+
+.content-segment4 {
+    border: 3px solid #3a8b3a; /* Border color for Excellent */
+    color: #3a8b3a;
+}
+
+.content-segment {
+    display: inline-block;
+    padding: 8px;
+    margin: 0 5px;
+}
+
+.row{
+    font-weight: bold;
+     
+}
+
+/////////////////////////////page-4/////////////////////////////
+.emergency{
+    margin-left: 380px;
+    color: #1835b8;
+    font-weight: bolder;
+    font-size: 20px;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-family: Arial, sans-serif;
+  }
+
+  th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+  }
+
+  th {
+    background-color: #f2f2f2;
+  }
+
+  .tick-icon, .times-icon, .diamond-icon {
+    font-size: 18px;
+    color: green;
+  }
+
+  .times-icon {
+    color: red;
+  }
+
+  .diamond-icon {
+    color: #2196F3;
+  }
+
+  .combined-icons {
+    font-size: 18px;
+  }
+
+  .combined-icons span {
+    margin-right: 5px;
+  }
+
+  .rating-icons {
+    font-size: 18px;
+    color: #FFD700;
+  }
+
+  .remarks {
+    max-width: 300px;
+    word-wrap: break-word;
+  }
+
+  .nil-cell {
+    text-align: center;
+  }
+
+  /* Additional styling for better alignment */
+  tbody td:nth-child(12) {
+    text-align: left;
+  }
+
+  tbody td:nth-child(13),
+  tbody td:nth-child(14) {
+    text-align: left;
+  }
+
+  tbody td[colspan="2"] {
+    text-align: left;
+  }
+
+  /* New styles for NP row */
+  tbody td[colspan="12"] {
+    text-align: left;
+  }
+
+  tbody td[colspan="12"] + td {
+    text-align: left;
+  }
+ td{
+    text-align: left;
+ }
+ .asterisk {
+    font-size: 18px; /* Adjust the font size as needed */
+    vertical-align: middle;
+}
+// //////////////////////page-5//////////////////////////////////
+
+  
+// .page {
+//     page-break-before: always;
+//     page-break-after: always;
+//     margin-bottom: 20px;
+//     padding-bottom: 50px; 
+//     position: relative;
+// }
+// h1{
+//     text-align: center;
+// }
+
+// p {
+//     text-align: center; 
+//     display: inline-block;
+//     text-align: justify;
+// }
+
+// .footer {
+//     position: absolute;
+//     bottom: 0;
+//     width: 100%;
+//     color:black;
+//     text-align: right;
+//     padding: 10px 0;
+//     font-style: italic;
+//     font-size: 12px;
+//     position: fixed;
+// }
+
+// .footer p {
+//     margin: 0;
+//     margin-right: 20px;
+// }
+
+// table {
+//     width: 100%;
+//     margin: 0 auto; 
+//     border-collapse: collapse;
+// }
+
+// th, td {
+//     padding: 8px;
+//     border: 1px solid black; 
+//     text-align: center;
+// }
+
+.thr{
+    font-weight: bold;
+}
+.ficl{
+    font-weight: bold;
+
+}
+
+.basic {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    font-weight: bolder;
+    color: #007bff;
+}
+
+  //////page-3///////
+  
+  .Disclaimer {
+    text-align: center;
+    color: #000000; /* Adjust the color as needed */
+    font-weight: bolder;
+    text-decoration: underline;
+}
+
+.document {
+    text-align: end;
+    font-size: 10px;
+    font-weight: bold;
+   }
+   .inspection {
+    padding: 10px; /* Optional: Add padding for better spacing */
+    text-align: justify;
+    margin: 15px 0 25px; /* Optional: Add margin for spacing between paragraphs */
+   
+  }
+  
+  .inspection-container {
+    border: 2px solid #333; /* Adjust the color and width as needed */
+    padding: 10px; /* Optional: Add padding for better spacing */
+    display: inline-block; /* Display as an inline block to wrap the box around the content */
+  }
+  .summary {
+    text-align: center; /* Updated to align left */
+    font-weight: bolder;
+    color: #007bff;
+   
+    
+}
+
+.basics {
+    color: #3a8b3a;
+    font-weight: bolder;
+    margin-top: 50px;
+   
+}
+.dark-text {
+  color: #333; /* Set the color to a dark shade, adjust as needed */
+  font-weight: bold; /* Make the text bold, adjust as needed */
+  /* Add any additional styling you desire */
+}
+
+.record{
+  margin-top: 50px;
+}
