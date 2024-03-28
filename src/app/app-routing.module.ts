@@ -53,12 +53,17 @@ import { ReportHomeComponent } from './inspector_dashboard/report-home/report-ho
 import { AgreementPageComponent } from './inspector_dashboard/agreement-page/agreement-page.component';
 import { SiteRiskAssessmentComponent } from './inspector_dashboard/site-risk-assessment/site-risk-assessment.component';
 import { PreInspectionComponent } from './inspector_dashboard/pre-inspection/pre-inspection.component';
+import { ListCertificateComponent } from './inspector_dashboard/list-certificate/list-certificate.component';
+import { CertificateComponent } from './inspector_dashboard/certificate/certificate.component';
+import { CertificateOComponent } from './certificate-o/certificate-o.component';
 // import { OutBoxComponent } from './out-box/out-box.component';
 // import { UnitDetailsComponent } from './inspector_dashboard/unit-details/unit-details.component';
 const routes: Routes = [
 
   {path:'app-home',component:AppHomeComponent,},
   {path:'pdf/:c_no',component:InfPdfComponent},
+  {path:'certificate/:unit/:document_id',component:CertificateComponent},
+
   // {path:"",redirectTo:"app-home",pathMatch:'full'},
   {path: "services",component:ServicesComponent}, 
   {path:"login",component:LoginComponent},
@@ -123,6 +128,7 @@ const routes: Routes = [
          {path:'agreement/:c_no',component:AgreementPageComponent},
          {path:'risk/:c_no',component:SiteRiskAssessmentComponent},
          {path:'pre_ins/:c_no',component:PreInspectionComponent},
+         {path:'list_certificate',component:ListCertificateComponent},
         
          {path:'pit/:c_no',component:PitComponent},
          { path: 'pitcheckpoint/:id/:documentid/:unitno/:inspectorname/:section', component: PitcheckpointsComponent },

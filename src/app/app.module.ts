@@ -136,6 +136,9 @@ import { AgreementPageComponent } from './inspector_dashboard/agreement-page/agr
 import { SiteRiskAssessmentComponent } from './inspector_dashboard/site-risk-assessment/site-risk-assessment.component';
 import { PreInspectionComponent } from './inspector_dashboard/pre-inspection/pre-inspection.component';
 import { MailAutomationInspComponent } from './inspector_dashboard/mail-automation-insp/mail-automation-insp.component';
+import { ListCertificateComponent } from './inspector_dashboard/list-certificate/list-certificate.component';
+import { CertificateComponent } from './inspector_dashboard/certificate/certificate.component';
+import { CertificateOComponent } from './certificate-o/certificate-o.component';
 
 // import { RejectionComponent } from './inspector_dashboard/rejection/rejection.component';
 
@@ -235,6 +238,9 @@ import { MailAutomationInspComponent } from './inspector_dashboard/mail-automati
                AgreementPageComponent,
                SiteRiskAssessmentComponent,
                PreInspectionComponent,
+               ListCertificateComponent,
+               CertificateComponent,
+               CertificateOComponent,
              
         // RejectionComponent,
         
