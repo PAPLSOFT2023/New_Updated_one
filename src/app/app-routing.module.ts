@@ -68,8 +68,7 @@ const routes: Routes = [
   {path:"reset",component:ResetPasswordComponent},
 
 
-  {path:"ReportElevator1",component:ReportForElevComponent},
-
+  { path: 'ReportElevator1/:contractNumber/:documentid_For_Url', component: ReportForElevComponent },
   // '/afterlogin/software_admin_dashboard_user_manage/organization_admin_login_details'
   {path: 'afterlogin',component: AfterloginComponent,
     children: [

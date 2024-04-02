@@ -1,23 +1,27 @@
 .report-cards-container {
-  display: flex;
-  flex-wrap: wrap; /* Allow cards to wrap onto the next line */
-  justify-content: flex-start; /* Align cards to the start of the container */
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Creates as many columns as can fit, with a minimum width of 200px */
+  gap: 20px; /* Space between rows and columns */
+  padding: 20px; /* Padding around the entire grid */
+  justify-content: center; /* Center the items horizontally */
+  align-items: start; /* Align items to the start of each cell vertically */
 }
 
 .report-card {
-  margin: 10px;
-  width: 200px; /* Fixed width for each card */
-  flex: 1 0 auto; /* Allow cards to grow to fill the available space */
-  box-sizing: border-box; /* Include padding and border in the width calculation */
-  border-radius: 10px; /* Adjust the border radius as needed */
+  box-sizing: border-box;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column; /* Ensures the content of the card is aligned vertically */
 }
 
 .centered-title {
   text-align: center;
   font-size: 22px;
+  margin-top: auto; /* Pushes the title to the top if there's extra space */
 }
 
 .inspectorname,
 .units {
   font-size: 10px;
+  margin-bottom: auto; /* Adjust text to the bottom if there's extra space */
 }

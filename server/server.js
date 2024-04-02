@@ -233,6 +233,7 @@ const sendVerificationEmailboolean= async (email, token, callback) => {
 
 
 
+
 app.get('/api/getinfdata_forMail', (req, res) => {
   const { id } = req.query;
 
@@ -298,6 +299,152 @@ app.get('/api/getinfdata_forMail', (req, res) => {
       }
   });
 }); 
+
+// checkContract_Avai_INF
+
+
+app.get('/api/checkContract_Avai_INF',(request,response)=>{
+
+  const{contract}=request.query;
+  db1.query('SELECT id FROM inf_26 WHERE contract_number = ?', [contract], (error, result) => {
+
+
+    if( result)
+    {
+     return response.json(result)
+    }
+  });
+
+})
+
+
+
+
+
+// getinfdata_forReport
+app.get('/api/getinfdata_forReport', (req, res) => {
+  const { id } = req.query;
+
+
+
+  db1.query('SELECT id, location,building_name, master_customer_name, customer_workorder_name, customer_workorder_date, type_of_inspection, project_name, customer_contact_mailid, no_of_mandays_as_per_work_order, total_units_schedule, schedule_from, schedule_to, inspection_time_ins,oem_details,inspector_array FROM inf_26 WHERE contract_number = ?', [id], (error, result) => {
+      if (error) {
+          console.log("Error");
+          res.status(500).json({ success: false, message: 'Internal server error.' });
+      } else {
+
+        if(result.length>0){
+
+        console.log("Before",result);
+
+      
+        const originalDate = new Date(result[0].customer_workorder_date);
+
+         const options = {
+             year: 'numeric',
+            month: '2-digit',
+              day: '2-digit'
+              };
+
+        result[0].customer_workorder_date = new Intl.DateTimeFormat('en-US', options).format(originalDate);
+
+        // result[0].schedule_from,
+        const originalDate_schedulefrom = new Date(result[0].schedule_from);
+
+        const options_schedulefrom = {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+          weekday: 'long'
+        };
+
+        result[0].schedule_from = new Intl.DateTimeFormat('en-GB', options_schedulefrom).format(originalDate_schedulefrom);
+
+
+        // To 
+        const originalDate_scheduleto= new Date(result[0].schedule_to);
+
+        const options_scheduleto = {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+          weekday: 'long'
+        };
+
+        result[0].schedule_to = new Intl.DateTimeFormat('en-GB', options_scheduleto).format(originalDate_scheduleto);
+       
+        const inputString = result[0].inspection_time_ins;
+        const regex = /\(([^)]+)\)/;
+        const match = inputString.match(regex);
+
+        if (match) {
+          result[0].inspection_time_ins=match[1];
+       } 
+       return res.json(result)
+        }
+        else{
+          return res.json(null)
+        }
+
+      }
+  });
+  
+}); 
+
+// getUnit_details_Report
+app.get('/api/getUnit_details_Report',(req,res)=>{
+  const{contact_num}=req.query;
+  db1.query('SELECT `document_id`, `contract_number`, `unit_no`, `witness_details`, `inspector_name`, `building_name` FROM `unit_details` WHERE `contract_number`=?', [contact_num], (error, result) => {
+
+
+    if( result)
+    {
+     return res.json(result)
+    }
+  });
+})
+
+// getBrief_spec_value
+app.get('/api/getBrief_spec_value', (req, res) => {
+  const { docid, unit_id } = req.query;
+  console.log("docid", docid);
+  console.log("unit_id", unit_id);
+
+
+  // Parse unit_id as an array
+  const unitIdsArray = JSON.parse(unit_id.replace(/'/g, '"'));
+
+  console.log("unit_id", unitIdsArray);
+  console.log("unit_id length", unitIdsArray.length);
+
+
+
+
+
+  let sql = 'SELECT * FROM `breif_spec` WHERE document_id = ? AND unit_no IN (?)';
+let queryParams = ["392", unitIdsArray];
+
+console.log("SQL Query:", sql); // Log the constructed SQL query
+
+db1.query(sql, queryParams, (error, results) => {
+  if (error) {
+    console.error("Database error:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+  console.log("Result:", results); // Log the results from the database
+  return res.json(results);
+});
+
+});
+
+
+
+
+
+
+
+
+
 
 
 // get Inspector data for mail table 
@@ -2056,19 +2203,13 @@ app.post('/api/syncOff', async (req, res) => {
 
 // getUnit_details
 app.get('/api/getUnit_details',(req,res)=>{
-
-  
- 
   const query = 'SELECT `document_id`, `contract_number`, `unit_no`, `inspector_name` ,`ReportComplete` FROM `unit_details` ';
-
   db1.query(query, (err, results) => {
     if (err) {
       console.error("Error:", err);
       return res.status(500).json({ error: 'Internal server error' });
     } 
-     
     else {
-
      console.log("Unit Details",results)
       res.json(results);
     }

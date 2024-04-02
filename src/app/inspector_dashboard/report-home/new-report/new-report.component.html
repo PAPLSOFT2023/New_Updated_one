@@ -1,17 +1,13 @@
 <div class="report-cards-container">
-  <!-- Using Angular Material Card to display each report -->
-  <ng-container *ngFor="let report of incompleteReports; let i = index">
-    <mat-card class="report-card" matRippleRadius>
+  <ng-container *ngFor="let report of incompleteReports">
+    <mat-card class="report-card" matRippleRadius (click)="navigateToReportDetail(report.contract_number,report.document_id, $event)">
       <mat-card-header>
         <mat-card-title class="centered-title">{{ replaceHyphenWithSlash(report.contract_number) }}</mat-card-title>
-        <!-- <mat-card-subtitle>Contract Number: </mat-card-subtitle> -->
       </mat-card-header>
       <mat-card-content>
         <p class="inspectorname">{{ report.inspector_name }}</p>
         <p class="units">{{ report.parsedUnitNos }}</p>
       </mat-card-content>
     </mat-card>
-    <!-- Add a line break after every fourth card -->
-    <br *ngIf="((i + 1) % 4 === 0) && (i !== incompleteReports.length - 1)">
   </ng-container>
 </div>
