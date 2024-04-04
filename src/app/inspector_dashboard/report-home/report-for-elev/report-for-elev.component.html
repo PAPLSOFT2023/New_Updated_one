@@ -493,7 +493,7 @@
     
 
      <!-- Page 7 -->
-     <!-- <div class="page">
+     <div class="page">
         <p class="kone">++{{headervalue}}</p>
     </div>
     <div class="table_content_header_div">
@@ -515,10 +515,12 @@
         <tbody>
           <ng-container *ngFor="let dummy of [].constructor(BriefmultiDimArray_cunt); let i = index">
             <tr>
-                <th >{{BriefmultiDimArray[i].unit_no}}</th>
-              <td>{{ performanceData[i].maintenancePercentage }}</td>
-              <td>{{performanceData[i].adjustmentPercentage }}</td>
-              <td>{{ performanceData[i].ratingPercentage }}</td>
+              <th>{{BriefmultiDimArray[i].unit_no}}</th>
+              <td>sdf</td>
+              <td>rte</td>
+              <td>fgh</td>
+
+
               <td *ngIf="i === 0" class="row" [attr.rowspan]="performanceData.length">
                 {{ remark }}
               </td>
@@ -535,7 +537,7 @@
         </tbody>
       </table>
       
- </div> -->
+ </div>
               
 
 
@@ -577,11 +579,11 @@
           
                  <body>
               <table>
-          <thead>
+             <thead>
                        <tr>
                           <th rowspan="2">S.NO</th>
                           <th rowspan="2">DESCRIPTION</th>
-                          <th colspan="6">UNIT</th>
+                          <th [colSpan]="BriefmultiDimArray_cunt" >UNIT</th>
                           <th rowspan="6" colspan="2">OBSERVATION</th>
                       </tr>
           
@@ -591,137 +593,54 @@
                       </tr>
                   </thead>
                   <tbody>
-                      <!-- Existing table rows go here -->
-              
-                      <!-- New rows -->
-                      <tr>
-                          <td rowspan="3">1</td>
-                          <td rowspan="3"><B>PIT IDENTIFICATION</B></td>
-                          <td class="no-print"><span class="circle circle_yes">Y</span></td>
-                          <td class="no-print"><span class="circle circle_yes">Y</span></td>
-                          <td class="no-print"><span class="circle circle_no">N</span></td>
-                          <td class="no-print"><span class="circle circle_no">N</span></td>
-                          <td class="no-print"><span class="circle circle_no">N</span></td>
-                          <td class="no-print"><span class="circle circle_yes">Y</span></td>
+                    <ng-container *ngFor="let checklistmaster of inspectionMasterData; let i_master=index">
+                        <tr  *ngIf="checklistmaster.Parts?.toLowerCase() === 'pit'">
+                            
+                          <td rowspan="3" >{{ i_master + 1 }}</td>
+                          <td rowspan="3"><b *ngIf="checklistmaster.Parts?.toLowerCase() === 'pit'">{{ checklistmaster.Description }}</b>
+                          </td>
                           
+                          <td *ngFor="let dummy of [].constructor(BriefmultiDimArray_cunt); let brief_i = index">
+                            <ng-container [ngSwitch]="checkConstraints(i_master,brief_i, checklistmaster.Description)">
+                                <span *ngSwitchCase="'NO'" [ngStyle]="{'color': 'red', 'font-weight': 'bold'}">N</span>
+                                <span *ngSwitchCase="'YES'" [ngStyle]="{'color': 'green', 'font-weight': 'bold'}">Y</span>
+                                <span *ngSwitchCase="'YES!'" [ngStyle]="{'color': 'cyan', 'font-weight': 'bold'}">---</span>
+                            </ng-container>
+                         </td>
+                        
+                        
                           
-          
-                      <td class="observation" rowspan="3">
-                              <p>P3-Pit ID is not provided, should be rectified.</p>
-                              <p>P4-Pit ID is not visible, should be rectified.</p>
-                              <p>P5-Pit ID is not line with common nomenclature, should be rectified.</p>
-                      </td>
-                      </tr>
-                  
-                       <tr>
-                          <td colspan="3">P3-Pit ID is not provided, should be rectified</td>
-                          <td colspan="3">P4-Pit ID is not visible, should be rectified</td>
-                       </tr>
-          
-                       <tr>
-                        <td colspan="3">
-                            <label for="photo1"></label>
-                            <input type="file" id="photo1" name="photo1" accept="image/*" (change)="previewImage($event, 'preview1', 'photo1')">
-                            <div id="preview1" class="preview"></div>
-                        </td>
-                        <td colspan="3">
-                            <label for="photo2"></label>
-                            <input type="file" id="photo2" name="photo2" accept="image/*" (change)="previewImage($event, 'preview2', 'photo2')">
-                            <div id="preview2" class="preview"></div>
-                        </td>
-                    </tr>
-          
-          
-                      <tr>
-                          <td rowspan="1">2</td>
-                          <td rowspan="1"><B>PIT CONDITION</B> </td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                          <td rowspan="1" class="observation">Satisfactory</td>
-                      </tr>
-                    
-                      
-                      
-                     <td rowspan="3">3</td>
-                          <td rowspan="3"><B>PIT STOP SW. CONDITION/OPERATION</B></td>
-                          <td><span class="circle circle_no">N</span></td> 
-                          <td><span class="circle circle_no">N</span></td>
-                          <td><span class="circle circle_yes">Y</span></td>
-                          <td><span class="circle circle_yes">Y</span></td>
-                          <td><span class="circle circle_yes">Y</span></td>
-                          <td><span class="circle circle_no">N</span></td>
-        
-          
                           
                           <td class="observation" rowspan="3" >
-                             <p>P1-Upper stop switch is not working.</p>
-                             <p>P2-Both Upper & Lower STOP switches are not working.</p> 
-                             <p>P6-Lower Stop switch is hanging/ damaged should be rectified/replaced.</p> 
+                            <!-- Your observation content here -->
+                            <ng-container *ngIf="checklistmaster.for_defect_flag">
+                               {{checklistmaster.Defect_multiple}}
+                                
+                            </ng-container>
+                            <ng-container *ngIf="!checklistmaster.for_defect_flag">
+                            <p [ngStyle]="{'color':'green','font-weight': 'bold', 'text-align':'center'}">Satisfactory</p> 
+                            </ng-container>
+                            
                           </td>
-                      
-                      
-                      
-                      <tr>
-                         <td colspan="3">P1- Upper stop switch is not working</td>
-                         <td colspan="3">P2- Both Upper & Lower STOP switches are not working</td>
-                      </tr>
-          
-                      <tr>
-                          <td colspan="3">
-                              <label for="photo1"></label>
-                              <input type="file" id="photo3" name="photo3" accept="image/*" (change)="previewImage($event, 'preview3', 'photo3')">
-                              <div id="preview3" class="preview"></div>
-                          </td>
-                          <td colspan="3">
-                              <label for="photo2"></label>
-                              <input type="file" id="photo4" name="photo4" accept="image/*" (change)="previewImage($event, 'preview4', 'photo4')">
-                              <div id="preview4" class="preview"></div>
-                          </td>
-                      </tr>
-                     
-                  
-                    
-                    
-                   <td rowspan="3">3</td>
-                        <td rowspan="3"><B>PIT STOP SW. CONDITION/OPERATION</B></td>
-                        <td><span class="circle circle_no">N</span></td> 
-                        <td><span class="circle circle_no">N</span></td>
-                        <td><span class="circle circle_yes">Y</span></td>
-                        <td><span class="circle circle_yes">Y</span></td>
-                        <td><span class="circle circle_yes">Y</span></td>
-                        <td><span class="circle circle_no">N</span></td>
-        
-        
-                        
-                        <td class="observation" rowspan="3" >
-                           <p>P1-Upper stop switch is not working.</p>
-                           <p>P2-Both Upper & Lower STOP switches are not working.</p> 
-                           <p>P6-Lower Stop switch is hanging/ damaged should be rectified/replaced.</p> 
-                        </td>
-                    
-                    
-                    
-                    <tr>
-                       <td colspan="3">P1- Upper stop switch is not working</td>
-                       <td colspan="3">P2- Both Upper & Lower STOP switches are not working</td>
-                    </tr>
-        
-                    <tr>
-                        <td colspan="3">
+                          
+                        </tr>
+                        <tr >
+                          <td  *ngIf="checklistmaster.for_defect_flag" colspan="4">{{checklistmaster.Defect_photo}}</td>
+                         
+                        </tr>
+                        <tr>
+                          <td colspan="4" *ngIf="checklistmaster.for_defect_flag">
                             <label for="photo1"></label>
-                            <input type="file" id="photo5" name="photo5" accept="image/*" (change)="previewImage($event, 'preview5', 'photo5')">
-                            <div id="preview5" class="preview"></div>
-                        </td>
-                        <td colspan="3">
-                            <label for="photo2"></label>
-                            <input type="file" id="photo6" name="photo6" accept="image/*" (change)="previewImage($event, 'preview6', 'photo6')">
-                            <div id="preview6" class="preview"></div>
-                        </td>
-                    </tr>
+                            <input type="file" id="photo1" name="photo1" accept="image/*" (change)="previewImage($event, 'preview1', 'photo1')">
+                            <div id="preview1"  class="preview"></div>
+                          </td>
+                       
+                        </tr>
+                        
+                      </ng-container>
+                      
+          
+          
         
                    
                     
@@ -733,6 +652,89 @@
         </div>
         
         
+
+
+
+        <div class="page">
+        
+        
+            <div class="pit_head">
+                <h1><b>CABIN</b></h1>
+            </div>
+          
+                 <body>
+              <table>
+             <thead>
+                       <tr>
+                          <th rowspan="2">S.NO</th>
+                          <th rowspan="2">DESCRIPTION</th>
+                          <th [colSpan]="BriefmultiDimArray_cunt" >UNIT</th>
+                          <th rowspan="6" colspan="2">OBSERVATION</th>
+                      </tr>
+          
+                      <tr>
+                        <th *ngFor="let dummy of [].constructor(BriefmultiDimArray_cunt); let i = index">{{BriefmultiDimArray[i].unit_no}}</th>
+                          
+                      </tr>
+                  </thead>
+                  <tbody>
+                    <ng-container *ngFor="let checklistmaster of inspectionMasterData; let i_master=index">
+                        <tr  *ngIf="checklistmaster.Parts?.toLowerCase() === 'cabin'">
+                            
+                          <td rowspan="3" >{{ i_master + 1 }}</td>
+                          <td rowspan="3"><b *ngIf="checklistmaster.Parts?.toLowerCase() === 'cabin'">{{ checklistmaster.Description }}</b>
+                          </td>
+                          
+                          <td *ngFor="let dummy of [].constructor(BriefmultiDimArray_cunt); let brief_i = index">
+                            <ng-container [ngSwitch]="checkConstraints(i_master,brief_i, checklistmaster.Description)">
+                                <span *ngSwitchCase="'NO'" [ngStyle]="{'color': 'red', 'font-weight': 'bold'}">N</span>
+                                <span *ngSwitchCase="'YES'" [ngStyle]="{'color': 'green', 'font-weight': 'bold'}">Y</span>
+                                <span *ngSwitchCase="'YES!'" [ngStyle]="{'color': 'cyan', 'font-weight': 'bold'}">---</span>
+                            </ng-container>
+                         </td>
+                        
+                        
+                          
+                          
+                          <td class="observation" rowspan="3" >
+                            <!-- Your observation content here -->
+                            <ng-container *ngIf="checklistmaster.for_defect_flag">
+                               {{checklistmaster.Defect_multiple}}
+                                
+                            </ng-container>
+                            <ng-container *ngIf="!checklistmaster.for_defect_flag">
+                            <p [ngStyle]="{'color':'green','font-weight': 'bold', 'text-align':'center'}">Satisfactory</p> 
+                            </ng-container>
+                            
+                          </td>
+                          
+                        </tr>
+                        <tr >
+                          <td  *ngIf="checklistmaster.for_defect_flag" colspan="4">{{checklistmaster.Defect_photo}}</td>
+                         
+                        </tr>
+                        <tr>
+                          <td colspan="4" *ngIf="checklistmaster.for_defect_flag">
+                            <label for="photo1"></label>
+                            <input type="file" id="photo1" name="photo1" accept="image/*" (change)="previewImage($event, 'preview1', 'photo1')">
+                            <div id="preview1"  class="preview"></div>
+                          </td>
+                       
+                        </tr>
+                        
+                      </ng-container>
+                      
+          
+          
+        
+                   
+                    
+                      
+                </tbody>
+             </table>
+          </body>
+         
+        </div>
         
         <!-- ---------------------------------------------------------------- END ------------------------------------------------------------------------ -->
     </div>

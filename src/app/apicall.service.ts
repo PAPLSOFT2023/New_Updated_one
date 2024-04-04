@@ -579,9 +579,39 @@ getBrief_spec_value(docid: string, unit_id: any): Observable<any> {
   return this.httpClient.get(url, options);
 }
 
+// getinsectionmasterData
+getinsectionmasterData(): Observable<any> {
+  // Define the URL
+  const url = `${this.apiURL}getinsectionmasterData`;
+
+  // Define the headers
+  const headers = new HttpHeaders({
+    'Content-Type': 'application/json'
+  });
+
+  // Make the HTTP GET request
+  return this.http.get(url, { headers: headers });
+}
 
 
+// getChecklist_Record_Val
+getChecklist_Record_Val(doc_id:string):Observable<any>
+{
+  console.log("api called===")
+  const url = `${this.apiURL}getChecklist_Record_Val`;
+  const params = new HttpParams().set('doc_id', doc_id);
 
+  const headers = new HttpHeaders({
+    'Content-Type': 'application/json'
+  });
+
+  const options = {
+    headers: headers,
+    params: params
+  };
+
+  return this.httpClient.get(url, options);
+}
 
 
 

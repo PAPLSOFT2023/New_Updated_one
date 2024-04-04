@@ -406,37 +406,74 @@ app.get('/api/getUnit_details_Report',(req,res)=>{
 
 // getBrief_spec_value
 app.get('/api/getBrief_spec_value', (req, res) => {
-  const { docid, unit_id } = req.query;
+  const { docid } = req.query;
   console.log("docid", docid);
-  console.log("unit_id", unit_id);
 
-
-  // Parse unit_id as an array
-  const unitIdsArray = JSON.parse(unit_id.replace(/'/g, '"'));
+  // Assuming unit_id is a stringified JSON array coming from the client
+  let unitIdsArray;
+  try {
+    unitIdsArray = JSON.parse(req.query.unit_id.replace(/'/g, '"'));
+  } catch (e) {
+    return res.status(400).json({ message: "Invalid unit_id format" });
+  }
 
   console.log("unit_id", unitIdsArray);
   console.log("unit_id length", unitIdsArray.length);
 
-
-
-
-
+  // Adjusted SQL query
   let sql = 'SELECT * FROM `breif_spec` WHERE document_id = ? AND unit_no IN (?)';
-let queryParams = ["392", unitIdsArray];
+  // No need for extra array wrapping around unitIdsArray
+  let queryParams = [docid, unitIdsArray];
+
+  console.log("SQL Query:", sql); // Log the constructed SQL query
+
+  // Adjusting how the query is executed to properly spread the array for the IN clause
+  db1.query(sql, queryParams, (error, results) => {
+    if (error) {
+      console.error("Database error:", error);
+      return res.status(500).json({ message: "Internal server error" });
+    }
+    console.log("Result:", results.length, results); // Log the results from the database
+    return res.json(results);
+  });
+});
+
+
+
+
+// getinsectionmasterData
+
+app.get('/api/getinsectionmasterData', (req, res) => {
+  console.log("inspection master server called")
+
+    let sql = 'SELECT * FROM `inspection_master` WHERE 1';
+
 
 console.log("SQL Query:", sql); // Log the constructed SQL query
 
-db1.query(sql, queryParams, (error, results) => {
+db1.query(sql, (error, results) => {
   if (error) {
     console.error("Database error:", error);
     return res.status(500).json({ message: "Internal server error" });
   }
-  console.log("Result:", results); // Log the results from the database
+  // console.log("Result:", results); // Log the results from the database
   return res.json(results);
 });
 
 });
 
+
+// getChecklist_Record_Val
+
+app.get('/api/getChecklist_Record_Val',(req,res)=>{
+  const{doc_id}=req.query;
+  db1.query('SELECT `id`, `document_id`, `inspector_name`, `unit_no`, `description`, `dropdown_option`, `checked`, `img`, `needforReport`, `section` FROM `record_values` WHERE `document_id`=?', [doc_id], (error, result) => {
+    if( result)
+    {
+     return res.json(result)
+    }
+  });
+})
 
 
 
@@ -1982,6 +2019,13 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
       let parts_index = -1;
       let description_index = -1;
       let reference_index = -1;
+      let positive_MND_index=-1;
+      let positive_ADJ_index=-1;
+      let negative_MNT_index=-1;
+      let negative_ADJ_index=-1;
+      let emergency_Features_index=-1;
+      let customer_Scope_index=-1;
+
 
 
       
@@ -2026,6 +2070,43 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
             case 'descriptions':
                 description_index = i;
                 break;
+
+                case 'positive mnt':
+                  case 'positive_mnt':
+                      positive_MND_index = i;
+                      break;
+
+                      case 'positive adj':
+                  case 'positive_adj':
+                      positive_ADJ_index = i;
+                      break;
+                      case 'negative mnt':
+                        case 'negative_mnt':
+                            negative_MNT_index = i;
+                            break;
+
+
+                            case 'negative adj':
+                        case 'negative_adj':
+                            negative_ADJ_index = i;
+                            break;
+
+
+                            case 'emergency feature':
+                              case 'emergency_feature':
+                                case 'emergency features':
+                                  case 'emergency_features':
+
+                                  emergency_Features_index = i;
+                                  break;
+
+
+                                  case 'customer scope':
+                                    case 'customer_scope':
+                                        customer_Scope_index = i;
+                                        break;
+            
+
             default:
                 // Handle unknown column names
                 break;
@@ -2035,16 +2116,20 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
       let count_photo;
       let count_dropdown;
       let count_risklevel;
+      let count_negative_MNT;
+      let count_negative_ADJ;
       let check_innercell_equals=false;
       let cell_check_index_string_size='';
-      let indexval;
+      let indexval; 
+
+      console.log("index number",photo_index,drop_Drown_index,risk_Level_index,product_index,parts_index,description_index,positive_MND_index,positive_ADJ_index,negative_MNT_index,negative_ADJ_index,emergency_Features_index,customer_Scope_index)
 
       if(photo_index > -1 &&
        drop_Drown_index > -1 &&
        risk_Level_index > -1 &&
        product_index > -1 &&
        parts_index > -1 &&
-       description_index > -1)
+       description_index > -1 && positive_MND_index>-1 &&  positive_ADJ_index >-1 &&  negative_MNT_index>-1 &&  negative_ADJ_index>-1 && emergency_Features_index>-1 && customer_Scope_index>-1 )
       {
          for(let k=0;k<values.length;k++)
       {
@@ -2064,9 +2149,29 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
 
         // If matches is null, return 0, otherwise return the length of matches
         count_risklevel = matche_for_risklevel ? matche_for_risklevel.length : 0;
+
+
+
+
+        const match_for_negative_MND = String(values[k][negative_MNT_index]).match(/~/g);
+
+        // If matches is null, return 0, otherwise return the length of matches
+        count_negative_MNT = match_for_negative_MND ? match_for_negative_MND.length : 0;
+
+
+        const match_for_negative_ADJ = String(values[k][negative_ADJ_index]).match(/~/g);
+
+        // If matches is null, return 0, otherwise return the length of matches
+        count_negative_ADJ = match_for_negative_ADJ ? match_for_negative_ADJ.length : 0;
+
+
+
+
         
          // Assuming count_photo, count_dropdown, and count_risklevel are already defined
-          if (count_photo === count_dropdown && count_dropdown === count_risklevel) {
+
+         console.log("index value",)
+          if (count_photo === count_dropdown && count_dropdown === count_risklevel &&  count_negative_ADJ == count_negative_MNT && count_negative_ADJ ==count_dropdown ) {
             console.log("All R equal");
            check_innercell_equals = true;
 
@@ -2086,7 +2191,15 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
            cell_check_index_string_size=" Risklevel "
            indexval=k;
            // Handle the case where count_risklevel is different
-           } 
+           } else if (count_negative_ADJ !== count_photo && count_negative_ADJ !== count_dropdown) {
+            cell_check_index_string_size=" Negative ADJ "
+            indexval=k;
+            // Handle the case where count_risklevel is different
+            } else if (count_negative_MNT !== count_photo && count_negative_MNT !== count_dropdown) {
+              cell_check_index_string_size=" Negative MNT"
+              indexval=k;
+              // Handle the case where count_risklevel is different
+              } 
           }
 
         }
@@ -2108,10 +2221,16 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
         // insert query
         console.log("insert area");
 
-        let sql = 'INSERT INTO `inspection_master`(`Product`, `Parts`, `Description`, `Reference`, `Risklevel`, `Photo`, `Dropdown`) VALUES ';
+        let sql = 'INSERT INTO `inspection_master`(`Product`, `Parts`, `Description`, `Reference`, `Risklevel`, `Photo`, `Dropdown`,`Positive_MNT`,`Positive_ADJ`,`Negative_MNT`,`Negative_ADJ`,`Emergency_Features`,`Customer_Scope`) VALUES ';
         for (let i = 0; i < values.length; i++) {
          const row = values[i];
-         sql += `('${row[product_index]}', '${row[parts_index]}', '${row[description_index]}', '${row[reference_index]}', '${row[risk_Level_index]}', '${row[photo_index]}', '${row[drop_Drown_index]}')`;
+         const emergency_boolean = (row[emergency_Features_index] === 'Y' || row[emergency_Features_index].toLowerCase() === 'yes' || row[emergency_Features_index] == 1) ? 1 : 0;
+         const customer_scope_bool = (row[customer_Scope_index] === 'Y' || row[customer_Scope_index].toLowerCase() === 'yes' || row[customer_Scope_index] == 1) ? 1 : 0;
+         
+
+
+
+         sql += `('${row[product_index]}', '${row[parts_index]}', '${row[description_index]}', '${row[reference_index]}', '${row[risk_Level_index]}', '${row[photo_index]}', '${row[drop_Drown_index]}','${row[positive_MND_index]}','${row[positive_ADJ_index]}','${row[negative_MNT_index]}','${row[negative_ADJ_index]}','${emergency_boolean}','${customer_scope_bool}')`;
          if (i !== values.length - 1) {
          sql += ', ';
         }
