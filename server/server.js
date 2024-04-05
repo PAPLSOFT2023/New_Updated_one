@@ -3258,11 +3258,30 @@ app.get('/api/inspector', (req, res) => {
       if (err) {
         console.error('Error fetching values from MySQL:', err);
         res.status(500).json({ error: 'Internal Server Error' });
-        return;
+        return;l;
       }
   
       const values = results.map((row) => row.inspector_type);
       res.json(values);
+    });
+  });
+  //signature
+  app.get('/signature/:inspectorName', (req, res) => {
+    const inspectorName = req.params.inspectorName;
+  
+    const query = "SELECT signature FROM signature WHERE inspector_name = ?";
+    db1.query(query, [inspectorName], (err, results) => {
+      if (err) {
+        console.error('Error fetching signature:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+      } else {
+        if (results.length > 0) {
+          res.writeHead(200, { 'Content-Type': 'image/jpeg' });
+          res.end(results[0].signature, 'binary');
+        } else {
+          res.status(404).json({ error: 'Signature not found' });
+        }
+      }
     });
   });
 

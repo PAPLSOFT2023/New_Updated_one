@@ -51,7 +51,7 @@
             <th>Remarks</th>
             <th>Yes</th>
             <th>No</th>
-            <th>Not applicable</th>
+            <!-- <th>Not applicable</th> -->
         </tr>
     </thead>
     <tbody>
@@ -65,9 +65,9 @@
           <td>
             <input type="radio" name="radio{{assessment.id}}" value="No" [(ngModel)]="assessment.selectedValue" (change)="updateSelectedValue(assessment, 'No')">
           </td>
-          <td>
+          <!-- <td>
             <input type="radio" name="radio{{assessment.id}}" value="Not Applicable" [(ngModel)]="assessment.selectedValue" (change)="updateSelectedValue(assessment, 'Not Applicable')">
-          </td>
+          </td> -->
 
                   </tr>
            </tbody>

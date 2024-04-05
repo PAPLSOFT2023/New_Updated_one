@@ -10,7 +10,7 @@
     <table>
 
     <tr>
-        <td colspan="12">CERTIFICATE NO:</td>
+        <td colspan="12"><b>CERTIFICATE NO: PAPL 2024 A1-B5 001</b></td>
     </tr>
 
     <tr>
@@ -19,55 +19,55 @@
 
 
     <tr>
-        <td rowspan="3" colspan="2"> CERTIFICATE ISSUED TO</td>
+        <td rowspan="3" colspan="2"> <b>CERTIFICATE ISSUED TO:</b></td>
         <td rowspan="3" colspan="3">{{inf_26.master_customer_name}}</td>
-        <td rowspan="3" colspan="2">BUILDING NAME & ADDRESS</td>
+        <td rowspan="3" colspan="2"><b>BUILDING NAME & ADDRESS</b></td>
         <td rowspan="3" colspan="2">{{inf_26.building_name +'&'+ inf_26.site_address}}</td>
     </tr>
     <tr></tr>
     <tr></tr>
     <tr>
-        <td colspan="2">OEM</td>
+        <td colspan="2"><b>OEM</b></td>
         <td colspan="3"> {{breif_spec[0]?.oem}}</td>
-        <td colspan="2"> MAINTAINED BY </td>
+        <td colspan="2"> <b>MAINTAINED BY</b> </td>
         <td colspan="2">{{breif_spec[0]?.maintained_by}}</td>
     </tr>
 
-    <td colspan="2" > UNITS</td>
+    <td colspan="5" > <b>UNITS</b></td>
     <!-- <td ></td > -->
-    <td colspan="4">{{breif_spec[0]?.unit_no}}</td>
+    <td colspan="5">{{breif_spec[0]?.unit_no}}</td>
    
 
 <tr>
-        <td colspan="2"> DATE OF INSPECTION</td>
+        <td colspan="2"><b>DATE OF INSPECTION</b></td>
         <td colspan="3">{{inf_26.schedule_from |  date: 'dd-MM-yyyy'}}</td>
-        <td colspan="2">DATE OF RE-INSPECTION</td>
+        <td colspan="2"><b>DATE OF RE-INSPECTION</b></td>
         <td colspan="2"> 
             <input type="date" class="borderless-input">
         </td>
     </tr>
 
     <tr>
-        <td colspan="2">INSPECTORS CODE</td>
+        <td colspan="2"><b>INSPECTORS CODE</b></td>
         <td colspan="3">{{breif_spec[0]?.inspector_name}}</td>
-        <td colspan="2"> PAPL REPORT DOC ID
-        </td><td colspan="2">{{breif_spec[0]?.document_id}}</td>
+        <td colspan="2"> <b>PAPL REPORT DOC ID</b></td>
+        <td colspan="2">{{breif_spec[0]?.document_id}}</td>
     </tr>
 
        <tr>
-        <td colspan="9" style="text-align: center;">THIS CERTIFICATE COVERS UNITS WITH DETAILS AS BELOW</td>
+        <td colspan="9" style="text-align: center;"><b>THIS CERTIFICATE COVERS UNITS WITH DETAILS AS BELOW</b></td>
       </tr>
 
    <tr>
-    <td>UNIT NO.</td>
-    <td>MACHINE S.No.</td>
-    <td>MFG. YEAR</td>
-    <td>EQUIPMENT</td>
-    <td>USAGE</td>
-    <td>CAPACITY</td>
-    <td>STOPS / OPENINGS</td>
-    <td> SPEED MPS</td>
-    <td>NEXT INSPECTION DUE DATE</td>
+    <td><b>UNIT NO.</b></td>
+    <td><b>MACHINE S.No.</b></td>
+    <td><b>MFG. YEAR</b></td>
+    <td><b>EQUIPMENT</b></td>
+    <td><b>USAGE</b></td>
+    <td><b>CAPACITY</b></td>
+    <td><b>STOPS / OPENINGS</b></td>
+    <td> <b>SPEED MPS</b></td>
+    <td><b>NEXT INSPECTION DUE DATE</b></td>
   </tr>
 
   <tr>
@@ -89,7 +89,7 @@
 <tr>
 
     <td colspan="9" style="text-align: center;">
-        CERTIFICATE VALIDITY - ONE YEAR FROM {{' '+ currentDate | date:'dd-MM-yyyy' }}
+       <b> CERTIFICATE VALIDITY - ONE YEAR FROM {{' '+ currentDate | date:'dd-MM-yyyy' }}</b>
 </td>
 </tr>
 
@@ -119,10 +119,11 @@
            <br>
            <br>
     </div>
-
-        <div class="down">
-            <p class="Inspector">INSPECTOR</p>
-        </div>
+    <img [src]="signature" class="small-page"  style="width: 85px; height: auto; margin-left: 70px; margin-bottom: 140px;"  alt="Inspector Signature Image">
+    <div class="down">
+    <p class="Inspector">VERIFIED AND SIGNED BY <b>INSPECTOR</b></p>
+    </div>
+    
     </div>
 
     <div class="right-content">
@@ -133,9 +134,7 @@
             <br>
         </div>
 
-        <div class="down">
-            <p class="Inspector">GM-QuEST</p>
-        </div>
+        
     </div>
 </div>
 
@@ -169,8 +168,8 @@
 <h3><a href="http://www.paplcorp.com" >www.paplcorp.com</a></h3>
 </div>
 
-<p class="vertical">PAPL/INF/16,VER.1.4,18-04-2023</p>
 
+<p class="vertical">PAPL/INF/16,VER.1.4,18-04-2023</p>
 </div>
 
 
