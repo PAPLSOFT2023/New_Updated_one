@@ -30,12 +30,16 @@
     "browserify-zlib": "^0.2.0",
     "cors": "^2.8.5",
     "crypto-browserify": "^3.12.0",
-    "express": "^4.18.2",
+    "express": "^4.19.1",
     "firebase": "^10.5.0",
     "font-awesome": "^4.7.0",
     "google-auth-library": "^9.4.1",
     "googleapis": "^129.0.0",
+<<<<<<< HEAD
     "jspdf": "^2.5.1",
+=======
+    "mongoose": "^8.2.3",
+>>>>>>> d2947334c1002b1d981b15f2de07e2f53a6d5f57
     "mysql": "^2.18.1",
     "mysql2": "^2.0.0",
     "ngx-bootstrap": "^6.2.0",

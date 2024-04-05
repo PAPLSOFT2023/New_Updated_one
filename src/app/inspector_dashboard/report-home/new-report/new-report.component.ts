@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { ApicallService } from 'src/app/apicall.service';
 
 @Component({
@@ -8,7 +9,7 @@ import { ApicallService } from 'src/app/apicall.service';
 })
 export class NewReportComponent {
   incompleteReports: any[] = [];
-  constructor(private apicallservice:ApicallService)
+  constructor(private apicallservice:ApicallService, private router:Router)
   {
 
     // console.log("constructor called");
@@ -52,5 +53,18 @@ export class NewReportComponent {
     return contractNumber.replace('-', '/');
   }
 
+  navigateToReportDetail(contractNumber: string, documentid_For_Url: string, event: MouseEvent) {
+    this.apicallservice.checkContract_Avai_INF(contractNumber).subscribe((result:any)=>{
 
+      if(result.length>0 && result){
+        this.router.navigate(['ReportElevator1',contractNumber,documentid_For_Url])
+
+      }
+      else{
+        alert(contractNumber.replace('-','/')+" Contract Number is not Available in INF Database")
+      }
+
+    },(error:any)=>{} );
+    
+  }
 }

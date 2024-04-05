@@ -493,6 +493,133 @@ deleteLoginDetails(email: string): Observable<any> {
 
     return this.httpClient.get(url, options);
   }
+
+  // checkContract_Avai_INF
+  checkContract_Avai_INF(contract:string):Observable<any>
+{
+  const url = `${this.apiURL}checkContract_Avai_INF`;
+  const params = new HttpParams().set('contract', contract);
+
+  const headers = new HttpHeaders({
+    'Content-Type': 'application/json'
+  });
+
+  const options = {
+    headers: headers,
+    params: params
+  };
+
+  return this.httpClient.get(url, options);
+}
+
+
+// getinfdata_forReport
+getinfdata_forReport(id:string):Observable<any>{
+  const url = `${this.apiURL}getinfdata_forReport`;
+  const params = new HttpParams().set('id', id);
+
+  const headers = new HttpHeaders({
+    'Content-Type': 'application/json'
+  });
+
+  const options = {
+    headers: headers,
+    params: params
+  };
+
+  return this.httpClient.get(url, options);
+}
+
+
+// getUnit_details_Report
+getUnit_details_Report(contact_num:string):Observable<any>
+{
+  console.log("api called===")
+  const url = `${this.apiURL}getUnit_details_Report`;
+  const params = new HttpParams().set('contact_num', contact_num);
+
+  const headers = new HttpHeaders({
+    'Content-Type': 'application/json'
+  });
+
+  const options = {
+    headers: headers,
+    params: params
+  };
+
+  return this.httpClient.get(url, options);
+}
+
+// getBrief_spec_value
+
+getBrief_spec_value(docid: string, unit_id: any): Observable<any> {
+  console.log("api called===", docid);
+ 
+  const url = `${this.apiURL}getBrief_spec_value`;
+
+  // Check if unit_id is an array, if not convert it to an array
+  const unitIdsArray = Array.isArray(unit_id) ? unit_id : [unit_id];
+
+  // Convert unitIdsArray to a comma-separated string
+  const unitIdsString = unitIdsArray.join(',');
+
+  
+
+  const params = new HttpParams().set('docid', docid).set('unit_id', unitIdsString);
+
+  const headers = new HttpHeaders({
+    'Content-Type': 'application/json'
+  });
+
+  const options = {
+    headers: headers,
+    params: params
+  };
+
+  return this.httpClient.get(url, options);
+}
+
+// getinsectionmasterData
+getinsectionmasterData(): Observable<any> {
+  // Define the URL
+  const url = `${this.apiURL}getinsectionmasterData`;
+
+  // Define the headers
+  const headers = new HttpHeaders({
+    'Content-Type': 'application/json'
+  });
+
+  // Make the HTTP GET request
+  return this.http.get(url, { headers: headers });
+}
+
+
+// getChecklist_Record_Val
+getChecklist_Record_Val(doc_id:string):Observable<any>
+{
+  console.log("api called===")
+  const url = `${this.apiURL}getChecklist_Record_Val`;
+  const params = new HttpParams().set('doc_id', doc_id);
+
+  const headers = new HttpHeaders({
+    'Content-Type': 'application/json'
+  });
+
+  const options = {
+    headers: headers,
+    params: params
+  };
+
+  return this.httpClient.get(url, options);
+}
+
+
+
+
+
+
+
+
   getInspectorData(inspectors:any):Observable<any>{
     
     const url = `${this.apiURL}getInspectordata_forMail`;

@@ -4,182 +4,234 @@
     page-break-before: always;
     position: relative;
 }
-.side {
-    font-weight: bold;
-}
-
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
+  font-family: Calibri, sans-serif; /* Use Calibri font */
+  margin: 0;
+  padding: 0;
 }
 
-.head {
-    text-align: center;
-    margin-top: 35px;
-    font-size: 30px;
-    font-weight: bold;
+.page {
+  width: 100%; /* Adjust as needed */
+  margin: 0 auto; /* Center the page horizontally */
 }
 
 .content-container {
-    max-width: 600px;
-    margin: auto;
+  padding: 20px;
 }
 
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center; /* Align items vertically in the header */
-    margin-bottom: 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
 }
 
-.company-logo,
+.company-logo {
+  max-width: 320px; /* Adjust as needed */
+  height: 90px; /* Adjust as needed to maintain aspect ratio */
+ 
+}
+
 .report-logo {
-    max-height: 80px;
-    width: auto;
+  max-width: 200px; /* Adjust as needed */
+  height: 90px;
+}
+
+.side_container {
+  margin-top: -25px;
+  margin-bottom: 35px;
+  // font-size: 12px;
 }
 
 .nabcb {
-    margin-left: auto; /* Push nabcb to the right edge */
-    margin-right: 10px; /* Add some right margin for spacing */
-    font-weight: bolder;
+  font-size: 15px;
+  font-weight: bold;
+  text-align: right; /* Align text to the right */
+  margin-right: 13px;
 }
 
-.content1 {
-    font-weight: bold;
+.side {
+  margin-top: auto; /* Reset margin-top */
+  margin-bottom: 5px;
+  font-weight: bolder;
+}
+
+.head_title {
+  margin: 20px 0;
+  text-align: center; /* Align text to the center */
+  font-weight: bolder;
+  text-decoration: underline; /* Underline the content */
+}
+
+
+.container_details {
+  display: flex;
+  justify-content: space-between; /* Ensure the items are aligned to the left and right edges */
+  align-items: center; /* Center the items vertically */
 }
 
 .details {
-    text-align: left;
-    flex: 1;
-    margin-top: 35px;
+  flex: 1; /* Allow the details to grow to fill available space */
 }
 
 .details p {
-    margin: 16px 0; /* Simplify margin for paragraphs */
+  font-size: 18px;
+  margin-bottom: 30px; /* Adjust the value as needed for desired spacing */
 }
 
+.additional {
+  margin-left: 10px; /* Add some spacing between details and additional */
+}
 
 .additional-image {
-    display: inline-block;
-    border: 1px solid #000;
-    padding: 10px;
-    max-width: 200px;
-    height: auto;
-    margin-left: 350px; /* Adjust left margin */
-    margin-top: -350px;
+  max-width: 450px; /* Adjust as needed */
+  height: 320px;
 }
 
 .footer-content {
-    display: inline-block;
-    border: 1px solid #000;
-    padding: 5px;
-    text-align: right;
-    font-weight: bold;
-    margin: 5px 0;
-    font-size: 14px; /* Adjust font size for better readability */
-    margin-left: 348px;
+  margin: 1px 0;
+  font-weight: bolder;
+  margin-left: 27px;
+  display: inline-block; /* Added inline-block */
+  border: 1px solid #000; /* Added border */
+}
+
+.footer {
+  border-top: 1px solid #ccc;
+  margin-top: 20px;
+  padding-top: 10px;
+  display: flex;
+  justify-content: center; /* Center content horizontally */
 }
 
 .footer-address {
-    text-align: center;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 10px;
-    margin: 50px 0; /* Simplify margin for better consistency */
+  text-align: center; /* Center content within its container */
+  font-size: 12px;
+  font-weight: bold;
 }
 
-
-//////////////////////page:2///////////////////////
-
-.header_page {
- width: auto;
+///////////////////page-2 css new version//////////////
+    .papl_code {
+    margin-top: 100px;
+    text-align: right;
+    font-size: 12px;
+    font-weight: bolder;
+  }
+  
+  .prepare {
+    text-align: center; /* Center align the content */
+    text-decoration: underline; /* Underline the content */
+  }
+  .name_company {
+    text-align: center; /* Center align the content */
+    color: blue; /* Set text color to blue */
+    font-weight: bolder;
+  }
+  .div_center {
+    text-align: center; /* Center align all content inside the div */
+  }
+  .office{
+    text-decoration: underline; /* Underline the content */
+  }
+  .Official{
+    color: blue; /* Set text color to blue */
+    font-weight: bolder;
+  }
+  
+ .box-container {
+    width: 100vw; /* Set container width to 100% of viewport width */
+    display: flex;
+    justify-content: center; /* Center align the content horizontally */
+  }
+  
+  .box {
+    width: 80%; /* Set box width to 80% of the container */
+    background-color: #ffffff;
+    border: 2px solid #0f11b6;
+    padding: 20px; /* Add some padding */
+    margin: 20px 0; /* Add some margin */
+  }
+  .elevator {
+    font-family: Calibri, Arial, sans-serif; /* Set font family to Calibri */
+    text-align: left; /* Left align the content */
+    vertical-align: top; /* Align content to the top */
+  }
+  .content {
+    text-align: left;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
-
-.details-page2 {
-    position: absolute;
-    top: 0;
-    right: 0;
-    padding: 5px;
-    background-color: #fff;
-    font-size: 10px;
-}
-
-/* Contact information section styling */
-  .contact-info {
-    // border: 1px solid #ddd;  /* Add a subtle border */
-    // border-radius: 2px;  /* Round corners for a softer look */
-    padding: 50px;  /* Add some padding within the section */
-    margin-top: 30px;
-  }
-  
-  /* Styling for paragraphs within contact info */
-  .contact-info p {
-    margin-bottom: 5px;  /* Add some space between paragraphs */
-  }
-  
-  /* Bold styling for "Prepared By" and "Corporate Office" text */
-  .contact-info p strong {
-    font-weight: bold;
-  }
-  
-  /* Styling for contact details (phone, email, website) */
-  .contact-info a {
-    color: #007bff;  /* Blue color for links */
-    text-decoration: none;  /* Remove underline from links */
-  }
-  
-  /* Hover effect for contact details (links) */
-  .contact-info a:hover {
-    text-decoration: underline;  /* Add underline on hover */
-    }
-
-    .topic{
-        margin-bottom: 100px;
-       
-    }
-
-  .sign{
-    border: 2.2px solid #1835b8;  /* Add a subtle border */
-    border-radius: 2px;  /* Round corners for a softer look */
+.name_pvn{
+    text-align: left;
+    font-family: Calibri; 
+    color: #0f11b6;
     
    
-    padding: 50px;  /* Add some padding within the section */
-   
-    }
-    .behalf{
-        font-weight: bolder;
-    //     margin-bottom: 50px;
-    }
-    .company-name{
-        color: #007bff;
-        font-weight: bolder;
-        margin-bottom: px;
-    }
-    .Inspector_sign{
-        font-size: 15px;
-        font-weight: bolder;
-        
-    }
-    .manager{
-        font-size: 15px;
-        font-weight: bolder;
-        margin-bottom: 50px;
-    }
-    .place{
-        font-weight: bolder;
-      
-    }   
-    .seal {
-        text-decoration: underline;
-        color: #0f151b; /* Optional: Set the color of the underline */
-        margin-left: 550px
-    }
+}
+////signature inspector///
+.inspected{
+  margin-left: 30px;
+  margin-top:  40px;
+}
+.signature{
+    margin-left:127px;
+}
+.inspector_signature{
+    margin-left: 135px;
+}
 
-    .pvn{
-        margin-left: 160px;
-        font-weight: bold;
-        font-size: 10px
-       
-    }
+.signature-container {
+    font-family: Calibri;
+    text-align: right;
+    margin-top: -70px;
+    
+}
+
+//////sign gm//////////
+.gm_sign{
+ margin-right: 40px;
+
+}
+.sign_name{
+    margin-right: 40px;
+    text-align: right;
+    font-family: Calibri;
+   
+}
+.head_sign{
+    margin-right: 10px;
+    font-family: Calibri;
+    text-align: right;
+    margin-bottom: 100px;
+}
+
+.place {
+  text-align: left;
+  margin:0%;
+  
+}
+
+.place_chennai{
+  margin: 0%;
+}
+
+.pvn_res {
+  text-align: center;
+}
+.papl {
+  margin-top: -21px; /* Adjust the value to your preference */
+  font-family: Calibri;
+  font-size: 13px;
+}
+
+.pvn_code {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  font-weight: bolder;
+  font-size: 12px;
+  font-family: Calibri;
+}
+
 
    
 ////////////////page-3//////////////////    
@@ -471,4 +523,394 @@ table {
 
 .record{
   margin-top: 50px;
+}
+
+
+///////////////////////////////////////////////pit css/////////////////////////////////////////////////////////
+
+  
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    border: 1.5px solid black;
+    padding: 18px;
+    text-align: center;
+}
+
+
+
+.pit_head {
+    justify-content: center;
+    text-align: center; /* Added for older browser support */
+    color: rgb(23, 92, 160); /* Added color */
+}
+
+.observation {
+    text-align: left;
+}
+
+
+.circle {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 20px;
+    font-size: larger;
+    font-weight: bold;
+    position: relative; /* Ensure circles are included in printed output */
+}
+
+.circle_yes {
+
+    color: green;
+}
+
+.circle_no {
+    
+    color: red;
+}
+.yes_no {
+    position: absolute;
+    top: 15px; /* Adjust the top distance as needed */
+    right: 20px; /* Adjust the right distance as needed */
+  }
+  
+  .box {
+    display: inline-block;
+    padding: 1px; /* Adjust padding as needed */
+    border: 1px solid black; /* Add border */
+    margin-left: 40px;
+  }
+  .box-two {
+    display: inline-block;
+    padding: 0.5px; /* Adjust padding as needed */
+    border: 1px solid black; /* Add border */
+  }
+   
+  .yes {
+    color: green;
+    margin-right: 5px;
+}
+
+.no {
+    color: red;
+}
+
+/////////////css for quality evaluation///////////////
+///////////////////////////// This code will use visible as the background color of the document//////////////////////////////////////
+@media print {
+  body {
+    font-size: 12pt; /* Set appropriate font size for printing */
+    width: 100%; /* Ensure content spans the printed page */
+  }
+  
+  th {
+    /* Apply background color */
+    background-color: #dbd0d0b9; 
+    /* Set text color to ensure visibility */
+    color: black;
+    /* Add a box shadow to make the background visible */
+    box-shadow: 0 0 0 1000px #dbd0d0b9 inset;
+  }
+
+  .six9{
+     /* Apply background color */
+     background-color: #f8bc0882; 
+     /* Set text color to ensure visibility */
+     color: black;
+     /* Add a box shadow to make the background visible */
+    //  box-shadow: 0 0 0 1000px #dbd0d0b9 inset;
+   }
+
+   body {
+    font-family: Calibri, sans-serif;
+}
+
+.six11{
+    /* Apply background color */
+    background-color: #f8bc0882; 
+    /* Set text color to ensure visibility */
+    color: black;
+    /* Add a box shadow to make the background visible */
+    // box-shadow: 0 0 0 1000px #dbd0d0b9 inset;
+
+ }
+ 
+ .six12{
+  background-color: #f8bc0882; 
+  color: black;
+}
+
+.six13{
+  /* Apply background color */
+  background-color: #f8bc0882; 
+  /* Set text color to ensure visibility */
+  color: black;
+  /* Add a box shadow to make the background visible */
+  // box-shadow: 0 0 0 1000px #dbd0d0b9 inset;
+
+}
+
+
+
+
+}
+
+/* Rest of your CSS remains the same */
+@media (max-width: 768px) {
+  body {
+    font-size: 14px; /* Adjust for smaller screens */
+    font-family: calibri;
+  }
+}
+
+body {
+  background-color: #ffffff; /* Set background color for the entire document */
+}
+
+.skyblue,
+.olivegreen,
+.f8bc0882,
+#dbd0d0b9,
+.six9,
+.six11,
+.six12,
+.six13,
+.lite_yellow,
+.orange,
+.violet {
+    -webkit-print-color-adjust: exact; /* Chrome, Safari */
+    -moz-print-color-adjust: exact; /* Firefox */
+    -o-print-color-adjust: exact; /* Opera */
+    -ms-print-color-adjust: exact; /* Internet Explorer */
+    print-color-adjust: exact; /* Standard property */
+}
+
+//////////////////////////////////////////////////////////End/////////////////////////////////////////////////////////
+// .page {
+// display: flex;
+// box-sizing: border-box;
+// page-break-before: always;
+// position: relative;
+// }
+
+// body {
+//   font-family: Calibri, sans-serif;
+//   margin: 0;
+//   padding: 0;
+//   background-color: #f7f7f7; /* Set a light background color */
+// }
+// .container {
+//   max-width: 1200px;
+//   margin: 0 auto;
+//   padding: 20px;
+// }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 30px;
+  background-color: #fff; /* Set a white background for the table */
+}
+// th, td {
+//   border: 1px solid #999393; /* Add a subtle border to table cells */
+//   padding: 10px;
+//   text-align: center;
+// }
+// th {
+//   background-color: #f2f2f2; /* Set a light gray background color for table headers */
+//   color: #333; /* Set text color for table headers */
+// }
+
+  .top-right {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-top: -35px; /* Adjust as needed */
+    margin-right: 0 px; /* Adjust as needed */
+    font-weight: bolder;
+    font-family: Calibri; /* Example font */
+    font-size: 12px;
+}
+.header_one {
+  position: absolute;
+  top: 10px; /* Adjust top margin as needed */
+  left: 50%; /* Set to center */
+  transform: translateX(-50%); /* Adjust for center alignment */
+  font-weight: bolder;
+  font-family: Calibri; /* Example font */
+  font-size: 20px;
+  align-items: center;
+
+}
+.left_alignment{
+  align-items: center;
+}
+
+
+/* Existing styles... */
+.content-segment1, 
+.content-segment2,
+.content-segment3,
+.content-segment4,
+.content-segment5,
+.content-segment6 {
+  display: inline-block;
+  text-align: center;
+  margin: 0 5px;
+  color: #333; /* Text color */
+  padding: 6px;
+  margin-bottom: 5px;
+  font-family: calibri;
+ 
+}
+
+
+.header_one{
+  align-items: center;
+}
+
+
+.content-segment1 {
+    border: 3px solid #c63d3d; /* Border color for Unsatisfactory */
+    color: #c63d3d;
+}
+
+.content-segment2 {
+    border: 3px solid #f8bc08; /* Border color for Average */
+    color: #f8bc08;
+}
+
+.content-segment3 {
+    border: 3px solid #212bb3; /* Border color for Good */
+    color: #212bb3;
+}
+
+.content-segment4 {
+    border: 3px solid #3a8b3a; /* Border color for Excellent */
+    color: #3a8b3a;
+}
+
+.content-segment5 {
+    border: 3px solid #951d87; /* Border color for MNT */
+    color: #951d87;
+}
+
+.content-segment6 {
+    border: 3px solid #1eb3dd; /* Border color for ADJ */
+    color: #1eb3dd;
+}
+
+.six1{
+  color: #ff0000;
+}
+.six2{
+  color: #ff0000;
+}
+.six3{
+  color: #ff0000;
+}
+.six4{
+  color: #ff0000;
+}
+.six5{
+  color: #ff0000;
+}
+.six6{
+  color: #ff0000;
+}
+
+.six7{
+  color: #ff0000;
+}
+.six8{
+  color: #ff0000;
+}
+.six9{
+  color: #ff0000;
+  background-color: #f8bc0882;
+  font-weight: bolder;
+  font-size: 16px;
+  font-family: calibri;
+}
+.six10{
+  color: #ff0000;
+  background-color: #f8bc0882;
+  font-weight: bolder;
+  font-size: 15px;
+  font-family: calibri;
+}
+.six11{
+  color: #ff0000;
+  background-color: #f8bc0882;
+  font-weight: bolder;
+  font-size: 15px;
+  font-family: calibri;
+}
+.six12{
+  color: #ff0000;
+  background-color: #f8bc0882;
+  font-weight: bolder;
+  font-size: 15px;
+  font-family: calibri;
+}
+.six13{
+  color: #ff0000;
+  background-color: #f8bc0882;
+  font-weight: bolder;
+  font-size: 15px;
+  font-family: calibri;
+}
+.six15{
+  color: #ff0000;
+}
+.six16{
+  color: #ff0000;
+}
+
+
+.skyblue{
+  color: #000000;
+  background-color: #20bfeb3b;
+  
+}
+.olivegreen{
+  color: #000000;
+  background-color: rgba(106, 153, 41, 0.319);
+}
+.lite_yellow{
+  color: #000000;
+  background-color: #f3c12961;
+}
+
+
+.orange{
+  color: #000000;
+  background-color: rgba(255, 68, 0, 0.329);
+}
+.violet{
+  color: #000000;
+  background-color: rgba(238, 130, 238, 0.299);
+}
+/* print.css */
+
+.range {
+  text-align: center; /* Center align the content within the <td> element */
+  font-size: 13px;
+}
+
+.total_one {
+  text-align: right;
+  font-weight: bolder;
+  font-size: 18px;
+  font-family: calibri;
+}
+body {
+  font-family: Calibri;
+  background-color: #ffffff;
 }

@@ -1,17 +1,43 @@
+<br>
+
 <div class="report-cards-container">
-  <!-- Using Angular Material Card to display each report -->
-  <ng-container *ngFor="let report of incompleteReports; let i = index">
-    <mat-card class="report-card" matRippleRadius>
-      <mat-card-header>
-        <mat-card-title class="centered-title">{{ replaceHyphenWithSlash(report.contract_number) }}</mat-card-title>
-        <!-- <mat-card-subtitle>Contract Number: </mat-card-subtitle> -->
-      </mat-card-header>
-      <mat-card-content>
-        <p class="inspectorname">{{ report.inspector_name }}</p>
-        <p class="units">{{ report.parsedUnitNos }}</p>
-      </mat-card-content>
-    </mat-card>
-    <!-- Add a line break after every fourth card -->
-    <br *ngIf="((i + 1) % 4 === 0) && (i !== incompleteReports.length - 1)">
-  </ng-container>
+
+  <!-- Iterate over reports -->
+  <div class="report-card" *ngFor="let report of incompleteReports" (click)="navigateToReportDetail(report.contract_number, report.document_id, $event)">
+    
+    <div class="card-header">
+      
+      <div class="card-title">
+        <i class="fas fa-file-contract"></i> <!-- File contract icon -->
+        {{ replaceHyphenWithSlash(report.contract_number) }}
+      </div>
+    </div>
+   
+    <div class="card-content">
+      
+      
+      <div class="info-row">
+        
+        <span class="info-label"><i class="fas fa-user"></i> Inspector:</span> <!-- User icon -->
+        <span class="info-value">{{ report.inspector_name }}</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label"><i class="fas fa-building"></i> Units:</span> <!-- Building icon -->
+        <span class="info-value">{{ report.parsedUnitNos }}</span>
+      </div>
+      <!-- Additional Information -->
+      <div class="info-row">
+        <span class="info-label"><i class="far fa-calendar-alt"></i> Date:</span> <!-- Calendar icon -->
+        <span class="info-value">{{ report.date }}</span>
+
+      </div>
+        <!-- Download button -->
+        <a class="download-button" href="{{report.download_link}}" download="report.pdf">
+          <i class="fas fa-download"></i> <!-- Download icon -->
+          Download
+        </a>
+        
+      
+    </div>
+  </div>
 </div>
