@@ -259,6 +259,7 @@ import { CertificateOComponent } from './certificate-o/certificate-o.component';
     ReactiveFormsModule,
     HttpClientModule,
     NgxCaptchaModule,
+    FormsModule,
     
     
     

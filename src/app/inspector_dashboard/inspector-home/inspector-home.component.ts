@@ -45,7 +45,7 @@ export class InspectorHomeComponent implements OnInit {
   request : any ;
  
 
-  location:string='/assets/logo1.png'
+  // location:string='/assets/logo1.png'
 
   constructor(private datePipe:DatePipe,private apicallservice: ApicallService, private http: HttpClient,private router:Router,private route: ActivatedRoute) {}
 
