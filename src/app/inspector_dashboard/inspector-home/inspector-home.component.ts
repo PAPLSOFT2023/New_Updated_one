@@ -2,7 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ApicallService } from 'src/app/apicall.service';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { ActivatedRoute,Router } from '@angular/router';
+import { DatePipe } from '@angular/common';
+
 // import { NgbModal} from '@ng-bootstrap/ng-bootstrap';
+// import { DatePipe } from '@angular/common';
+
 import { response } from 'express';
 import * as fs from 'fs';
 
@@ -43,7 +47,7 @@ export class InspectorHomeComponent implements OnInit {
 
   // location:string='/assets/logo1.png'
 
-  constructor(private apicallservice: ApicallService, private http: HttpClient,private router:Router,private route: ActivatedRoute) {}
+  constructor(private datePipe:DatePipe,private apicallservice: ApicallService, private http: HttpClient,private router:Router,private route: ActivatedRoute) {}
 
   ngOnInit() {
     
@@ -94,9 +98,6 @@ export class InspectorHomeComponent implements OnInit {
   }
 
   Send_Mail_Client(id:string){
-
-   
-
     this.open_popUp=!this.open_popUp;
     // console.log(id);
     // const sender=sessionStorage.getItem("Email") as string
@@ -164,9 +165,7 @@ export class InspectorHomeComponent implements OnInit {
                     console.log("88", inspector_Data);
 
                     this.isSendingMailEnabled=true;
-                      
-                   
-                    
+            
                     this.apicallservice.send_mail_to_client(
                       response[0].id,
                       response[0].master_customer_name,
@@ -178,6 +177,7 @@ export class InspectorHomeComponent implements OnInit {
                       response[0].schedule_from,
                       response[0].schedule_to,
                       response[0].no_of_mandays_as_per_work_order,
+                      // differenceInDays,
                       response[0].type_of_inspection,
                       response[0].inspection_time_ins,
                       response[0].customer_contact_mailid,

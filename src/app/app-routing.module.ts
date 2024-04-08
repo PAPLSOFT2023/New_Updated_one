@@ -41,19 +41,39 @@ import { PitComponent } from './inspector_dashboard/pit/pit.component';
 import { PitcheckpointsComponent } from './inspector_dashboard/pit/pitcheckpoints/pitcheckpoints.component';
 import { CabinComponent } from './inspector_dashboard/cabin/cabin.component';
 import { OutBoxComponent } from './out-box/out-box.component';
+import { CartopComponent } from './inspector_dashboard/cartop/cartop.component';
+import { MachineroomComponent } from './inspector_dashboard/machineroom/machineroom.component';
+import { FloorlandingComponent } from './inspector_dashboard/floorlanding/floorlanding.component';
+import { CabincheckpointsComponent } from './inspector_dashboard/cabin/cabincheckpoints/cabincheckpoints.component';
+import { CartopcheckpointComponent } from './inspector_dashboard/cartop/cartopcheckpoint/cartopcheckpoint.component';
+import { FloorlandingcheckpointComponent } from './inspector_dashboard/floorlanding/floorlandingcheckpoint/floorlandingcheckpoint.component';
+import { MachinroomcheckpointComponent } from './inspector_dashboard/machineroom/machinroomcheckpoint/machinroomcheckpoint.component';
+import { ReportForElevComponent } from './inspector_dashboard/report-home/report-for-elev/report-for-elev.component';
+import { ReportHomeComponent } from './inspector_dashboard/report-home/report-home.component';
+import { AgreementPageComponent } from './inspector_dashboard/agreement-page/agreement-page.component';
+import { SiteRiskAssessmentComponent } from './inspector_dashboard/site-risk-assessment/site-risk-assessment.component';
+import { PreInspectionComponent } from './inspector_dashboard/pre-inspection/pre-inspection.component';
+import { ListCertificateComponent } from './inspector_dashboard/list-certificate/list-certificate.component';
+import { CertificateComponent } from './inspector_dashboard/certificate/certificate.component';
+import { CertificateOComponent } from './certificate-o/certificate-o.component';
 // import { OutBoxComponent } from './out-box/out-box.component';
 // import { UnitDetailsComponent } from './inspector_dashboard/unit-details/unit-details.component';
 const routes: Routes = [
 
   {path:'app-home',component:AppHomeComponent,},
   {path:'pdf/:c_no',component:InfPdfComponent},
-  {path:"",redirectTo:"app-home",pathMatch:'full'},
+  {path:'certificate/:unit/:document_id',component:CertificateComponent},
+
+  // {path:"",redirectTo:"app-home",pathMatch:'full'},
   {path: "services",component:ServicesComponent}, 
   {path:"login",component:LoginComponent},
   {path:"Mail_Response",component:MailResponseComponent},
   {path:"neworganization", component:NeworganizationComponent},
   {path:"forgotpassword",component:ForgotpasswordComponent},
   {path:"reset",component:ResetPasswordComponent},
+
+
+  { path: 'ReportElevator1/:contractNumber/:documentid_For_Url', component: ReportForElevComponent },
   // '/afterlogin/software_admin_dashboard_user_manage/organization_admin_login_details'
   {path: 'afterlogin',component: AfterloginComponent,
     children: [
@@ -82,6 +102,8 @@ const routes: Routes = [
         {path:'schedule_page',component:SchedulePageComponent},
         {path:'scheduledWork', component:ScheduledWorkComponent},
         {path:"mail_automation",component:MailAutomationInspComponent},
+        {path:"ReportHome",component:ReportHomeComponent},
+        {path:"ReportElevator",component:ReportForElevComponent},
         {path:"outbox",component:OutBoxComponent},
        
 
@@ -102,9 +124,27 @@ const routes: Routes = [
          {path:'unit/:c_no',component:ListingUnitsComponent},
          {path:'section/:c_no',component:SectionComponent},
          {path:'spec/:c_no',component:BreifSpecComponent},
+         {path:'agreement/:c_no',component:AgreementPageComponent},
+         {path:'risk/:c_no',component:SiteRiskAssessmentComponent},
+         {path:'pre_ins/:c_no',component:PreInspectionComponent},
+         {path:'list_certificate',component:ListCertificateComponent},
+        
          {path:'pit/:c_no',component:PitComponent},
+         { path: 'pitcheckpoint/:id/:documentid/:unitno/:inspectorname/:section', component: PitcheckpointsComponent },
+         
          {path:'cabin/:c_no',component:CabinComponent},
-         { path: 'pitcheckpoint/:id/:documentid/:unitno/:inspectorname', component: PitcheckpointsComponent }
+        { path: 'cabincheckpoint/:id/:documentid/:unitno/:inspectorname/:section', component: CabincheckpointsComponent },
+        
+         {path:'cartop/:c_no',component:CartopComponent},
+         { path: 'carcheckpoint/:id/:documentid/:unitno/:inspectorname/:section', component: CartopcheckpointComponent },
+         
+         {path:'machineroom/:c_no',component:MachineroomComponent},
+         { path: 'machineroomcheckpoint/:id/:documentid/:unitno/:inspectorname/:section', component: FloorlandingcheckpointComponent },
+         
+         
+         {path:'floorlanding/:c_no',component:FloorlandingComponent},
+         { path: 'floorcheckpoint/:id/:documentid/:unitno/:inspectorname/:section', component: FloorlandingcheckpointComponent },
+         
          
     ],
   },

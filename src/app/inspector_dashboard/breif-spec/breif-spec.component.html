@@ -21,7 +21,18 @@
         <!-- <td><input type="text" [(ngModel)]="elevator_number"></td> -->
         <td><input type="text" [(ngModel)]="elevator_number"></td>
 
+      </tr>
+      <tr>
+        <th>Capacity(xx PAX/ xxxx Kg.)</th>
+        <!-- <td><input type="text" [(ngModel)]="elevator_number"></td> -->
+        <td><input type="text" [(ngModel)]="capacity"></td>
 
+       
+      </tr>
+      <tr>
+        <th>Speed(xxxx m/s.)</th>
+        <!-- <td><input type="text" [(ngModel)]="elevator_number"></td> -->
+        <td><input type="text" [(ngModel)]="speed"></td>
       </tr>
          <tr>
         <th scope="row">OEM</th>
@@ -29,6 +40,10 @@
           <option *ngFor="let value of values" [value]="value">{{value}}</option>
          
       </select></td>
+      </tr>
+      <tr>
+        <th scope="row">Maintained by</th>
+        <td><input type="text" [(ngModel)]="maintained_by"></td>
       </tr>
       <tr>
         <th scope="row">Year of Manufacture</th>

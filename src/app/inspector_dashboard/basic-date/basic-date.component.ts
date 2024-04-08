@@ -323,17 +323,21 @@ const se_to1 = datePipe.transform(se_to,'yyyy-MM-dd')
     console.log('contract number',this.inf_26.contract_number);
     const unit_values=this.dataService.unit_values;
     sessionStorage.setItem('unit_values', JSON.stringify(unit_values)); 
+    const document_id = sessionStorage.getItem('document_id');
 
 
     const contract_number=this.inf_26.contract_number;
+    const building_name = this.inf_26.building_name;
 
     const store_values={
       unit_values:unit_values,
       insp_name:this.name,
-      contract_number:contract_number
+      contract_number:contract_number,
+      document_id : document_id,
+      building_name:building_name
     }
 
-    this.http.post('http://localhost:3000/api/store_data11', store_values).subscribe(
+    this.http.put('http://localhost:3000/api/store_data11', store_values).subscribe(
       (response) => {
         console.log('Data stored successfully', response);
     //     const successMessage = 'Success...!';
@@ -343,10 +347,8 @@ const se_to1 = datePipe.transform(se_to,'yyyy-MM-dd')
     //   this.router.navigate(['/afterlogin/sales_home']);
 
     // }
-    this.router.navigate(['afterlogin', 'auth',response]);
-
-    
-      },
+    this.router.navigate(['afterlogin', 'unit',document_id]);
+  },
       (error) => {
         console.error('Error storing data', error);
       }
@@ -374,6 +376,7 @@ const se_to1 = datePipe.transform(se_to,'yyyy-MM-dd')
       }
     );
   }
+  
   
 
 }

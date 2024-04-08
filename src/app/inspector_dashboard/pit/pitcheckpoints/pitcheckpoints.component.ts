@@ -28,6 +28,7 @@ export class PitcheckpointsComponent  {
   documentId:string='';
   unitNo:string='';
   inspectorName:string='';
+  section:string='';
   Camera_popup:boolean=false;
  disable:boolean=true;
 
@@ -41,6 +42,7 @@ export class PitcheckpointsComponent  {
   camera_index!:number;
   showImageView: boolean = false; // Controls whether to display the image view container
 selectedImageUrl: string = ''; // Holds the URL of the selected image
+hideAllDoneButton: boolean = false;
 
 defect_button_flag:boolean=true;
 satisfied_button_flag:boolean=true;
@@ -52,38 +54,16 @@ save_button_enable_flag:boolean=false
   photoSelected!: boolean[]; // for image file name highlight in green
 
 
-  
- 
-
-
   private beforeUnloadSubscription!: Subscription;
-
-
-  
-
-
-
-
-
-
-
-
-
 
   constructor(private route: ActivatedRoute,private apicallservice:ApicallService) { } 
 
 
   ngOnInit(): void {
 
-    // this.beforeUnloadSubscription = fromEvent(window, 'beforeunload').subscribe((event) => {
-    //   event.preventDefault();
-    //   event.returnValue = true;
-    // });
-
-
-
-    // Retrieve the id parameter from the route snapshot
     const encodedId = this.route.snapshot.paramMap.get('id');
+
+    this.section=this.route.snapshot.paramMap.get('section')||'section Not Get';
    
     this.documentId = this.route.snapshot.paramMap.get('documentid') || ''; // Use type assertion and provide a default value
     this.unitNo = this.route.snapshot.paramMap.get('unitno') || ''; // Use type assertion and provide a default value
@@ -315,6 +295,7 @@ closeImageView(): void {
 
 save_button_enable_fun(){
  this.disable=!this.disable
+ this.hideAllDoneButton = !this.hideAllDoneButton;
   
   this.save_button_enable_flag=!this.save_button_enable_flag;
 }
@@ -332,7 +313,14 @@ async save(): Promise<void> {
   if (navigator.onLine) {
     // Online - Submit data to server
     this.submitDataToServer(valueArray).then(() => {
-      console.log("Data submitted successfully");
+      // console.log("Data submitted successfully");
+      if ('indexedDB' in window) {
+        this.saveDataLocally(valueArray).then(() => {
+          // console.log("Data saved successfully");  
+        }).catch((error) => {
+          console.error("Error saving data locally:", error);
+        });
+      }
     }).catch((error) => {
       console.error("Error submitting data to server:", error);
     });
@@ -341,11 +329,12 @@ async save(): Promise<void> {
     // Offline - Save data locally
     if ('indexedDB' in window) {
       this.saveDataLocally(valueArray).then(() => {
-        console.log("Data saved locally");
+        alert("Data saved to OutBox");
       }).catch((error) => {
         console.error("Error saving data locally:", error);
       });
-    } else {
+    } 
+    else {
       alert("Your browser does not support offline data saving.");
     }
   }
@@ -355,9 +344,11 @@ private async submitDataToServer(valueArray: string[]): Promise<void> {
   // Replace with your API call logic
  
   try {
-    const result = await this.apicallservice.insert_Pit_Values(
+    const result = await this.apicallservice.insert_Record_Values(
       this.documentId, 
-      this.inspectorName, 
+      this.inspectorName,
+      this.section,
+      
       this.unitNo, 
       this.title, 
       valueArray, 
@@ -380,6 +371,7 @@ private async saveDataLocally(valueArray: string[]): Promise<void> {
     key: `${this.documentId}+${this.title}`,
     documentId: this.documentId,
     inspectorName: this.inspectorName,
+    section:this.section,
     unitNo: this.unitNo,
     title: this.title,
     valueArray,
@@ -391,10 +383,11 @@ private async saveDataLocally(valueArray: string[]): Promise<void> {
 
   try {
     await store.add(valueObj);
-    alert("Your device doesn't have an internet connection. Data saved locally.");
-  } catch (error) {
+    // alert("Data Also copied to OutBox");
+  } 
+  catch (error) {
     if (error instanceof DOMException && error.name === "ConstraintError") {
-      alert("This data already exists!");
+      // alert("This data already exists!");
     } else {
       console.error("Error saving data locally:", error);
     }

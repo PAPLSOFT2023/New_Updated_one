@@ -1,0 +1,43 @@
+<br>
+
+<div class="report-cards-container">
+
+  <!-- Iterate over reports -->
+  <div class="report-card" *ngFor="let report of incompleteReports" (click)="navigateToReportDetail(report.contract_number, report.document_id, $event)">
+    
+    <div class="card-header">
+      
+      <div class="card-title">
+        <i class="fas fa-file-contract"></i> <!-- File contract icon -->
+        {{ replaceHyphenWithSlash(report.contract_number) }}
+      </div>
+    </div>
+   
+    <div class="card-content">
+      
+      
+      <div class="info-row">
+        
+        <span class="info-label"><i class="fas fa-user"></i> Inspector:</span> <!-- User icon -->
+        <span class="info-value">{{ report.inspector_name }}</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label"><i class="fas fa-building"></i> Units:</span> <!-- Building icon -->
+        <span class="info-value">{{ report.parsedUnitNos }}</span>
+      </div>
+      <!-- Additional Information -->
+      <div class="info-row">
+        <span class="info-label"><i class="far fa-calendar-alt"></i> Date:</span> <!-- Calendar icon -->
+        <span class="info-value">{{ report.date }}</span>
+
+      </div>
+        <!-- Download button -->
+        <a class="download-button" href="{{report.download_link}}" download="report.pdf">
+          <i class="fas fa-download"></i> <!-- Download icon -->
+          Download
+        </a>
+        
+      
+    </div>
+  </div>
+</div>

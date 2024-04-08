@@ -111,12 +111,34 @@ import { AuthoDetailsComponent } from './inspector_dashboard/autho-details/autho
 import { ListingUnitsComponent } from './inspector_dashboard/listing-units/listing-units.component';
 import { SectionComponent } from './inspector_dashboard/section/section.component';
 import { BreifSpecComponent } from './inspector_dashboard/breif-spec/breif-spec.component';
-
+import { MatTabsModule } from '@angular/material/tabs';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { PitComponent } from './inspector_dashboard/pit/pit.component';
 import { PitcheckpointsComponent } from './inspector_dashboard/pit/pitcheckpoints/pitcheckpoints.component';
 import { CabinComponent } from './inspector_dashboard/cabin/cabin.component';
 import { OutBoxComponent } from './out-box/out-box.component';
+import { CartopComponent } from './inspector_dashboard/cartop/cartop.component';
+import { MachineroomComponent } from './inspector_dashboard/machineroom/machineroom.component';
+import { FloorlandingComponent } from './inspector_dashboard/floorlanding/floorlanding.component';
+import { CabincheckpointsComponent } from './inspector_dashboard/cabin/cabincheckpoints/cabincheckpoints.component';
+import { CartopcheckpointComponent } from './inspector_dashboard/cartop/cartopcheckpoint/cartopcheckpoint.component';
+import { FloorlandingcheckpointComponent } from './inspector_dashboard/floorlanding/floorlandingcheckpoint/floorlandingcheckpoint.component';
+import { MachinroomcheckpointComponent } from './inspector_dashboard/machineroom/machinroomcheckpoint/machinroomcheckpoint.component';
+import { ReportForElevComponent } from './inspector_dashboard/report-home/report-for-elev/report-for-elev.component';
+import { ReportHomeComponent } from './inspector_dashboard/report-home/report-home.component';
+import { NewReportComponent } from './inspector_dashboard/report-home/new-report/new-report.component';
+import { ExistingReportComponent } from './inspector_dashboard/report-home/existing-report/existing-report.component';
+
+
+
+
+import { AgreementPageComponent } from './inspector_dashboard/agreement-page/agreement-page.component';
+import { SiteRiskAssessmentComponent } from './inspector_dashboard/site-risk-assessment/site-risk-assessment.component';
+import { PreInspectionComponent } from './inspector_dashboard/pre-inspection/pre-inspection.component';
+import { MailAutomationInspComponent } from './inspector_dashboard/mail-automation-insp/mail-automation-insp.component';
+import { ListCertificateComponent } from './inspector_dashboard/list-certificate/list-certificate.component';
+import { CertificateComponent } from './inspector_dashboard/certificate/certificate.component';
+import { CertificateOComponent } from './certificate-o/certificate-o.component';
 
 // import { RejectionComponent } from './inspector_dashboard/rejection/rejection.component';
 
@@ -133,6 +155,7 @@ import { OutBoxComponent } from './out-box/out-box.component';
     SublevelMenuComponent,
     LoginComponent,
     UiElementsComponent,
+    MailAutomationInspComponent,
   
    
     NeworganizationComponent,
@@ -201,6 +224,23 @@ import { OutBoxComponent } from './out-box/out-box.component';
                PitcheckpointsComponent,
                CabinComponent,
                OutBoxComponent,
+               CartopComponent,
+               MachineroomComponent,
+               FloorlandingComponent,
+               CabincheckpointsComponent,
+               CartopcheckpointComponent,
+               FloorlandingcheckpointComponent,
+               MachinroomcheckpointComponent,
+               ReportForElevComponent,
+               ReportHomeComponent,
+               NewReportComponent,
+               ExistingReportComponent,
+               AgreementPageComponent,
+               SiteRiskAssessmentComponent,
+               PreInspectionComponent,
+               ListCertificateComponent,
+               CertificateComponent,
+               CertificateOComponent,
              
         // RejectionComponent,
         
@@ -238,6 +278,7 @@ import { OutBoxComponent } from './out-box/out-box.component';
     MatMenuModule,
     MatCheckboxModule,
     MatDialogModule,
+    MatTabsModule,
     
     MatIconModule,
     MatDividerModule,

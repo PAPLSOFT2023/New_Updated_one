@@ -22,6 +22,9 @@ export class BreifSpecComponent {
   units_values:any=[];
 
   //breif spec variables
+  capacity:string='';
+  speed:string='';
+  maintained_by:string='';
   oem:string='';
   elevator_number:string='';
   type_of_equipment:string='';
@@ -165,7 +168,11 @@ export class BreifSpecComponent {
       (response) => {
         // this.router.navigate(['afterlogin', 'unit',this.document_id]);
         console.log('saved successfully...!');
+
         this.total_values=response;
+        this.capacity=this.total_values.capacity,
+        this.speed=this.total_values.speed,
+        this.maintained_by=this.total_values.maintained_by,
         this.elevator_number=this.total_values.elevator_number;
         this.oem=this.total_values.oem,
         this.year_of_manufacture=this.total_values.year_of_manufacture,
@@ -284,6 +291,9 @@ export class BreifSpecComponent {
       inspector_name:this.name,
       document_id:this.document_id,
       unit_no:this.unit_no,
+      maintained_by:this.maintained_by,
+      capacity:this.capacity,
+      speed:this.speed,
       
       oem:this.oem,
       elevator_number:this.elevator_number,

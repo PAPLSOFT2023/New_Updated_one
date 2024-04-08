@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component,OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-mail-automation-insp',
@@ -7,10 +8,32 @@ import { Router } from '@angular/router';
   styleUrls: ['./mail-automation-insp.component.scss']
 })
 export class MailAutomationInspComponent {
-  constructor(private router: Router) {}
+  name:string|null ='';
+  unitDetails: any[] = [];
+  constructor(private router: Router,private http: HttpClient) {}
   ngOnInit() {
-    // Open the link when the component is initialized
-    window.location.href = 'https://mail.google.com/mail/u/0/?tab=rm&ogbl#inbox';
+    this.loadUnitDetails();
+    console.log('pending',this.unitDetails);
+    this.name = sessionStorage.getItem('UserName') as string;
+    
+    
+    
+  }
+  loadUnitDetails() {
+    const value = sessionStorage.getItem('UserName') as string;
+    console.log('inspector name is',value);
+    
+    const inspector = `http://localhost:3000/api/pending?encodedValue=${value}`;
+    this.http.get<any[]>(inspector) // Replace with your server endpoint
+      .subscribe(data => {
+        this.unitDetails = data;
+      });
+  }
+  proceed(document_id:string){
+    this.router.navigate(['afterlogin', 'unit',document_id]);
+
+    
+
   }
 
 

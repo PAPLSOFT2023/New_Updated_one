@@ -18,7 +18,7 @@ export class ListingUnitsComponent {
       this.val = params.get('c_no');
       console.log(this.val);
       if (this.val) {
-        sessionStorage.setItem('document_id', this.val); 
+        // sessionStorage.setItem('document_id', this.val); 
       }
 
 
@@ -29,35 +29,10 @@ export class ListingUnitsComponent {
   
 
 ngOnInit(){
-  // const store_values={
-  //   document_id:this.val,
-
-
-  // }
+  
   const value=this.val
 
-  // this.http.get('http://localhost:3000/api/fetch_unit', value).subscribe(
-  //     (response) => {
-  //       this.units=response
-
-  //       // this.router.navigate(['afterlogin', 'unit',this.val]);
-
-        
-  //     },
-  //     (error) => {
-  //       console.error('Error storing data', error);
-  //     }
-  //   );
-  // const inspector=`http://localhost:3000/api/fetch_units?encodedValue=${value}`;
-
-
-  //     this.http.get<string[]>(inspector).subscribe((data) => {
-  //       this.units = data;
-  //       console.log(data);
-  //     // }
-  //     },error=>{
-  //       console.error(error);
-  //     });
+  
   const inspector = `http://localhost:3000/api/fetch_units?encodedValue=${value}`;
 
 this.http.get<string[]>(inspector).subscribe(

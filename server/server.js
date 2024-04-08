@@ -113,9 +113,6 @@ db1.connect((err) => {
 });
 
 
-
-
-
 const TransporterData = () => {
   return new Promise((resolve, reject) => {
     db.execute('SELECT App_password, Email, Organization FROM mail_automation ', (error, result) => {
@@ -136,6 +133,8 @@ const TransporterData = () => {
     });
   });
 };
+
+
 
 
 
@@ -234,6 +233,7 @@ const sendVerificationEmailboolean= async (email, token, callback) => {
 
 
 
+
 app.get('/api/getinfdata_forMail', (req, res) => {
   const { id } = req.query;
 
@@ -299,6 +299,189 @@ app.get('/api/getinfdata_forMail', (req, res) => {
       }
   });
 }); 
+
+// checkContract_Avai_INF
+
+
+app.get('/api/checkContract_Avai_INF',(request,response)=>{
+
+  const{contract}=request.query;
+  db1.query('SELECT id FROM inf_26 WHERE contract_number = ?', [contract], (error, result) => {
+
+
+    if( result)
+    {
+     return response.json(result)
+    }
+  });
+
+})
+
+
+
+
+
+// getinfdata_forReport
+app.get('/api/getinfdata_forReport', (req, res) => {
+  const { id } = req.query;
+
+
+
+  db1.query('SELECT id, location,building_name, master_customer_name, customer_workorder_name, customer_workorder_date, type_of_inspection, project_name, customer_contact_mailid, no_of_mandays_as_per_work_order, total_units_schedule, schedule_from, schedule_to, inspection_time_ins,oem_details,inspector_array FROM inf_26 WHERE contract_number = ?', [id], (error, result) => {
+      if (error) {
+          console.log("Error");
+          res.status(500).json({ success: false, message: 'Internal server error.' });
+      } else {
+
+        if(result.length>0){
+
+        console.log("Before",result);
+
+      
+        const originalDate = new Date(result[0].customer_workorder_date);
+
+         const options = {
+             year: 'numeric',
+            month: '2-digit',
+              day: '2-digit'
+              };
+
+        result[0].customer_workorder_date = new Intl.DateTimeFormat('en-US', options).format(originalDate);
+
+        // result[0].schedule_from,
+        const originalDate_schedulefrom = new Date(result[0].schedule_from);
+
+        const options_schedulefrom = {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+          weekday: 'long'
+        };
+
+        result[0].schedule_from = new Intl.DateTimeFormat('en-GB', options_schedulefrom).format(originalDate_schedulefrom);
+
+
+        // To 
+        const originalDate_scheduleto= new Date(result[0].schedule_to);
+
+        const options_scheduleto = {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+          weekday: 'long'
+        };
+
+        result[0].schedule_to = new Intl.DateTimeFormat('en-GB', options_scheduleto).format(originalDate_scheduleto);
+       
+        const inputString = result[0].inspection_time_ins;
+        const regex = /\(([^)]+)\)/;
+        const match = inputString.match(regex);
+
+        if (match) {
+          result[0].inspection_time_ins=match[1];
+       } 
+       return res.json(result)
+        }
+        else{
+          return res.json(null)
+        }
+
+      }
+  });
+  
+}); 
+
+// getUnit_details_Report
+app.get('/api/getUnit_details_Report',(req,res)=>{
+  const{contact_num}=req.query;
+  db1.query('SELECT `document_id`, `contract_number`, `unit_no`, `witness_details`, `inspector_name`, `building_name` FROM `unit_details` WHERE `contract_number`=?', [contact_num], (error, result) => {
+
+
+    if( result)
+    {
+     return res.json(result)
+    }
+  });
+})
+
+// getBrief_spec_value
+app.get('/api/getBrief_spec_value', (req, res) => {
+  const { docid } = req.query;
+  console.log("docid", docid);
+
+  // Assuming unit_id is a stringified JSON array coming from the client
+  let unitIdsArray;
+  try {
+    unitIdsArray = JSON.parse(req.query.unit_id.replace(/'/g, '"'));
+  } catch (e) {
+    return res.status(400).json({ message: "Invalid unit_id format" });
+  }
+
+  console.log("unit_id", unitIdsArray);
+  console.log("unit_id length", unitIdsArray.length);
+
+  // Adjusted SQL query
+  let sql = 'SELECT * FROM `breif_spec` WHERE document_id = ? AND unit_no IN (?)';
+  // No need for extra array wrapping around unitIdsArray
+  let queryParams = [docid, unitIdsArray];
+
+  console.log("SQL Query:", sql); // Log the constructed SQL query
+
+  // Adjusting how the query is executed to properly spread the array for the IN clause
+  db1.query(sql, queryParams, (error, results) => {
+    if (error) {
+      console.error("Database error:", error);
+      return res.status(500).json({ message: "Internal server error" });
+    }
+    console.log("Result:", results.length, results); // Log the results from the database
+    return res.json(results);
+  });
+});
+
+
+
+
+// getinsectionmasterData
+
+app.get('/api/getinsectionmasterData', (req, res) => {
+  console.log("inspection master server called")
+
+    let sql = 'SELECT * FROM `inspection_master` WHERE 1';
+
+
+console.log("SQL Query:", sql); // Log the constructed SQL query
+
+db1.query(sql, (error, results) => {
+  if (error) {
+    console.error("Database error:", error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+  // console.log("Result:", results); // Log the results from the database
+  return res.json(results);
+});
+
+});
+
+
+// getChecklist_Record_Val
+
+app.get('/api/getChecklist_Record_Val',(req,res)=>{
+  const{doc_id}=req.query;
+  db1.query('SELECT `id`, `document_id`, `inspector_name`, `unit_no`, `description`, `dropdown_option`, `checked`, `img`, `needforReport`, `section` FROM `record_values` WHERE `document_id`=?', [doc_id], (error, result) => {
+    if( result)
+    {
+     return res.json(result)
+    }
+  });
+})
+
+
+
+
+
+
+
+
 
 
 // get Inspector data for mail table 
@@ -439,6 +622,7 @@ app.post('/api/sendmailtocli', async (req, res) => {
     senderEmail,
     inspectors
   } = req.body;
+  console.log('difference between days',noOfDays);
 
   // console.log("customer name", customername);
   
@@ -775,31 +959,95 @@ app.get('/api/get_insp_master_checklist_description', (req, res) => {
 
 // insert_Pit_Values
 
-app.post('/api/insert_Pit_Values', (req, res) => {
-  const { documentId, inspectorName, unitNo, title, valueArray, checkpoint, capturedImages, NeedforReport } = req.body;
+app.post('/api/insert_Record_Values', (req, res) => {
+  const { documentId, inspectorName, section, unitNo, title, valueArray, checkpoint, capturedImages, NeedforReport } = req.body;
 
-  // Construct the SQL query
-  const query = `INSERT INTO pit (document_id, inspector_name, unit_no, description, dropdown_option, checked, img, needforReport) VALUES ?`;
+  // Construct the SQL query to check if the record already exists
+  const checkQuery = `SELECT COUNT(*) AS count FROM record_values WHERE document_id = ? AND section = ? AND inspector_name = ? AND unit_no = ? AND description = ? AND dropdown_option = ?`;
 
-  // Prepare the data to be inserted
-  const values = [];
-  for (let i = 0; i < valueArray.length; i++) {
-      values.push([parseInt(documentId), inspectorName, unitNo, title, valueArray[i], checkpoint[i], capturedImages[i], NeedforReport[i]]);
-  }
+  // Execute the check query
+  db1.query(checkQuery, [documentId, section, inspectorName, unitNo, title, valueArray[0]], (error, results) => {
+    if (error) {
+      console.error('Error checking if record already exists:', error);
+      return res.status(500).json({ error: 'An error occurred while checking if record already exists.' });
+    }
 
-  // Execute the SQL query
-  db1.query(query, [values], (error, results, fields) => {
+    // Check if any records with the same constraints already exist
+    const count = results[0].count;
+    if (count > 0) {
+      return res.json("Data Already Exists in DataBase '"+section+" "+ inspectorName+" "+ unitNo+" "+ title+"'");
+    }
+
+    // If the record doesn't exist, proceed with insertion
+    // Construct the SQL query for insertion
+    const query = `INSERT INTO record_values (document_id, section, inspector_name, unit_no, description, dropdown_option, checked, img, needforReport) VALUES ?`;
+
+    // Prepare the data to be inserted
+    const values = [];
+    for (let i = 0; i < valueArray.length; i++) {
+      values.push([documentId, section, inspectorName, unitNo, title, valueArray[i], checkpoint[i], capturedImages[i], NeedforReport[i]]);
+    }
+
+    // Execute the insertion query
+    db1.query(query, [values], (error, results) => {
       if (error) {
-          console.error('Error inserting into pit:', error);
-          res.status(500).json({ error: 'An error occurred while inserting into database.' });
-      } else {
-          if (results && results.affectedRows > 0) {
-              res.json("Data Saved Successfully");
-          } else {
-              res.status(500).json({ error: 'No rows were inserted into the database.' });
-          }
+        console.error('Error inserting into pit:', error);
+        return res.status(500).json({ error: 'An error occurred while inserting into database.' });
       }
+      if (results && results.affectedRows > 0) {
+        return res.json("Data Saved Successfully");
+      } else {
+        return res.status(500).json({ error: 'No rows were inserted into the database.' });
+      }
+    });
   });
+});
+
+// Check_check_data_exists
+app.post('/api/Check_check_data_exists', (req, res) => {
+  const { Doc, unit, section, insp_name, String_array } = req.body;
+
+  // Array to store boolean values indicating data existence
+  const dataExistsArray = [];
+
+  // Function to check if data exists based on provided criteria
+  const checkDataExists = (criteria) => {
+    return new Promise((resolve, reject) => {
+      // Execute database query to check if data exists based on the criteria
+      const query = `
+        SELECT COUNT(*) AS count 
+        FROM record_values 
+        WHERE document_id=? AND unit_no=? AND section=? AND inspector_name=? AND description=?
+      `;
+      db1.query(query, criteria, (error, results) => {
+        if (error) {
+          reject(error);
+        } else {
+          // Check if any records exist based on the query result
+          const count = results[0].count;
+          resolve(count > 0);
+        }
+      });
+    });
+  };
+
+  // Loop through each element of String_array to check data existence
+  const promises = String_array.map(async (item) => {
+    const dataExists = await checkDataExists([Doc, unit, section, insp_name, item]);
+    dataExistsArray.push(dataExists);
+  });
+
+  // Wait for all promises to resolve
+  Promise.all(promises)
+    .then(() => {
+      // console.log("Data exists array:", dataExistsArray);
+      // Send the dataExistsArray as the response
+      res.json(dataExistsArray);
+    })
+    .catch((error) => {
+      console.error("Error checking data existence:", error);
+      res.status(500).json({ error: 'An error occurred while checking data existence.' });
+    });
 });
 
 
@@ -1771,6 +2019,13 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
       let parts_index = -1;
       let description_index = -1;
       let reference_index = -1;
+      let positive_MND_index=-1;
+      let positive_ADJ_index=-1;
+      let negative_MNT_index=-1;
+      let negative_ADJ_index=-1;
+      let emergency_Features_index=-1;
+      let customer_Scope_index=-1;
+
 
 
       
@@ -1815,6 +2070,43 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
             case 'descriptions':
                 description_index = i;
                 break;
+
+                case 'positive mnt':
+                  case 'positive_mnt':
+                      positive_MND_index = i;
+                      break;
+
+                      case 'positive adj':
+                  case 'positive_adj':
+                      positive_ADJ_index = i;
+                      break;
+                      case 'negative mnt':
+                        case 'negative_mnt':
+                            negative_MNT_index = i;
+                            break;
+
+
+                            case 'negative adj':
+                        case 'negative_adj':
+                            negative_ADJ_index = i;
+                            break;
+
+
+                            case 'emergency feature':
+                              case 'emergency_feature':
+                                case 'emergency features':
+                                  case 'emergency_features':
+
+                                  emergency_Features_index = i;
+                                  break;
+
+
+                                  case 'customer scope':
+                                    case 'customer_scope':
+                                        customer_Scope_index = i;
+                                        break;
+            
+
             default:
                 // Handle unknown column names
                 break;
@@ -1824,16 +2116,20 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
       let count_photo;
       let count_dropdown;
       let count_risklevel;
+      let count_negative_MNT;
+      let count_negative_ADJ;
       let check_innercell_equals=false;
       let cell_check_index_string_size='';
-      let indexval;
+      let indexval; 
+
+      console.log("index number",photo_index,drop_Drown_index,risk_Level_index,product_index,parts_index,description_index,positive_MND_index,positive_ADJ_index,negative_MNT_index,negative_ADJ_index,emergency_Features_index,customer_Scope_index)
 
       if(photo_index > -1 &&
        drop_Drown_index > -1 &&
        risk_Level_index > -1 &&
        product_index > -1 &&
        parts_index > -1 &&
-       description_index > -1)
+       description_index > -1 && positive_MND_index>-1 &&  positive_ADJ_index >-1 &&  negative_MNT_index>-1 &&  negative_ADJ_index>-1 && emergency_Features_index>-1 && customer_Scope_index>-1 )
       {
          for(let k=0;k<values.length;k++)
       {
@@ -1853,9 +2149,29 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
 
         // If matches is null, return 0, otherwise return the length of matches
         count_risklevel = matche_for_risklevel ? matche_for_risklevel.length : 0;
+
+
+
+
+        const match_for_negative_MND = String(values[k][negative_MNT_index]).match(/~/g);
+
+        // If matches is null, return 0, otherwise return the length of matches
+        count_negative_MNT = match_for_negative_MND ? match_for_negative_MND.length : 0;
+
+
+        const match_for_negative_ADJ = String(values[k][negative_ADJ_index]).match(/~/g);
+
+        // If matches is null, return 0, otherwise return the length of matches
+        count_negative_ADJ = match_for_negative_ADJ ? match_for_negative_ADJ.length : 0;
+
+
+
+
         
          // Assuming count_photo, count_dropdown, and count_risklevel are already defined
-          if (count_photo === count_dropdown && count_dropdown === count_risklevel) {
+
+         console.log("index value",)
+          if (count_photo === count_dropdown && count_dropdown === count_risklevel &&  count_negative_ADJ == count_negative_MNT && count_negative_ADJ ==count_dropdown ) {
             console.log("All R equal");
            check_innercell_equals = true;
 
@@ -1875,7 +2191,15 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
            cell_check_index_string_size=" Risklevel "
            indexval=k;
            // Handle the case where count_risklevel is different
-           } 
+           } else if (count_negative_ADJ !== count_photo && count_negative_ADJ !== count_dropdown) {
+            cell_check_index_string_size=" Negative ADJ "
+            indexval=k;
+            // Handle the case where count_risklevel is different
+            } else if (count_negative_MNT !== count_photo && count_negative_MNT !== count_dropdown) {
+              cell_check_index_string_size=" Negative MNT"
+              indexval=k;
+              // Handle the case where count_risklevel is different
+              } 
           }
 
         }
@@ -1897,10 +2221,16 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
         // insert query
         console.log("insert area");
 
-        let sql = 'INSERT INTO `inspection_master`(`Product`, `Parts`, `Description`, `Reference`, `Risklevel`, `Photo`, `Dropdown`) VALUES ';
+        let sql = 'INSERT INTO `inspection_master`(`Product`, `Parts`, `Description`, `Reference`, `Risklevel`, `Photo`, `Dropdown`,`Positive_MNT`,`Positive_ADJ`,`Negative_MNT`,`Negative_ADJ`,`Emergency_Features`,`Customer_Scope`) VALUES ';
         for (let i = 0; i < values.length; i++) {
          const row = values[i];
-         sql += `('${row[product_index]}', '${row[parts_index]}', '${row[description_index]}', '${row[reference_index]}', '${row[risk_Level_index]}', '${row[photo_index]}', '${row[drop_Drown_index]}')`;
+         const emergency_boolean = (row[emergency_Features_index] === 'Y' || row[emergency_Features_index].toLowerCase() === 'yes' || row[emergency_Features_index] == 1) ? 1 : 0;
+         const customer_scope_bool = (row[customer_Scope_index] === 'Y' || row[customer_Scope_index].toLowerCase() === 'yes' || row[customer_Scope_index] == 1) ? 1 : 0;
+         
+
+
+
+         sql += `('${row[product_index]}', '${row[parts_index]}', '${row[description_index]}', '${row[reference_index]}', '${row[risk_Level_index]}', '${row[photo_index]}', '${row[drop_Drown_index]}','${row[positive_MND_index]}','${row[positive_ADJ_index]}','${row[negative_MNT_index]}','${row[negative_ADJ_index]}','${emergency_boolean}','${customer_scope_bool}')`;
          if (i !== values.length - 1) {
          sql += ', ';
         }
@@ -1932,6 +2262,83 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
       res.status(400).json({ message: 'Invalid file format' });
     }
 });
+
+
+
+app.post('/api/syncOff', async (req, res) => {
+  const data = req.body;
+
+  let recordPromises = [];
+
+  data.valueArray.forEach((value, i) => {
+    let record = [
+      data.documentId,
+      data.section,
+      data.inspectorName,
+      data.unitNo,
+      data.title, // Description
+      value, // Dropdown option
+      data.checkpoint[i] ? 1 : 0, // Convert boolean to 0 or 1
+      data.capturedImages[i], // Image paths/identifiers
+      data.needForReport[i] ? 1 : 0, // Convert boolean to 0 or 1
+    ];
+
+    let promise = new Promise((resolve, reject) => {
+      const checkSql = `SELECT * FROM record_values WHERE document_id = ? AND section = ? AND inspector_name = ? AND unit_no = ? AND description = ? AND dropdown_option = ?`;
+      db1.query(checkSql, [data.documentId, data.section, data.inspectorName, data.unitNo, data.title, value], (err, result) => {
+        if (err) {
+          return reject(err);
+        }
+        if (result.length === 0) {
+          const insertSql = `INSERT INTO record_values (document_id, section, inspector_name, unit_no, description, dropdown_option, checked, img, needForReport) VALUES (?)`;
+          db1.query(insertSql, [record], (insertErr, insertResult) => {
+            if (insertErr) {
+              return reject(insertErr);
+            }
+            resolve(insertResult);
+          });
+        } else {
+          resolve('Record already exists, skipping insertion.');
+        }
+      });
+    });
+
+    recordPromises.push(promise);
+  });
+
+  Promise.all(recordPromises).then(results => {
+    // Assuming all operations are successful, return the key and a success message
+    res.status(200).json({ 
+      message: 'Data synchronization complete',
+      key: data.key,
+      details: results.filter(result => typeof result !== 'string') // Optionally filter out the skip messages
+    });
+  }).catch(err => {
+    console.error('Error during record handling:', err);
+    res.status(500).json({ message: 'Failed to synchronize data', error: err });
+  });
+});
+
+
+// getUnit_details
+app.get('/api/getUnit_details',(req,res)=>{
+  const query = 'SELECT `document_id`, `contract_number`, `unit_no`, `inspector_name` ,`ReportComplete` FROM `unit_details` ';
+  db1.query(query, (err, results) => {
+    if (err) {
+      console.error("Error:", err);
+      return res.status(500).json({ error: 'Internal server error' });
+    } 
+    else {
+     console.log("Unit Details",results)
+      res.json(results);
+    }
+  });
+}
+);
+
+
+
+
 
 
 
@@ -3111,21 +3518,40 @@ app.get('/api/inspector', (req, res) => {
       if (err) {
         console.error('Error fetching values from MySQL:', err);
         res.status(500).json({ error: 'Internal Server Error' });
-        return;
+        return;l;
       }
   
       const values = results.map((row) => row.inspector_type);
       res.json(values);
     });
   });
+  //signature
+  app.get('/signature/:inspectorName', (req, res) => {
+    const inspectorName = req.params.inspectorName;
+  
+    const query = "SELECT signature FROM signature WHERE inspector_name = ?";
+    db1.query(query, [inspectorName], (err, results) => {
+      if (err) {
+        console.error('Error fetching signature:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+      } else {
+        if (results.length > 0) {
+          res.writeHead(200, { 'Content-Type': 'image/jpeg' });
+          res.end(results[0].signature, 'binary');
+        } else {
+          res.status(404).json({ error: 'Signature not found' });
+        }
+      }
+    });
+  });
 
   //store breif spec
   app.post('/api/breif_spec_add', (req, res) => {
   console.log('breif spec called');
-  const {manual_rescue,document_id,unit_no,inspector_name,oem,elevator_number,type_of_equipment,year_of_manufacture,type_of_usage,machine_location,controller_drive_type,controller_name_as_per_oem,type_of_operation,grouping_type,name_of_the_group,floor_details,openings,floor_designations,front_opening_floors,rear_opening_floors,non_stop_service_floors,emergency_stop_floors,rope_category,no_of_ropes_belts,rope_size,no_of_drive_sheave_grooves,ropes_wrap_details,type_of_roping,machine_type,kilo_watt,voltage,current_in_ampere,frequency,rpm,insulation_class,ingress_protection,no_of_poles,st_hr,serial_no,rope_dia,normal_speed,electrical_tripping_speed,mechanical_tripping_speed,cwt_governor_details,door_operator,cwt_rope_dia,cwt_normal_speed,cwt_electrical_tripping_speed,cwt_mechanical_tripping_speed,entrance_width,entrance_height,type_of_openings,cabin_width,cabin_height,no_of_car_operating_panels,car_indicator_type,multimedia_display,no_cabin_fans,type_of_cabin_fan,type_of_call_buttons,stop_button,service_cabinet,voice_announcement,handrail,cabin_bumper,auto_attendant,auto_independant,non_stop,fan_switch,hall_indicator_type,hall_laterns,arrival_chime,no_of_risers_at_main_lobby,no_of_risers_at_other_floors,hall_call_type_at_main_lobby,hall_call_type_at_all_floors,no_of_car_buffers,type_of_car_buffers,no_of_cwt_buffer,type_of_cwt_buffer,e_light,e_alarm,e_intercom,ard_operation,ard_audio,ard_visuals,fireman_operation,fireman_emerg_return,fireman_audio,fireman_visual,passenger_overload_operation,passenger_overload_visual,passenger_overload_audio,seismic_sensor_operation,battery}=req.body;
-  const query = 'INSERT INTO breif_spec(document_id,unit_no,inspector_name,oem,elevator_number,year_of_manufacture,machine_location,controller_driver_type,controller_name_as_per_oem,type_of_equipment,type_of_usage,type_of_operation,grouping_type,name_of_the_group,floor_stops,floor_opening,floor_designation,front_opening_floors,rear_opening_floors,service_floors,emergency_stop_floors,rope_category,number_of_rope_belt,rope_size,no_of_drive_sheave_grooves,ropes_wrap_details,type_of_roping,machine_type,motor_kilo_watt,motor_voltage,motor_current_in_ampere,motor_frequency,motor_rpm,motor_insulation_class,motor_ingress_protection,motor_no_of_poles,motor_st_hr,motor_serial_number,car_governor_rope_dia,car_governor_normal_speed,car_governor_electric_tripping_speed,car_governor_mechanical_tripping_speed,cwt_governor,cwt_governor_rope_dia,cwt_governor_normal_speed,cwt_governor_electrical_tripping_speed,cwt_governor_mechanical_tripping_speed,door_operator,entrance_height,entrance_width,entrance_type_of_opening,cabin_height,cabin_width,no_of_cop,car_indicator_type,multimedia_display,no_of_cabin_fans,type_of_cabin_fans,type_of_call_buttons,car_stop_button,car_service_cabinet,car_voice_announcement,car_handrail,car_cabin_bumper,car_auto_attendant,car_auto_independent,car_non_stop,car_fan_switch,hall_indicator_type,hall_lantems,hall_arrival_chime,no_of_risers_at_main_lobby,no_of_risers_at_other_floors,hall_call_type_at_main_lobby,hall_call_type_at_all_floors,no_of_car_buffers,type_of_car_buffers,no_of_counter_weight_buffer,type_of_cwt_buffer,e_light,e_alarm,e_intercom,ard_operation,ard_audio,ard_visual,fireman_operation,fer,fireman_audio,fireman_visual,manual_rescue,passenger_overload_operation,passenger_overload_visual,passenger_overload_audio,seismic_sensor_operation) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
+  const {capacity,speed,maintained_by,manual_rescue,document_id,unit_no,inspector_name,oem,elevator_number,type_of_equipment,year_of_manufacture,type_of_usage,machine_location,controller_drive_type,controller_name_as_per_oem,type_of_operation,grouping_type,name_of_the_group,floor_details,openings,floor_designations,front_opening_floors,rear_opening_floors,non_stop_service_floors,emergency_stop_floors,rope_category,no_of_ropes_belts,rope_size,no_of_drive_sheave_grooves,ropes_wrap_details,type_of_roping,machine_type,kilo_watt,voltage,current_in_ampere,frequency,rpm,insulation_class,ingress_protection,no_of_poles,st_hr,serial_no,rope_dia,normal_speed,electrical_tripping_speed,mechanical_tripping_speed,cwt_governor_details,door_operator,cwt_rope_dia,cwt_normal_speed,cwt_electrical_tripping_speed,cwt_mechanical_tripping_speed,entrance_width,entrance_height,type_of_openings,cabin_width,cabin_height,no_of_car_operating_panels,car_indicator_type,multimedia_display,no_cabin_fans,type_of_cabin_fan,type_of_call_buttons,stop_button,service_cabinet,voice_announcement,handrail,cabin_bumper,auto_attendant,auto_independant,non_stop,fan_switch,hall_indicator_type,hall_laterns,arrival_chime,no_of_risers_at_main_lobby,no_of_risers_at_other_floors,hall_call_type_at_main_lobby,hall_call_type_at_all_floors,no_of_car_buffers,type_of_car_buffers,no_of_cwt_buffer,type_of_cwt_buffer,e_light,e_alarm,e_intercom,ard_operation,ard_audio,ard_visuals,fireman_operation,fireman_emerg_return,fireman_audio,fireman_visual,passenger_overload_operation,passenger_overload_visual,passenger_overload_audio,seismic_sensor_operation,battery}=req.body;
+  const query = 'INSERT INTO breif_spec(capacity,speed,document_id,unit_no,inspector_name,oem,elevator_number,year_of_manufacture,machine_location,controller_driver_type,controller_name_as_per_oem,type_of_equipment,type_of_usage,type_of_operation,grouping_type,name_of_the_group,floor_stops,floor_opening,floor_designation,front_opening_floors,rear_opening_floors,service_floors,emergency_stop_floors,rope_category,number_of_rope_belt,rope_size,no_of_drive_sheave_grooves,ropes_wrap_details,type_of_roping,machine_type,motor_kilo_watt,motor_voltage,motor_current_in_ampere,motor_frequency,motor_rpm,motor_insulation_class,motor_ingress_protection,motor_no_of_poles,motor_st_hr,motor_serial_number,car_governor_rope_dia,car_governor_normal_speed,car_governor_electric_tripping_speed,car_governor_mechanical_tripping_speed,cwt_governor,cwt_governor_rope_dia,cwt_governor_normal_speed,cwt_governor_electrical_tripping_speed,cwt_governor_mechanical_tripping_speed,door_operator,entrance_height,entrance_width,entrance_type_of_opening,cabin_height,cabin_width,no_of_cop,car_indicator_type,multimedia_display,no_of_cabin_fans,type_of_cabin_fans,type_of_call_buttons,car_stop_button,car_service_cabinet,car_voice_announcement,car_handrail,car_cabin_bumper,car_auto_attendant,car_auto_independent,car_non_stop,car_fan_switch,hall_indicator_type,hall_lantems,hall_arrival_chime,no_of_risers_at_main_lobby,no_of_risers_at_other_floors,hall_call_type_at_main_lobby,hall_call_type_at_all_floors,no_of_car_buffers,type_of_car_buffers,no_of_counter_weight_buffer,type_of_cwt_buffer,e_light,e_alarm,e_intercom,ard_operation,ard_audio,ard_visual,fireman_operation,fer,fireman_audio,fireman_visual,manual_rescue,passenger_overload_operation,passenger_overload_visual,passenger_overload_audio,seismic_sensor_operation,maintained_by) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
   
-    db1.query(query, [document_id,unit_no,inspector_name,oem,elevator_number,year_of_manufacture,machine_location,controller_drive_type,controller_name_as_per_oem,type_of_equipment,type_of_usage,type_of_operation,grouping_type,name_of_the_group,floor_details,openings,floor_designations,front_opening_floors,rear_opening_floors,non_stop_service_floors,emergency_stop_floors,rope_category,no_of_ropes_belts,rope_size,no_of_drive_sheave_grooves,ropes_wrap_details,type_of_roping,machine_type,kilo_watt,voltage,current_in_ampere,frequency,rpm,insulation_class,ingress_protection,no_of_poles,st_hr,serial_no,rope_dia,normal_speed,electrical_tripping_speed,mechanical_tripping_speed,cwt_governor_details,cwt_rope_dia,cwt_normal_speed,cwt_electrical_tripping_speed,cwt_mechanical_tripping_speed,door_operator,entrance_height,entrance_width,type_of_openings,cabin_height,cabin_width,no_of_car_operating_panels,car_indicator_type,multimedia_display,no_cabin_fans,type_of_cabin_fan,type_of_call_buttons,stop_button,service_cabinet,voice_announcement,handrail,cabin_bumper,auto_attendant,auto_independant,non_stop,fan_switch,hall_indicator_type,hall_laterns,arrival_chime,no_of_risers_at_main_lobby,no_of_risers_at_other_floors,hall_call_type_at_main_lobby,hall_call_type_at_all_floors,no_of_car_buffers,type_of_car_buffers,no_of_cwt_buffer,type_of_cwt_buffer,e_light,e_alarm,e_intercom,ard_operation,ard_audio,ard_visuals,fireman_operation,fireman_emerg_return,fireman_audio,fireman_visual,manual_rescue,passenger_overload_operation,passenger_overload_visual,passenger_overload_audio,seismic_sensor_operation], (err, result) => {
+    db1.query(query, [capacity,speed,document_id,unit_no,inspector_name,oem,elevator_number,year_of_manufacture,machine_location,controller_drive_type,controller_name_as_per_oem,type_of_equipment,type_of_usage,type_of_operation,grouping_type,name_of_the_group,floor_details,openings,floor_designations,front_opening_floors,rear_opening_floors,non_stop_service_floors,emergency_stop_floors,rope_category,no_of_ropes_belts,rope_size,no_of_drive_sheave_grooves,ropes_wrap_details,type_of_roping,machine_type,kilo_watt,voltage,current_in_ampere,frequency,rpm,insulation_class,ingress_protection,no_of_poles,st_hr,serial_no,rope_dia,normal_speed,electrical_tripping_speed,mechanical_tripping_speed,cwt_governor_details,cwt_rope_dia,cwt_normal_speed,cwt_electrical_tripping_speed,cwt_mechanical_tripping_speed,door_operator,entrance_height,entrance_width,type_of_openings,cabin_height,cabin_width,no_of_car_operating_panels,car_indicator_type,multimedia_display,no_cabin_fans,type_of_cabin_fan,type_of_call_buttons,stop_button,service_cabinet,voice_announcement,handrail,cabin_bumper,auto_attendant,auto_independant,non_stop,fan_switch,hall_indicator_type,hall_laterns,arrival_chime,no_of_risers_at_main_lobby,no_of_risers_at_other_floors,hall_call_type_at_main_lobby,hall_call_type_at_all_floors,no_of_car_buffers,type_of_car_buffers,no_of_cwt_buffer,type_of_cwt_buffer,e_light,e_alarm,e_intercom,ard_operation,ard_audio,ard_visuals,fireman_operation,fireman_emerg_return,fireman_audio,fireman_visual,manual_rescue,passenger_overload_operation,passenger_overload_visual,passenger_overload_audio,seismic_sensor_operation,maintained_by], (err, result) => {
       if (err) {
         console.error('Error storing values:', err);
         res.status(500).json(err);
@@ -3135,6 +3561,36 @@ app.get('/api/inspector', (req, res) => {
       }
     });
   });
+
+  //certificate
+  app.post('/generate-pdf', (req, res) => {
+    const htmlContent = req.body.html;
+  
+    // Convert HTML to PDF
+    pdf.create(htmlContent).toBuffer((err, buffer) => {
+      if (err) {
+        console.error('Error generating PDF:', err);
+        return res.status(500).send('Error generating PDF');
+      }
+  
+      // Save PDF to database
+      const pdfData = buffer.toString('base64');
+      savePDFToDatabase(pdfData);
+  
+      res.status(200).send('PDF generated and saved to database');
+    });
+  });
+  
+  function savePDFToDatabase(pdfData) {
+    const query = "INSERT INTO certificates (pdf_data) VALUES (?)";
+    connection.query(query, [pdfData], (err, results) => {
+      if (err) {
+        console.error('Error saving PDF to database:', err);
+      } else {
+        console.log('PDF saved to database with ID:', results.insertId);
+      }
+    });
+  }
 
   //store inf26 form
   app.post('/api/store_data', (req, res) => {
@@ -3168,13 +3624,58 @@ app.get('/api/inspector', (req, res) => {
         res.status(200).json({ message: 'data stored successfully successfully' });
       }
     });
-  });
+  }); 
+  
 
   //api for unit_details table
-  app.post('/api/store_data11',(req,res)=>{
-    const {unit_values,insp_name,  contract_number}=req.body;
-    const query='INSERT INTO unit_details(contract_number,unit_no,inspector_name) VALUES (?,?,?)';
-    db1.query(query,[contract_number,JSON.stringify(unit_values),insp_name],(err,result)=>{
+  app.put('/api/store_data11',(req,res)=>{
+    const {unit_values,insp_name,  contract_number,document_id,building_name}=req.body;
+    const query='UPDATE unit_details SET unit_no=?,building_name=? WHERE document_id=?';
+    db1.query(query,[JSON.stringify(unit_values),building_name,document_id],(err,result)=>{
+      if (err) {
+        console.error('Error storeing values:', err);
+        res.status(500).json({ error: 'Error storing values' });
+      } else {
+        console.log('success:', result.insertId);
+        res.status(200).json('success');
+      }
+
+    })
+  })
+  //pending document
+  app.get('/api/pending', (req, res) => {
+    const name = req.query.encodedValue;
+    console.log('inspector name is',name);
+    const query = `SELECT * FROM unit_details where inspector_name='${name}'`; // Modify this query according to your table structure
+    db1.query(query, (err, results) => {
+      if (err) {
+        res.status(500).json({ error: 'Error fetching unit details from database' });
+        return;
+      }
+      res.json(results);
+    });
+  });
+
+  app.get('/api/b_spec', (req, res) => {
+    const document_id = req.query.encodedValue;
+    const unit = req.query.encodedValue1
+
+    // console.log('inspector name is',name);
+    const query = `SELECT * FROM breif_spec where document_id='${document_id}' and unit_no='${unit}'`; // Modify this query according to your table structure
+    db1.query(query, (err, results) => {
+      if (err) {
+        res.status(500).json({ error: 'Error fetching unit details from database' });
+        return;
+      }
+      res.json(results);
+    });
+  });
+
+  //agreement page 
+  app.post('/api/store_data_agreement',(req,res)=>{
+    const {check,name, contract_no,selfAssigned,salesProcess}=req.body;
+    const query='INSERT INTO unit_details(contract_number,checks,inspector_name,selfAssigned,salesProcess) VALUES (?,?,?,?,?)';
+    db1.query(query,[contract_no,check,name,selfAssigned,salesProcess],(err,result)=>{
       if (err) {
         console.error('Error storeing values:', err);
         res.status(500).json({ error: 'Error storing values' });
@@ -3185,6 +3686,20 @@ app.get('/api/inspector', (req, res) => {
 
     })
   })
+
+  //site risk assessment
+  app.get('/api/risk-assessments', (req, res) => {
+    const query = 'SELECT id,description, remarks FROM site_risk_assessment';
+  
+    db1.query(query, (error, results) => {
+      if (error) {
+        console.error('Error fetching data from MySQL: ', error);
+        res.status(500).json({ error: 'Error fetching data from MySQL' });
+        return;
+      }
+      res.json(results);
+    });
+  });
 
   //sales when about V job
   app.post('/api/store_data2', (req, res) => {
@@ -3237,6 +3752,25 @@ app.get('/api/inspector', (req, res) => {
           res.status(404).json({ error: ' not found' });
         } else {
           res.json({ message: 'witness updated successfully' });
+        }
+      }
+
+    })
+  })
+
+  //site risk assessment update
+  app.put('/api/update_data_s',(req,res)=>{
+    const {risk,document_id}=req.body;
+    const query = 'UPDATE unit_details SET risk=? WHERE document_id=?';
+    db1.query(query,[JSON.stringify(risk),document_id],(err,result)=>{
+      if (err) {
+        console.error('Error executing SQL query:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+      } else {
+        if (result.affectedRows === 0) {
+          res.status(404).json({ error: ' not found' });
+        } else {
+          res.json({ message: 'site risk updated successfully' });
         }
       }
 
