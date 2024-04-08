@@ -5,42 +5,59 @@
  
   <h2 class="h2">Inspection Schedule Authorization</h2>
       <mat-card class="mat-card1" style="margin-top: 50px;height: 1050px;">
+        <form (ngSubmit)="onSubmit()" #form="ngForm">
           <mat-card class="mat-card2">
           <div>
-          <mat-form-field appearance="outline" class="form-field1">
+            <mat-form-field appearance="outline" class="form-field1">
               <mat-label>Papl Contract No</mat-label>
-                  <input matInput [(ngModel)]="contract_number" name="contract_number" required>
+              <input matInput [(ngModel)]="contract_number" name="contract_number" required>
+              <mat-error *ngIf="!form.controls['contract_number'].valid && form.controls['contract_number'].touched" >
+                Contract number is required.
+              </mat-error>
           </mat-form-field>
 
           <mat-form-field appearance="outline" class="form-field3">
-            <mat-label>Region</mat-label>
-            <mat-select [(ngModel)]="region" name="region" required>
-                <mat-option *ngFor="let region of region_values" [value]="region">{{region}}</mat-option>                   
-
-
-            </mat-select>
+            <mat-label>Region</mat-label>     
+                <mat-select [(ngModel)]="region" name="region" required>
+                  <mat-option *ngFor="let region of region_values" [value]="region">{{region}}</mat-option>                   
+                </mat-select>
+                <mat-error *ngIf="!form.controls['region'].valid && form.controls['region'].touched" >
+                  Region is required.
+                </mat-error>
           </mat-form-field>
 
           <mat-form-field appearance="outline" class="form-field3">
-              <mat-label>Project Location</mat-label>
-                  <input matInput [(ngModel)]="location" name="location" required>  
-          </mat-form-field>
+            <mat-label>Project Location</mat-label>
+                <input matInput [(ngModel)]="location" name="location" required>  
+                <mat-error *ngIf="!form.controls['location'].valid && form.controls['location'].touched" >
+                  Location is required.
+                </mat-error>
+        </mat-form-field>
 
-          <mat-form-field appearance="outline" class="form-field3">
-              <mat-label>Pincode</mat-label>
-                  <input matInput [(ngModel)]="pincode" name="pincode" required pattern="[0-9]{1,10}" type="number" maxlength="10">
-          </mat-form-field>
+        <mat-form-field appearance="outline" class="form-field3">
+          <mat-label>Pincode</mat-label>
+              <input matInput [(ngModel)]="pincode" name="pincode" required  pattern="[0-9]{1,10}" maxlength="10">
+              <mat-error *ngIf="!form.controls['pincode'].valid && form.controls['pincode'].touched" >
+                Pincode is required.
+              </mat-error>
+      </mat-form-field>
           </div>
           <div>
-              <mat-form-field appearance="outline" class="form-field1">
-                  <mat-label>Master Customer</mat-label>
-                      <input matInput [(ngModel)]="master_customer" name="master_customer" required>
-              </mat-form-field> 
+            <mat-form-field appearance="outline" class="form-field1">
+              <mat-label>Master Customer</mat-label>
+                  <input matInput [(ngModel)]="master_customer" name="master_customer" required>
+                  <mat-error *ngIf="!form.controls['master_customer'].valid && form.controls['master_customer'].touched">
+                    Master Customer is required.
+                  </mat-error>
+          </mat-form-field> 
 
-              <mat-form-field appearance="outline" class="form-field2">
-                  <mat-label>Customer Work order No</mat-label>
-                      <input matInput [(ngModel)]="work_order_no" name="work_order_no" required>
-              </mat-form-field>
+          <mat-form-field appearance="outline" class="form-field2">
+            <mat-label>Customer Work order No</mat-label>
+                <input matInput [(ngModel)]="work_order_no" name="work_order_no" required>
+                <mat-error *ngIf="!form.controls['work_order_no'].valid && form.controls['work_order_no'].touched" >
+                  Work order No is required.
+                </mat-error>
+        </mat-form-field>
 
               <!-- <mat-form-field appearance="outline" class="form-field2">
                 <mat-label>Customer Work order Date</mat-label>
@@ -65,10 +82,13 @@
 
               
   
-              <mat-form-field appearance="outline" class="form-field3">
-                  <mat-label>Customer Name as per WorkOrder</mat-label>
-                      <input matInput [(ngModel)]="customer_name_workorder" name="customer_name_workorder" required>
-              </mat-form-field>
+            <mat-form-field appearance="outline" class="form-field3">
+              <mat-label>Customer Name as per WorkOrder</mat-label>
+                  <input matInput [(ngModel)]="customer_name_workorder" name="customer_name_workorder" required>
+                  <mat-error *ngIf="!form.controls['customer_name_workorder'].valid && form.controls['customer_name_workorder'].touched" >
+                    Customer Name is required.
+                  </mat-error>
+          </mat-form-field>
 
               <!-- <mat-form-field appearance="outline" class="form-field3">
                   <mat-label>Type of Inspection</mat-label>
@@ -82,33 +102,42 @@
       </mat-card>
       <mat-card class="mat-card2">
           <div>
-              <mat-form-field appearance="outline" class="form-field1">
-                  <mat-label>Project Name</mat-label>
-                      <input matInput [(ngModel)]="project_name" name="project_name" required>
-              </mat-form-field>
+            <mat-form-field appearance="outline" class="form-field1">
+              <mat-label>Project Name</mat-label>
+                  <input matInput [(ngModel)]="project_name" name="project_name" required>
+                  <mat-error *ngIf="!form.controls['project_name'].valid && form.controls['project_name'].touched" >
+                  Project Name is required.
+                </mat-error>
+          </mat-form-field>
   
-              <mat-form-field appearance="outline" class="form-field2">
-                  <mat-label>Building Name</mat-label>
-                      <input matInput [(ngModel)]="building_name" name="building_name" required>
-              </mat-form-field>
+          <mat-form-field appearance="outline" class="form-field2">
+            <mat-label>Building Name</mat-label>
+                <input matInput [(ngModel)]="building_name" name="building_name" required>
+                <mat-error *ngIf="!form.controls['building_name'].valid && form.controls['building_name'].touched" >
+                  Building Name is required.
+                </mat-error>
+        </mat-form-field>
 
-              <mat-form-field appearance="outline" class="form-field3">
-                  <mat-label>Type of Building</mat-label>
-                  <mat-select [(ngModel)]="building_type" name="building_type" required>
-                    
-                    <mat-option *ngFor="let value of values" [value]="value">{{value}}</mat-option>                   
-                    </mat-select>
-                    
-                </mat-form-field>
+        <mat-form-field appearance="outline" class="form-field3">
+          <mat-label>Type of Building</mat-label>
+          <mat-select [(ngModel)]="building_type" name="building_type" required>
+            <mat-option *ngFor="let value of values" [value]="value">{{value}}</mat-option>                   
+            </mat-select>
+            <mat-error *ngIf="!form.controls['building_type'].valid && form.controls['building_type'].touched" class="error-message">
+              Building Type is required.
+           </mat-error>
+            
+        </mat-form-field>
 
                 <mat-form-field appearance="outline" class="form-field3">
-                  <mat-label>Type of Inspection</mat-label>
-                  <mat-select [(ngModel)]="inspection_type_sync" name="inspection_type_sync" required>
-                    <mat-option *ngFor="let inspection of inspection_type" [value]="inspection">{{inspection}}</mat-option>                   
-
-                    
-                  </mat-select>
-                </mat-form-field>
+                    <mat-label>Type of Inspection</mat-label>
+                    <mat-select [(ngModel)]="inspection_type_sync" name="inspection_type_sync" required>
+                      <mat-option *ngFor="let inspection of inspection_type" [value]="inspection">{{inspection}}</mat-option>                   
+                    </mat-select>
+                    <mat-error *ngIf="!form.controls['inspection_type_sync'].valid && form.controls['inspection_type_sync'].touched" >
+                      Inspection Type is required.
+                    </mat-error>
+                  </mat-form-field>
                 <!-- <mat-form-field appearance="outline" class="form-field3">
                     <mat-label>OEM</mat-label>
                     <mat-select>
@@ -124,27 +153,38 @@
               </mat-form-field> -->
               </div>
               <div>
-                  <mat-form-field appearance="outline" class="form-field1">
-                      <mat-label>Site Address</mat-label>
-                          <input matInput [(ngModel)]="site_address" name="site_address" required>
-                  </mat-form-field> 
+                <mat-form-field appearance="outline" class="form-field1">
+                  <mat-label>Site Address</mat-label>
+                      <input matInput [(ngModel)]="site_address" name="site_address" required>
+                      <mat-error *ngIf="!form.controls['site_address'].valid && form.controls['site_address'].touched" >
+                        Site Address is required.
+                      </mat-error>
+              </mat-form-field>
   
-                  <mat-form-field appearance="outline" class="form-field2">
-                      <mat-label>Customer Contact Person Name</mat-label>
-                          <input matInput [(ngModel)]="customer_contact_name" name="customer_contact_name" required>
-                  </mat-form-field>
+              <mat-form-field appearance="outline" class="form-field2">
+                <mat-label>Customer Contact Person Name</mat-label>
+                    <input matInput [(ngModel)]="customer_contact_name" name="customer_contact_name" required>
+                    <mat-error *ngIf="!form.controls['customer_contact_name'].valid && form.controls['customer_contact_name'].touched" >
+                      Contact Person Name is required.
+                    </mat-error>
+            </mat-form-field>
       
-                  <mat-form-field appearance="outline" class="form-field3">
-                      <mat-label>Customer Contact No</mat-label>
-                          <!-- <input matInput [(ngModel)]="customer_contact_number" name="customer_contact_number" required> -->
-                          <ngx-mat-intl-tel-input [(ngModel)]="customer_contact_number" name="customer_contact_number"  ></ngx-mat-intl-tel-input>
+            <mat-form-field appearance="outline" class="form-field3">
+              <mat-label>Customer Contact No</mat-label>
+                  <ngx-mat-intl-tel-input [(ngModel)]="customer_contact_number" name="customer_contact_number"  ></ngx-mat-intl-tel-input>
+                  <mat-error *ngIf="!form.controls['customer_contact_number'].valid && form.controls['customer_contact_number'].touched" >
+                 phone number is required.
+                </mat-error>
 
-                  </mat-form-field>
+          </mat-form-field>
 
-                  <mat-form-field appearance="outline" class="form-field3">
-                      <mat-label>Customer Contact EmailId</mat-label>
-                          <input matInput [(ngModel)]="customer_contact_mailid" name="customer_contact_mailid" required>
-                  </mat-form-field>      
+          <mat-form-field appearance="outline" class="form-field3">
+            <mat-label>Customer Contact EmailId</mat-label>
+                <input matInput [(ngModel)]="customer_contact_mailid" name="customer_contact_mailid" required>
+                <mat-error *ngIf="!form.controls['customer_contact_mailid'].valid && form.controls['customer_contact_mailid'].touched" >
+                  Email Id is required.
+                </mat-error>
+        </mat-form-field>    
               </div>
       </mat-card>
       <mat-card class="mat-card3">
@@ -159,23 +199,25 @@
         </mat-form-field>
 
 
-          <mat-form-field appearance="outline" class="form-field3">
-            <mat-label>Travel Expenses By</mat-label>
-            <mat-select [(ngModel)]="travel_expenses_by" name="travel_expenses_by" required>
-                <mat-option *ngFor="let travel_accomodation of travel" [value]="travel_accomodation">{{travel_accomodation}}</mat-option>                   
+        <mat-form-field appearance="outline" class="form-field3">
+          <mat-label>Travel Expenses By</mat-label>
+          <mat-select [(ngModel)]="travel_expenses_by" name="travel_expenses_by" required>
+            <mat-option *ngFor="let travel_accomodation of travel" [value]="travel_accomodation">{{travel_accomodation}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="!form.controls['travel_expenses_by'].valid && form.controls['travel_expenses_by'].touched">
+            Travel Expenses is required.
+          </mat-error>
+        </mat-form-field>
 
-
-
-            </mat-select>
-          </mat-form-field>
-
-          <mat-form-field appearance="outline" class="form-field3">
-            <mat-label>Accomodation By</mat-label>
-            <mat-select [(ngModel)]="accomodation_by" name="accomodation_by" required>
-                <mat-option *ngFor="let travel_accomodation of travel" [value]="travel_accomodation">{{travel_accomodation}}</mat-option>                   
-
-            </mat-select>
-          </mat-form-field>
+        <mat-form-field appearance="outline" class="form-field3">
+          <mat-label>Accomodation By</mat-label>
+          <mat-select [(ngModel)]="accomodation_by" name="accomodation_by" required>
+              <mat-option *ngFor="let travel_accomodation of travel" [value]="travel_accomodation">{{travel_accomodation}}</mat-option>                  
+          </mat-select>
+          <mat-error *ngIf="!form.controls['accomodation_by'].valid && form.controls['accomodation_by'].touched">
+            Accomodation is required.
+          </mat-error> 
+        </mat-form-field>
           <!-- <mat-form-field appearance="outline" class="form-field3">
             <mat-label>Select Inspector</mat-label>
             <mat-select>
@@ -197,13 +239,21 @@
         
 
       <mat-form-field appearance="outline" class="form-field3">
-          <mat-label>No of Visits as per WO</mat-label>
-              <input matInput [(ngModel)]="	no_of_visits_as_per_work_order" name="	no_of_visits_as_per_work_order" required>
+        <mat-label>No of Visits as per WO</mat-label>
+        <input matInput [(ngModel)]="no_of_visits_as_per_work_order" name="no_of_visits_as_per_work_order" required>
+        <mat-error *ngIf="!form.controls['no_of_visits_as_per_work_order'].valid && form.controls['no_of_visits_as_per_work_order'].touched">
+          No of Visits is required.
+        </mat-error>
       </mat-form-field>
+      
+      
 
       <mat-form-field appearance="outline" class="form-field3">
           <mat-label>No of Mandays as per WO</mat-label>
               <input matInput [(ngModel)]="no_of_mandays_as_per_work_order" name="no_of_mandays_as_per_work_order" required>
+              <mat-error *ngIf="!form.controls['no_of_mandays_as_per_work_order'].valid && form.controls['no_of_mandays_as_per_work_order'].touched">
+                No of Mandays is required.
+              </mat-error>
       </mat-form-field>
 
       <!-- <mat-form-field appearance="outline" class="form-field3">
@@ -237,11 +287,17 @@
           <mat-option *ngFor="let ins_time of inspection_time" [value]="ins_time">{{ins_time}}</mat-option>
           
         </mat-select>
+        <mat-error *ngIf="!form.controls['inspection_time_sync'].valid && form.controls['inspection_time_sync'].touched">
+          Inspection Time is required.
+        </mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="form-field3">
         <mat-label>Client Whatsapp No</mat-label>
             <ngx-mat-intl-tel-input [(ngModel)]="client_whatsapp_number" name="client_whatsapp_number" ></ngx-mat-intl-tel-input>
+            <mat-error *ngIf="!form.controls['client_whatsapp_number'].valid && form.controls['client_whatsapp_number'].touched">
+              Client Whatsapp No is required.
+            </mat-error>
 
        </mat-form-field>
     
@@ -270,10 +326,10 @@
       </mat-card>
       <!--  -->
 
-        <div>
-            <button mat-raised-button color="primary" class="btnsubmit" (click)="onSubmit()">Submit</button>
-        </div>
-      
+      <div>
+        <button mat-raised-button color="primary" class="btnsubmit" [disabled]="!form.valid" (click)="onSubmit()">Submit</button>
+      </div>
+      </form>
       </mat-card>
   <!-- </form> -->
 

@@ -219,6 +219,7 @@ import { OutBoxComponent } from './out-box/out-box.component';
     ReactiveFormsModule,
     HttpClientModule,
     NgxCaptchaModule,
+    FormsModule,
     
     
     

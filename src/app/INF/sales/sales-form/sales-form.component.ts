@@ -5,10 +5,12 @@ import { Dialog2Component } from '../../dialog2/dialog2.component';
 import { HttpClient } from '@angular/common/http';
 import { ApicallService } from 'src/app/apicall.service';
 // import { NgxMatIntlTelInputComponent } from 'ngx-mat-intl-tel-input';
+import { NgForm } from '@angular/forms';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router'; 
+
 
 
 @Component({
@@ -17,6 +19,11 @@ import { Router } from '@angular/router';
   styleUrls: ['./sales-form.component.css']
 })
 export class SalesFormComponent {
+  @ViewChild('form') form!: NgForm; 
+
+  
+
+
   selectedOption: string='';
   store_url='';
   values: string[] = [];
