@@ -5,6 +5,7 @@ import { ActivatedRoute,Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from 'src/app/INF/dialog/dialog.component';
 import { RejectionComponent } from '../rejection/rejection.component';
+import { ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-schedule-page',
@@ -19,15 +20,6 @@ export class SchedulePageComponent {
   selfAssigned:string='';
   isAcceptButtonDisabled: boolean = false;
 
-    // Method to update the disabled state of the accept button
-    updateAcceptButtonState() {
-        // If both radio buttons are 'No', disable the accept button
-        if (this.salesProcess === 'no' && this.selfAssigned === 'no') {
-            this.isAcceptButtonDisabled = true;
-        } else {
-            this.isAcceptButtonDisabled = false;
-        }
-    }
 
   constructor(private apicallservice: ApicallService, private http: HttpClient,private router:Router, private dialog:MatDialog, private route: ActivatedRoute) {}
 
@@ -79,25 +71,7 @@ export class SchedulePageComponent {
         }
       );
   }
-  // approveRequest(id:number){
-  //   const params = new HttpParams().set('id',id );
-  //   console.log(id);
-    
-
-  //   this.http.put<any>('http://localhost:3000/api/approveRecords', { params })
-  //     .subscribe(
-  //       count => {
-  //           // this.records = count;
-  //           console.log('successful');
-  //           alert("successful...!")
-            
-  //       },
-  //       error => {
-  //         console.error('Error fetching record count:', error);
-  //       }
-  //     );
-
-  // }
+  
   approveRequest(id: number) {
     const params = new HttpParams().set('id', id.toString()).set('name',this.name.toString());
     console.log(id);
@@ -128,5 +102,17 @@ export class SchedulePageComponent {
       }
     );
   }
+
+  
+
+  validateRadioButtons() {
+    return this.salesProcess === 'no' && this.selfAssigned === 'no';
+}
+
+
+
+
+
+
 
 }

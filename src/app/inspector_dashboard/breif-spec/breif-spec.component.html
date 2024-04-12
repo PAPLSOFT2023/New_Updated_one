@@ -166,7 +166,7 @@
         <th scope="row">Machine Type</th>
         <td class="dropdown-container"> <select [(ngModel)]="machine_type" required>
           <option value="Geared">Geared</option>
-          <option value="Gearedless">Gearedless</option>
+          <option value="Gearedless">Gear less</option>
       </select></td>
       </tr>
       <tr>
@@ -590,9 +590,10 @@
     </tbody>
   </table>
   
-  <div class="button-container">
- <button [disabled]="isAnyInputNull()" (click)="Submit1()">Proceed</button>
-  </div>
+
+    <div class="button-container">
+      <button [disabled]="isAnyInputNull()" (click)="Submit1()" [ngStyle]="{ 'background-color': isAnyInputNull() ? '#cccccc' : '', 'cursor': isAnyInputNull() ? 'not-allowed' : 'pointer' }">Proceed</button>
+    </div>
 
 </body>
 </html>
