@@ -15,6 +15,19 @@ export class SchedulePageComponent {
   name: string = '';
   records:any[]=[];
   scheduleBool:boolean=false;
+  salesProcess:string='';
+  selfAssigned:string='';
+  isAcceptButtonDisabled: boolean = false;
+
+    // Method to update the disabled state of the accept button
+    updateAcceptButtonState() {
+        // If both radio buttons are 'No', disable the accept button
+        if (this.salesProcess === 'no' && this.selfAssigned === 'no') {
+            this.isAcceptButtonDisabled = true;
+        } else {
+            this.isAcceptButtonDisabled = false;
+        }
+    }
 
   constructor(private apicallservice: ApicallService, private http: HttpClient,private router:Router, private dialog:MatDialog, private route: ActivatedRoute) {}
 

@@ -139,6 +139,11 @@ export class BreifSpecComponent {
     this.name = sessionStorage.getItem('UserName') as string;
     console.log('inspector name',this.name);
     const unitValuesString = sessionStorage.getItem('unit_values');
+
+    //unit values api
+   
+
+
     if (unitValuesString) {
       this.units_values = JSON.parse(unitValuesString); // Parse the string into an array
     } else {
