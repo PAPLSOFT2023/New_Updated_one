@@ -1,43 +1,3 @@
-<!-- <body>
-    
-
-<div class="container">
-    <h1>Request Accepting Page</h1>
-    <p>Please review the requests below:</p>
-  
-    <div *ngFor="let request of records">
-      <div class="request">
-        <h3>Project Name: {{ request.project_name }}</h3>
-        <h3>No Of Units: {{ request.total_number_of_units }}</h3>
-        <h3>Location: {{ request.location }}</h3>
-        <h3>Type Of Inspection: {{ request.type_of_inspection }}</h3>
-        <h3>Schedule From : {{request.schedule_from | date: 'dd/MM/yyyy'}}</h3>
-        <h3>Schedule To: {{request.schedule_to | date: 'dd/MM/yyyy'}}</h3>
-  
-        <div class="buttons">
-          <button class="approve-btn" (click)="approveRequest(request.id)">Accept</button>
-          <button class="reject-btn" (click)="openRejectDialog(request.id)" >Reject</button>
-        </div>
-      </div>
-    </div>
-  
-    <p *ngIf="records.length === 0">No more requests</p>
-    
-  </div>
-  <div >
-    
-      <router-outlet></router-outlet>
-     
-    
-  </div>
-
-</body>  
-
-
-
-
-   -->
-
    <div class="headers_main"><h1 class="request1">REQUEST ACCEPTING PAGE</h1>
     <b><p class="form" >Please review the requests below:</p></b>
     </div>
@@ -50,7 +10,7 @@
               <h3><b>Location:</b> {{ request.location }}</h3>
               <h3><b>Type Of Inspection:</b> {{ request.type_of_inspection }}</h3>
                 
-           
+              <form #radioForm="ngForm">
                 <div class="acceptance">
                     <p class="acceptance"><b>Have you been involved in the sales process for this contract?</b></p>
                     <div class="radio-options">
@@ -82,10 +42,15 @@
                 </div>
                 
                 <div class="buttons-container">
+<<<<<<< HEAD
                 <button class="approve-btn" (click)="approveRequest(request.id)" [disabled]="!isAcceptButtonDisabled"><i class="fas fa-check"></i> Accept</button>
+=======
+                <button class="approve-btn" (click)="approveRequest(request.id)" [disabled]="!validateRadioButtons()"><i class="fas fa-check"></i> Accept</button>
+>>>>>>> 506126c47e89e6798b3cee721a5bec4d0a23266e
                 <button class="reject-btn" (click)="openRejectDialog(request.id)"><i class="fas fa-times"></i> Reject</button>
                 </div>
-               
+              </form>
             </div>
+         
 
             <p *ngIf="records.length === 0">No more requests</p>

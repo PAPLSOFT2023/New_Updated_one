@@ -6,52 +6,45 @@
 <title>Elevator Details</title>
 </head>
 <body>
-<div class="container">
-  <div class="app">APPLY</div>
-  <div class="box" *ngFor="let unit of units_values" (click)="fetch(unit)">{{ unit }}</div>
-</div>
-
+  <div class="container">
+    <div class="app">APPLY</div>
+    <div class="box" *ngFor="let unit of units_values" (click)="fetch(unit)">{{ unit }}</div>
+  </div>
   <h3>BRIEF SPECIFICATION OF THE ELEVATOR</h3>
-  <!-- <button (click)="view()">click</button> -->
   <table>
     <tbody>
       <tr>
         <th rowspan="12" scope="rowgroup">Suppliers Detail</th>
         <th>Elevator Numbers</th>
-        <!-- <td><input type="text" [(ngModel)]="elevator_number"></td> -->
-        <td><input type="text" [(ngModel)]="elevator_number"></td>
-
+        <td><input type="text" [(ngModel)]="elevator_number" required></td>
       </tr>
+      
       <tr>
         <th>Capacity(xx PAX/ xxxx Kg.)</th>
-        <!-- <td><input type="text" [(ngModel)]="elevator_number"></td> -->
-        <td><input type="text" [(ngModel)]="capacity"></td>
-
-       
+        <td><input type="text" [(ngModel)]="capacity" required></td>
       </tr>
       <tr>
         <th>Speed(xxxx m/s.)</th>
-        <!-- <td><input type="text" [(ngModel)]="elevator_number"></td> -->
-        <td><input type="text" [(ngModel)]="speed"></td>
+        <td><input type="text" [(ngModel)]="speed" required></td>
       </tr>
          <tr>
         <th scope="row">OEM</th>
-        <td class="dropdown-container"><select [(ngModel)]="oem">
+        <td class="dropdown-container"><select [(ngModel)]="oem" required>
           <option *ngFor="let value of values" [value]="value">{{value}}</option>
          
       </select></td>
       </tr>
       <tr>
         <th scope="row">Maintained by</th>
-        <td><input type="text" [(ngModel)]="maintained_by"></td>
+        <td><input type="text" [(ngModel)]="maintained_by" required></td>
       </tr>
       <tr>
         <th scope="row">Year of Manufacture</th>
-        <td><input type="text" [(ngModel)]="year_of_manufacture"></td>
+        <td><input type="text" [(ngModel)]="year_of_manufacture" required></td>
       </tr>
       <tr>
-        <th scope="row">Type of eqipment</th>
-        <td class="dropdown-container"><select [(ngModel)]="type_of_equipment">
+        <th scope="row">Type of equipment</th>
+        <td class="dropdown-container"><select [(ngModel)]="type_of_equipment" required>
           <option value="Traction">Traction</option>
           <option value="Drum">Drum</option>
           <option value="Hydraulic">Hydraulic</option>
@@ -59,7 +52,7 @@
       </tr>
       <tr>
         <th scope="row">Type of usage</th>
-        <td class="dropdown-container"><select [(ngModel)]="type_of_usage">
+        <td class="dropdown-container"><select [(ngModel)]="type_of_usage" required>
           <option value="Passenger">Passenger</option>
           <option value="Service">Service</option>
           <option value="Service cum passenger">Service cum passenger</option>
@@ -69,7 +62,7 @@
       </tr>
       <tr>
         <th scope="row">Machine location</th>
-        <td class="dropdown-container"><select [(ngModel)]="machine_location">
+        <td class="dropdown-container"><select [(ngModel)]="machine_location" required>
           <option value="MR- Above the shaft ceiling slab">MR- Above the shaft ceiling slab</option>
           <option value="MR- At Top floor shaft side">MR- At Top floor shaft side</option>
           <option value="MRL - Below in the pit">MRL - Below in the pit</option>
@@ -77,18 +70,18 @@
       </tr>
       <tr>
         <th scope="row">Controller & Drive Type</th>
-        <td class="dropdown-container"><select [(ngModel)]="controller_drive_type">
+        <td class="dropdown-container"><select [(ngModel)]="controller_drive_type" required>
           <option value="Microprocessor Controller with VVVF drive">Microprocessor Controller with VVVF drive</option>
           <option value="Microprocessor Controller without drive">Microprocessor Controller without drive</option>
    </select></td>
       </tr>
       <tr>
         <th scope="row">Controller name as per OEM</th>
-        <td><input type="text" [(ngModel)]="controller_name_as_per_oem"></td>
+        <td><input type="text" [(ngModel)]="controller_name_as_per_oem" required></td>
       </tr>
       <tr>
         <th scope="row">Type of operation</th>
-        <td class="dropdown-container"><select [(ngModel)]="type_of_operation">
+        <td class="dropdown-container"><select [(ngModel)]="type_of_operation" required>
           <option value="Simplex">Simplex</option>
           <option value="Duplex">Duplex</option>
       </select></td>
@@ -96,74 +89,74 @@
       
       <tr>
         <th  class="span" colspan="2" scope="colgroup">Groping Type</th>
-        <td class="dropdown-container"><select [(ngModel)]="grouping_type">
+        <td class="dropdown-container"><select [(ngModel)]="grouping_type" required>
           <option value="Normal group">Normal group</option>
           <option value="Grouping with DCS">Grouping with DCS</option>
       </select></td>
       </tr>
       <tr>
         <th  class="span" colspan="2" scope="colgroup">Name of the group</th>
-        <td><input type="text" [(ngModel)]="name_of_the_group"></td>
+        <td><input type="text" [(ngModel)]="name_of_the_group" required></td>
       </tr>
       <tr>
         <th rowspan="7" scope="rowgroup">Floor Details</th>
         <th scope="row">Stops</th>
-        <td><input type="text" [(ngModel)]="floor_details"></td>
+        <td><input type="text" [(ngModel)]="floor_details" required></td>
       </tr>
       <tr>
         <th scope="row">Openings</th>
-        <td><input type="text" [(ngModel)]="openings"> </td>
+        <td><input type="text" [(ngModel)]="openings" required> </td>
       </tr>
       <tr>
         <th scope="row">Floor Designations</th>
-        <td><input type="text" [(ngModel)]="floor_designations"></td>
+        <td><input type="text" [(ngModel)]="floor_designations" required></td>
       </tr>
       <tr>
         <th scope="row">Front Opening Floors</th>
-        <td><input type="text" [(ngModel)]="front_opening_floors"></td>
+        <td><input type="text" [(ngModel)]="front_opening_floors" required></td>
       </tr>
       <tr>
         <th scope="row">Rear Opening Floors</th>
-        <td><input type="text" [(ngModel)]="rear_opening_floors"></td>
+        <td><input type="text" [(ngModel)]="rear_opening_floors" required></td>
       </tr>
       <tr>
         <th scope="row">Non-Stop/Service Floors</th>
-        <td><input type="text" [(ngModel)]="non_stop_service_floors"></td>
+        <td><input type="text" [(ngModel)]="non_stop_service_floors" required></td>
       </tr>
       <tr>
         <th scope="row">Emergency Stop Floors</th>
-        <td><input type="text" [(ngModel)]="emergency_stop_floors"></td>
+        <td><input type="text" [(ngModel)]="emergency_stop_floors" required></td>
       </tr>
       <tr>
         <th rowspan="6" scope="rowgroup">Traction Details</th>
         <th scope="row">Rope Category</th>
-        <td class="dropdown-container"> <select [(ngModel)]="rope_category">
+        <td class="dropdown-container"> <select [(ngModel)]="rope_category" required>
           <option value="Rope">Rope</option>
           <option value="Belt">Belt</option>
       </select></td>
       </tr>
       <tr>
         <th scope="row">No.of Ropes/Belts</th>
-        <td><input type="text" [(ngModel)]="no_of_ropes_belts"></td>
+        <td><input type="text" [(ngModel)]="no_of_ropes_belts" required></td>
       </tr>
       <tr>
         <th scope="row">Rope Size</th>
-        <td><input type="text" [(ngModel)]="rope_size"></td>
+        <td><input type="text" [(ngModel)]="rope_size" required></td>
       </tr>
       <tr>
         <th scope="row">No. of Drive sheave grooves</th>
-        <td><input type="text" [(ngModel)]="no_of_drive_sheave_grooves"></td>
+        <td><input type="text" [(ngModel)]="no_of_drive_sheave_grooves" required></td>
       </tr>
       <tr>
         <th scope="row">Ropes Wrap details</th>
-        <td class="dropdown-container"><select [(ngModel)]="ropes_wrap_details">
+        <td class="dropdown-container"><select [(ngModel)]="ropes_wrap_details" required>
           <option value="Single Wrap">Single Wrap</option>
           <option value="Double Wrap">Double Wrap</option>
       </select></td>
       </tr>
       <tr>
         <th scope="row">Type of Roping</th>
-        <td class="dropdown-container"><select [(ngModel)]="type_of_roping">
+        <td class="dropdown-container"><select [(ngModel)]="type_of_roping" required>
           <option value="1:1">1:1</option>
           <option value=" 2:1"> 2:1</option>
       </select></td>
@@ -171,111 +164,94 @@
       <tr>
         <th rowspan="1" scope="rowgroup">Machine Details</th>
         <th scope="row">Machine Type</th>
-        <td class="dropdown-container"> <select [(ngModel)]="machine_type">
+        <td class="dropdown-container"> <select [(ngModel)]="machine_type" required>
           <option value="Geared">Geared</option>
-          <option value="Gearedless">Gearedless</option>
+          <option value="Gearedless">Gear less</option>
       </select></td>
       </tr>
       <tr>
         <th rowspan="10" scope="rowgroup">Motor Data</th>
         <th scope="row">Kilo Watt</th>
-        <td><input type="text" [(ngModel)]="kilo_watt"></td>
+        <td><input type="text" [(ngModel)]="kilo_watt" required></td>
       </tr>
       <tr>
         <th scope="row">Voltage</th>
-        <td><input type="text" [(ngModel)]="voltage"></td>
+        <td><input type="text" [(ngModel)]="voltage" required></td>
       </tr>
       <tr>
         <th scope="row">Current in Ampere</th>
-        <td><input type="text" [(ngModel)]="current_in_ampere"></td>
+        <td><input type="text" [(ngModel)]="current_in_ampere" required></td>
       </tr>
       <tr>
         <th scope="row">Frequency</th>
-        <td><input type="text" [(ngModel)]="frequency"></td>
+        <td><input type="text" [(ngModel)]="frequency" required></td>
       </tr>
       <tr>
         <th scope="row">RPM</th>
-        <td><input type="text" [(ngModel)]="rpm"></td>
+        <td><input type="text" [(ngModel)]="rpm" required></td>
       </tr>
       <tr>
         <th scope="row">Insulation Class</th>
-        <td><input type="text" [(ngModel)]="insulation_class"></td>
+        <td><input type="text" [(ngModel)]="insulation_class" required></td>
       </tr>
       <tr>
         <th scope="row">Ingress Protection</th>
-        <td><input type="text" [(ngModel)]="ingress_protection"></td>
+        <td><input type="text" [(ngModel)]="ingress_protection" required></td>
       </tr>
       <tr>
         <th scope="row">No.of Poles</th>
-        <td><input type="text" [(ngModel)]="no_of_poles"></td>
+        <td><input type="text" [(ngModel)]="no_of_poles" required></td>
       </tr>
       <tr>
         <th scope="row">St/Hr.</th>
-        <td><input type="text" [(ngModel)]="st_hr"></td>
+        <td><input type="text" [(ngModel)]="st_hr" required ></td>
       </tr>
       <tr>
         <th scope="row">Serial No.</th>
-        <td><input type="text" [(ngModel)]="serial_no"></td>
+        <td><input type="text" [(ngModel)]="serial_no" required></td>
       </tr>
       <tr>
         <th rowspan="4" scope="rowgroup">Car Governor Details</th>
         <th scope="row">Rope dia.(mm)</th>
-        <td><input type="text"  [(ngModel)]="rope_dia"></td>
+        <td><input type="text"  [(ngModel)]="rope_dia" required></td>
       </tr>
       <tr>
         <th scope="row">Normal Speed(m/s)</th>
-        <td><input type="text"  [(ngModel)]="normal_speed"></td>
+        <td><input type="text"  [(ngModel)]="normal_speed" required></td>
       </tr>
       <tr>
         <th scope="row">Electrical Tripping Speed</th>
-        <td><input type="text"  [(ngModel)]="electrical_tripping_speed"></td>
+        <td><input type="text"  [(ngModel)]="electrical_tripping_speed" required></td>
       </tr>
       <tr>
         <th scope="row">Mechanical Tripping Speed</th>
-        <td><input type="text" [(ngModel)]="mechanical_tripping_speed"></td>
+        <td><input type="text" [(ngModel)]="mechanical_tripping_speed" required></td>
       </tr>
       <tr>
         <th  class="span" colspan="2" scope="colgroup">CWT Governor Details</th>
-        <td><input type="checkbox" [(ngModel)]="cwt_governor_details"></td>
+        <td><input type="checkbox" [(ngModel)]="cwt_governor_details" required></td>
       </tr>
-      <!-- <tr>
-        <th rowspan="4" scope="rowgroup">CWT Governor Details</th>
-        <th scope="row">Rope dia.(mm)</th>
-        <td><input type="text"  [(ngModel)]="cwt_rope_dia"></td>
-      </tr>
-      <tr>
-        <th scope="row">Normal Speed(m/s)</th>
-        <td><input type="text"  [(ngModel)]="cwt_normal_speed"></td>
-      </tr>
-      <tr>
-        <th scope="row">Electrical Tripping Speed</th>
-        <td><input type="text"  [(ngModel)]="cwt_electrical_tripping_speed"></td>
-      </tr>
-      <tr>
-        <th scope="row">Mechanical Tripping Speed</th>
-        <td><input type="text"  [(ngModel)]="cwt_mechanical_tripping_speed"></td>
-      </tr> -->
       <tr *ngIf="cwt_governor_details">
         <th rowspan="4" scope="rowgroup">CWT Governor Details</th>
         <th scope="row">Rope dia.(mm)</th>
-        <td><input type="text"  [(ngModel)]="cwt_rope_dia"></td>
+        <td><input type="text"  [(ngModel)]="cwt_rope_dia" required></td>
       </tr>
       <tr *ngIf="cwt_governor_details">
         <th scope="row">Normal Speed(m/s)</th>
-        <td><input type="text"  [(ngModel)]="cwt_normal_speed"></td>
+        <td><input type="text"  [(ngModel)]="cwt_normal_speed" required></td>
       </tr>
       <tr *ngIf="cwt_governor_details">
         <th scope="row">Electrical Tripping Speed</th>
-        <td><input type="text"  [(ngModel)]="cwt_electrical_tripping_speed"></td>
+        <td><input type="text"  [(ngModel)]="cwt_electrical_tripping_speed" required></td>
       </tr>
       <tr *ngIf="cwt_governor_details">
         <th scope="row">Mechanical Tripping Speed</th>
-        <td><input type="text"  [(ngModel)]="cwt_mechanical_tripping_speed"></td>
+        <td><input type="text"  [(ngModel)]="cwt_mechanical_tripping_speed" required></td>
       </tr>
       <tr>
         <th rowspan="1" scope="rowgroup">Door Operator</th>
         <th scope="row">Door Operator</th>
-        <td class="dropdown-container"><select [(ngModel)]="door_operator">
+        <td class="dropdown-container"><select [(ngModel)]="door_operator" required>
           <option value="VVVF drive with close loop control">VVVF drive with close loop control</option>
           <option value="VVVF drive with open loop control">VVVF drive with open loop control</option>
           <option value="DC Motor system">DC Motor system</option>
@@ -285,15 +261,15 @@
       <tr>
         <th rowspan="3" scope="rowgroup">Entrance Details</th>
         <th scope="row">Entrance Width</th>
-        <td><input type="text" [(ngModel)]="entrance_width" ></td>
+        <td><input type="text" [(ngModel)]="entrance_width" required></td>
       </tr>
       <tr>
         <th scope="row">Entrance Height</th>
-        <td><input type="text" [(ngModel)]="entrance_height"></td>
+        <td><input type="text" [(ngModel)]="entrance_height" required></td>
       </tr>
       <tr>
         <th scope="row">Type Of Openings</th>
-        <td class="dropdown-container"><select  [(ngModel)]="type_of_openings">
+        <td class="dropdown-container"><select  [(ngModel)]="type_of_openings" required>
           <option value="Center Opening (C.O) ">Center Opening (C.O)</option>
           <option value="Side opening (Telescopic)">Side opening (Telescopic)</option>
           <option value="Sliding door (Single door) Side opening">Sliding door (Single door) Side opening</option>
@@ -305,15 +281,15 @@
       <tr>
         <th rowspan="3" scope="rowgroup">C.O.P</th>
         <th scope="row">Cabin Width</th>
-        <td><input type="text"  [(ngModel)]="cabin_width"></td>
+        <td><input type="text"  [(ngModel)]="cabin_width" required></td>
       </tr>
       <tr>
         <th scope="row">Cabin Height</th>
-        <td><input type="text"  [(ngModel)]="cabin_height"></td>
+        <td><input type="text"  [(ngModel)]="cabin_height" required></td>
       </tr>
       <tr>
         <th scope="row">No.of Car Operating Panels(C.O.P)</th>
-        <td class="dropdown-container"><select [(ngModel)]="no_of_car_operating_panels">
+        <td class="dropdown-container"><select [(ngModel)]="no_of_car_operating_panels" required>
           <option value="1">1</option>
           <option value="2">2</option>
       </select></td>
@@ -321,7 +297,7 @@
       <tr>
         <th rowspan="14" scope="rowgroup">Car Features</th>
         <th scope="row">Car Indicator Type</th>
-        <td class="dropdown-container"><select  [(ngModel)]="car_indicator_type" >
+        <td class="dropdown-container"><select  [(ngModel)]="car_indicator_type" required>
           <option value="7 Segment LED display">7 Segment LED display</option>
           <option value="7 segment LCD display">7 segment LCD display</option>
           <option value="16 Segment LED display">16 Segment LED display</option>
@@ -335,14 +311,14 @@
       </tr>
       <tr>
         <th scope="row">Multimedia Display</th>
-        <td class="dropdown-container"><select  [(ngModel)]="multimedia_display">
+        <td class="dropdown-container"><select  [(ngModel)]="multimedia_display" required>
           <option value="Provided">Provided</option>
           <option value="Not Provided">Not Provided</option>
  </select></td>
       </tr>
       <tr>
         <th scope="row">No.Cabin Fans</th>
-        <td class="dropdown-container"><select  [(ngModel)]="no_cabin_fans">
+        <td class="dropdown-container"><select  [(ngModel)]="no_cabin_fans" required>
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
@@ -353,7 +329,7 @@
       </tr>
       <tr>
         <th scope="row">Type of Cabin Fan</th>
-        <td class="dropdown-container"><select [(ngModel)]="type_of_cabin_fan">
+        <td class="dropdown-container"><select [(ngModel)]="type_of_cabin_fan" required>
           <option value="Cross flow fan">Cross flow fan</option>
           <option value="Round fan">Round fan</option>
           <option value="Box type fan">Box type fan</option>
@@ -361,7 +337,7 @@
       </tr>
       <tr>
         <th scope="row">Type Of Call Buttons</th>
-        <td class="dropdown-container"><select  [(ngModel)]="type_of_call_buttons">
+        <td class="dropdown-container"><select  [(ngModel)]="type_of_call_buttons" required>
           <option value="Self illuminated push button">Self illuminated push button</option>
           <option value="Self illuminated push button with vandal proof">Self illuminated push button with vandal proof</option>
           <option value="Braille marked Self illuminated push button">Braille marked Self illuminated push button</option>
@@ -372,7 +348,7 @@
       </tr>
       <tr>
         <th scope="row">STOP Button</th>
-        <td class="dropdown-container"><select  [(ngModel)]="stop_button">
+        <td class="dropdown-container"><select  [(ngModel)]="stop_button" required>
           <option value="A-stable push button">A-stable push button</option>
           <option value="Bi-stable push button">Bi-stable push button</option>
           <option value="Bi-stable push button inside service panel">Bi-stable push button inside service panel</option>
@@ -381,56 +357,56 @@
       </tr>
       <tr>
         <th scope="row">Service Cabinet</th>
-        <td class="dropdown-container"><select [(ngModel)]="service_cabinet">
+        <td class="dropdown-container"><select [(ngModel)]="service_cabinet" required>
           <option value="Provided">Provided</option>
           <option value="Not Provided">Not Provided</option>
       </select></td>
       </tr>
       <tr>
         <th scope="row">Voice Announcement</th>
-        <td class="dropdown-container"><select [(ngModel)]="voice_announcement">
+        <td class="dropdown-container"><select [(ngModel)]="voice_announcement" required>
           <option value="Voice announcment is provided">Voice announcment is provided</option>
           <option value="Not Provided">Not Provided</option>
       </select></td>
       </tr>
       <tr>
         <th scope="row">Handrail</th>
-        <td class="dropdown-container"><select [(ngModel)]="handrail">
+        <td class="dropdown-container"><select [(ngModel)]="handrail" required>
           <option value="Hand rail provided">Hand rail provided</option>
           <option value="Not Provided">Not Provided</option>
       </select></td>
       </tr>
       <tr>
         <th scope="row">Cabin Bumper</th>
-        <td class="dropdown-container"><select [(ngModel)]="cabin_bumper">
+        <td class="dropdown-container"><select [(ngModel)]="cabin_bumper" required>
           <option value="Provided">Provided</option>
           <option value="Not Provided">Not Provided</option>
       </select></td>
       </tr>
       <tr>
         <th scope="row">Auto /Attendant</th>
-        <td class="dropdown-container"><select [(ngModel)]="auto_attendant">
+        <td class="dropdown-container"><select [(ngModel)]="auto_attendant" required>
           <option value="Provided">Provided</option>
           <option value="Not Provided">Not Provided</option>
       </select></td>
       </tr>
       <tr>
         <th scope="row">Auto /Independant</th>
-        <td class="dropdown-container"><select [(ngModel)]="auto_independant">
+        <td class="dropdown-container"><select [(ngModel)]="auto_independant" required>
           <option value="Provided">Provided</option>
           <option value="Not Provided">Not Provided</option>
       </select></td>
       </tr>
       <tr>
         <th scope="row">Non Stop</th>
-        <td class="dropdown-container"><select [(ngModel)]="non_stop">
+        <td class="dropdown-container"><select [(ngModel)]="non_stop" required>
           <option value="Provided">Provided</option>
           <option value="Not Provided">Not Provided</option>
       </select></td>
       </tr>
       <tr>
         <th scope="row">Fan Switch</th>
-        <td class="dropdown-container"><select [(ngModel)]="fan_switch">
+        <td class="dropdown-container"><select [(ngModel)]="fan_switch" required>
           <option value="Provided">Provided</option>
           <option value="Not Provided">Not Provided</option>
       </select></td>
@@ -438,7 +414,7 @@
       <tr>
         <th rowspan="7" scope="rowgroup">Hall Features </th>
         <th scope="row">Hall Indicator Type</th>
-        <td class="dropdown-container"><select [(ngModel)]="hall_indicator_type" >
+        <td class="dropdown-container"><select [(ngModel)]="hall_indicator_type" required>
           <option value="7 Segment LED display">7 Segment LED display</option>
           <option value="7 segment LCD display">7 segment LCD display</option>
           <option value="16 Segment LED display">16 Segment LED display</option>
@@ -452,7 +428,7 @@
       </tr>
       <tr>
         <th scope="row">Hall Laterns</th>
-        <td class="dropdown-container"><select [(ngModel)]="hall_laterns">
+        <td class="dropdown-container"><select [(ngModel)]="hall_laterns" required>
           <option value="Hall Lanterns Provided at all floors">Hall Lanterns Provided at all floors</option>
           <option value="Hall Lanterns Provided at lobby floor only">Hall Lanterns Provided at lobby floor only</option>
           <option value="Not Provided">Not Provided</option>
@@ -460,14 +436,14 @@
       </tr>
       <tr>
         <th scope="row">Arrival Chime</th>
-        <td class="dropdown-container"><select [(ngModel)]="arrival_chime">
+        <td class="dropdown-container"><select [(ngModel)]="arrival_chime" required>
           <option value="Chime Provided">Chime Provided</option>
           <option value="Not Provided">Not Provided</option>
       </select></td>
       </tr>
       <tr>
         <th scope="row">No.Of Risers at Main Lobby</th>
-        <td class="dropdown-container"><select [(ngModel)]="no_of_risers_at_main_lobby">
+        <td class="dropdown-container"><select [(ngModel)]="no_of_risers_at_main_lobby" required>
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
@@ -478,7 +454,7 @@
       </tr>
       <tr>
         <th scope="row">No.Of Risers at Other Floors</th>
-        <td class="dropdown-container"><select [(ngModel)]="no_of_risers_at_other_floors">
+        <td class="dropdown-container"><select [(ngModel)]="no_of_risers_at_other_floors" required>
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
@@ -489,7 +465,7 @@
       </tr>
       <tr>
         <th scope="row">Hall Call Type at Main Lobby</th>
-        <td class="dropdown-container"><select [(ngModel)]="hall_call_type_at_main_lobby" >
+        <td class="dropdown-container"><select [(ngModel)]="hall_call_type_at_main_lobby" required >
           <option value="Self illuminated push button">Self illuminated push button</option>
           <option value="Self illuminated push button with vandal proof">Self illuminated push button with vandal proof</option>
           <option value="Braille marked Self illuminated push button">Braille marked Self illuminated push button</option>
@@ -501,7 +477,7 @@
       </tr>
       <tr>
         <th scope="row">Hall Call Type at All Floors</th>
-        <td class="dropdown-container"><select [(ngModel)]="hall_call_type_at_all_floors">
+        <td class="dropdown-container"><select [(ngModel)]="hall_call_type_at_all_floors" required>
           <option value="Self illuminated push button">Self illuminated push button</option>
           <option value="Self illuminated push button with vandal proof">Self illuminated push button with vandal proof</option>
           <option value="Braille marked Self illuminated push button">Braille marked Self illuminated push button</option>
@@ -514,7 +490,7 @@
       <tr>
         <th rowspan="2" scope="rowgroup">Car Buffer </th>
         <th scope="row">No.Of.Car Buffers</th>
-        <td class="dropdown-container"><select [(ngModel)]="no_of_car_buffers">
+        <td class="dropdown-container"><select [(ngModel)]="no_of_car_buffers" required>
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
@@ -523,7 +499,7 @@
       </tr>
       <tr>
         <th scope="row">Type Of Car Buffer</th>
-        <td class="dropdown-container"><select [(ngModel)]="type_of_car_buffers" >
+        <td class="dropdown-container"><select [(ngModel)]="type_of_car_buffers" required>
           <option value="Spring buffer">Spring buffer</option>
           <option value="Hydraulic buffer">Hydraulic buffer</option>
           <option value="PU buffer">PU buffer</option>
@@ -532,7 +508,7 @@
       <tr>
         <th rowspan="2" scope="rowgroup">Counter Weight Buffer</th>
         <th scope="row">No.Of CWT Buffers</th>
-        <td class="dropdown-container"><select [(ngModel)]="no_of_cwt_buffer">
+        <td class="dropdown-container"><select [(ngModel)]="no_of_cwt_buffer" required>
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
@@ -541,7 +517,7 @@
       </tr>
       <tr>
         <th scope="row">Type Of CWT Buffer</th>
-        <td class="dropdown-container"><select [(ngModel)]="type_of_cwt_buffer">
+        <td class="dropdown-container"><select [(ngModel)]="type_of_cwt_buffer" required>
           <option value="Spring buffer">Spring buffer</option>
           <option value="Hydraulic buffer">Hydraulic buffer</option>
           <option value="PU buffer">PU buffer</option>
@@ -590,11 +566,6 @@
       </tr>
       <tr>
         <th scope="row">MANUAL RESCUE</th>
-        <!-- <td> <label for="MECHANICAL">MECHANICAL:</label>
-          <input type="radio" id="MECHANICAL" [(ngModel)]="manual_rescue" name="manual_rescue" value="MECHANICAL"><br><br>
-        
-          <label for="BATTERY">BATTERY OPERATED:</label>
-          <input type="radio" id="BATTERY"  [(ngModel)]="manual_rescue" name="manual_rescue" value="BATTERY OPERATED"> -->
           <td class="dropdown-container"><select [(ngModel)]="manual_rescue">
             <option value="MECHANICAL">MECHANICAL</option>
             <option value="BATTERY OPERATED">BATTERY OPERATED</option>
@@ -616,12 +587,13 @@
                 <th scope="row">SEISMIC SENSOR OPERATION</th>
                 <td><input type="checkbox" [(ngModel)]="seismic_sensor_operation"></td>
                 </tr>  
-               
-                <!-- <button (click)="submit()">Submit</button> -->
     </tbody>
   </table>
-  <div class="button-container">
-    <button  (click)="submit()"> Proceed</button>
-  </div>
+  
+
+    <div class="button-container">
+      <button [disabled]="isAnyInputNull()" (click)="Submit1()" [ngStyle]="{ 'background-color': isAnyInputNull() ? '#cccccc' : '', 'cursor': isAnyInputNull() ? 'not-allowed' : 'pointer' }">Proceed</button>
+    </div>
+
 </body>
 </html>
