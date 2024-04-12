@@ -42,11 +42,7 @@
                 </div>
                 
                 <div class="buttons-container">
-<<<<<<< HEAD
-                <button class="approve-btn" (click)="approveRequest(request.id)" [disabled]="!isAcceptButtonDisabled"><i class="fas fa-check"></i> Accept</button>
-=======
                 <button class="approve-btn" (click)="approveRequest(request.id)" [disabled]="!validateRadioButtons()"><i class="fas fa-check"></i> Accept</button>
->>>>>>> 506126c47e89e6798b3cee721a5bec4d0a23266e
                 <button class="reject-btn" (click)="openRejectDialog(request.id)"><i class="fas fa-times"></i> Reject</button>
                 </div>
               </form>
