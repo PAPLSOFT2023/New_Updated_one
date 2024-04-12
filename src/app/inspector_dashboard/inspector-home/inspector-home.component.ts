@@ -297,6 +297,11 @@ export class InspectorHomeComponent implements OnInit {
     }
   }
 
+  public saveSendMailEnabledStatus(inspectorArrayString: string): void {
+    const sendMailEnabled = this.isSendMailEnabled(inspectorArrayString);
+    sessionStorage.setItem('sendMailEnabled', sendMailEnabled ? 'true' : 'false');
+  }
+
 
 
 
