@@ -35,6 +35,10 @@
     "font-awesome": "^4.7.0",
     "google-auth-library": "^9.4.1",
     "googleapis": "^129.0.0",
+<<<<<<< HEAD
+=======
+    "jspdf": "^2.5.1",
+>>>>>>> a2c00562bbc39f6d997609265e4b6be59cb84b7c
     "mongoose": "^8.2.3",
     "mysql": "^2.18.1",
     "mysql2": "^2.0.0",

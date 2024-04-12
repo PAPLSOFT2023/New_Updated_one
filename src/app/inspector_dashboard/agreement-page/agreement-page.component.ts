@@ -15,8 +15,8 @@ export class AgreementPageComponent {
   check:boolean=true;
   val:string | null='';
   units:string[] | any=[];
-  salesProcess:string='';
-  selfAssigned:string='';
+  salesProcess:string='no';
+  selfAssigned:string='no';
   constructor(private route: ActivatedRoute,private dataService: ApicallService,private http :HttpClient,private router:Router){
      this.route.paramMap.subscribe(params => {
       this.val = params.get('c_no');
