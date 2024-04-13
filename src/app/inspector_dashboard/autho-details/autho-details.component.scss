@@ -9,7 +9,7 @@ body {
     padding-top: 10px;
 }
 table {
-    width: 70%;
+    width: 80%;
     border-collapse: collapse;
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -18,21 +18,22 @@ table {
     overflow: hidden;
 }
 td input[type="text"] {
-    border: none; /* Hide the border of input boxes */
-    outline: none; /* Hide the outline when focused */
-    width: 100%; /* Ensure the input boxes expand to fill the table cell */
-    box-sizing: border-box; /* Include padding and border in the width calculation */
+    border: none; 
+    outline: none; 
+    width: 100%; 
+    box-sizing: border-box; 
+    font-size: 18px;
   }
 th, td {
     padding: 10px;
-    width: 200px;
+    width:300px;
     text-align: left;
     border-bottom: 1px solid #ddd;
 }
 th {
     color: white;
     text-transform: uppercase;
-    font-size: 18px;
+    font-size: 15px;
     text-align: center;
 }
 td {
@@ -76,6 +77,37 @@ thead{
     background-image: linear-gradient(125deg, #2c3e50 50%,#000000 50%);
 }
 
+
+
+.clear {
+    padding: 2px 5px;
+    border: none;
+    outline: none;
+    position: absolute;
+    right: 8px;
+    top: 10px;
+    background: transparent;
+    cursor: pointer;
+   
+}
+.dropdown-container{
+    text-align: center;
+}
+
+.dropdown{
+    font-size:18px;
+    border: none;
+    outline: none;
+    appearance: none;
+    background-color:transparent;
+}
+
+.disabled-button {
+    background-color:gray; 
+    color: gray;
+    cursor: not-allowed; 
+}
+
 @media screen and (max-width: 768px) {
     table {
         font-size: 18px;
@@ -89,6 +121,7 @@ thead{
         max-width: 120px;
     }
 }
+
 
 @media screen and (max-width: 576px) {
     table {

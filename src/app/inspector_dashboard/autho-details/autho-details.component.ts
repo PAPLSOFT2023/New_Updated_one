@@ -12,6 +12,7 @@ interface Row {
   company: string;
   contact_number: string;
   signature: string; 
+  role: string;
 }
 @Component({
   selector: 'app-autho-details',
@@ -36,15 +37,18 @@ export class AuthoDetailsComponent {
   }
   // rows: Row[] = [{ name: '', designation: '', company: '', contact_number: '' }];
   rows: Row[] = [
-    { name: '', designation: '', company: '', contact_number: '',signature: '' },
-    { name: '', designation: '', company: '', contact_number: '',signature: '' },
-    { name: '', designation: '', company: '', contact_number: '' ,signature: ''},
-    { name: '', designation: '', company: '', contact_number: '',signature: '' }
+    { name: '', designation: '',role: '', company: '', contact_number: '',signature: '' },
+    // { name: '', designation: '',role: '', company: '', contact_number: '',signature: '' },
+    // { name: '', designation: '',role: '', company: '', contact_number: '' ,signature: ''},
+    // { name: '', designation: '',role: '', company: '', contact_number: '',signature: '' }
   ];
 
   addRow() {
-    this.rows.push({ name: '', designation: '', company: '', contact_number: '',signature: '' });
+    this.rows.push({ name: '', designation: '', role: '', company: '', contact_number: '',signature: '' });
   }
+
+
+  
   captureSignature(canvas: HTMLCanvasElement, index: number) {
     const ctx = canvas.getContext('2d')!;
     ctx.lineWidth = 2;
@@ -110,4 +114,15 @@ export class AuthoDetailsComponent {
     );
 
   }
+  allFieldsFilled(): boolean {
+    return this.rows.every(row =>
+        row.name.trim() !== '' &&
+        row.designation.trim() !== '' &&
+        row.role.trim() !== '' &&
+        row.company.trim() !== '' &&
+        row.contact_number.trim() !== '' &&
+        row.signature.trim() !== '' 
+    );
+}
+
 }
