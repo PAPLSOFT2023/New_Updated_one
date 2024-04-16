@@ -138,6 +138,11 @@ export const inspector: INavbarData[] = [
         label: 'Certificate'
     },
     {
+        routeLink: '/afterlogin/certificate_home',
+        icon: "fal fa-certificate",
+        label: 'Certificate Home'
+    },
+    {
         routeLink: '/afterlogin/outbox',
         icon: "fas fa-sync-alt",
         label: 'OutBox'

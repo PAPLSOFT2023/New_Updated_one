@@ -12,6 +12,7 @@ import { ApicallService } from 'src/app/apicall.service';
 })
 export class PreInspectionComponent {
   document_id:string | null='';
+
   units:string[] | any=[];
   val:string|null ='';
   constructor(private route: ActivatedRoute,private dataService: ApicallService,private http :HttpClient,private router:Router){
@@ -51,6 +52,7 @@ export class PreInspectionComponent {
   
   
   }
+  
   proceed(unit: string) {
     console.log("Clicked on unit:", unit);
   

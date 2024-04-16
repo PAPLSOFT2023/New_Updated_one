@@ -1,6 +1,7 @@
 const bodyParser = require('body-parser');
 const express = require('express');
 const cors = require('cors');
+const multer = require('multer');
 const mysql = require('mysql2');
 const mysql1=require('mysql2/promise');
 const bcrypt = require('bcrypt');
@@ -8,6 +9,13 @@ const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const { v4: uuidv4 } = require('uuid');
 const uuid = require('uuid');
+// const upload = multer({ dest: 'uploads/' });
+const storage = multer.memoryStorage(); // Store file data in memory
+const upload = multer({ storage: storage });
+// const pdfjsLib = require('pdfjs-dist/es5/build/pdf');
+// const pdfjsLib = require('pdfjs-dist');
+
+
 
 const fs = require('fs');
 const PDFDocument = require('pdfkit');
@@ -18,12 +26,12 @@ const secretKey = 'mySecretKeyForJWTAuthentication';// for token generation
 
 const app = express();
 
-const multer = require('multer');
+// const multer = require('multer');
 const xlsx = require('xlsx');
 const { log } = require('console');
 
-const storage = multer.memoryStorage(); // Use memory storage for handling files without saving to disk
-const upload = multer({ storage: storage });
+// const storage = multer.memoryStorage(); // Use memory storage for handling files without saving to disk
+// const upload = multer({ storage: storage });
 
 app.use(cors());
 app.use(express.json()); 
@@ -111,6 +119,89 @@ db1.connect((err) => {
   }
   console.log('Connected to MySQL Papl Inspection');
 });
+
+//api for certificate sequence
+app.get('/api/next-id', (req, res) => {
+  db1.query('SELECT IFNULL(MAX(id) + 1, 1) AS next_id FROM uploaded_files', (error, results, fields) => {
+      if (error) throw error;
+      res.json(results[0].next_id);
+  });
+});
+// Endpoint for handling file uploads
+app.post('/api/upload', upload.single('file'), (req, res) => {
+  if (!req.file) {
+      return res.status(400).send('No file uploaded.');
+  }
+
+  const fileData = req.file.buffer; // Get the file data from memory
+
+  const { filename } = req.file;
+  const { unit_name, document_id,building_name,contract } = req.body;
+
+  // Save file details and data to the database
+  // const sql = 'INSERT INTO uploaded_files ( unit_name, document_id, file_data) VALUES (?, ?, ?)';
+  // db1.query(sql, [ unit_name, document_id, fileData], (err, result) => {
+  //     if (err) {
+  //         console.error('Error saving file details to database:', err);
+  //         return res.status(500).send('Error saving file details to database.');
+  //     }
+  //     console.log('File details and data saved to database:', result);
+  //     res.status(200).send('File uploaded and details saved to database.');
+  // });
+  const sql = 'INSERT INTO uploaded_files (unit_name, document_id, file_data,building_name,contract) VALUES (?,?,?, ?, ?)';
+  db1.query(sql, [unit_name, document_id, fileData,building_name,contract], (err, result) => {
+    if (err) {
+      console.error('Error saving file details to database:', err);
+      return res.status(500).json({ error: 'Error saving file details to database.' });
+    }
+    console.log('File details and data saved to database:', result);
+    res.status(200).json({ message: 'File uploaded and details saved to database.' });
+  });
+});
+//view page of certificate
+app.get('/api/upload_files_fetch', (req, res) => {
+  // Execute query to fetch all records
+  db1.query('SELECT * FROM uploaded_files', (error, results, fields) => {
+    if (error) {
+      return res.status(500).json({ message: error.message });
+    }
+    res.json(results);
+  });
+});
+
+// // API endpoint to fetch specific record by ID
+// app.get('/api/upload_files_fetch/:id', (req, res) => {
+//   const id = req.params.id;
+//   // Execute query to fetch record by ID
+//   db1.query('SELECT * FROM uploaded_files WHERE id = ?', [id], (error, results, fields) => {
+//     if (error) {
+//       return res.status(500).json({ message: error.message });
+//     }
+//     if (results.length === 0) {
+//       return res.status(404).json({ message: 'File not found' });
+//     }
+//     res.json(results[0]);
+//   });
+// });
+// API endpoint to fetch PDF file by ID
+app.get('/api/upload_files_fetch/:id/pdf', async (req, res) => {
+  const id = req.params.id;
+  try {
+    const [rows, fields] = await db1.execute('SELECT pdf_data FROM uploaded_files WHERE id = ?', [id]);
+    if (rows.length === 0) {
+      return res.status(404).send('PDF not found.');
+    }
+    const pdfData = rows[0].pdf_data;
+    res.setHeader('Content-Type', 'application/pdf');
+    res.send(pdfData);
+  } catch (error) {
+    console.error('Error fetching PDF:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+
+
 
 
 const TransporterData = () => {
@@ -3422,6 +3513,39 @@ app.get('/api/fetch_units', (req, res) => {
           const unitNos = result.map(row => row.unit_no); // Extracting unit_no from each row
           res.status(200).json(unitNos);
       }
+  });
+});
+
+//upload certificate
+// API endpoint to handle file upload
+app.post('/api/upload', upload.single('file'), (req, res) => {
+  if (!req.file) {
+      res.status(400).send('No file uploaded.');
+      return;
+  }
+
+  // Read the uploaded file
+  fs.readFile(req.file.path, (err, data) => {
+      if (err) {
+          console.error('Error reading file:', err);
+          res.status(500).send('Error reading file.');
+          return;
+      }
+
+      // Extract unit_no from request body
+      const unit_no = req.body.unit_no;
+
+      // Insert file data into MySQL along with unit_no
+      const sql = 'INSERT INTO files (name, data, unit_no) VALUES (?, ?, ?)';
+      db1.query(sql, [req.file.originalname, data, unit_no], (error, results, fields) => {
+          if (error) {
+              console.error('Error inserting file into database:', error);
+              res.status(500).send('Error inserting file into database.');
+              return;
+          }
+          console.log('File inserted into database:', results);
+          res.status(200).send('File uploaded and inserted into database.');
+      });
   });
 });
 

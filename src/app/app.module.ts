@@ -127,6 +127,8 @@ import { MachinroomcheckpointComponent } from './inspector_dashboard/machineroom
 import { ReportForElevComponent } from './inspector_dashboard/report-home/report-for-elev/report-for-elev.component';
 import { ReportHomeComponent } from './inspector_dashboard/report-home/report-home.component';
 import { NewReportComponent } from './inspector_dashboard/report-home/new-report/new-report.component';
+// import { ExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
+
 import { ExistingReportComponent } from './inspector_dashboard/report-home/existing-report/existing-report.component';
 
 
@@ -139,6 +141,12 @@ import { MailAutomationInspComponent } from './inspector_dashboard/mail-automati
 import { ListCertificateComponent } from './inspector_dashboard/list-certificate/list-certificate.component';
 import { CertificateComponent } from './inspector_dashboard/certificate/certificate.component';
 import { CertificateOComponent } from './certificate-o/certificate-o.component';
+import { CertificateHomeComponent } from './inspector_dashboard/certificate-home/certificate-home.component';
+import { DownloadCertificateComponent } from './inspector_dashboard/certificate-home/download-certificate/download-certificate.component';
+import { UploadCertificateComponent } from './inspector_dashboard/certificate-home/upload-certificate/upload-certificate.component';
+import { ViewCertificateComponent } from './inspector_dashboard/certificate-home/view-certificate/view-certificate.component';
+import { UploadPdfComponent } from './inspector_dashboard/certificate-home/upload-pdf/upload-pdf.component';
+import { ViewofcertificateComponent } from './inspector_dashboard/certificate-home/viewofcertificate/viewofcertificate.component';
 
 // import { RejectionComponent } from './inspector_dashboard/rejection/rejection.component';
 
@@ -241,6 +249,12 @@ import { CertificateOComponent } from './certificate-o/certificate-o.component';
                ListCertificateComponent,
                CertificateComponent,
                CertificateOComponent,
+               CertificateHomeComponent,
+               DownloadCertificateComponent,
+               UploadCertificateComponent,
+               ViewCertificateComponent,
+               UploadPdfComponent,
+               ViewofcertificateComponent,
              
         // RejectionComponent,
         
@@ -252,6 +266,7 @@ import { CertificateOComponent } from './certificate-o/certificate-o.component';
       
   ],
   imports: [
+    // ExtendedPdfViewerModule,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,

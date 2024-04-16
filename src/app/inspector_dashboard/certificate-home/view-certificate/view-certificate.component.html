@@ -1,0 +1,26 @@
+<table>
+    <thead>
+      <tr>
+        <th>Unit NO</th>
+        <th>Building Name</th>
+        <th>Contract</th>
+        <th>Document ID</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let file of uploadFiles">
+        <td>{{ file.unit_name }}</td>
+        <td>{{ file.building_name }}</td>
+        <td>{{ file.contract }}</td>
+        <td>{{ file.document_id }}</td>
+       <td><i class="fa fa-eye"  (click)="displayPDF(file.unit_name,file.document_id,file.id,file.contract)"></i></td>   <!-- (click)="displayPDF(file.file_data)" -->
+      </tr>
+    </tbody>
+  </table>
+  <!-- <div *ngIf="pdfSrc">
+    <pdf-viewer [src]="pdfSrc" [render-text]="true" style="display: block; width: 100%; height: 600px;"></pdf-viewer>
+  </div> -->
+  <!-- <iframe [src]="pdfSrc" style="width:100%;height:600px;"></iframe> -->
+
+  

@@ -56,6 +56,10 @@ import { PreInspectionComponent } from './inspector_dashboard/pre-inspection/pre
 import { ListCertificateComponent } from './inspector_dashboard/list-certificate/list-certificate.component';
 import { CertificateComponent } from './inspector_dashboard/certificate/certificate.component';
 import { CertificateOComponent } from './certificate-o/certificate-o.component';
+import { CertificateHomeComponent } from './inspector_dashboard/certificate-home/certificate-home.component';
+import { UploadCertificateComponent } from './inspector_dashboard/certificate-home/upload-certificate/upload-certificate.component';
+import { UploadPdfComponent } from './inspector_dashboard/certificate-home/upload-pdf/upload-pdf.component';
+import { ViewofcertificateComponent } from './inspector_dashboard/certificate-home/viewofcertificate/viewofcertificate.component';
 // import { OutBoxComponent } from './out-box/out-box.component';
 // import { UnitDetailsComponent } from './inspector_dashboard/unit-details/unit-details.component';
 const routes: Routes = [
@@ -63,6 +67,7 @@ const routes: Routes = [
   {path:'app-home',component:AppHomeComponent,},
   {path:'pdf/:c_no',component:InfPdfComponent},
   {path:'certificate/:unit/:document_id',component:CertificateComponent},
+  {path:'view_c/:unit/:document_id/:id/:contract',component:ViewofcertificateComponent},
 
   // {path:"",redirectTo:"app-home",pathMatch:'full'},
   {path: "services",component:ServicesComponent}, 
@@ -127,7 +132,9 @@ const routes: Routes = [
          {path:'agreement/:c_no',component:AgreementPageComponent},
          {path:'risk/:c_no',component:SiteRiskAssessmentComponent},
          {path:'pre_ins/:c_no',component:PreInspectionComponent},
+         {path:'upload_certificate/:c_no',component:UploadPdfComponent},
          {path:'list_certificate',component:ListCertificateComponent},
+         {path:'certificate_home',component:CertificateHomeComponent},
         
          {path:'pit/:c_no',component:PitComponent},
          { path: 'pitcheckpoint/:id/:documentid/:unitno/:inspectorname/:section', component: PitcheckpointsComponent },
