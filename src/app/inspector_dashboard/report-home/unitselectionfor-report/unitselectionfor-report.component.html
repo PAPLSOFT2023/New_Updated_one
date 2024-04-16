@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tab Group Example</title>
+</head>
+<body>
+
+<!-- Your content goes here -->
+<mat-tab-group>
+    <mat-tab label="First Review">
+        <div class="container">
+        <table>
+            <tbody>
+                <tr class="units">
+                    <td>Units</td>
+                    <td>P1</td>
+                    <td>P2</td>
+                    <td>P3</td>
+                    <td>P4</td>
+                </tr>
+                <tr>
+                    <td>Choose</td>
+                    <td><input type="checkbox" (change)="updateSelectedUnits('P1', $event)"></td>
+                    <td><input type="checkbox" (change)="updateSelectedUnits('P2', $event)"></td>
+                    <td><input type="checkbox" (change)="updateSelectedUnits('P3', $event)"></td>
+                    <td><input type="checkbox" (change)="updateSelectedUnits('P4', $event)"></td>
+                </tr>
+                
+                
+            </tbody>
+        </table>
+    </div>
+    <p>Selected Units: {{ selectedUnits.join(', ') }}</p>
+
+       <div class="container">
+        <button class="btn" (click)="toggleTable()">Proceed</button>
+    </div>
+
+       <div class="container" *ngIf="showTable">
+        <table>
+            <tbody>
+                <tr class="units">
+                    <td>Description</td>
+                    <ng-container *ngFor="let unit of selectedUnits">
+                        <td *ngIf="unit === 'P1'">P1</td>
+                        <td *ngIf="unit === 'P2'">P2</td>
+                        <td *ngIf="unit === 'P3'">P3</td>
+                        <td *ngIf="unit === 'P4'">P4</td>
+                    </ng-container>
+                </tr>
+                <tr>
+                    <td>Pit ID </td>
+                    <ng-container *ngFor="let unit of selectedUnits">
+                        <td class="file-input-container" *ngIf="unit === 'P1'">
+                            <input type="file" (change)="onFileSelected($event, 1)"><br>
+                            <img *ngIf="selectedImages[1]" [src]="selectedImages[1]" style="max-width: 200px; max-height: 200px;">
+                            <label><input type="checkbox"> Add To Report</label>
+                        </td>
+                        <td class="file-input-container" *ngIf="unit === 'P2'">
+                            <input type="file" (change)="onFileSelected($event, 2)">
+                            <img *ngIf="selectedImages[2]" [src]="selectedImages[2]" style="max-width: 200px; max-height: 200px;">
+                            <label><input type="checkbox"> Add To Report</label>
+                        </td>
+                        <td class="file-input-container" *ngIf="unit === 'P3'">
+                            <input type="file" (change)="onFileSelected($event, 3)">
+                            <img *ngIf="selectedImages[3]" [src]="selectedImages[3]" style="max-width: 200px; max-height: 200px;">
+                            <label><input type="checkbox"> Add To Report</label>
+                        </td>
+                        <td class="file-input-container" *ngIf="unit === 'P4'">
+                            <input type="file" (change)="onFileSelected($event, 4)">
+                            <img *ngIf="selectedImages[4]" [src]="selectedImages[4]" style="max-width: 200px; max-height: 200px;">
+                            <label><input type="checkbox"> Add To Report</label>
+                        </td>
+                    </ng-container>
+                </tr>
+                
+            </tbody>
+        </table>
+    </div>
+    </mat-tab>
+    <mat-tab label="Second Review (Comparison Report)">
+       
+    </mat-tab>
+</mat-tab-group>
+
+</body>
+</html>

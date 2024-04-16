@@ -136,6 +136,7 @@ import { AgreementPageComponent } from './inspector_dashboard/agreement-page/agr
 import { SiteRiskAssessmentComponent } from './inspector_dashboard/site-risk-assessment/site-risk-assessment.component';
 import { PreInspectionComponent } from './inspector_dashboard/pre-inspection/pre-inspection.component';
 import { MailAutomationInspComponent } from './inspector_dashboard/mail-automation-insp/mail-automation-insp.component';
+import { UnitselectionforReportComponent } from './inspector_dashboard/report-home/unitselectionfor-report/unitselectionfor-report.component';
 
 // import { RejectionComponent } from './inspector_dashboard/rejection/rejection.component';
 
@@ -235,6 +236,7 @@ import { MailAutomationInspComponent } from './inspector_dashboard/mail-automati
                AgreementPageComponent,
                SiteRiskAssessmentComponent,
                PreInspectionComponent,
+               UnitselectionforReportComponent,
              
         // RejectionComponent,
         

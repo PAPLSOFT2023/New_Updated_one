@@ -57,11 +57,12 @@ export class NewReportComponent {
     this.apicallservice.checkContract_Avai_INF(contractNumber).subscribe((result:any)=>{
 
       if(result.length>0 && result){
-        this.router.navigate(['ReportElevator1',contractNumber,documentid_For_Url])
+        // this.router.navigate(['Report_unitSelection',contractNumber,documentid_For_Url])
+        this.router.navigate(['/afterlogin/Report_unitSelection',contractNumber,documentid_For_Url]);
 
       }
       else{
-        alert(contractNumber.replace('-','/')+" Contract Number is not Available in INF Database")
+        alert(contractNumber.replace('-','/')+" Contract Number is not Available")
       }
 
     },(error:any)=>{} );

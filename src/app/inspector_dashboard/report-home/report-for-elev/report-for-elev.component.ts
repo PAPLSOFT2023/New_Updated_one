@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,ChangeDetectionStrategy } from '@angular/core';
 import { ApicallService } from '../../../apicall.service';
 import { ActivatedRoute } from '@angular/router';
 
@@ -27,7 +27,8 @@ interface RatingData {
 @Component({
   selector: 'app-report-for-elev',
   templateUrl: './report-for-elev.component.html',
-  styleUrls: ['./report-for-elev.component.scss']
+  styleUrls: ['./report-for-elev.component.scss'],
+  // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ReportForElevComponent {
 // for database access
@@ -157,6 +158,10 @@ BriefmultiDimArray: {
         section:string;
         unit_no:string}[]=[]
 
+        val:number[]=[]
+
+
+        emergency_Table_Data:{unit_no:string,Emergency_al:string,Emergency_Li:string,Intercom:string,ARd:string,Fireman:string,Manual_Res:string}[]=[]
 
   
    
@@ -192,16 +197,30 @@ BriefmultiDimArray: {
    
     // Continue adding all elevator data...
   ];
+  Result_Of_pit_variables: { [key: string]: { unit: string, status: string, image: any, report_string: string,has_image:boolean,actual_description:string }[] } = {};
 
-
+    
+  Mul_Result_Of_pit_variables:any[]=[]
   
 
 
   remark = 'All snags should be attended and completed to improve the ratings and performance of the elevators.';
 
-  constructor(private apicallservice:ApicallService,private route: ActivatedRoute){
-    // this.getData()
-  }
+  constructor(private apicallservice: ApicallService, private route: ActivatedRoute) {
+    this.apicallservice.getinspectionmaster_description_for_Variable("pit").subscribe((result: any[]) => {
+      if (result) {
+        
+        
+        result.forEach((item: any, index: number) => {
+            const description = item.Description.replace(/[^\w]+/gi, '_');
+            const propertyName = `${description}`;
+            this.Result_Of_pit_variables[propertyName] = [{ unit: "", status: "Y", image: null, report_string: "",has_image:false,actual_description:item.Description}];
+            
+        });
+        
+    }
+    });
+}
 
 
 
@@ -210,16 +229,20 @@ BriefmultiDimArray: {
 
 
   ngOnInit(): void {
+
+    
+
     this.contractNo = this.route.snapshot.params['contractNumber'];
     this.documentidForUrl = decodeURIComponent(this.route.snapshot.params['documentid_For_Url']);
-    console.log("---->",this.contractNo, this.documentidForUrl);
+    
       this.apicallservice.getinfdata_forReport(this.contractNo).subscribe((result:any)=>{
       if(result.length >0 && result){
         console.log("INF",result)
-        this.apicallservice.getUnit_details_Report(this.contractNo).subscribe((unit:any)=>{
+        this.apicallservice.getUnit_details_Report(this.documentidForUrl,this.contractNo).subscribe((unit:any)=>{
           if(unit)
           {
             console.log("Unit details",unit)
+            console.log("---->",this.contractNo, this.documentidForUrl,unit[0].unit_no);
             this.apicallservice.getBrief_spec_value(this.documentidForUrl,unit[0].unit_no).subscribe((brief:any)=>{
               if(brief.length>0)
               {        console.log("Brief spec",brief);
@@ -232,11 +255,9 @@ BriefmultiDimArray: {
                     this.apicallservice.getChecklist_Record_Val(this.documentidForUrl).subscribe((record_data:any)=>{
                       if(record_data)
                       {
-                        console.log("Check List Record",record_data);
+
                         
-
-
-
+                        // Record_Values
                         record_data.forEach((item: any) => {
                           const recordValue = {
                             checked: item.checked,
@@ -252,13 +273,8 @@ BriefmultiDimArray: {
                           };
                           this.Record_Values.push(recordValue);
                         });
-                        console.log("record_Val",this.Record_Values)
-
-
-
-
-                        
-                   
+                       
+                        // inspectionMasterData
                         for (const item of inspectionMaster) {
                           const inspectionMasterData_single = {
                             id: item.id,
@@ -278,46 +294,26 @@ BriefmultiDimArray: {
                           
                           this.inspectionMasterData.push(inspectionMasterData_single);
                         }
-                        
-  
-                      console.log("inspectionMaster",this.inspectionMasterData);
-                      
-  
-  
-                     
-                      
-  
-  
-  
-                    
-                        // this.unit_array =unit[0]. unit_no;
-                        // console.log("unitarray",this.unit_array,this.unit_array.length)
-                   
-           
-                        
-                          
-           
-           
-                        
+                        // BriefmultiDimArray
                         for (const item of brief) {
                           this.BriefmultiDimArray.push(item);
                         }
                         
                         
-                        console.log("brief",this.BriefmultiDimArray);
+                        console.log("unit details",unit)
+                        console.log("+_+_+",result)
+
+                        console.log("brief",brief);
+                        console.log("inspectionMaster",this.inspectionMasterData);  
+                        console.log("record_Val",this.Record_Values)
+                       
                         
                            
-                           this.BriefmultiDimArray_cunt=this.BriefmultiDimArray.length;    
-                       
-                           console.log("0000",this.BriefmultiDimArray)
-           
-           
-                         
-           
-                              {
-                              console.log("unit details",unit)
-               
-                              console.log("+_+_+",result)
+                        
+                           
+                             this.BriefmultiDimArray_cunt=this.BriefmultiDimArray.length;  
+                          
+                             
                               this.projectName=result[0].project_name;
                               this.buildingNO=result[0].building_name;
                               this.place=result[0].location;
@@ -328,6 +324,7 @@ BriefmultiDimArray: {
                               const jsonArray: any[] = JSON.parse(result[0].inspector_array);
                               const inspector_keyValuePairs: { [key: string]: any }[] = [];
                        
+                            
                               jsonArray.forEach((obj) => {
                                const keyValue: { [key: string]: any } = {};
                                for (const key in obj) {
@@ -358,9 +355,9 @@ BriefmultiDimArray: {
                                }
                
                                if (matchedObject) {
-                                console.log(matchedObject);
+                              
 
-                                {
+                                
                
                                 const dateObject: Date = new Date(matchedObject['fromDate']); // Parse the date string into a Date object
                                 const dateObject1: Date = new Date(matchedObject['toDate']);
@@ -386,7 +383,7 @@ BriefmultiDimArray: {
                                this.Rep_to= formattedDay1 + '/' + formattedMonth1 + '/' + formattedYear1;
                
                
-                                }
+                                
                
                               this.nos_Product=matchedObject['units']
                
@@ -432,32 +429,41 @@ BriefmultiDimArray: {
                          
                                    // Process the array if parsing was successful
                                    if (Array.isArray(this.witnessDetailsArray)) {
-                                      const witness_detailskeyvalue: { [key: string]: string }[] = [];
+                                   
+                                    this.witnessDetailsArray = this.witnessDetailsArray.filter(obj =>
+                                      Object.values(obj).some(value => value !== '' && value !== null)
+                                    );
                          
                                          console.log("Parsed array:", this.witnessDetailsArray);
                          
-                                          this.witnessDetailsArray.forEach((obj: any) => {
-                                          const keyValue: { [key: string]: string } = {};
-                                          for (const key in obj) {
-                                            if (Object.hasOwn(obj, key)) {
-                                              keyValue[key] = obj[key];
-                                            }
-                                          }
-                                          
-                                     witness_detailskeyvalue.push(keyValue);
-                             });
-                         
-                             console.log("Key-value pairs:", witness_detailskeyvalue);
-                         } else {
-                             console.error("Parsed value is not an array");
-                         }         
+                                       
+                        
+                        
+                                    } 
+                                    else {
+                                     console.error("Parsed value is not an array");
+                                    }         
               
-                       }
+
+
+
+
+                       console.log("Result_Of_pit_variables:", this.Result_Of_pit_variables);
+                       this.checkEmergency();
+                       
+                       this.Pit_Report_Gen();
                        
                         
   
                       
                       }
+                      
+                      
+                      
+                      
+                      
+                      
+                    
                       else{
                         console.log("Error_API Check list Record is Empty")
                         this.Error_API="Check list Record is Empty "
@@ -470,7 +476,7 @@ BriefmultiDimArray: {
 
                   }
                   else{
-                    console.log("Error_API Check List Data is Empty")
+                    console.log("Error_API Check List Data is Empty+")
                     this.Error_API=this.Error_API+"Check List Data is Empty "
                   }
 
@@ -479,7 +485,7 @@ BriefmultiDimArray: {
                
               }
               else{
-                console.log("Error_API Check List Data is Empty")
+                console.log("Error_API Check List Data is Empty-")
                 
                 this.Error_API=this.Error_API+"Brief Data is Empty"
               }
@@ -505,39 +511,19 @@ BriefmultiDimArray: {
         alert("Contract number Not Ava.")
       }
         })
+
+
+
+
+
     
+
+
+   
    
   }
 
-  previewImage(event: any, previewId: string, inputId: string): void {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-
-    reader.onload = (e: any) => {
-      const preview = document.getElementById(previewId);
-      if (preview) {
-        const img = new Image();
-        img.src = e.target.result;
-        img.classList.add('preview');
-        img.style.width = '100px'; // Set width to 100 pixels
-        img.style.height = '100px'; // Set height to 100 pixels
-        preview.innerHTML = '';
-        preview.appendChild(img);
-      }
-
-      // Hide the file input field
-      const inputElement = document.getElementById(inputId);
-      if (inputElement) {
-        inputElement.style.display = 'none';
-      }
-    };
-
-    reader.readAsDataURL(file);
-  }
-
-  printContent(): void {
-    window.print();
-  }
+ 
 
 
 
@@ -551,52 +537,289 @@ BriefmultiDimArray: {
 
   checkConstraints(imaster_index:number,index: number, checklistmaster_Description: string): string {
     // Loop through your Record_Values array to find if conditions match
-    console.log("parameters",imaster_index,index,checklistmaster_Description);
-      for (const recordValueChecked of this.Record_Values  ) {
+    // console.log("parameters",imaster_index,index,checklistmaster_Description);
+    //   for (const recordValueChecked of this.Record_Values  ) {
 
         
-       if (checklistmaster_Description === recordValueChecked.description &&  recordValueChecked.unit_no === this.BriefmultiDimArray[index].unit_no) {     
-          if (recordValueChecked.checked)
-           {
-            this.inspectionMasterData[imaster_index].for_defect_flag=true
-            console.log("**********11",recordValueChecked.needforReport,recordValueChecked.dropdown_option) 
-            if(recordValueChecked.needforReport){
-              this.inspectionMasterData[imaster_index].image_Blob=recordValueChecked.img
-               this.inspectionMasterData[imaster_index].Defect_photo=recordValueChecked.dropdown_option
-               this.inspectionMasterData[imaster_index].Defect_multiple ="shgfdjgfdkghdfk"                      
-             }
-            else{
-              this.inspectionMasterData[imaster_index].Defect_multiple = this.inspectionMasterData[imaster_index].Defect_multiple+"\n"+ recordValueChecked.dropdown_option;
-              console.log("**********",this.inspectionMasterData[imaster_index].Defect_multiple)
-            }            
-            console.log("----->NO",recordValueChecked.checked)
-            return "NO"; // If any checked value is true, return "NO"
-          }
-          else
-          {
-            console.log("----->yes1",recordValueChecked.description,  recordValueChecked.unit_no)
-            return "YES"; 
+    //    if (checklistmaster_Description === recordValueChecked.description &&  recordValueChecked.unit_no === this.BriefmultiDimArray[index].unit_no) {     
+    //       if (recordValueChecked.checked)
+    //        {
+    //         this.inspectionMasterData[imaster_index].for_defect_flag=true
+    //         console.log("**********11",recordValueChecked.needforReport,recordValueChecked.dropdown_option) 
+    //         if(recordValueChecked.needforReport){
+    //           this.inspectionMasterData[imaster_index].image_Blob=recordValueChecked.img
+    //            this.inspectionMasterData[imaster_index].Defect_photo=recordValueChecked.dropdown_option
+    //            this.inspectionMasterData[imaster_index].Defect_multiple ="shgfdjgfdkghdfk"                      
+    //          }
+    //         else{
+    //           this.inspectionMasterData[imaster_index].Defect_multiple = this.inspectionMasterData[imaster_index].Defect_multiple+"\n"+ recordValueChecked.dropdown_option;
+    //           console.log("**********",this.inspectionMasterData[imaster_index].Defect_multiple)
+    //         }            
+    //         // console.log("----->NO",recordValueChecked.checked)
+    //         return "NO"; // If any checked value is true, return "NO"
+    //       }
+    //       else
+    //       {
+    //         console.log("----->yes1",recordValueChecked.description,  recordValueChecked.unit_no)
+    //         return "YES"; 
 
-          }
+    //       }
         
       
        
         
-      }
-      else{
-        console.log("++",checklistmaster_Description === recordValueChecked.description,recordValueChecked.unit_no === this.BriefmultiDimArray[index].unit_no)
-      }
-    }
+    //   }
+    //   else{
+    //     console.log("++",checklistmaster_Description === recordValueChecked.description,recordValueChecked.unit_no === this.BriefmultiDimArray[index].unit_no)
+    //   }
+    // }
   
 
  
     console.log("----->yes2")
     return "YES!"; // If conditions don't match, default to "YES"
   }
-  
+
+
+
+  checkEmergency() {   
+
+    let emergency_AL_flag:boolean=false
+    let emergency_AL_string:string=""
+    let emergency_LI_flag:boolean=false
+    let emergency_LI_string:string=""
+    let intercom_flag:boolean=false
+    let intercom_string:string=""
+    let ard_flag:boolean=false
+    let ard_string:string=""
+    let fireman_flag:boolean=false
+    let fireman_string:string=""
+    let manual_break_flag:boolean=false
+    let manual_break_string:string=""
+    
+    for (const brief of this.BriefmultiDimArray) {      
+      for (const record of this.Record_Values) {
+       
+       
+        // cabin Emergency alaram
+          if (brief.unit_no === record.unit_no && "cabin".toLowerCase() === record.section.toLowerCase() && "EMERGENCY ALARM".toLowerCase() === record.description.toLowerCase()) {
+           
+           if(record.checked)
+            {
+              emergency_AL_flag=true;
+              if(emergency_AL_string)
+                {
+                  emergency_AL_string+=", "+record.dropdown_option
+                }
+                else{
+                  emergency_AL_string=record.dropdown_option
+                }
+            }
+          } 
+         
+          // emergency light
+          if (brief.unit_no === record.unit_no && "cabin".toLowerCase() === record.section.toLowerCase() && "EMERGENCY LIGHT".toLowerCase() === record.description.toLowerCase())
+            {
+
+            if(record.checked)
+             {
+               emergency_LI_flag=true;
+               if(emergency_LI_string)
+                 {
+                   emergency_LI_string+=", "+record.dropdown_option
+                 }
+                 else{
+                   emergency_LI_string=record.dropdown_option
+                 }
+             }
+           } 
+          //  Intercom
+
+          if (brief.unit_no === record.unit_no && "cabin".toLowerCase() === record.section.toLowerCase() && "INTERCOM FUNCTION".toLowerCase() === record.description.toLowerCase())
+            {
+            
+          if(record.checked)
+            {
+              intercom_flag=true;
+              if(intercom_string)
+                {
+                  intercom_string+=", "+record.dropdown_option
+                }
+                else{
+                  intercom_string=record.dropdown_option
+                }
+            }
+          } 
+
+          // ARD
+
+          if (brief.unit_no === record.unit_no && "cabin".toLowerCase() === record.section.toLowerCase() && "ARD OPERATION".toLowerCase() === record.description.toLowerCase())
+          {
+          if(record.checked)
+            {
+              ard_flag=true;
+              if(ard_string)
+                {
+                  ard_string+=", "+record.dropdown_option
+                }
+                else{
+                  ard_string=record.dropdown_option
+                }
+            }
+          } 
+
+          // Fireman
+
+          if (brief.unit_no === record.unit_no && "floor landing".toLowerCase() === record.section.toLowerCase() && "FIREMAN OPERATION".toLowerCase() === record.description.toLowerCase())
+          {
+
+          if(record.checked)
+            {
+              fireman_flag=true;
+              if(fireman_string)
+                {
+                  fireman_string+=", "+record.dropdown_option
+                }
+                else{
+                  fireman_string=record.dropdown_option
+                }
+            }
+          }
+
+          // manual break
+
+          if (brief.unit_no === record.unit_no && "MACHINE ROOM".toLowerCase() === record.section.toLowerCase() && "MANUAL BRAKE RELEASE DEVICE & INSTRUCTIONS".toLowerCase() === record.description.toLowerCase()) 
+          {
+          if(record.checked)
+            {
+              manual_break_flag=true;
+              if(manual_break_string)
+                {
+                  manual_break_string+=", "+record.dropdown_option
+                }
+                else{
+                  manual_break_string=record.dropdown_option
+                }
+            }
+          }
+        }
+           const template = {
+           Emergency_al: "",
+           Emergency_Li: "",
+           Intercom: "",
+           ARd: "",
+           Fireman: "",
+           Manual_Res: ""
+          };
+
+          if (emergency_AL_flag ) template.Emergency_al = emergency_AL_string; else template.Emergency_al="Working"
+          if (emergency_LI_flag) template.Emergency_Li = emergency_LI_string;  else template.Emergency_Li="Working"
+          if (intercom_flag) template.Intercom = intercom_string;              else template.Intercom="Working"
+          if (ard_flag) template.ARd = ard_string;                             else template.ARd="Working"
+          if (fireman_flag) template.Fireman = fireman_string;                 else template.Fireman="Working"
+          if (manual_break_flag) template.Manual_Res = manual_break_string;    else template.Manual_Res="Working"
+ 
+
+         const emergency_Table_Data = { unit_no: brief.unit_no, ...template };
+
+         emergency_AL_flag=false;
+         emergency_AL_string=""
+         emergency_LI_flag=false;
+         emergency_LI_string=""
+         intercom_flag=false;
+         intercom_string=""
+         ard_flag=false;
+         ard_string=""
+         fireman_flag=false;
+         fireman_string=""
+         manual_break_flag=false;
+         manual_break_string=""       
+         this.emergency_Table_Data.push(emergency_Table_Data);
+       }
+        console.log("^^",this.emergency_Table_Data)
+}
+
+
+Pit_Report_Gen(){
+
+  const selected_unit=['p1','p2','a1','a2']
+  console.log("descarray","descArray")
+
+  for (const key of Object.keys(this.Result_Of_pit_variables)) {
+    const descArray = this.Result_Of_pit_variables[key];
+    
+    for (const desc of descArray) {
+      console.log("desc+",descArray)
+        for (const brief of this.BriefmultiDimArray) { 
+          if (selected_unit.indexOf(brief.unit_no) !== -1) {
+        //    const desc_keyToFind="description";
+        //     const desc_valueToFind=desc.actual_description;
+        //      const unit=brief.unit_no;
+        //       const unit_key="unit_no"
+
+
+        //       const template = {
+        //         unit:unit , status: "", image: null, report_string: "",has_image:false,actual_description:""};
+        //     for (const obj of this.Record_Values) {
+        //       if (obj.hasOwnProperty(desc_keyToFind) && obj[desc_keyToFind] === desc_valueToFind && obj.hasOwnProperty(unit_key) && obj[unit_key] === unit) {
+                
+        //         if(obj.checked)
+        //         {
+        //           template.unit=unit
+        //            console.log(desc_keyToFind,desc_valueToFind,unit,unit_key)
+        //            console.log("Row found:++",obj)
+        //           template.status="N"
+                  
+        //            if(template.report_string)
+        //             {
+        //               // desc.report_string+=+", "+obj.dropdown_option
+        //               template.report_string=template.report_string+", "+obj.dropdown_option
+        //             }
+        //             else{
+        //               template.report_string=obj.dropdown_option
+
+        //             }
+        //             if(obj.img && obj.needforReport)
+        //               {
+        //                 template.has_image=true;
+        //                 template.image=obj.img;
+        //               }
+
+
+        //         }
+
+
+
+        //       }
+        //     }
+
+            
+
+
+          }
+        }
+       
+        
+    }
+}
+
+console.log("PIT Report+",this.Result_Of_pit_variables)
+
+}
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
 
 
 

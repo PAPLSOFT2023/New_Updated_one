@@ -532,11 +532,11 @@ getinfdata_forReport(id:string):Observable<any>{
 
 
 // getUnit_details_Report
-getUnit_details_Report(contact_num:string):Observable<any>
+getUnit_details_Report(doc_id: string, contact_num: string):Observable<any>
 {
   console.log("api called===")
   const url = `${this.apiURL}getUnit_details_Report`;
-  const params = new HttpParams().set('contact_num', contact_num);
+  const params = new HttpParams() .set('doc_id', doc_id).set('contact_num', contact_num);
 
   const headers = new HttpHeaders({
     'Content-Type': 'application/json'
@@ -601,6 +601,23 @@ getChecklist_Record_Val(doc_id:string):Observable<any>
   const url = `${this.apiURL}getChecklist_Record_Val`;
   const params = new HttpParams().set('doc_id', doc_id);
 
+  const headers = new HttpHeaders({
+    'Content-Type': 'application/json'
+  });
+
+  const options = {
+    headers: headers,
+    params: params
+  };
+
+  return this.httpClient.get(url, options);
+}
+
+// getinspectionmaster_description_for_Variable
+getinspectionmaster_description_for_Variable(part:string):Observable<any>
+{
+  const url = `${this.apiURL}getinspectionmaster_description_for_Variable`;
+  const params = new HttpParams().set('part', part);
   const headers = new HttpHeaders({
     'Content-Type': 'application/json'
   });
@@ -787,10 +804,16 @@ get_insp_master_checklist(Description:string):Observable<any>{
 }
 
 
+
+
+
 // 
-insert_Record_Values(documentId: string, inspectorName: string,section:string, unitNo: string, title: string, valueArray: string[], checkpoint: boolean[], capturedImages: any[], NeedforReport: boolean[]):Observable<any> {
-  const body={documentId, inspectorName,section, unitNo, title, valueArray, checkpoint, capturedImages, NeedforReport};  
- console.log("api called ")
+insert_Record_Values(documentId: string, inspectorName: string,section:string, unitNo: string, title: string, valueArray: string[],
+  positive_MNT:number,positive_ADJ:number, Negative_MNT:string[], Negative_ADJ:string[],Emergency_Features:boolean, Customerscope:boolean,
+
+   checkpoint: boolean[], capturedImages: any[], NeedforReport: boolean[]):Observable<any> {
+  const body={documentId, inspectorName,section, unitNo, title, valueArray, checkpoint, capturedImages, NeedforReport,positive_MNT,positive_ADJ,Negative_MNT,Negative_ADJ,Emergency_Features,Customerscope};  
+ console.log("api called ",body)
   return this.httpClient.post(this.apiURL+'insert_Record_Values',body);
 }
 // Check_check_data_exists

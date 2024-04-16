@@ -393,8 +393,8 @@ app.get('/api/getinfdata_forReport', (req, res) => {
 
 // getUnit_details_Report
 app.get('/api/getUnit_details_Report',(req,res)=>{
-  const{contact_num}=req.query;
-  db1.query('SELECT `document_id`, `contract_number`, `unit_no`, `witness_details`, `inspector_name`, `building_name` FROM `unit_details` WHERE `contract_number`=?', [contact_num], (error, result) => {
+  const{contact_num,doc_id}=req.query;
+  db1.query('SELECT `document_id`, `contract_number`, `unit_no`, `witness_details`, `inspector_name`, `building_name` FROM `unit_details` WHERE `contract_number`=? AND `document_id`=?', [contact_num,doc_id], (error, result) => {
 
 
     if( result)
@@ -449,19 +449,26 @@ app.get('/api/getinsectionmasterData', (req, res) => {
     let sql = 'SELECT * FROM `inspection_master` WHERE 1';
 
 
-console.log("SQL Query:", sql); // Log the constructed SQL query
-
 db1.query(sql, (error, results) => {
   if (error) {
     console.error("Database error:", error);
     return res.status(500).json({ message: "Internal server error" });
   }
-  // console.log("Result:", results); // Log the results from the database
+ 
   return res.json(results);
 });
 
 });
-
+// getinspectionmaster_description_for_Variable
+app.get('/api/getinspectionmaster_description_for_Variable',(req,res)=>{
+  const{part}=req.query;
+  db1.query('SELECT    `Description` FROM `inspection_master` WHERE `Parts`=?', [part], (error, result) => {
+    if( result)
+    {
+     return res.json(result)
+    }
+  });
+})
 
 // getChecklist_Record_Val
 
@@ -945,7 +952,7 @@ app.get('/api/get_insp_master_checklist_description', (req, res) => {
   const { Description } = req.query;
   console.log("PPP called", Description);
 
-  const query = 'SELECT   `Reference`, `Photo`, `Dropdown` FROM `inspection_master` WHERE `Description`= ?';
+  const query = 'SELECT   * FROM `inspection_master` WHERE `Description`= ?';
   db1.query(query, [Description], (err, results) => {
     if (results) {
       console.log("/////",results);
@@ -960,7 +967,8 @@ app.get('/api/get_insp_master_checklist_description', (req, res) => {
 // insert_Pit_Values
 
 app.post('/api/insert_Record_Values', (req, res) => {
-  const { documentId, inspectorName, section, unitNo, title, valueArray, checkpoint, capturedImages, NeedforReport } = req.body;
+  const { documentId, inspectorName, section, unitNo, title, valueArray, checkpoint, capturedImages, NeedforReport,positive_MNT,positive_ADJ,Negative_MNT,Negative_ADJ,Emergency_Features,Customerscope } = req.body;
+  console.log("??",documentId, inspectorName, section, unitNo, title, valueArray, checkpoint, capturedImages, NeedforReport,positive_MNT,positive_ADJ,Negative_MNT,Negative_ADJ,Emergency_Features,Customerscope)
 
   // Construct the SQL query to check if the record already exists
   const checkQuery = `SELECT COUNT(*) AS count FROM record_values WHERE document_id = ? AND section = ? AND inspector_name = ? AND unit_no = ? AND description = ? AND dropdown_option = ?`;
@@ -980,12 +988,12 @@ app.post('/api/insert_Record_Values', (req, res) => {
 
     // If the record doesn't exist, proceed with insertion
     // Construct the SQL query for insertion
-    const query = `INSERT INTO record_values (document_id, section, inspector_name, unit_no, description, dropdown_option, checked, img, needforReport) VALUES ?`;
+    const query = `INSERT INTO record_values (document_id, inspector_name, unit_no, description, dropdown_option, checked, img, needforReport, section, Positive_MNT, Positive_ADJ, Negative_MNT, Negative_ADJ, Emergency_Features, Customer_Scope) VALUES ?`;
 
     // Prepare the data to be inserted
     const values = [];
     for (let i = 0; i < valueArray.length; i++) {
-      values.push([documentId, section, inspectorName, unitNo, title, valueArray[i], checkpoint[i], capturedImages[i], NeedforReport[i]]);
+      values.push([documentId,inspectorName,unitNo,title, valueArray[i],checkpoint[i],capturedImages[i],NeedforReport[i],section,  positive_MNT,positive_ADJ,Negative_MNT[i],Negative_ADJ[i],Emergency_Features,Customerscope]);
     }
 
     // Execute the insertion query

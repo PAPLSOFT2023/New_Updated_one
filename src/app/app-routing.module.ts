@@ -53,6 +53,7 @@ import { ReportHomeComponent } from './inspector_dashboard/report-home/report-ho
 import { AgreementPageComponent } from './inspector_dashboard/agreement-page/agreement-page.component';
 import { SiteRiskAssessmentComponent } from './inspector_dashboard/site-risk-assessment/site-risk-assessment.component';
 import { PreInspectionComponent } from './inspector_dashboard/pre-inspection/pre-inspection.component';
+import { UnitselectionforReportComponent } from './inspector_dashboard/report-home/unitselectionfor-report/unitselectionfor-report.component';
 // import { OutBoxComponent } from './out-box/out-box.component';
 // import { UnitDetailsComponent } from './inspector_dashboard/unit-details/unit-details.component';
 const routes: Routes = [
@@ -69,6 +70,7 @@ const routes: Routes = [
 
 
   { path: 'ReportElevator1/:contractNumber/:documentid_For_Url', component: ReportForElevComponent },
+  { path: 'unit_selection', component: UnitselectionforReportComponent },
   // '/afterlogin/software_admin_dashboard_user_manage/organization_admin_login_details'
   {path: 'afterlogin',component: AfterloginComponent,
     children: [
@@ -99,11 +101,13 @@ const routes: Routes = [
         {path:"mail_automation",component:MailAutomationInspComponent},
         {path:"ReportHome",component:ReportHomeComponent},
         {path:"ReportElevator",component:ReportForElevComponent},
+        { path: 'Report_unitSelection/:contractNumber/:documentid_For_Url', component: UnitselectionforReportComponent },
         {path:"outbox",component:OutBoxComponent},
        
 
         
          {path:'inspection_home', component:InspectionInfComponent},
+        
          {path:'RescheduleRequest',component:RescheduleRequestComponent},
 
          {path:'inspection_inf/:c_no',component:InspectionFormComponent},
