@@ -132,15 +132,16 @@ export const inspector: INavbarData[] = [
         icon: "fa fa-file",
         label: 'Inspection Report'
     },
-    {
-        routeLink: '/afterlogin/list_certificate',
-        icon: "fal fa-certificate",
-        label: 'Certificate'
-    },
+
     {
         routeLink: '/afterlogin/certificate_home',
         icon: "fal fa-certificate",
         label: 'Certificate Home'
+    },
+    {
+        routeLink: '/afterlogin/more_options',
+        icon: "fal fa-ellipsis-v",
+        label: 'More Options'
     },
     {
         routeLink: '/afterlogin/outbox',

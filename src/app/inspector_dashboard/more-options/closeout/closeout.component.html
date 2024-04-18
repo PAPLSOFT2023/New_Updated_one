@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inspection Participants</title>
+<style>
+    
+</style>
+</head>
+<body>
+    <h1 style="text-align: center; font-size: 30px; margin-top: 20px; ">
+        <h1><i class="fas fa-handshake"></i> CLOSING MEETING <i class="fas fa-handshake"></i></h1>
+        
+    </h1>
+    
+<div class="container">
+   
+    <p style="text-align: center; font-weight: bold; text-decoration: underline;">
+        <i class="fas fa-thumbs-up"></i> Thank you for your support during the inspection.
+    </p>
+    <p style="text-align: center; font-weight: bold; text-decoration: underline;">
+        <i class="fas fa-exclamation-triangle"></i> The critical findings as follows. Please ensure to rectify the snags at the earliest.
+    </p>
+    
+    <table>
+        <thead>
+            <tr >
+                <th colspan="6" style="text-align: center;">Inspection Conducted in the Presence Of</th>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <th>Designation</th>
+                <th>Role</th>
+                <th>Company</th>
+                <th>Contact Number</th>
+                <th>Digital Signature</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let row of rows; let i = index">
+                <td>
+                    <input type="text" [(ngModel)]="row.name">
+                </td>
+                <td>
+                    <input type="text" [(ngModel)]="row.designation">
+                </td>
+                <td class="dropdown-container">
+                    <select class="dropdown" [(ngModel)]="row.role" required>
+                        <option value="Building Owner">Building Owner</option>
+                        <option value="Inspector">Inspector</option>
+                        <option value="Facility Manager">Facility Manager</option>
+                        <option value="Vendor(OEM)">Vendor(OEM)</option>
+                        <option value="PAPL Team">PAPL Team</option>
+                    </select>
+                </td>
+                <td>
+                    <input type="text" [(ngModel)]="row.company">
+                </td>
+                <td>
+                    <input type="text" [(ngModel)]="row.contact_number">
+                </td>
+                
+                <td>
+                    <canvas #canvas width="200" height="100" (mouseup)="captureSignature(canvas, i)"></canvas>
+                    
+                    <div class="button-container">
+                        <button class="clear" (click)="clearSignature(i)">x</button>
+                    </div>
+                  </td>
+                
+            </tr>
+               
+         
+           
+                    
+               
+                   
+        </tbody>
+    </table>
+
+    <div class="btn-container">
+        <button class="btn" (click)="addRow()"><i class="fas fa-plus"></i> Add Row</button>
+        <button class="btn" [class.disabled-button]="!allFieldsFilled()" [disabled]="!allFieldsFilled()" (click)="show()"> Proceed</button>
+    </div>
+    
+    <p class="noted">
+        <b><i class="fas fa-info-circle"></i> <u>NOTE</u></b>
+        <b style="font-weight: 500;">"We issue certificates exclusively for lifts that fully adhere to all critical criteria. Certificates will be issued for lifts with any deviations in critical findings only after the necessary rectifications have been made."</b>
+    </p>
+    
+</div>
+
+</body>
+</html>
