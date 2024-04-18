@@ -1,5 +1,6 @@
 import { INavbarData } from "./helper";
 
+
 export const SalesNav: INavbarData[] = [
     {
         routeLink: '/afterlogin/sales_home',
@@ -132,10 +133,21 @@ export const inspector: INavbarData[] = [
         label: 'Inspection Report'
     },
     {
+        routeLink: '/afterlogin/list_certificate',
+        icon: "fal fa-certificate",
+        label: 'Certificate'
+    },
+    {
+        routeLink: '/afterlogin/certificate_home',
+        icon: "fal fa-certificate",
+        label: 'Certificate Home'
+    },
+    {
         routeLink: '/afterlogin/outbox',
         icon: "fas fa-sync-alt",
         label: 'OutBox'
     },
+    
  
  
 ];

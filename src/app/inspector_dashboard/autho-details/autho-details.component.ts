@@ -1,13 +1,18 @@
+import { Component ,ViewChild, ElementRef,ViewChildren, QueryList} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+
 import { ActivatedRoute, Router } from '@angular/router';
 // import { DataService } from 'src/app/data.service';
 import { ApicallService } from 'src/app/apicall.service';
+// import { SignaturePadOptions } from 'ngx-signaturepad';
+
 interface Row {
   name: string;
   designation: string;
   company: string;
   contact_number: string;
+  signature: string; 
+  role: string;
 }
 @Component({
   selector: 'app-autho-details',
@@ -16,6 +21,8 @@ interface Row {
 })
 
 export class AuthoDetailsComponent {
+  @ViewChildren('canvas') canvasList!: QueryList<ElementRef<HTMLCanvasElement>>;
+
   val:string | null='';
   constructor(private route: ActivatedRoute,private dataService: ApicallService,private http :HttpClient,private router:Router){
      this.route.paramMap.subscribe(params => {
@@ -30,16 +37,62 @@ export class AuthoDetailsComponent {
   }
   // rows: Row[] = [{ name: '', designation: '', company: '', contact_number: '' }];
   rows: Row[] = [
-    { name: '', designation: '', company: '', contact_number: '' },
-    { name: '', designation: '', company: '', contact_number: '' },
-    { name: '', designation: '', company: '', contact_number: '' },
-    { name: '', designation: '', company: '', contact_number: '' }
+    { name: '', designation: '',role: '', company: '', contact_number: '',signature: '' },
+    // { name: '', designation: '',role: '', company: '', contact_number: '',signature: '' },
+    // { name: '', designation: '',role: '', company: '', contact_number: '' ,signature: ''},
+    // { name: '', designation: '',role: '', company: '', contact_number: '',signature: '' }
   ];
 
   addRow() {
-    this.rows.push({ name: '', designation: '', company: '', contact_number: '' });
+    this.rows.push({ name: '', designation: '', role: '', company: '', contact_number: '',signature: '' });
   }
 
+
+  
+  captureSignature(canvas: HTMLCanvasElement, index: number) {
+    const ctx = canvas.getContext('2d')!;
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = 'black';
+
+    let isDrawing = false;
+    let lastX = 0;
+    let lastY = 0;
+
+    canvas.addEventListener('mousedown', (e) => {
+      isDrawing = true;
+      [lastX, lastY] = [e.offsetX, e.offsetY];
+    });
+
+    canvas.addEventListener('mousemove', (e) => {
+      if (!isDrawing) return;
+      ctx.beginPath();
+      ctx.moveTo(lastX, lastY);
+      ctx.lineTo(e.offsetX, e.offsetY);
+      ctx.stroke();
+      [lastX, lastY] = [e.offsetX, e.offsetY];
+    });
+
+    canvas.addEventListener('mouseup', () => {
+      isDrawing = false;
+      this.rows[index].signature = canvas.toDataURL('image/png');
+    });
+
+    canvas.addEventListener('mouseout', () => {
+      isDrawing = false;
+    });
+  }
+  clearSignature(rowIndex: number) {
+    if (this.canvasList && this.canvasList.length > rowIndex) {
+      const canvasRef = this.canvasList.toArray()[rowIndex];
+      const canvas = canvasRef.nativeElement;
+      const ctx = canvas.getContext('2d')!;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      this.rows[rowIndex].signature = ''; // Clear the signature data
+    } else {
+      console.error(`Canvas at index ${rowIndex} is not available.`);
+    }
+  }
+  
   show(){
     const store_values={
       witness_details:this.rows,
@@ -61,4 +114,15 @@ export class AuthoDetailsComponent {
     );
 
   }
+  allFieldsFilled(): boolean {
+    return this.rows.every(row =>
+        row.name.trim() !== '' &&
+        row.designation.trim() !== '' &&
+        row.role.trim() !== '' &&
+        row.company.trim() !== '' &&
+        row.contact_number.trim() !== '' &&
+        row.signature.trim() !== '' 
+    );
+}
+
 }

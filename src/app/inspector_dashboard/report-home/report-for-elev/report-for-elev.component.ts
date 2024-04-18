@@ -156,7 +156,15 @@ BriefmultiDimArray: {
         inspector_name:string;
         needforReport:boolean;
         section:string;
-        unit_no:string}[]=[]
+        unit_no:string,
+        Customer_Scope:boolean,
+        Emergency_Features:boolean,
+        Negative_ADJ:number,
+        Negative_MNT:number,
+        Positive_ADJ:number,
+        Positive_MNT:number
+      
+      }[]=[]
 
         val:number[]=[]
 
@@ -269,7 +277,13 @@ BriefmultiDimArray: {
                             inspector_name: item.inspector_name,
                             needforReport: item.needforReport,
                             section: item.section,
-                            unit_no: item.unit_no
+                            unit_no: item.unit_no,
+                            Customer_Scope:item.Customer_Scope,
+                            Emergency_Features:item.Emergency_Features,
+                            Negative_ADJ:item.Negative_ADJ,
+                            Negative_MNT:item.Negative_MNT,
+                            Positive_ADJ:item.Positive_ADJ,
+                            Positive_MNT:item.Positive_MNT
                           };
                           this.Record_Values.push(recordValue);
                         });

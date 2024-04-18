@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 // import { DataService } from 'src/app/data.service';
 import { ApicallService } from 'src/app/apicall.service';
 import { inspector } from 'src/app/sidenav/nav-data';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-breif-spec',
@@ -12,6 +13,91 @@ import { inspector } from 'src/app/sidenav/nav-data';
   styleUrls: ['./breif-spec.component.scss']
 })
 export class BreifSpecComponent {
+
+  isAnyInputNull(): boolean {
+    return (
+      !this.elevator_number ||
+      !this.capacity ||
+      !this.speed ||
+      !this.maintained_by ||
+      !this.oem ||
+      !this.elevator_number ||
+      !this.type_of_equipment ||
+      !this.year_of_manufacture ||
+      !this.type_of_usage ||
+      !this.machine_location ||
+      !this.controller_drive_type ||
+      !this.controller_name_as_per_oem ||
+      !this.type_of_operation ||
+      !this.grouping_type ||
+      !this.name_of_the_group ||
+      !this.floor_details ||
+      !this.openings ||
+      !this.floor_designations ||
+      !this.front_opening_floors ||
+      !this.rear_opening_floors ||
+      !this.non_stop_service_floors ||
+      !this.emergency_stop_floors ||
+      !this.rope_category ||
+      !this.no_of_ropes_belts ||
+      !this.rope_size ||
+      !this.no_of_drive_sheave_grooves ||
+      !this.ropes_wrap_details ||
+      !this.type_of_roping ||
+      !this.machine_type ||
+      !this.kilo_watt ||
+      !this.voltage ||
+      !this.current_in_ampere ||
+      !this.frequency ||
+      !this.rpm ||
+      !this.insulation_class ||
+      !this.ingress_protection ||
+      !this.no_of_poles ||
+      !this.st_hr ||
+      !this.serial_no ||
+      !this.rope_dia ||
+      !this.normal_speed ||
+      !this.electrical_tripping_speed ||
+      !this.mechanical_tripping_speed ||
+      !this.door_operator ||
+      !this.entrance_width ||
+      !this.entrance_height ||
+      !this.type_of_openings ||
+      !this.cabin_width ||
+      !this.cabin_height ||
+      !this.no_of_car_operating_panels ||
+      !this.car_indicator_type ||
+      !this.multimedia_display ||
+      !this.no_cabin_fans ||
+      !this.type_of_cabin_fan ||
+      !this.type_of_call_buttons ||
+      !this.stop_button ||
+      !this.service_cabinet ||
+      !this.voice_announcement ||
+      !this.handrail ||
+      !this.cabin_bumper ||
+      !this.auto_attendant ||
+      !this.auto_independant ||
+      !this.non_stop ||
+      !this.fan_switch ||
+      !this.hall_indicator_type ||
+      !this.hall_laterns ||
+      !this.arrival_chime ||
+      !this.no_of_risers_at_main_lobby ||
+      !this.no_of_risers_at_other_floors ||
+      !this.hall_call_type_at_main_lobby ||
+      !this.hall_call_type_at_all_floors ||
+      !this.no_of_car_buffers ||
+      !this.type_of_car_buffers ||
+      !this.no_of_cwt_buffer ||
+      !this.type_of_cwt_buffer ||
+      !this.manual_rescue
+    );
+  }
+  
+
+  
+
   total_values:string[]|any|null = [];
   video: any;
   val:string | null='';
@@ -20,8 +106,13 @@ export class BreifSpecComponent {
   unit_no:string|null='';
   values:string[]=[];
   units_values:any=[];
+   
 
+  
   //breif spec variables
+  capacity:string='';
+  speed:string='';
+  maintained_by:string='';
   oem:string='';
   elevator_number:string='';
   type_of_equipment:string='';
@@ -115,7 +206,7 @@ export class BreifSpecComponent {
   manual_rescue:string='';
 
 
-  constructor(private route: ActivatedRoute,private dataService: ApicallService,private http :HttpClient,private router:Router){
+  constructor(private formBuilder: FormBuilder,private route: ActivatedRoute,private dataService: ApicallService,private http :HttpClient,private router:Router){
      this.route.paramMap.subscribe(params => {
       this.val = params.get('c_no');
       console.log(this.val);
@@ -128,6 +219,8 @@ export class BreifSpecComponent {
   //   console.log(unitValues); // Do whatever you need with the value
   // }
   ngOnInit(){
+
+
     this.document_id = sessionStorage.getItem('document_id');
     console.log('document id is ',this.document_id);
     this.unit_no=sessionStorage.getItem('unit_no');
@@ -136,6 +229,11 @@ export class BreifSpecComponent {
     this.name = sessionStorage.getItem('UserName') as string;
     console.log('inspector name',this.name);
     const unitValuesString = sessionStorage.getItem('unit_values');
+
+    //unit values api
+   
+
+
     if (unitValuesString) {
       this.units_values = JSON.parse(unitValuesString); // Parse the string into an array
     } else {
@@ -165,7 +263,11 @@ export class BreifSpecComponent {
       (response) => {
         // this.router.navigate(['afterlogin', 'unit',this.document_id]);
         console.log('saved successfully...!');
+
         this.total_values=response;
+        this.capacity=this.total_values.capacity,
+        this.speed=this.total_values.speed,
+        this.maintained_by=this.total_values.maintained_by,
         this.elevator_number=this.total_values.elevator_number;
         this.oem=this.total_values.oem,
         this.year_of_manufacture=this.total_values.year_of_manufacture,
@@ -276,7 +378,7 @@ export class BreifSpecComponent {
 
   }
 
-  submit(){
+  Submit1(){
     console.log(this.manual_rescue);
     
  
@@ -284,6 +386,9 @@ export class BreifSpecComponent {
       inspector_name:this.name,
       document_id:this.document_id,
       unit_no:this.unit_no,
+      maintained_by:this.maintained_by,
+      capacity:this.capacity,
+      speed:this.speed,
       
       oem:this.oem,
       elevator_number:this.elevator_number,

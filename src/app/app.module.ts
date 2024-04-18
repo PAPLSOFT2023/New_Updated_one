@@ -127,6 +127,8 @@ import { MachinroomcheckpointComponent } from './inspector_dashboard/machineroom
 import { ReportForElevComponent } from './inspector_dashboard/report-home/report-for-elev/report-for-elev.component';
 import { ReportHomeComponent } from './inspector_dashboard/report-home/report-home.component';
 import { NewReportComponent } from './inspector_dashboard/report-home/new-report/new-report.component';
+// import { ExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
+
 import { ExistingReportComponent } from './inspector_dashboard/report-home/existing-report/existing-report.component';
 
 
@@ -137,7 +139,16 @@ import { SiteRiskAssessmentComponent } from './inspector_dashboard/site-risk-ass
 import { PreInspectionComponent } from './inspector_dashboard/pre-inspection/pre-inspection.component';
 import { MailAutomationInspComponent } from './inspector_dashboard/mail-automation-insp/mail-automation-insp.component';
 import { UnitselectionforReportComponent } from './inspector_dashboard/report-home/unitselectionfor-report/unitselectionfor-report.component';
-
+import { ListCertificateComponent } from './inspector_dashboard/list-certificate/list-certificate.component';
+import { CertificateComponent } from './inspector_dashboard/certificate/certificate.component';
+import { CertificateOComponent } from './certificate-o/certificate-o.component';
+import { CertificateHomeComponent } from './inspector_dashboard/certificate-home/certificate-home.component';
+import { DownloadCertificateComponent } from './inspector_dashboard/certificate-home/download-certificate/download-certificate.component';
+import { UploadCertificateComponent } from './inspector_dashboard/certificate-home/upload-certificate/upload-certificate.component';
+import { ViewCertificateComponent } from './inspector_dashboard/certificate-home/view-certificate/view-certificate.component';
+import { UploadPdfComponent } from './inspector_dashboard/certificate-home/upload-pdf/upload-pdf.component';
+import { ViewofcertificateComponent } from './inspector_dashboard/certificate-home/viewofcertificate/viewofcertificate.component';
+import { SafeUrlPipe } from './Data/safe-url.pipe';
 // import { RejectionComponent } from './inspector_dashboard/rejection/rejection.component';
 
 
@@ -154,6 +165,7 @@ import { UnitselectionforReportComponent } from './inspector_dashboard/report-ho
     LoginComponent,
     UiElementsComponent,
     MailAutomationInspComponent,
+    SafeUrlPipe,
   
    
     NeworganizationComponent,
@@ -237,6 +249,15 @@ import { UnitselectionforReportComponent } from './inspector_dashboard/report-ho
                SiteRiskAssessmentComponent,
                PreInspectionComponent,
                UnitselectionforReportComponent,
+               ListCertificateComponent,
+               CertificateComponent,
+               CertificateOComponent,
+               CertificateHomeComponent,
+               DownloadCertificateComponent,
+               UploadCertificateComponent,
+               ViewCertificateComponent,
+               UploadPdfComponent,
+               ViewofcertificateComponent,
              
         // RejectionComponent,
         
@@ -248,6 +269,7 @@ import { UnitselectionforReportComponent } from './inspector_dashboard/report-ho
       
   ],
   imports: [
+    // ExtendedPdfViewerModule,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
@@ -255,6 +277,7 @@ import { UnitselectionforReportComponent } from './inspector_dashboard/report-ho
     ReactiveFormsModule,
     HttpClientModule,
     NgxCaptchaModule,
+    FormsModule,
     
     
     

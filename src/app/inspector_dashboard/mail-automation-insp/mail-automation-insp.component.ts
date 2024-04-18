@@ -8,16 +8,23 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./mail-automation-insp.component.scss']
 })
 export class MailAutomationInspComponent {
+  name:string|null ='';
   unitDetails: any[] = [];
   constructor(private router: Router,private http: HttpClient) {}
   ngOnInit() {
     this.loadUnitDetails();
     console.log('pending',this.unitDetails);
+    this.name = sessionStorage.getItem('UserName') as string;
+    
     
     
   }
   loadUnitDetails() {
-    this.http.get<any[]>('http://localhost:3000/api/pending') // Replace with your server endpoint
+    const value = sessionStorage.getItem('UserName') as string;
+    console.log('inspector name is',value);
+    
+    const inspector = `http://localhost:3000/api/pending?encodedValue=${value}`;
+    this.http.get<any[]>(inspector) // Replace with your server endpoint
       .subscribe(data => {
         this.unitDetails = data;
       });

@@ -1,6 +1,7 @@
 const bodyParser = require('body-parser');
 const express = require('express');
 const cors = require('cors');
+const multer = require('multer');
 const mysql = require('mysql2');
 const mysql1=require('mysql2/promise');
 const bcrypt = require('bcrypt');
@@ -8,6 +9,12 @@ const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const { v4: uuidv4 } = require('uuid');
 const uuid = require('uuid');
+const storage = multer.memoryStorage(); // Store file data in memory
+const upload = multer({ storage: storage });
+// const pdfjsLib = require('pdfjs-dist/es5/build/pdf');
+// const pdfjsLib = require('pdfjs-dist');
+
+
 
 const fs = require('fs');
 const PDFDocument = require('pdfkit');
@@ -18,12 +25,12 @@ const secretKey = 'mySecretKeyForJWTAuthentication';// for token generation
 
 const app = express();
 
-const multer = require('multer');
+// const multer = require('multer');
 const xlsx = require('xlsx');
 const { log } = require('console');
 
-const storage = multer.memoryStorage(); // Use memory storage for handling files without saving to disk
-const upload = multer({ storage: storage });
+// const storage = multer.memoryStorage(); // Use memory storage for handling files without saving to disk
+// const upload = multer({ storage: storage });
 
 app.use(cors());
 app.use(express.json()); 
@@ -111,6 +118,80 @@ db1.connect((err) => {
   }
   console.log('Connected to MySQL Papl Inspection');
 });
+
+//api for certificate sequence
+app.get('/api/next-id', (req, res) => {
+  db1.query('SELECT IFNULL(MAX(id) + 1, 1) AS next_id FROM uploaded_files', (error, results, fields) => {
+      if (error) throw error;
+      res.json(results[0].next_id);
+  });
+});
+// Endpoint for handling file uploads
+app.post('/api/upload', upload.single('file'), (req, res) => {
+  if (!req.file) {
+      return res.status(400).send('No file uploaded.');
+  }
+
+  const fileData = req.file.buffer; // Get the file data from memory
+
+  const { filename } = req.file;
+  const { unit_name, document_id,building_name,contract } = req.body;
+
+
+  const sql = 'INSERT INTO uploaded_files (unit_name, document_id, file_data,building_name,contract) VALUES (?,?,?, ?, ?)';
+  db1.query(sql, [unit_name, document_id, fileData,building_name,contract], (err, result) => {
+    if (err) {
+      console.error('Error saving file details to database:', err);
+      return res.status(500).json({ error: 'Error saving file details to database.' });
+    }
+    console.log('File details and data saved to database:', result);
+    res.status(200).json({ message: 'File uploaded and details saved to database.' });
+  });
+});
+//view page of certificate
+app.get('/api/upload_files_fetch', (req, res) => {
+  // Execute query to fetch all records
+  db1.query('SELECT * FROM uploaded_files', (error, results, fields) => {
+    if (error) {
+      return res.status(500).json({ message: error.message });
+    }
+    res.json(results);
+  });
+});
+
+// // API endpoint to fetch specific record by ID
+// app.get('/api/upload_files_fetch/:id', (req, res) => {
+//   const id = req.params.id;
+//   // Execute query to fetch record by ID
+//   db1.query('SELECT * FROM uploaded_files WHERE id = ?', [id], (error, results, fields) => {
+//     if (error) {
+//       return res.status(500).json({ message: error.message });
+//     }
+//     if (results.length === 0) {
+//       return res.status(404).json({ message: 'File not found' });
+//     }
+//     res.json(results[0]);
+//   });
+// });
+// API endpoint to fetch PDF file by ID
+app.get('/api/upload_files_fetch/:id/pdf', async (req, res) => {
+  const id = req.params.id;
+  try {
+    const [rows, fields] = await db1.execute('SELECT pdf_data FROM uploaded_files WHERE id = ?', [id]);
+    if (rows.length === 0) {
+      return res.status(404).send('PDF not found.');
+    }
+    const pdfData = rows[0].pdf_data;
+    res.setHeader('Content-Type', 'application/pdf');
+    res.send(pdfData);
+  } catch (error) {
+    console.error('Error fetching PDF:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+
+
 
 
 const TransporterData = () => {
@@ -481,6 +562,127 @@ app.get('/api/getChecklist_Record_Val',(req,res)=>{
     }
   });
 })
+
+
+// getUnitNumbers
+app.get('/api/getUnitNumbers',(req,res)=>{
+  const{contractNo,documentidForUrl}=req.query;
+  db1.query('SELECT  `unit_no` FROM `unit_details` WHERE `document_id`=? AND `contract_number`=?', [documentidForUrl,contractNo], (error, result) => {
+    if( result)
+    {
+       
+          
+      db1.query('SELECT Parts FROM inspection_master GROUP BY Parts ORDER BY MIN(id) ASC', (error, partsResult) => {
+        if (error) {
+            console.error('Error fetching distinct Parts:', error);
+            return res.status(500).json({ error: 'Internal server error' });
+        }
+        else{
+          db1.query('SELECT `Description`,`Parts` FROM `inspection_master` GROUP BY `Description` ORDER BY MIN(id) ASC', (error, description_parts_Result) => {
+            if (error) {
+                console.error('Error fetching distinct Parts:', error);
+                return res.status(500).json({ error: 'Internal server error' });
+            }
+            console.log("/////",description_parts_Result)
+            return res.json({ unit: result, parts: partsResult,descriptionParts :description_parts_Result});
+          });
+
+        }
+
+           
+  });
+    
+    }
+  });
+})
+
+
+  app.get('/api/getChecklist_Record_Val_with_unit', (req, res) => {
+    const { doc_id, unit_array } = req.query;
+    console.log("888",doc_id)
+    const unitArr_for_img = unit_array.split(',');
+
+    // db1.query('SELECT `id`, `document_id`, `inspector_name`, `unit_no`, `description`, `dropdown_option`, `checked`, `img`, `needforReport`, `section` FROM `record_values` WHERE `document_id`=? AND `unit_no` IN (?)', [doc_id, unitArr_for_img], (error, result) => {
+      db1.query('SELECT id, document_id, inspector_name, unit_no, description, dropdown_option, checked, img, needforReport,section, Positive_MNT, Positive_ADJ, Negative_MNT, Negative_ADJ, Emergency_Features, Customer_Scope FROM  record_values WHERE document_id = ?  AND unit_no IN (?)', [doc_id, unitArr_for_img], (error, result) => {
+      if (result) {         
+           
+        return res.json(result)
+       
+      } else {
+        return res.status(500).json({ error: 'Internal server error' });
+      }
+    });
+  });
+  
+  app.get('/api/images', (req, res) => {
+    const sql = 'SELECT   `img`  FROM `record_values` WHERE `document_id`=412 AND `needforReport`=1 AND unit_no="p2"' ; // Adjust SQL query as per your database schema
+    db1.query(sql, (err, result) => {
+      if (err) {
+        console.error('Error fetching images from database:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+        return;
+      }
+      res.json(result);
+    });
+  });
+
+
+  app.post('/api/uploadimg', upload.single('file'), (req, res) => {
+    const file = req.file;
+    if (!file) {
+      res.status(400).json({ error: 'No file uploaded' });
+      return;
+    }
+  
+    // Insert the image data into the database
+    const imageData = file.buffer; // Buffer containing the image data
+    const sql = 'INSERT INTO images (image) VALUES (?)';
+    db1.query(sql, [imageData], (err, result) => {
+      if (err) {
+        console.error('Error inserting image into database:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+        return;
+      }
+      res.json({ message: 'Image uploaded and inserted into database' });
+    });
+  });
+
+  
+  app.get('/api/images', (req, res) => {
+    const sql = 'SELECT image FROM images WHERE 1';
+    db1.query(sql, (err, result) => {
+      if (err) {
+        console.error('Error fetching image from database:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+        return;
+      }
+      if (result.length === 0) {
+        res.status(404).json({ error: 'Image not found' });
+        return;
+      }
+      
+      // Assuming 'image' is the column containing the image data in the database
+      const imageData = result[0].image;
+  
+      // Set the appropriate Content-Type header based on the image type
+      res.contentType('image/jpeg'); // Change this to the appropriate type for your images
+  
+      // Send the image data as response
+      res.end(imageData, 'binary'); // Send image data as binary
+    });
+  });
+  
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -3433,6 +3635,39 @@ app.get('/api/fetch_units', (req, res) => {
   });
 });
 
+//upload certificate
+// API endpoint to handle file upload
+app.post('/api/upload', upload.single('file'), (req, res) => {
+  if (!req.file) {
+      res.status(400).send('No file uploaded.');
+      return;
+  }
+
+  // Read the uploaded file
+  fs.readFile(req.file.path, (err, data) => {
+      if (err) {
+          console.error('Error reading file:', err);
+          res.status(500).send('Error reading file.');
+          return;
+      }
+
+      // Extract unit_no from request body
+      const unit_no = req.body.unit_no;
+
+      // Insert file data into MySQL along with unit_no
+      const sql = 'INSERT INTO files (name, data, unit_no) VALUES (?, ?, ?)';
+      db1.query(sql, [req.file.originalname, data, unit_no], (error, results, fields) => {
+          if (error) {
+              console.error('Error inserting file into database:', error);
+              res.status(500).send('Error inserting file into database.');
+              return;
+          }
+          console.log('File inserted into database:', results);
+          res.status(200).send('File uploaded and inserted into database.');
+      });
+  });
+});
+
   
 
 app.get('/api/inspector', (req, res) => {
@@ -3526,21 +3761,40 @@ app.get('/api/inspector', (req, res) => {
       if (err) {
         console.error('Error fetching values from MySQL:', err);
         res.status(500).json({ error: 'Internal Server Error' });
-        return;
+        return;l;
       }
   
       const values = results.map((row) => row.inspector_type);
       res.json(values);
     });
   });
+  //signature
+  app.get('/signature/:inspectorName', (req, res) => {
+    const inspectorName = req.params.inspectorName;
+  
+    const query = "SELECT signature FROM signature WHERE inspector_name = ?";
+    db1.query(query, [inspectorName], (err, results) => {
+      if (err) {
+        console.error('Error fetching signature:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+      } else {
+        if (results.length > 0) {
+          res.writeHead(200, { 'Content-Type': 'image/jpeg' });
+          res.end(results[0].signature, 'binary');
+        } else {
+          res.status(404).json({ error: 'Signature not found' });
+        }
+      }
+    });
+  });
 
   //store breif spec
   app.post('/api/breif_spec_add', (req, res) => {
   console.log('breif spec called');
-  const {manual_rescue,document_id,unit_no,inspector_name,oem,elevator_number,type_of_equipment,year_of_manufacture,type_of_usage,machine_location,controller_drive_type,controller_name_as_per_oem,type_of_operation,grouping_type,name_of_the_group,floor_details,openings,floor_designations,front_opening_floors,rear_opening_floors,non_stop_service_floors,emergency_stop_floors,rope_category,no_of_ropes_belts,rope_size,no_of_drive_sheave_grooves,ropes_wrap_details,type_of_roping,machine_type,kilo_watt,voltage,current_in_ampere,frequency,rpm,insulation_class,ingress_protection,no_of_poles,st_hr,serial_no,rope_dia,normal_speed,electrical_tripping_speed,mechanical_tripping_speed,cwt_governor_details,door_operator,cwt_rope_dia,cwt_normal_speed,cwt_electrical_tripping_speed,cwt_mechanical_tripping_speed,entrance_width,entrance_height,type_of_openings,cabin_width,cabin_height,no_of_car_operating_panels,car_indicator_type,multimedia_display,no_cabin_fans,type_of_cabin_fan,type_of_call_buttons,stop_button,service_cabinet,voice_announcement,handrail,cabin_bumper,auto_attendant,auto_independant,non_stop,fan_switch,hall_indicator_type,hall_laterns,arrival_chime,no_of_risers_at_main_lobby,no_of_risers_at_other_floors,hall_call_type_at_main_lobby,hall_call_type_at_all_floors,no_of_car_buffers,type_of_car_buffers,no_of_cwt_buffer,type_of_cwt_buffer,e_light,e_alarm,e_intercom,ard_operation,ard_audio,ard_visuals,fireman_operation,fireman_emerg_return,fireman_audio,fireman_visual,passenger_overload_operation,passenger_overload_visual,passenger_overload_audio,seismic_sensor_operation,battery}=req.body;
-  const query = 'INSERT INTO breif_spec(document_id,unit_no,inspector_name,oem,elevator_number,year_of_manufacture,machine_location,controller_driver_type,controller_name_as_per_oem,type_of_equipment,type_of_usage,type_of_operation,grouping_type,name_of_the_group,floor_stops,floor_opening,floor_designation,front_opening_floors,rear_opening_floors,service_floors,emergency_stop_floors,rope_category,number_of_rope_belt,rope_size,no_of_drive_sheave_grooves,ropes_wrap_details,type_of_roping,machine_type,motor_kilo_watt,motor_voltage,motor_current_in_ampere,motor_frequency,motor_rpm,motor_insulation_class,motor_ingress_protection,motor_no_of_poles,motor_st_hr,motor_serial_number,car_governor_rope_dia,car_governor_normal_speed,car_governor_electric_tripping_speed,car_governor_mechanical_tripping_speed,cwt_governor,cwt_governor_rope_dia,cwt_governor_normal_speed,cwt_governor_electrical_tripping_speed,cwt_governor_mechanical_tripping_speed,door_operator,entrance_height,entrance_width,entrance_type_of_opening,cabin_height,cabin_width,no_of_cop,car_indicator_type,multimedia_display,no_of_cabin_fans,type_of_cabin_fans,type_of_call_buttons,car_stop_button,car_service_cabinet,car_voice_announcement,car_handrail,car_cabin_bumper,car_auto_attendant,car_auto_independent,car_non_stop,car_fan_switch,hall_indicator_type,hall_lantems,hall_arrival_chime,no_of_risers_at_main_lobby,no_of_risers_at_other_floors,hall_call_type_at_main_lobby,hall_call_type_at_all_floors,no_of_car_buffers,type_of_car_buffers,no_of_counter_weight_buffer,type_of_cwt_buffer,e_light,e_alarm,e_intercom,ard_operation,ard_audio,ard_visual,fireman_operation,fer,fireman_audio,fireman_visual,manual_rescue,passenger_overload_operation,passenger_overload_visual,passenger_overload_audio,seismic_sensor_operation) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
+  const {capacity,speed,maintained_by,manual_rescue,document_id,unit_no,inspector_name,oem,elevator_number,type_of_equipment,year_of_manufacture,type_of_usage,machine_location,controller_drive_type,controller_name_as_per_oem,type_of_operation,grouping_type,name_of_the_group,floor_details,openings,floor_designations,front_opening_floors,rear_opening_floors,non_stop_service_floors,emergency_stop_floors,rope_category,no_of_ropes_belts,rope_size,no_of_drive_sheave_grooves,ropes_wrap_details,type_of_roping,machine_type,kilo_watt,voltage,current_in_ampere,frequency,rpm,insulation_class,ingress_protection,no_of_poles,st_hr,serial_no,rope_dia,normal_speed,electrical_tripping_speed,mechanical_tripping_speed,cwt_governor_details,door_operator,cwt_rope_dia,cwt_normal_speed,cwt_electrical_tripping_speed,cwt_mechanical_tripping_speed,entrance_width,entrance_height,type_of_openings,cabin_width,cabin_height,no_of_car_operating_panels,car_indicator_type,multimedia_display,no_cabin_fans,type_of_cabin_fan,type_of_call_buttons,stop_button,service_cabinet,voice_announcement,handrail,cabin_bumper,auto_attendant,auto_independant,non_stop,fan_switch,hall_indicator_type,hall_laterns,arrival_chime,no_of_risers_at_main_lobby,no_of_risers_at_other_floors,hall_call_type_at_main_lobby,hall_call_type_at_all_floors,no_of_car_buffers,type_of_car_buffers,no_of_cwt_buffer,type_of_cwt_buffer,e_light,e_alarm,e_intercom,ard_operation,ard_audio,ard_visuals,fireman_operation,fireman_emerg_return,fireman_audio,fireman_visual,passenger_overload_operation,passenger_overload_visual,passenger_overload_audio,seismic_sensor_operation,battery}=req.body;
+  const query = 'INSERT INTO breif_spec(capacity,speed,document_id,unit_no,inspector_name,oem,elevator_number,year_of_manufacture,machine_location,controller_driver_type,controller_name_as_per_oem,type_of_equipment,type_of_usage,type_of_operation,grouping_type,name_of_the_group,floor_stops,floor_opening,floor_designation,front_opening_floors,rear_opening_floors,service_floors,emergency_stop_floors,rope_category,number_of_rope_belt,rope_size,no_of_drive_sheave_grooves,ropes_wrap_details,type_of_roping,machine_type,motor_kilo_watt,motor_voltage,motor_current_in_ampere,motor_frequency,motor_rpm,motor_insulation_class,motor_ingress_protection,motor_no_of_poles,motor_st_hr,motor_serial_number,car_governor_rope_dia,car_governor_normal_speed,car_governor_electric_tripping_speed,car_governor_mechanical_tripping_speed,cwt_governor,cwt_governor_rope_dia,cwt_governor_normal_speed,cwt_governor_electrical_tripping_speed,cwt_governor_mechanical_tripping_speed,door_operator,entrance_height,entrance_width,entrance_type_of_opening,cabin_height,cabin_width,no_of_cop,car_indicator_type,multimedia_display,no_of_cabin_fans,type_of_cabin_fans,type_of_call_buttons,car_stop_button,car_service_cabinet,car_voice_announcement,car_handrail,car_cabin_bumper,car_auto_attendant,car_auto_independent,car_non_stop,car_fan_switch,hall_indicator_type,hall_lantems,hall_arrival_chime,no_of_risers_at_main_lobby,no_of_risers_at_other_floors,hall_call_type_at_main_lobby,hall_call_type_at_all_floors,no_of_car_buffers,type_of_car_buffers,no_of_counter_weight_buffer,type_of_cwt_buffer,e_light,e_alarm,e_intercom,ard_operation,ard_audio,ard_visual,fireman_operation,fer,fireman_audio,fireman_visual,manual_rescue,passenger_overload_operation,passenger_overload_visual,passenger_overload_audio,seismic_sensor_operation,maintained_by) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
   
-    db1.query(query, [document_id,unit_no,inspector_name,oem,elevator_number,year_of_manufacture,machine_location,controller_drive_type,controller_name_as_per_oem,type_of_equipment,type_of_usage,type_of_operation,grouping_type,name_of_the_group,floor_details,openings,floor_designations,front_opening_floors,rear_opening_floors,non_stop_service_floors,emergency_stop_floors,rope_category,no_of_ropes_belts,rope_size,no_of_drive_sheave_grooves,ropes_wrap_details,type_of_roping,machine_type,kilo_watt,voltage,current_in_ampere,frequency,rpm,insulation_class,ingress_protection,no_of_poles,st_hr,serial_no,rope_dia,normal_speed,electrical_tripping_speed,mechanical_tripping_speed,cwt_governor_details,cwt_rope_dia,cwt_normal_speed,cwt_electrical_tripping_speed,cwt_mechanical_tripping_speed,door_operator,entrance_height,entrance_width,type_of_openings,cabin_height,cabin_width,no_of_car_operating_panels,car_indicator_type,multimedia_display,no_cabin_fans,type_of_cabin_fan,type_of_call_buttons,stop_button,service_cabinet,voice_announcement,handrail,cabin_bumper,auto_attendant,auto_independant,non_stop,fan_switch,hall_indicator_type,hall_laterns,arrival_chime,no_of_risers_at_main_lobby,no_of_risers_at_other_floors,hall_call_type_at_main_lobby,hall_call_type_at_all_floors,no_of_car_buffers,type_of_car_buffers,no_of_cwt_buffer,type_of_cwt_buffer,e_light,e_alarm,e_intercom,ard_operation,ard_audio,ard_visuals,fireman_operation,fireman_emerg_return,fireman_audio,fireman_visual,manual_rescue,passenger_overload_operation,passenger_overload_visual,passenger_overload_audio,seismic_sensor_operation], (err, result) => {
+    db1.query(query, [capacity,speed,document_id,unit_no,inspector_name,oem,elevator_number,year_of_manufacture,machine_location,controller_drive_type,controller_name_as_per_oem,type_of_equipment,type_of_usage,type_of_operation,grouping_type,name_of_the_group,floor_details,openings,floor_designations,front_opening_floors,rear_opening_floors,non_stop_service_floors,emergency_stop_floors,rope_category,no_of_ropes_belts,rope_size,no_of_drive_sheave_grooves,ropes_wrap_details,type_of_roping,machine_type,kilo_watt,voltage,current_in_ampere,frequency,rpm,insulation_class,ingress_protection,no_of_poles,st_hr,serial_no,rope_dia,normal_speed,electrical_tripping_speed,mechanical_tripping_speed,cwt_governor_details,cwt_rope_dia,cwt_normal_speed,cwt_electrical_tripping_speed,cwt_mechanical_tripping_speed,door_operator,entrance_height,entrance_width,type_of_openings,cabin_height,cabin_width,no_of_car_operating_panels,car_indicator_type,multimedia_display,no_cabin_fans,type_of_cabin_fan,type_of_call_buttons,stop_button,service_cabinet,voice_announcement,handrail,cabin_bumper,auto_attendant,auto_independant,non_stop,fan_switch,hall_indicator_type,hall_laterns,arrival_chime,no_of_risers_at_main_lobby,no_of_risers_at_other_floors,hall_call_type_at_main_lobby,hall_call_type_at_all_floors,no_of_car_buffers,type_of_car_buffers,no_of_cwt_buffer,type_of_cwt_buffer,e_light,e_alarm,e_intercom,ard_operation,ard_audio,ard_visuals,fireman_operation,fireman_emerg_return,fireman_audio,fireman_visual,manual_rescue,passenger_overload_operation,passenger_overload_visual,passenger_overload_audio,seismic_sensor_operation,maintained_by], (err, result) => {
       if (err) {
         console.error('Error storing values:', err);
         res.status(500).json(err);
@@ -3550,6 +3804,36 @@ app.get('/api/inspector', (req, res) => {
       }
     });
   });
+
+  //certificate
+  app.post('/generate-pdf', (req, res) => {
+    const htmlContent = req.body.html;
+  
+    // Convert HTML to PDF
+    pdf.create(htmlContent).toBuffer((err, buffer) => {
+      if (err) {
+        console.error('Error generating PDF:', err);
+        return res.status(500).send('Error generating PDF');
+      }
+  
+      // Save PDF to database
+      const pdfData = buffer.toString('base64');
+      savePDFToDatabase(pdfData);
+  
+      res.status(200).send('PDF generated and saved to database');
+    });
+  });
+  
+  function savePDFToDatabase(pdfData) {
+    const query = "INSERT INTO certificates (pdf_data) VALUES (?)";
+    connection.query(query, [pdfData], (err, results) => {
+      if (err) {
+        console.error('Error saving PDF to database:', err);
+      } else {
+        console.log('PDF saved to database with ID:', results.insertId);
+      }
+    });
+  }
 
   //store inf26 form
   app.post('/api/store_data', (req, res) => {
@@ -3583,7 +3867,8 @@ app.get('/api/inspector', (req, res) => {
         res.status(200).json({ message: 'data stored successfully successfully' });
       }
     });
-  });
+  }); 
+  
 
   //api for unit_details table
   app.put('/api/store_data11',(req,res)=>{
@@ -3602,7 +3887,24 @@ app.get('/api/inspector', (req, res) => {
   })
   //pending document
   app.get('/api/pending', (req, res) => {
-    const query = 'SELECT * FROM unit_details'; // Modify this query according to your table structure
+    const name = req.query.encodedValue;
+    console.log('inspector name is',name);
+    const query = `SELECT * FROM unit_details where inspector_name='${name}'`; // Modify this query according to your table structure
+    db1.query(query, (err, results) => {
+      if (err) {
+        res.status(500).json({ error: 'Error fetching unit details from database' });
+        return;
+      }
+      res.json(results);
+    });
+  });
+
+  app.get('/api/b_spec', (req, res) => {
+    const document_id = req.query.encodedValue;
+    const unit = req.query.encodedValue1
+
+    // console.log('inspector name is',name);
+    const query = `SELECT * FROM breif_spec where document_id='${document_id}' and unit_no='${unit}'`; // Modify this query according to your table structure
     db1.query(query, (err, results) => {
       if (err) {
         res.status(500).json({ error: 'Error fetching unit details from database' });

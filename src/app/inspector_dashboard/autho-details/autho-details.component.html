@@ -11,29 +11,34 @@
 <table>
     <thead>
         <tr>
-            <th colspan="4">Inspection Conducted in the Presence Of</th>
+            <th colspan="7">Inspection Conducted in the Presence Of</th>
         </tr>
         <tr>
             <th>Name</th>
             <th>Designation</th>
+            <th>Role</th>
             <th>Company</th>
             <th>Contact Number</th>
+            <th>Digital Signature</th>
         </tr>
     </thead>
     <tbody>
-        <!-- <tr *ngFor="let row of rows">
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
-            <td contenteditable="true"></td>
-          </tr> -->
 
-          <tr *ngFor="let row of rows">
+          <tr *ngFor="let row of rows; let i = index">
             <td>
                 <input type="text" [(ngModel)]="row.name">
             </td>
             <td>
                 <input type="text" [(ngModel)]="row.designation">
+            </td>
+            <td class="dropdown-container">
+                <select class="dropdown" [(ngModel)]="row.role" required>
+                    <option value="Building Owner">Building Owner</option>
+                    <option value="Inspector">Inspector</option>
+                    <option value="Facility Manager">Facility Manager</option>
+                    <option value="Vendor(OEM)">Vendor(OEM)</option>
+                    <option value="PAPL Team">PAPL Team</option>
+                </select>
             </td>
             <td>
                 <input type="text" [(ngModel)]="row.company">
@@ -41,6 +46,15 @@
             <td>
                 <input type="text" [(ngModel)]="row.contact_number">
             </td>
+            
+            <td>
+                <canvas #canvas width="200" height="100" (mouseup)="captureSignature(canvas, i)"></canvas>
+                
+                <div class="button-container">
+                    <button class="clear" (click)="clearSignature(i)">x</button>
+                </div>
+              </td>
+            
         </tr>
            
      </tbody>
@@ -48,7 +62,8 @@
 </table>
 <div class="btn-container">
     <button class="btn" (click)="addRow()">Add Row</button>
-    <button class="btn" (click)="show()">Proceed</button>
+    <button class="btn" [class.disabled-button]="!allFieldsFilled()" [disabled]="!allFieldsFilled()" (click)="show()">Proceed</button>
+
 </div>
 </body>
 </html>

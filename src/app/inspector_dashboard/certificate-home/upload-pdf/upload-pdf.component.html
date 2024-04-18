@@ -1,0 +1,33 @@
+<div class="container">
+    <p>Unit Lists</p>
+    <table>
+        <thead>
+            <tr>
+                <th>Unit Name</th>
+                <th>Upload PDF</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let unit of units">
+                <td>{{ unit }}</td>
+                <!-- <td> -->
+                    <!-- <input type="file" (change)="onFileSelected($event.target.files, unit)"> -->
+                    <!-- <input type="file" (change)="onFileSelected(($event.target as HTMLInputElement).files, unit)"> -->
+                    <!-- <input type="file" (change)="onFileSelected($event, unit)"> -->
+
+
+                    <!-- <button (click)="uploadPDF(unit)">Upload</button> -->
+             <!-- </td> -->
+             <td>
+                <label for="fileInput{{ unit }}" class="custom-file-upload">
+                    <input type="file" id="fileInput{{ unit }}" (change)="onFileSelected($event, unit)">
+                    Choose PDF
+                </label>
+                <span>{{ selectedFiles[unit]?.name }}</span> <!-- Display selected file name -->
+
+                <button (click)="uploadPDF(unit)">Upload</button>
+            </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

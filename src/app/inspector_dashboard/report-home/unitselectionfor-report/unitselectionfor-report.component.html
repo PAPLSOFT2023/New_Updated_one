@@ -1,89 +1,70 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tab Group Example</title>
-</head>
-<body>
 
-<!-- Your content goes here -->
-<mat-tab-group>
-    <mat-tab label="First Review">
-        <div class="container">
-        <table>
-            <tbody>
-                <tr class="units">
-                    <td>Units</td>
-                    <td>P1</td>
-                    <td>P2</td>
-                    <td>P3</td>
-                    <td>P4</td>
-                </tr>
-                <tr>
-                    <td>Choose</td>
-                    <td><input type="checkbox" (change)="updateSelectedUnits('P1', $event)"></td>
-                    <td><input type="checkbox" (change)="updateSelectedUnits('P2', $event)"></td>
-                    <td><input type="checkbox" (change)="updateSelectedUnits('P3', $event)"></td>
-                    <td><input type="checkbox" (change)="updateSelectedUnits('P4', $event)"></td>
-                </tr>
+
+
+<table>
+  <thead>
+    <tr>
+      <th>Unit</th>
+      <th *ngFor="let unit1 of unit; let i=index">{{unit1}}</th>
+    </tr>
+    <tr>
+      <th>Choose</th>
+      <th *ngFor="let unitval of unitArray; let i=index">
+        <input type="checkbox" [(ngModel)]="unitval.isSelected" (change)="toggleSelection(unitval)">
+      </th>
+    </tr>
+  </thead>
+</table>
+<button (click)="proceed()">Proceed</button>
+
+
+
+<input type="file" (change)="onFileSelected($event)">
+<button (click)="uploadImage()">Upload Image</button>
+<div *ngIf="imageUrl">
+  <img *ngIf="imageUrl" [src]="imageUrl" alt="Image">
+
+</div>
+
+<!-- 
+<div *ngIf="showSecondTable">
+
+  <ng-container *ngFor="let partsui of parts_for_UI">
+    <br>
+    <br>
+    <br>
+    <h1>{{ partsui| uppercase }}</h1>
+    <table #myTable>
+        <thead>
+         
+            <tr>
+                <th>Description</th>
+                <th *ngFor="let unit of selectedOrder; let unit_index=index">{{ unit }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let Row_data of Description_and_Parts">
+               <ng-container *ngIf="(partsui| uppercase)  === (Row_data.Parts | uppercase)">
+                <td  class="description-td">
+                    {{ Row_data.Description }}
+                </td>
+                
+                <ng-container *ngFor="let Record_Value of this.dataservice.Dataservice_Record_Values">
+                  <td *ngIf="Record_Value.checked && Record_Value.needforReport && (partsui | uppercase) === (Record_Value.section | uppercase) && Row_data.Description === Record_Value.description">
+                    <img *ngIf="Record_Value.img" [src]="getImageSrc(Record_Value.img)">
+                  </td>
+                </ng-container>
                 
                 
-            </tbody>
-        </table>
-    </div>
-    <p>Selected Units: {{ selectedUnits.join(', ') }}</p>
-
-       <div class="container">
-        <button class="btn" (click)="toggleTable()">Proceed</button>
-    </div>
-
-       <div class="container" *ngIf="showTable">
-        <table>
-            <tbody>
-                <tr class="units">
-                    <td>Description</td>
-                    <ng-container *ngFor="let unit of selectedUnits">
-                        <td *ngIf="unit === 'P1'">P1</td>
-                        <td *ngIf="unit === 'P2'">P2</td>
-                        <td *ngIf="unit === 'P3'">P3</td>
-                        <td *ngIf="unit === 'P4'">P4</td>
-                    </ng-container>
-                </tr>
-                <tr>
-                    <td>Pit ID </td>
-                    <ng-container *ngFor="let unit of selectedUnits">
-                        <td class="file-input-container" *ngIf="unit === 'P1'">
-                            <input type="file" (change)="onFileSelected($event, 1)"><br>
-                            <img *ngIf="selectedImages[1]" [src]="selectedImages[1]" style="max-width: 200px; max-height: 200px;">
-                            <label><input type="checkbox"> Add To Report</label>
-                        </td>
-                        <td class="file-input-container" *ngIf="unit === 'P2'">
-                            <input type="file" (change)="onFileSelected($event, 2)">
-                            <img *ngIf="selectedImages[2]" [src]="selectedImages[2]" style="max-width: 200px; max-height: 200px;">
-                            <label><input type="checkbox"> Add To Report</label>
-                        </td>
-                        <td class="file-input-container" *ngIf="unit === 'P3'">
-                            <input type="file" (change)="onFileSelected($event, 3)">
-                            <img *ngIf="selectedImages[3]" [src]="selectedImages[3]" style="max-width: 200px; max-height: 200px;">
-                            <label><input type="checkbox"> Add To Report</label>
-                        </td>
-                        <td class="file-input-container" *ngIf="unit === 'P4'">
-                            <input type="file" (change)="onFileSelected($event, 4)">
-                            <img *ngIf="selectedImages[4]" [src]="selectedImages[4]" style="max-width: 200px; max-height: 200px;">
-                            <label><input type="checkbox"> Add To Report</label>
-                        </td>
-                    </ng-container>
-                </tr>
                 
-            </tbody>
-        </table>
-    </div>
-    </mat-tab>
-    <mat-tab label="Second Review (Comparison Report)">
-       
-    </mat-tab>
-</mat-tab-group>
+                
+              </ng-container> 
+            </tr>
+        </tbody>
+    </table>
+</ng-container>
 
-</body>
-</html>
+
+
+</div> -->
+

@@ -6,6 +6,7 @@
  
   <h2 class="h2">Inspection Schedule Authorization</h2>
       <mat-card class="mat-card1" style="margin-top: 50px;">
+       
           <mat-card class="mat-card2">
           <div>
           <mat-form-field appearance="outline" class="form-field1">
@@ -202,8 +203,6 @@
               <mat-label>OEM</mat-label>
               <mat-select [(ngModel)]="oem_details_sync" name="oem_details_sync" required>
                   <mat-option *ngFor="let oem_val of oem" [value]="oem_val">{{oem_val}}</mat-option>                   
-  
-  
               </mat-select>
             </mat-form-field>
 

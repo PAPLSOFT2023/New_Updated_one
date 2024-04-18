@@ -5,7 +5,9 @@
 
  
   <h2 class="h2">Inspection Schedule Authorization</h2>
+  
       <mat-card class="mat-card1" style="margin-top: 50px;">
+        
           <mat-card class="mat-card2">
           <div>
           <mat-form-field appearance="outline" class="form-field1">
@@ -84,6 +86,7 @@
                 </mat-form-field> -->
           </div>
       </mat-card>
+      
       <mat-card class="mat-card2">
           <div>
               <mat-form-field appearance="outline" class="form-field1">
@@ -158,6 +161,7 @@
               </div>
       </mat-card>
       <mat-card class="mat-card3">
+       
         <div>
            
        
@@ -287,7 +291,10 @@
 
         </div>
       </mat-card>
+   
       <mat-card class="mat-card3">
+        <form #scheduleForm="ngForm" (ngSubmit)="onSubmit()">
+        
         <div>
             <mat-form-field appearance="outline" class="form-field3">
                 <mat-label>Schedule From</mat-label>
@@ -320,14 +327,18 @@
                 </mat-select>
               </mat-form-field>
 
-              
+            
                 <mat-form-field appearance="outline" class="form-field3" *ngIf="inspectorType === 'Single Inspector'">
                 <mat-label>Select Inspector</mat-label>
-                <mat-select [(ngModel)]="inspector_name" name="inspector_name" required >
-                  <mat-option *ngFor="let select_inspector of inspector" [value]="select_inspector">{{select_inspector}}</mat-option>
-                  
+                <mat-select [(ngModel)]="inspector_name" name="inspector_name" required #inspectorName="ngModel" >
+                  <mat-option *ngFor="let select_inspector of inspector" [value]="select_inspector">{{select_inspector}}</mat-option>  
                 </mat-select>
+                <mat-error *ngIf="inspectorName.invalid && (inspectorName.dirty || inspectorName.touched)">
+                  Inspector selection is required.
+                </mat-error> 
+                
               </mat-form-field>
+            
 
               <button  *ngIf="inspectorType === 'Multiple Inspector'" mat-raised-button class="btnOk"  (click)="openDialog2()">Select Here</button>  
 
@@ -344,20 +355,37 @@
 
           <button mat-raised-button class="btnOk"  (click)="openDialog3()">Availability Check</button>  
 
-
+         
           <mat-form-field appearance="outline" class="form-field3">
             <mat-label>Inspection Time</mat-label>
-            <mat-select [(ngModel)]="inspection_time_ins_sync" name="inspection_time_ins_sync" required>
+            <mat-select [(ngModel)]="inspection_time_ins_sync" name="inspection_time_ins_sync" required #inspectionTime="ngModel">
               <mat-option *ngFor="let inspection_ins of inspection_time_ins" [value]="inspection_ins">{{inspection_ins}}</mat-option>
-             
             </mat-select>
+            <mat-error *ngIf="inspectionTime.invalid && (inspectionTime.dirty || inspectionTime.touched)">
+              Inspection time is required.
+            </mat-error>
           </mat-form-field>
+      
 
-
+        
           <mat-form-field appearance="outline" class="form-field3">
             <mat-label>No of Break Days</mat-label>
-                <input matInput [(ngModel)]="no_of_breakdays" name="no_of_breakdays" required>
+            <input matInput [(ngModel)]="no_of_breakdays" 
+            name="no_of_breakdays" 
+            required 
+            #noOfBreakDays="ngModel" 
+            pattern="[0-9]+" 
+            oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+     
+                <mat-error *ngIf="noOfBreakDays.invalid && (noOfBreakDays.dirty || noOfBreakDays.touched)">
+                  No of break days is required.
+                </mat-error>
         </mat-form-field>
+       
+     
+
+       
+       
 
 
         <button mat-raised-button class="btnOk"  (click)="openDialog1()">Schedule</button>  
@@ -373,14 +401,6 @@
 
           <!-- your-component.component.html -->
 
-  
-
-
-
-        
-    
-
-
 
 
             <!-- <mat-checkbox class="checkbox1" [(ngModel)]="tpt6" (change)="updatetpt6Flag()">TPT-6</mat-checkbox>
@@ -389,15 +409,17 @@
           <mat-checkbox class="checkbox"[(ngModel)]="pmt" (change)="updatepmtFlag()">PMT</mat-checkbox>
           <mat-checkbox class="checkbox" [(ngModel)]="rope_condition" (change)="updaterope_conditionFlag()">Rope Condition</mat-checkbox>   -->
         </div> 
-        </mat-card>
-
-        <div>
-            <button mat-raised-button color="primary" class="btnsubmit" (click)="onSubmit()">SCHEDULE</button>
-        </div>
+      </form>
+     
+        </mat-card>  
       
+      <div>
+        <button mat-raised-button color="primary" class="btnsubmit" [disabled]="!scheduleForm.form.valid" (click)="onSubmit()">SCHEDULE</button>
+      </div>
+     
       </mat-card>
-  <!-- </form> -->
-
+   
+   
    
   
 </body>

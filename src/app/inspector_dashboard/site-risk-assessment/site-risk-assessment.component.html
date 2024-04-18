@@ -1,33 +1,4 @@
-<!-- <h1 class="page-heading">SITE RISK ASSESSMENT</h1>
-<table class="risk-assessment-table">
-    <thead>
-      <tr>
-        <th>Description</th>
-        <th>Remarks</th>
-        <th>Yes</th>
-        <th>No</th>
-        <th>Not Applicable</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let assessment of riskAssessments">
-        <td>{{ assessment.description }}</td>
-        <td>{{ assessment.remarks }}</td>
-        <td>
-            <input type="radio" name="radio{{assessment.id}}" value="Yes" [(ngModel)]="assessment.selectedValue" (change)="updateSelectedValue(assessment, 'Yes')">
-          </td>
-          <td>
-            <input type="radio" name="radio{{assessment.id}}" value="No" [(ngModel)]="assessment.selectedValue" (change)="updateSelectedValue(assessment, 'No')">
-          </td>
-          <td>
-            <input type="radio" name="radio{{assessment.id}}" value="Not Applicable" [(ngModel)]="assessment.selectedValue" (change)="updateSelectedValue(assessment, 'Not Applicable')">
-          </td>
-      </tr>
-    </tbody>
-  </table>
-  <button (click)="generateJSON()">Generate JSON</button>
-   -->
-   <!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -51,7 +22,7 @@
             <th>Remarks</th>
             <th>Yes</th>
             <th>No</th>
-            <th>Not applicable</th>
+            <!-- <th>Not applicable</th> -->
         </tr>
     </thead>
     <tbody>
@@ -65,15 +36,16 @@
           <td>
             <input type="radio" name="radio{{assessment.id}}" value="No" [(ngModel)]="assessment.selectedValue" (change)="updateSelectedValue(assessment, 'No')">
           </td>
-          <td>
+          <!-- <td>
             <input type="radio" name="radio{{assessment.id}}" value="Not Applicable" [(ngModel)]="assessment.selectedValue" (change)="updateSelectedValue(assessment, 'Not Applicable')">
-          </td>
+          </td> -->
 
                   </tr>
            </tbody>
 </table>
 <div class="button-container">
-<button (click)="generateJSON()">Proceed</button>
+  <button (click)="generateJSON()" [ngClass]="{'disabled-button': !isFormValid}" [disabled]="!isFormValid">Proceed</button>
 </div>
+
 </body>
 </html>

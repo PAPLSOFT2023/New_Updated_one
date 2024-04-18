@@ -629,6 +629,87 @@ getinspectionmaster_description_for_Variable(part:string):Observable<any>
 
   return this.httpClient.get(url, options);
 }
+getUnitNumbers(contractNo: string, documentidForUrl: string): Observable<any> {
+  // Constructing the query parameters using HttpParams
+  const params = new HttpParams()
+    .set('contractNo', contractNo)
+    .set('documentidForUrl', documentidForUrl);
+
+  // Making the GET request with the constructed parameters
+  return this.httpClient.get<any>(this.apiURL + 'getUnitNumbers', { params: params });
+}
+
+
+
+getChecklist_Record_Val_with_unit(doc_id: string, unitArr_for_img: string[]): Observable<any> {
+  console.log("api called===",doc_id,unitArr_for_img)
+  const url = `${this.apiURL}getChecklist_Record_Val_with_unit`;
+  
+  // Convert unitArr_for_img to a comma-separated string
+  const unitArrayString = unitArr_for_img.join(',');
+  console.log("&&",unitArrayString)
+
+  const params = new HttpParams().set('doc_id', doc_id).set('unit_array', unitArrayString);
+
+  const headers = new HttpHeaders({
+    'Content-Type': 'application/json'
+  });
+
+  const options = {
+    headers: headers,
+    params: params
+  };
+
+  return this.httpClient.get(url, options);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
