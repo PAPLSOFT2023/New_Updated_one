@@ -20,6 +20,7 @@ export class AgreementPageComponent {
   // inf_26:string[]|any=[];
   inspectorArray: string[] = [];
   matchedInspector:boolean|any='';
+  matchedInspector1:boolean|any='';
  
   inf_26:{id:number,contract_number:string,customer_workorder_name:string,customer_workorder_date:string,
     customer_name_as_per_work_order:string,type_of_inspection:string,job_type:string,project_name:string,
@@ -117,6 +118,8 @@ export class AgreementPageComponent {
     console.log('contract no is',this.val);
     console.log('agreement checked',this.check);
     console.log('inspector array from accept',this.inf_26.inspector_array);
+    this.matchedInspector1 = this.isSendMailEnabled((this.inf_26.inspector_array));
+
     // const inspectorArray1:string[]| any[] = JSON.parse(this.inf_26.inspector_array);
 
     
@@ -127,6 +130,7 @@ export class AgreementPageComponent {
       check:this.check,
       selfAssigned:this.selfAssigned,
       salesProcess:this.salesProcess,
+      head:this.matchedInspector1
 
     }
     this.http.post('http://localhost:3000/api/store_data_agreement', store_values).subscribe(

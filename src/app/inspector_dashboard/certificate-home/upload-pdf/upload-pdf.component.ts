@@ -74,6 +74,13 @@ export class UploadPdfComponent {
       this.selectedFiles[unit] = files.item(0);
     }
   }
+  triggerFileInput(unit: string) {
+    const fileInput = document.getElementById('fileInput' + unit) as HTMLInputElement;
+    if (fileInput) {
+      fileInput.click();
+    }
+  }
+
 
   uploadPDF(unit: string) {
     const building_name = sessionStorage.getItem('building_name');
