@@ -159,29 +159,6 @@ app.get('/api/upload_files_fetch', (req, res) => {
   });
 });
 
-//unit details fetch
-app.get('/api/unit_fetch', (req, res) => {
-  // Execute query to fetch all records
-  db1.query('SELECT * FROM unit_details WHERE head = ? AND closing_flag = ?', [1, 0], (error, results, fields) => {
-    if (error) {
-      return res.status(500).json({ message: error.message });
-    }
-    res.json(results);
-  });
-});
-
-//feed back fetch
-//unit details fetch
-app.get('/api/feed_back_fetch', (req, res) => {
-  // Execute query to fetch all records
-  db1.query('SELECT * FROM unit_details WHERE head = ? AND feed_back = ?', [1, 0], (error, results, fields) => {
-    if (error) {
-      return res.status(500).json({ message: error.message });
-    }
-    res.json(results);
-  });
-});
-
 // // API endpoint to fetch specific record by ID
 // app.get('/api/upload_files_fetch/:id', (req, res) => {
 //   const id = req.params.id;
@@ -3939,9 +3916,9 @@ app.get('/api/inspector', (req, res) => {
 
   //agreement page 
   app.post('/api/store_data_agreement',(req,res)=>{
-    const {check,name, contract_no,selfAssigned,salesProcess,head}=req.body;
-    const query='INSERT INTO unit_details(contract_number,checks,inspector_name,selfAssigned,salesProcess,head) VALUES (?,?,?,?,?,?)';
-    db1.query(query,[contract_no,check,name,selfAssigned,salesProcess,head],(err,result)=>{
+    const {check,name, contract_no,selfAssigned,salesProcess}=req.body;
+    const query='INSERT INTO unit_details(contract_number,checks,inspector_name,selfAssigned,salesProcess) VALUES (?,?,?,?,?)';
+    db1.query(query,[contract_no,check,name,selfAssigned,salesProcess],(err,result)=>{
       if (err) {
         console.error('Error storeing values:', err);
         res.status(500).json({ error: 'Error storing values' });
@@ -4010,45 +3987,6 @@ app.get('/api/inspector', (req, res) => {
     const {witness_details,document_id}=req.body;
     const query = 'UPDATE unit_details SET witness_details=? WHERE document_id=?';
     db1.query(query,[JSON.stringify(witness_details),document_id],(err,result)=>{
-      if (err) {
-        console.error('Error executing SQL query:', err);
-        res.status(500).json({ error: 'Internal Server Error' });
-      } else {
-        if (result.affectedRows === 0) {
-          res.status(404).json({ error: ' not found' });
-        } else {
-          res.json({ message: 'witness updated successfully' });
-        }
-      }
-
-    })
-  })
-
-  //closing meeting
-  app.put('/api/update_data_close',(req,res)=>{
-    const {witness_details,document_id}=req.body;
-    const query = 'UPDATE unit_details SET closing_meeting=?,closing_flag=? WHERE document_id=?';
-    db1.query(query,[JSON.stringify(witness_details),1,document_id],(err,result)=>{
-      if (err) {
-        console.error('Error executing SQL query:', err);
-        res.status(500).json({ error: 'Internal Server Error' });
-      } else {
-        if (result.affectedRows === 0) {
-          res.status(404).json({ error: ' not found' });
-        } else {
-          res.json({ message: 'witness updated successfully' });
-        }
-      }
-
-    })
-  })
-
-  //update feedback
-  //closing meeting
-  app.put('/api/update_data_feedback',(req,res)=>{
-    const {rating,customer_details,options,document_id}=req.body;
-    const query = 'UPDATE unit_details SET rating=?,customer_details=?,options=?,feed_back=? WHERE document_id=?';
-    db1.query(query,[JSON.stringify(rating),JSON.stringify(customer_details),JSON.stringify(options),1,document_id],(err,result)=>{
       if (err) {
         console.error('Error executing SQL query:', err);
         res.status(500).json({ error: 'Internal Server Error' });
