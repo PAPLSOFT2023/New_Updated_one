@@ -134,6 +134,7 @@ import { ExistingReportComponent } from './inspector_dashboard/report-home/exist
 
 
 
+
 import { AgreementPageComponent } from './inspector_dashboard/agreement-page/agreement-page.component';
 import { SiteRiskAssessmentComponent } from './inspector_dashboard/site-risk-assessment/site-risk-assessment.component';
 import { PreInspectionComponent } from './inspector_dashboard/pre-inspection/pre-inspection.component';
@@ -149,6 +150,15 @@ import { ViewCertificateComponent } from './inspector_dashboard/certificate-home
 import { UploadPdfComponent } from './inspector_dashboard/certificate-home/upload-pdf/upload-pdf.component';
 import { ViewofcertificateComponent } from './inspector_dashboard/certificate-home/viewofcertificate/viewofcertificate.component';
 import { SafeUrlPipe } from './Data/safe-url.pipe';
+import { MoreOptionsComponent } from './inspector_dashboard/more-options/more-options.component';
+import { ClosingMeetingComponent } from './inspector_dashboard/more-options/closing-meeting/closing-meeting.component';
+import { CloseoutComponent } from './inspector_dashboard/more-options/closeout/closeout.component';
+import { FeedBackFormComponent } from './inspector_dashboard/more-options/feed-back-form/feed-back-form.component';
+import { KeyAbstractUnitsComponent } from './inspector_dashboard/more-options/key-abstract-units/key-abstract-units.component';
+import { KeyAbstractComponent } from './inspector_dashboard/more-options/key-abstract/key-abstract.component';
+import { ArrayJoinPipe } from './array-join.pipe';
+import { FeedBackFillComponent } from './inspector_dashboard/more-options/feed-back-fill/feed-back-fill.component';
+import { KeyAbstractListComponent } from './inspector_dashboard/more-options/key-abstract-list/key-abstract-list.component';
 // import { RejectionComponent } from './inspector_dashboard/rejection/rejection.component';
 
 
@@ -258,6 +268,15 @@ import { SafeUrlPipe } from './Data/safe-url.pipe';
                ViewCertificateComponent,
                UploadPdfComponent,
                ViewofcertificateComponent,
+               MoreOptionsComponent,
+               ClosingMeetingComponent,
+               CloseoutComponent,
+               FeedBackFormComponent,
+               KeyAbstractUnitsComponent,
+               KeyAbstractComponent,
+               ArrayJoinPipe,
+               FeedBackFillComponent,
+               KeyAbstractListComponent,
              
         // RejectionComponent,
         
