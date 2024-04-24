@@ -30,6 +30,7 @@ export class MailAutomationInspComponent {
       });
   }
   proceed(document_id:string){
+    sessionStorage.setItem('document_id',document_id);
     this.router.navigate(['afterlogin', 'unit',document_id]);
 
     

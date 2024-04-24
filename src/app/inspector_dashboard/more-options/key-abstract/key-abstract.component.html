@@ -15,17 +15,17 @@
           
             <tbody>
                 <tr class="field_namebold">
-                    <td colspan="8">BUILDING NAME:</td>
-                    <td colspan="8">WORK ORDER NO:34456</td>
+                    <td colspan="8">BUILDING NAME: <span></span> {{inf_26.building_name}}</td>
+                    <td colspan="8">WORK ORDER NO: <span></span> {{inf_26.customer_workorder_name}}</td>
                     
                 </tr>
                 <tr class="field_namebold">
-                    <td colspan="8">LOCATION:</td>
-                    <td  colspan="8">CONTRACT No:09876</td> 
+                    <td colspan="8">LOCATION: <span></span>{{inf_26.site_address}}</td>
+                    <td  colspan="8">CONTRACT No: {{inf_26.contract_number}}</td> 
                 </tr>
                 <tr class="field_namebold">
-                    <td  colspan="8">INSPECTOR NAME:</td>
-                    <td  colspan="8">DATE  OF INSPECTION:87878787</td>
+                    <td  colspan="8">INSPECTOR NAME: {{name}}</td>
+                    <td  colspan="8">DATE  OF INSPECTION: {{current_date |  date: 'dd-MM-yyyy'}}</td>
                 </tr>
                 </table>
 
@@ -34,7 +34,7 @@
                     <td rowspan="2" style="width: fit-content;" >Sl.No</td> 
                     <td colspan="3" >No.of UNIT</td>
                     <td colspan="3">ELEVATOR NUMBER</td>
-                    <td >1</td>
+                    <td >{{unit}}</td>
                     
                     
                 </tr>

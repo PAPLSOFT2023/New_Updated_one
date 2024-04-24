@@ -56,7 +56,7 @@ export class PreInspectionComponent {
   proceed(unit: string) {
     console.log("Clicked on unit:", unit);
   
-    if (unit) {
+if (unit) {
       this.router.navigate(['certificate', unit,this.val]).then(
         () => console.log('Navigation successful'),
         (error) => console.error('Navigation failed:', error)
@@ -65,5 +65,5 @@ export class PreInspectionComponent {
       console.error('Invalid unit value:', unit);
     }
   }
-
+    
 }
