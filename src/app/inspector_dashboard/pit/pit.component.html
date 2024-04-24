@@ -1,18 +1,17 @@
 <div class="order-status">
 
-    <a class="step" *ngFor="let step of steps; let i = index" [ngClass]="{'completed': completedStatus[i]}" (click)="!completedStatus[i] && handleCardClick(step)">
-        <div class="card">
-            <div class="card-body">
-              <div class="content">
-                <div class="logo">{{ getLogoLetters(step) }}</div>
-                <span>{{ step }}</span>
-                
-              </div>
+  <a class="step" *ngFor="let step of steps; let i = index" [ngClass]="{'completed': completedStatus[i]}" (click)="!completedStatus[i] && handleCardClick(step)">
+      <div class="card">
+          <div class="card-body">
+            <div class="content">
+              <div class="logo">{{ getLogoLetters(step) }}</div>
+              <span>{{ step }}</span>
+              
             </div>
-            <div class="progress-bar"></div>
           </div>
-    </a>
-      
-  </div>
-  <router-outlet ></router-outlet>
-  
+          <div class="progress-bar"></div>
+        </div>
+  </a>
+    
+</div>
+<router-outlet ></router-outlet>

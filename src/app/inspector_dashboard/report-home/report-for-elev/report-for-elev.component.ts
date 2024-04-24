@@ -640,7 +640,7 @@ private initializeUnits() {
                 let temp_positive_Adj:number=0;
                 for(const Singleresult_emergency of result_emergency)
                   {
-                    if(dataarray_first == Singleresult_emergency.description)
+                    if(dataarray_first == Singleresult_emergency.description && unit== Singleresult_emergency.unit_no )
                       {
 
 
@@ -657,13 +657,13 @@ private initializeUnits() {
                   }
                   if(flag_check)
                     {
-
-
+                      console.log("^^* flag check")
                       
                     }
                     else{
                       const_Adj=const_Adj+temp_positive_Adj;
                       const_Mnt=const_Mnt+temp_positive_Mnt;
+                      console.log("^^* flag else , const_Adj,const_Mnt",const_Adj,const_Mnt)
                     }
 
                 

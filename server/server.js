@@ -1195,7 +1195,7 @@ app.get('/api/get_insp_master_checklist_description', (req, res) => {
   const { Description } = req.query;
   console.log("PPP called", Description);
 
-  const query = 'SELECT   `Reference`, `Photo`, `Dropdown` FROM `inspection_master` WHERE `Description`= ?';
+  const query = 'SELECT   `Reference`, `Photo`, `Dropdown`,Negative_MNT,Negative_ADJ,Positive_ADJ,Positive_MNT,Emergency_Features,Customer_Scope FROM `inspection_master` WHERE `Description`= ?';
   db1.query(query, [Description], (err, results) => {
     if (results) {
       console.log("/////",results);
