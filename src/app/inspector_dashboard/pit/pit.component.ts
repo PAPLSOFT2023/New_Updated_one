@@ -83,6 +83,16 @@ if(responseArray)
 
   handleCardClick(step: string) {
     const id = encodeURIComponent(step);
+    console.log('id is',id);
+    console.log('doc id', this.document_id);
+    console.log('unit no',this.unit_no);
+    console.log('name',this.name);
+    console.log('val',this.val);
+    
+    
+    
+    
+    
     this.router.navigate(['afterlogin', 'pitcheckpoint',id,this.document_id,this.unit_no,this.name,this.val]);
   }
 }

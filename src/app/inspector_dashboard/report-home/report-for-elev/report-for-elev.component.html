@@ -265,7 +265,7 @@
                 <thead class="thr">
                     <tr>
                         <th>UNIT NOMENCLATURE</th>
-                        <th *ngFor="let dummy of [].constructor(Ordered_unit_count); let i = index">{{Ordered_unit[i]}}</th>
+                        <th *ngFor="let dummy of [].constructor(BriefmultiDimArray_cunt); let i = index">{{BriefmultiDimArray[i].unit_no}}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -443,25 +443,21 @@
         </tr>
       </thead>  
       <tbody>    
-        <ng-container *ngFor="let unit of Ordered_unit">
         
         <tr *ngFor="let dummy of emergency_Table_Data; let i = index">
-
-            <td *ngIf="dummy.unit_no== unit" >{{unit}} </td>     
-                
-            <td *ngIf="dummy.unit_no== unit" [ngClass]="{'green': dummy.Emergency_al === 'Working', 'red': dummy.Emergency_al !== 'Working'}">{{dummy.Emergency_al}}</td>
-            <td *ngIf="dummy.unit_no== unit" [ngClass]="{'green': dummy.Emergency_Li === 'Working', 'red': dummy.Emergency_Li !== 'Working'}">{{dummy.Emergency_Li}}</td>
-            <td *ngIf="dummy.unit_no== unit" [ngClass]="{'green': dummy.Intercom === 'Working', 'red': dummy.Intercom !== 'Working'}">{{dummy.Intercom}}</td>
-            <td *ngIf="dummy.unit_no== unit" [ngClass]="{'green': dummy.ARd === 'Working', 'red': dummy.ARd !== 'Working'}">{{dummy.ARd}}</td>
-            <td *ngIf="dummy.unit_no== unit" [ngClass]="{'green': dummy.Fireman === 'Working', 'red': dummy.Fireman !== 'Working'}">{{dummy.Fireman}}</td>
-            <td *ngIf="dummy.unit_no== unit" [ngClass]="{'green': dummy.Manual_Res === 'Working', 'red': dummy.Manual_Res !== 'Working'}">{{dummy.Manual_Res}}</td>
+            <td >{{dummy.unit_no}} </td>         
+            <td [ngClass]="{'green': dummy.Emergency_al === 'Working', 'red': dummy.Emergency_al !== 'Working'}">{{dummy.Emergency_al}}</td>
+            <td [ngClass]="{'green': dummy.Emergency_Li === 'Working', 'red': dummy.Emergency_Li !== 'Working'}">{{dummy.Emergency_Li}}</td>
+            <td [ngClass]="{'green': dummy.Intercom === 'Working', 'red': dummy.Intercom !== 'Working'}">{{dummy.Intercom}}</td>
+            <td [ngClass]="{'green': dummy.ARd === 'Working', 'red': dummy.ARd !== 'Working'}">{{dummy.ARd}}</td>
+            <td [ngClass]="{'green': dummy.Fireman === 'Working', 'red': dummy.Fireman !== 'Working'}">{{dummy.Fireman}}</td>
+            <td [ngClass]="{'green': dummy.Manual_Res === 'Working', 'red': dummy.Manual_Res !== 'Working'}">{{dummy.Manual_Res}}</td>
             
 
             
           
          
         </tr>
-    </ng-container>
        
       </tbody>
     </table>
@@ -493,9 +489,9 @@
           </tr>
         </thead>
         <tbody>
-          <ng-container *ngFor="let unit of Ordered_unit; let i = index">
+          <ng-container *ngFor="let dummy of [].constructor(BriefmultiDimArray_cunt); let i = index">
             <tr>
-              <th>{{unit}}</th>
+              <th>{{BriefmultiDimArray[i].unit_no}}</th>
               <td>sdf</td>
               <td>rte</td>
               <td>fgh</td>
@@ -568,13 +564,8 @@
                       </tr>
           
                       <tr>
-                        <ng-container *ngFor="let unit of Ordered_unit">
-                        <ng-container *ngFor="let dummy of [].constructor(BriefmultiDimArray_cunt); let i = index">
-                            <th *ngIf="unit == BriefmultiDimArray[i].unit_no" >{{BriefmultiDimArray[i].unit_no}}</th>
-                            </ng-container>
+                        <th *ngFor="let dummy of [].constructor(BriefmultiDimArray_cunt); let i = index">{{BriefmultiDimArray[i].unit_no}}</th>
                           
-                        </ng-container>
-                         
                       </tr>
                   </thead>
                   <tbody>
@@ -585,18 +576,13 @@
                           <td rowspan="3"><b *ngIf="checklistmaster.Parts?.toLowerCase() === 'pit'">{{ checklistmaster.Description }}</b>
                           </td>
                           
-                        <ng-container *ngFor="let unit of Ordered_unit">  
-                            <ng-container *ngFor="let dummy of [].constructor(BriefmultiDimArray_cunt); let brief_i = index">
-                         <td *ngIf="unit == BriefmultiDimArray[brief_i].unit_no">
+                          <td *ngFor="let dummy of [].constructor(BriefmultiDimArray_cunt); let brief_i = index">
                             <ng-container [ngSwitch]="checkConstraints(i_master,brief_i, checklistmaster.Description)">
                                 <span *ngSwitchCase="'NO'" [ngStyle]="{'color': 'red', 'font-weight': 'bold'}">N</span>
                                 <span *ngSwitchCase="'YES'" [ngStyle]="{'color': 'green', 'font-weight': 'bold'}">Y</span>
                                 <span *ngSwitchCase="'YES!'" [ngStyle]="{'color': 'cyan', 'font-weight': 'bold'}">---</span>
                             </ng-container>
                          </td>
-                        </ng-container>
-                        </ng-container>
-
                         
                         
                           
@@ -671,7 +657,10 @@
                   <th colspan="3">Elevator Nos</th>
                   <th></th>
                   <th colspan="2">TITLE</th>
-                  <th colspan="2" *ngFor="let unit of Ordered_unit">{{unit}}</th>
+                  <th colspan="2">P1</th>
+                  <th colspan="2"></th>
+                  <th colspan="2"></th>
+                  <th colspan="2"></th>
                   <th colspan="3" rowspan="2">Remarks</th>
                 </tr>
             
@@ -680,205 +669,462 @@
                   <th>Total MAX</th>
                   <th>No.of Points in details</th>
                   <th class="six1">No.of Points in Q.E</th>
-                  <ng-container *ngFor="let unit of Ordered_unit; let unit_index=index">
-
-                  <th >MNT</th>
+                  <th>MNT</th>
                   <th>ADJ</th>
-                  </ng-container>
-                  
-                  
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
                 </tr>
             
-                  <ng-container *ngFor="let first_array of dataservice.first; let first_index=index">
-                    
-                    <tr *ngIf="first_index ==0">
-                    <td  class="skyblue" colspan="3">{{first_array}}</td>
-                    <td  [rowSpan]="dataservice.first.length">14</td>
-                    <td  [rowSpan]="dataservice.first.length">6</td>
-                    <td class="six2" [rowSpan]="dataservice.first.length">6</td>
-                    <ng-container *ngFor="let unit of Ordered_unit; let unit_index=index">
-
-                        <th  [rowSpan]="dataservice.first.length">MNT</th>
-                        <th  [rowSpan]="dataservice.first.length">ADJ</th>
-                        </ng-container>
-                    
-                    <td colspan="3"></td>
-                   </tr>
-            
-                    <tr  *ngIf="first_index !=0">
-                        <td  class="skyblue" colspan="3">{{first_array}}</td>
-                    
-                        <td colspan="3"></td>
-                    </tr> 
-            
-                   
-
-                </ng-container>
-            
-                <ng-container *ngFor="let second_array of dataservice.second; let second_index=index">
-                    
-                    <tr *ngIf="second_index ==0">
-                    <td  class="skyblue" colspan="3">{{second_array}}</td>
-                    <td  [rowSpan]="dataservice.second.length">14</td>
-                    <td  [rowSpan]="dataservice.second.length">6</td>
-                    <td class="six2" [rowSpan]="dataservice.second.length">6</td>
-                    <ng-container *ngFor="let unit of Ordered_unit; let unit_index=index">
-
-                        <th  [rowSpan]="dataservice.second.length">MNT</th>
-                        <th  [rowSpan]="dataservice.second.length">ADJ</th>
-                        </ng-container>
-                    
-                    <td colspan="3"></td>
-                   </tr>
-            
-                    <tr  *ngIf="second_index !=0">
-                        <td  class="skyblue" colspan="3">{{second_array}}</td>
-                    
-                        <td colspan="3"></td>
-                    </tr> 
-            
-                   
-
-                </ng-container>
-                <!-- olivegreen -->
-
-                <ng-container *ngFor="let third_array of dataservice.third; let third_index=index">
-                    
-                    <tr *ngIf="third_index ==0">
-                    <td  class="olivegreen" colspan="3">{{third_array}}</td>
-                    <td  [rowSpan]="dataservice.third.length">14</td>
-                    <td  [rowSpan]="dataservice.third.length">6</td>
-                    <td class="six2" [rowSpan]="dataservice.third.length">6</td>
-                    <ng-container *ngFor="let unit of Ordered_unit; let unit_index=index">
-
-                        <th  [rowSpan]="dataservice.third.length">MNT</th>
-                        <th  [rowSpan]="dataservice.third.length">ADJ</th>
-                        </ng-container>
-                    
-                    <td colspan="3"></td>
-                   </tr>
-            
-                    <tr  *ngIf="third_index !=0">
-                        <td  class="olivegreen" colspan="3">{{third_array}}</td>
-                    
-                        <td colspan="3"></td>
-                    </tr> 
-            
-                   
-
-                </ng-container>
-               
-            
-                 
-            
-                
-
-                <ng-container *ngFor="let fourth_array of dataservice.fourth; let fourth_index=index">
                   
-                    <tr *ngIf="fourth_index ==0">
-                    <td  class="lite_yellow" colspan="3">{{fourth_array}}</td>
-                    <td  [rowSpan]="dataservice.fourth.length">14</td>
-                    <td  [rowSpan]="dataservice.fourth.length">6</td>
-                    <td class="six2" [rowSpan]="dataservice.fourth.length">6</td>
-                    <ng-container *ngFor="let unit of Ordered_unit; let unit_index=index">
-
-                        <th  [rowSpan]="dataservice.fourth.length">MNT</th>
-                        <th  [rowSpan]="dataservice.fourth.length">ADJ</th>
-                        </ng-container>
                     
+                    <tr>
+                    <td  class="skyblue" colspan="3">EMERGENCY ALARM</td>
+                    <td rowspan="6">14</td>
+                    <td rowspan="6">6</td>
+                    <td class="six2" rowspan="6">6</td>
+                    <td  rowspan="6"></td>
+                    <td  rowspan="6"></td>
+                    <td ></td>
+                    <td ></td>
+                    <td ></td>
+                    <td></td>
+                    <td ></td>
+                    <td ></td>
                     <td colspan="3"></td>
-                   </tr>
+                </tr>
             
-                    <tr  *ngIf="fourth_index !=0">
-                        <td  class="lite_yellow" colspan="3">{{fourth_array}}</td>
-                    
+                    <tr>
+                        <td  class="skyblue" colspan="3">EMERGENCY LIGHT</td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
                         <td colspan="3"></td>
                     </tr> 
             
+                    <tr>
+                        <td  class="skyblue"colspan="3">3 WAY INTERCOM FUNCTION </td>
+                       
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td colspan="3"></td>
+                    </tr> 
+            
+                    <tr>
+                        <td  class="skyblue"colspan="3">ARD OPERATION</td>
+                        
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td colspan="3"></td>
+                        
+                    </tr> 
+            
+                    <tr>
+                        <td  class="skyblue"colspan="3">MANUAL RESCUE</td>
+                        
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td colspan="3"></td>
+                    </tr> 
+            
+                    <tr>
+                        <td class="skyblue" colspan="3">FIREMAN OPERATION</td>
+                      
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td colspan="3"></td>
+                    </tr> 
+            
+                    <tr>
+                        <td class="olivegreen" colspan="3">PIT & EQUIPMENTS</td>
+                       
+                        <td rowspan="5">16</td>
+                        <td  rowspan="5">16</td>
+                        <td  class="six3" rowspan="5">5</td>
+                        <td  rowspan="5"></td>
+                        <td  rowspan="5"></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td colspan="3"></td>
+                    </tr>
+            
+                    <tr>
+                        <td class="olivegreen"  colspan="3">TRAILING CABLE CONDITION</td>
+                       
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td colspan="3"></td>
+                    </tr>
+            
+                    <tr>
+                        <td class="olivegreen"  colspan="3">UNDER SIDE OF THE CAR</td>
+                       
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td colspan="3"></td>
+                    </tr> 
+            
+                    <tr>
+                        <td class="olivegreen"  colspan="3">BUFFER & CLEARANCES</td>
+                        
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td colspan="3"></td>
+                    </tr> 
+            
+                    <tr>
+                        <td  class="olivegreen" colspan="3">SAFETY ACCESSORIES</td>
+                       
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td colspan="3"></td>
+                    </tr> 
+            
+                    <tr>
+                        <td  class="olivegreen" colspan="3">CABIN & FIXTURE</td>
+                       
+                        <td rowspan="6">18</td>
+                        <td rowspan="6">10</td>
+                        <td class="six4"  rowspan="6">5</td>
+                        <td rowspan="6"></td>
+                        <td rowspan="6"></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td colspan="3"></td>
+                    </tr> 
+            
+                    <tr>
+                        <td class="olivegreen" colspan="3">CAR DOOR & GAP WITH PANELS</td>
+                        
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td colspan="3"></td>
+                    </tr> 
+            
+                    <tr>
+                        <td class="olivegreen"  colspan="3">DOOR OPERATION & PROTECTION</td>
+                        
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td colspan="3"></td>
+                    </tr> 
+            
+                    <tr>
+                        <td class="olivegreen" colspan="3">RIDING QUALITY</td>
+                       
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td colspan="3"></td>
+                    </tr> 
+            
+                    <tr>
+                        <td class="olivegreen" colspan="3">START /ACC& DEC/ JERKS</td>
+                    
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td colspan="3"></td>
+            
+                    </tr> 
+            
+                    <tr>
+                        <td class="lite_yellow" colspan="3">LEVELING</td>
+                       
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td colspan="3"></td>
+                    </tr> 
+            
+                    <tr>
+                        <td class="lite_yellow"colspan="3">CAR TOP ACCESSARIES & EARTHING</td>
+                       
+                        <td rowspan="5">14</td>
+                        <td rowspan="5">28</td>
+                        <td class="six5" rowspan="5">5</td>
+                        <td rowspan="5"></td>
+                        <td rowspan="5"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                      
+                        <td colspan="3"></td>
+                    </tr> 
+            
+                    <tr>
+                        <td class="lite_yellow" colspan="3">CAR TOP BALUSTRADE & EMERGEN. EXIT</td>
+                       
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td colspan="3"></td>
+                    </tr> 
+            
+                    <tr>
+                        <td class="lite_yellow" colspan="3">CAR & CWT GUIDES</td>
                    
-
-                </ng-container>
-            
-                <!-- orange -->
-                <ng-container *ngFor="let fifth_array of dataservice.fifth; let fifth_index=index">
-                  
-                    <tr *ngIf="fifth_index ==0">
-                    <td  class="orange" colspan="3">{{fifth_array}}</td>
-                    <td  [rowSpan]="dataservice.fifth.length">14</td>
-                    <td  [rowSpan]="dataservice.fifth.length">6</td>
-                    <td class="six2" [rowSpan]="dataservice.fifth.length">6</td>
-                    <ng-container *ngFor="let unit of Ordered_unit; let unit_index=index">
-
-                        <th  [rowSpan]="dataservice.fifth.length">MNT</th>
-                        <th  [rowSpan]="dataservice.fifth.length">ADJ</th>
-                        </ng-container>
-                    
-                    <td colspan="3"></td>
-                   </tr>
-            
-                    <tr  *ngIf="fifth_index !=0">
-                        <td  class="orange" colspan="3">{{fifth_array}}</td>
-                    
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                         <td colspan="3"></td>
                     </tr> 
-           
-
-                </ng-container>
             
-                    
-                <!-- violet -->
-                <ng-container *ngFor="let sixth_array of dataservice.sixth; let sixth_index=index">
-                  
-                    <tr *ngIf="sixth_index ==0">
-                    <td  class="violet" colspan="3">{{sixth_array}}</td>
-                    <td  [rowSpan]="dataservice.sixth.length">14</td>
-                    <td  [rowSpan]="dataservice.sixth.length">6</td>
-                    <td class="six2" [rowSpan]="dataservice.sixth.length">6</td>
-                    <ng-container *ngFor="let unit of Ordered_unit; let unit_index=index">
-
-                        <th  [rowSpan]="dataservice.sixth.length">MNT</th>
-                        <th  [rowSpan]="dataservice.sixth.length">ADJ</th>
-                        </ng-container>
-                    
-                    <td colspan="3"></td>
-                   </tr>
-            
-                    <tr  *ngIf="sixth_index !=0">
-                        <td  class="violet" colspan="3">{{sixth_array}}</td>
-                    
+                    <tr>
+                        <td class="lite_yellow" colspan="3">MIDWAY T.C & CWT CONDITION</td>
+                     
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                         <td colspan="3"></td>
                     </tr> 
-           
-
-                </ng-container>
-
-
-
-                    
-                <ng-container *ngFor="let seventh_array of dataservice.seventh; let seventh_index=index">
-                  
-                    <tr *ngIf="seventh_index ==0">
-                    <td  class="lite_yellow" colspan="3">{{seventh_array}}</td>
-                    <td  [rowSpan]="dataservice.seventh.length">14</td>
-                    <td  [rowSpan]="dataservice.seventh.length">6</td>
-                    <td class="six2" [rowSpan]="dataservice.seventh.length">6</td>
-                    <ng-container *ngFor="let unit of Ordered_unit; let unit_index=index">
-
-                        <th  [rowSpan]="dataservice.seventh.length">MNT</th>
-                        <th  [rowSpan]="dataservice.seventh.length">ADJ</th>
-                        </ng-container>
-                    
-                    <td colspan="3"></td>
-                   </tr>
             
-                    <tr  *ngIf="seventh_index !=0">
-                        <td  class="lite_yellow" colspan="3">{{seventh_array}}</td>
-                    
+                    <tr>
+                        <td class="lite_yellow"colspan="3">HOIST WAY EQUIPMENTS & FASCIA</td>
+                     
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                         <td colspan="3"></td>
                     </tr> 
-           
-
-                </ng-container>
+            
+                    <tr>
+                        <td class="orange" colspan="3">M/c ROOM /MRL - CONDTION</td>
+                       
+                        <td rowspan="8">26</td>
+                        <td rowspan="8">24</td>
+                        <td class="six6" rowspan="8">8</td>
+                        <td rowspan="8"></td>
+                        <td rowspan="8"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                   
+                        <td colspan="3"></td>
+                    </tr> 
+            
+                    <tr>
+                        <td class="orange"colspan="3">EARTHING</td>
+                       
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td colspan="3"></td>
+                    </tr> 
+            
+                    <tr>
+                        <td class="orange" colspan="3">MACHINE & SHEAVE CONDITION</td>
+                        
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td colspan="3"></td>
+                    </tr> 
+            
+                    <tr>
+                        <td class="orange"colspan="3">ROTATING EQUIPMENTS GUARDING</td>
+                       
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td colspan="3"></td>
+                    </tr> 
+            
+                    <tr>
+                        <td class="orange" colspan="3">HOIST ROPES/GOV. ROPE/BELTS</td>
+                       
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td colspan="3"></td>
+                    </tr> 
+            
+                    <tr>
+                        <td class="orange" colspan="3">CONTROLLER & CONDITION</td>
+                      
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td colspan="3"></td>
+                    </tr> 
+            
+                    <tr>
+                        <td class="orange" colspan="3">GOVERNOR & ACCESSORIES</td>
+                    
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td colspan="3"></td>
+                    </tr> 
+            
+                    <tr>
+                        <td class="orange"colspan="3">OVERBALANCING & CURRENT READINGS</td>
+                    
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td colspan="3"></td>
+                    </tr> 
+            
+                    <tr>
+                        <td class="violet" colspan="3">UNLOCKING DEVICE/ACCESSIBLE HEIGHT</td>
+                        
+                        <td rowspan="3">7</td>
+                        <td rowspan="3">9</td>
+                        <td class="six7" rowspan="3">3</td>
+                        <td rowspan="3"></td>
+                        <td rowspan="3"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td colspan="3"></td>
+                    </tr> 
+            
+                    <tr>
+                        <td class="violet"colspan="3">LANDING DOORS & HALL FIXTURES</td>
+                    
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td colspan="3"></td>
+                    </tr> 
+            
+                    <tr>
+                        <td class="violet"colspan="3">SIMPLEX/DUPLEX/ GROUPING</td>
+                      
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td ></td>
+                        <td colspan="3"></td>
+                    </tr> 
+            
+                    <tr>
+                        <td colspan="3"   class="six9">CUSTOM. SCOPE OF WORK</td>
+                       
+                        <td class="six11" rowspan="1">5</td>
+                        <td class="six12" rowspan="1">5</td>
+                        <td class="six13"  rowspan="1">1</td>
+                        <td rowspan="1"></td>
+                        <td rowspan="1"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td colspan="3"></td>
+                    </tr> 
             
             
                     <tr>
@@ -887,28 +1133,25 @@
                         <td rowspan="1"></td>
                         <td rowspan="1"></td>
                         <td rowspan="1"></td>
-                        <ng-container *ngFor="let unit of Ordered_unit; let unit_index=index">
-
-                            <th  rowspan="1">MNT</th>
-                            <th  rowspan="1">ADJ</th>
-                            </ng-container>
-                        
-                       
+                        <td rowspan="1"></td>
+                        <td rowspan="1"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
                         <td colspan="3"></td>
                     </tr>
                    
                     <tr>
                         <td colspan="2" rowspan="1"></td>
-                        <td rowspan="1">lk</td>
-                     
-                       
-                        <ng-container *ngFor="let unit of Ordered_unit; let unit_index=index">
-
-                            <th  rowspan="1" colspan="2">MNT</th>
-      
-                            </ng-container>
+                        <td rowspan="1"></td>
                         <td colspan="2"></td>
-                       
+                        <td colspan="2"></td>
+                        <td colspan="2"></td>
+                        <td colspan="2"></td>
+                        <td colspan="3"></td>
                     </tr>   
                     <tr>
                         <td class="range" colspan="15"> 

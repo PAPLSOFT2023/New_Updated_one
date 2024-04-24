@@ -1,31 +1,13 @@
-<!-- <table>
-    <thead>
-      <tr>
-        <th>Unit NO</th>
-        <th>Building Name</th>
-        <th>Contract</th>
-        <th>Document ID</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let file of uploadFiles">
-        <td>{{ file.unit_name }}</td>
-        <td>{{ file.building_name }}</td>
-        <td>{{ file.contract }}</td>
-        <td>{{ file.document_id }}</td>
-       <td><i class="fa fa-eye"  (click)="displayPDF(file.unit_name,file.document_id,file.id,file.contract)"></i></td>   <!-- (click)="displayPDF(file.file_data)" -->
-      <!-- </tr>
-    </tbody>
-  </table> --> 
-  <div class="report-cards-container">
-    <div class="report-card" *ngFor="let file of uploadFiles">
+<br>
+<br>
+<div class="report-cards-container">
+    <div class="report-card" *ngFor="let file of uploadFiles"  (click)="displayPDF(file.document_id)">
   
       <div class="card-header">
   
         <div class="card-title">
           <i class="fas fa-file-contract"></i> <!-- File contract icon -->
-          Unit NO: {{ file.unit_name }}
+          Contract No: {{ file.contract_number }}
         </div>
         </div>
   
@@ -42,14 +24,14 @@
         </div>
         <!-- Additional Information -->
         <div class="info-row">
-          <span class="info-label"><i class="fa fa-credit-card"></i> Contract:</span> <!-- Building icon -->
-          <span class="info-value"> {{ file.contract }}</span>
+          <span class="info-label"><i class="fa fa-credit-card"></i> Units :</span> <!-- Building icon -->
+          <span class="info-value"> {{ file.unit_no | arrayFormat }}</span>
         </div>
         <div class="info-row">
           <span class="info-label"><i class="fa fa-book-alt"></i>Document ID:</span> <!-- Calendar icon -->
           <span class="info-value"> {{ file.document_id }}</span>
         </div>
-        <i class="fa fa-eye"  (click)="displayPDF(file.unit_name,file.document_id,file.id,file.contract)"></i>
+        <!-- <i class="fa fa-eye"  (click)="displayPDF(file.unit_name,file.document_id,file.id,file.contract)"></i> -->
   </div>
       </div>
     </div>

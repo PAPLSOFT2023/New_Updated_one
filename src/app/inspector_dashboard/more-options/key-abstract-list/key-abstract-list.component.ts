@@ -1,13 +1,13 @@
-import { Component,OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
-  selector: 'app-mail-automation-insp',
-  templateUrl: './mail-automation-insp.component.html',
-  styleUrls: ['./mail-automation-insp.component.scss']
+  selector: 'app-key-abstract-list',
+  templateUrl: './key-abstract-list.component.html',
+  styleUrls: ['./key-abstract-list.component.scss']
 })
-export class MailAutomationInspComponent {
+export class KeyAbstractListComponent {
   name:string|null ='';
   unitDetails: any[] = [];
   constructor(private router: Router,private http: HttpClient) {}
@@ -29,13 +29,13 @@ export class MailAutomationInspComponent {
         this.unitDetails = data;
       });
   }
-  proceed(document_id:string){
-    sessionStorage.setItem('document_id',document_id);
-    this.router.navigate(['afterlogin', 'unit',document_id]);
+  proceed(document_id:string,contract_number:string){
+    sessionStorage.setItem('contract',contract_number);
+    
+    this.router.navigate(['afterlogin', 'key_abstract_units',document_id,contract_number]);
 
     
 
   }
-
 
 }

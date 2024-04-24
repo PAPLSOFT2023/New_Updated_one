@@ -9,6 +9,7 @@ const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const { v4: uuidv4 } = require('uuid');
 const uuid = require('uuid');
+// const upload = multer({ dest: 'uploads/' });
 const storage = multer.memoryStorage(); // Store file data in memory
 const upload = multer({ storage: storage });
 // const pdfjsLib = require('pdfjs-dist/es5/build/pdf');
@@ -39,32 +40,32 @@ app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 
 // Firebase Next Link
-try {
+try{
   const admin = require('firebase-admin');
-  const serviceAccount = require('./paplapplication-firebase-adminsdk-dlrxg-4adbf847ee.json');
+const serviceAccount = require('./paplapplication-firebase-adminsdk-dlrxg-4adbf847ee.json');
 
-  admin.initializeApp({
-      credential: admin.credential.cert(serviceAccount),
-      databaseURL: 'https://paplapplication-default-rtdb.firebaseio.com',
-  });
-
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: 'https://paplapplication-default-rtdb.firebaseio.com',
+});
+  
   // Wait for Firebase to initialize
-  admin.database().ref('/Leave/Leaveforleadknown/krishnannarayananpaplcorpcom').once('value')
-      .then((snapshot) => {
-          // Firebase initialized successfully
-          const data = snapshot.val();
-          console.log('Data:', data);
-          // Now you can use 'data' and perform further operations
-      })
-      .catch((error) => {
-          // Error occurred during Firebase database query
-          console.error('Firebase database query error:', error);
-      });
-} catch (error) {
-  // Error occurred during Firebase initialization or require statements
-  console.error('Firebase initialization error:', error.message);
-}
+  admin.database().ref('/').once('value', (snapshot) => {
+    // Firebase initialized successfully
+    const Firebase_db = admin.database();
+const ref = Firebase_db.ref('/Leave/Leaveforleadknown/krishnannarayananpaplcorpcom');
 
+    
+    // Now you can use 'ref' and perform database operations
+  }).catch((error) => {
+    // Error occurred during Firebase initialization
+    console.error('Firebase initialization error:', error);
+  });
+  
+}
+catch(error){
+  console.error(error.message);
+}
 
 
 
@@ -137,7 +138,16 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
   const { filename } = req.file;
   const { unit_name, document_id,building_name,contract } = req.body;
 
-
+  // Save file details and data to the database
+  // const sql = 'INSERT INTO uploaded_files ( unit_name, document_id, file_data) VALUES (?, ?, ?)';
+  // db1.query(sql, [ unit_name, document_id, fileData], (err, result) => {
+  //     if (err) {
+  //         console.error('Error saving file details to database:', err);
+  //         return res.status(500).send('Error saving file details to database.');
+  //     }
+  //     console.log('File details and data saved to database:', result);
+  //     res.status(200).send('File uploaded and details saved to database.');
+  // });
   const sql = 'INSERT INTO uploaded_files (unit_name, document_id, file_data,building_name,contract) VALUES (?,?,?, ?, ?)';
   db1.query(sql, [unit_name, document_id, fileData,building_name,contract], (err, result) => {
     if (err) {
@@ -152,6 +162,29 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
 app.get('/api/upload_files_fetch', (req, res) => {
   // Execute query to fetch all records
   db1.query('SELECT * FROM uploaded_files', (error, results, fields) => {
+    if (error) {
+      return res.status(500).json({ message: error.message });
+    }
+    res.json(results);
+  });
+});
+
+//unit details fetch
+app.get('/api/unit_fetch', (req, res) => {
+  // Execute query to fetch all records
+  db1.query('SELECT * FROM unit_details WHERE head = ? AND closing_flag = ?', [1, 0], (error, results, fields) => {
+    if (error) {
+      return res.status(500).json({ message: error.message });
+    }
+    res.json(results);
+  });
+});
+
+//feed back fetch
+//unit details fetch
+app.get('/api/feed_back_fetch', (req, res) => {
+  // Execute query to fetch all records
+  db1.query('SELECT * FROM unit_details WHERE head = ? AND feed_back = ?', [1, 0], (error, results, fields) => {
     if (error) {
       return res.status(500).json({ message: error.message });
     }
@@ -474,8 +507,8 @@ app.get('/api/getinfdata_forReport', (req, res) => {
 
 // getUnit_details_Report
 app.get('/api/getUnit_details_Report',(req,res)=>{
-  const{contact_num,doc_id}=req.query;
-  db1.query('SELECT `document_id`, `contract_number`, `unit_no`, `witness_details`, `inspector_name`, `building_name` FROM `unit_details` WHERE `contract_number`=? AND `document_id`=?', [contact_num,doc_id], (error, result) => {
+  const{contact_num}=req.query;
+  db1.query('SELECT `document_id`, `contract_number`, `unit_no`, `witness_details`, `inspector_name`, `building_name` FROM `unit_details` WHERE `contract_number`=?', [contact_num], (error, result) => {
 
 
     if( result)
@@ -490,13 +523,10 @@ app.get('/api/getBrief_spec_value', (req, res) => {
   const { docid } = req.query;
   console.log("docid", docid);
 
-
-
-  // Assuming unit_id is a stringified JSON array 
+  // Assuming unit_id is a stringified JSON array coming from the client
   let unitIdsArray;
   try {
-    console.log("unit_id",req.query.unit_id);
-    unitIdsArray = req.query.unit_id.split(',');
+    unitIdsArray = JSON.parse(req.query.unit_id.replace(/'/g, '"'));
   } catch (e) {
     return res.status(400).json({ message: "Invalid unit_id format" });
   }
@@ -533,39 +563,31 @@ app.get('/api/getinsectionmasterData', (req, res) => {
     let sql = 'SELECT * FROM `inspection_master` WHERE 1';
 
 
+console.log("SQL Query:", sql); // Log the constructed SQL query
+
 db1.query(sql, (error, results) => {
   if (error) {
     console.error("Database error:", error);
     return res.status(500).json({ message: "Internal server error" });
   }
- 
+  // console.log("Result:", results); // Log the results from the database
   return res.json(results);
 });
 
 });
-// getinspectionmaster_description_for_Variable
-app.get('/api/getinspectionmaster_description_for_Variable',(req,res)=>{
-  const{part}=req.query;
-  db1.query('SELECT    `Description` FROM `inspection_master` WHERE `Parts`=?', [part], (error, result) => {
-    if( result)
-    {
-     return res.json(result)
-    }
-  });
-})
+
 
 // getChecklist_Record_Val
 
 app.get('/api/getChecklist_Record_Val',(req,res)=>{
   const{doc_id}=req.query;
-  db1.query('SELECT `id`, `document_id`, `inspector_name`, `unit_no`, `description`, `dropdown_option`, `checked`, `img`, `needforReport`, `section`,`Positive_MNT`, `Positive_ADJ`, `Negative_MNT`, `Negative_ADJ`, `Emergency_Features`,`Customer_Scope` FROM `record_values` WHERE `document_id`=?', [doc_id], (error, result) => {
+  db1.query('SELECT `id`, `document_id`, `inspector_name`, `unit_no`, `description`, `dropdown_option`, `checked`, `img`, `needforReport`, `section` FROM `record_values` WHERE `document_id`=?', [doc_id], (error, result) => {
     if( result)
     {
      return res.json(result)
     }
   });
 })
-
 
 // getUnitNumbers
 app.get('/api/getUnitNumbers',(req,res)=>{
@@ -704,17 +726,6 @@ app.get('/api/getUnitNumbers',(req,res)=>{
      
     });
   });
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1186,7 +1197,7 @@ app.get('/api/get_insp_master_checklist_description', (req, res) => {
   const { Description } = req.query;
   console.log("PPP called", Description);
 
-  const query = 'SELECT   * FROM `inspection_master` WHERE `Description`= ?';
+  const query = 'SELECT   `Reference`, `Photo`, `Dropdown` FROM `inspection_master` WHERE `Description`= ?';
   db1.query(query, [Description], (err, results) => {
     if (results) {
       console.log("/////",results);
@@ -1201,8 +1212,7 @@ app.get('/api/get_insp_master_checklist_description', (req, res) => {
 // insert_Pit_Values
 
 app.post('/api/insert_Record_Values', (req, res) => {
-  const { documentId, inspectorName, section, unitNo, title, valueArray, checkpoint, capturedImages, NeedforReport,positive_MNT,positive_ADJ,Negative_MNT,Negative_ADJ,Emergency_Features,Customerscope } = req.body;
-  console.log("??",documentId, inspectorName, section, unitNo, title, valueArray, checkpoint, capturedImages, NeedforReport,positive_MNT,positive_ADJ,Negative_MNT,Negative_ADJ,Emergency_Features,Customerscope)
+  const { documentId, inspectorName, section, unitNo, title, valueArray, checkpoint, capturedImages, NeedforReport } = req.body;
 
   // Construct the SQL query to check if the record already exists
   const checkQuery = `SELECT COUNT(*) AS count FROM record_values WHERE document_id = ? AND section = ? AND inspector_name = ? AND unit_no = ? AND description = ? AND dropdown_option = ?`;
@@ -1222,12 +1232,12 @@ app.post('/api/insert_Record_Values', (req, res) => {
 
     // If the record doesn't exist, proceed with insertion
     // Construct the SQL query for insertion
-    const query = `INSERT INTO record_values (document_id, inspector_name, unit_no, description, dropdown_option, checked, img, needforReport, section, Positive_MNT, Positive_ADJ, Negative_MNT, Negative_ADJ, Emergency_Features, Customer_Scope) VALUES ?`;
+    const query = `INSERT INTO record_values (document_id, section, inspector_name, unit_no, description, dropdown_option, checked, img, needforReport) VALUES ?`;
 
     // Prepare the data to be inserted
     const values = [];
     for (let i = 0; i < valueArray.length; i++) {
-      values.push([documentId,inspectorName,unitNo,title, valueArray[i],checkpoint[i],capturedImages[i],NeedforReport[i],section,  positive_MNT,positive_ADJ,Negative_MNT[i],Negative_ADJ[i],Emergency_Features,Customerscope]);
+      values.push([documentId, section, inspectorName, unitNo, title, valueArray[i], checkpoint[i], capturedImages[i], NeedforReport[i]]);
     }
 
     // Execute the insertion query
@@ -3948,9 +3958,9 @@ app.get('/api/inspector', (req, res) => {
 
   //agreement page 
   app.post('/api/store_data_agreement',(req,res)=>{
-    const {check,name, contract_no,selfAssigned,salesProcess}=req.body;
-    const query='INSERT INTO unit_details(contract_number,checks,inspector_name,selfAssigned,salesProcess) VALUES (?,?,?,?,?)';
-    db1.query(query,[contract_no,check,name,selfAssigned,salesProcess],(err,result)=>{
+    const {check,name, contract_no,selfAssigned,salesProcess,head}=req.body;
+    const query='INSERT INTO unit_details(contract_number,checks,inspector_name,selfAssigned,salesProcess,head) VALUES (?,?,?,?,?,?)';
+    db1.query(query,[contract_no,check,name,selfAssigned,salesProcess,head],(err,result)=>{
       if (err) {
         console.error('Error storeing values:', err);
         res.status(500).json({ error: 'Error storing values' });
@@ -4019,6 +4029,45 @@ app.get('/api/inspector', (req, res) => {
     const {witness_details,document_id}=req.body;
     const query = 'UPDATE unit_details SET witness_details=? WHERE document_id=?';
     db1.query(query,[JSON.stringify(witness_details),document_id],(err,result)=>{
+      if (err) {
+        console.error('Error executing SQL query:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+      } else {
+        if (result.affectedRows === 0) {
+          res.status(404).json({ error: ' not found' });
+        } else {
+          res.json({ message: 'witness updated successfully' });
+        }
+      }
+
+    })
+  })
+
+  //closing meeting
+  app.put('/api/update_data_close',(req,res)=>{
+    const {witness_details,document_id}=req.body;
+    const query = 'UPDATE unit_details SET closing_meeting=?,closing_flag=? WHERE document_id=?';
+    db1.query(query,[JSON.stringify(witness_details),1,document_id],(err,result)=>{
+      if (err) {
+        console.error('Error executing SQL query:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+      } else {
+        if (result.affectedRows === 0) {
+          res.status(404).json({ error: ' not found' });
+        } else {
+          res.json({ message: 'witness updated successfully' });
+        }
+      }
+
+    })
+  })
+
+  //update feedback
+  //closing meeting
+  app.put('/api/update_data_feedback',(req,res)=>{
+    const {rating,customer_details,options,document_id}=req.body;
+    const query = 'UPDATE unit_details SET rating=?,customer_details=?,options=?,feed_back=? WHERE document_id=?';
+    db1.query(query,[JSON.stringify(rating),JSON.stringify(customer_details),JSON.stringify(options),1,document_id],(err,result)=>{
       if (err) {
         console.error('Error executing SQL query:', err);
         res.status(500).json({ error: 'Internal Server Error' });

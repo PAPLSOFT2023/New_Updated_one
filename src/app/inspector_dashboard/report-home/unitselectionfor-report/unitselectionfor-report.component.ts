@@ -133,15 +133,15 @@ export class UnitselectionforReportComponent {
    
       
     console.log("descri",this.Description_and_Parts)
-      this.selectedOrder = [];
-      for (let unit of this.selectedUnits) {
-        this.selectedOrder.push(unit.unit);
-      }
-      this.showSecondTable = true;
-      this.parts_for_UI=this.dataservice.Orderd_parts
-      this.dataservice.Order_unit=this.selectedOrder;
-      console.log("***",this.documentidForUrl,this.selectedOrder)
-      this.getImages();
+    this.selectedOrder = [];
+    for (let unit of this.selectedUnits) {
+      this.selectedOrder.push(unit.unit);
+    }
+    this.showSecondTable = true;
+    this.parts_for_UI=this.dataservice.Orderd_parts
+    this.dataservice.Order_unit=this.selectedOrder;
+    console.log("***",this.documentidForUrl,this.selectedOrder)
+    this.getImages();
 
       // this.apicallservice.getChecklist_Record_Val_with_unit(this.documentidForUrl,this.selectedOrder).subscribe((record_data:any)=>{
       //   if (record_data)

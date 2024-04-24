@@ -6,18 +6,19 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ApicallService } from 'src/app/apicall.service';
 
 @Component({
-  selector: 'app-pre-inspection',
-  templateUrl: './pre-inspection.component.html',
-  styleUrls: ['./pre-inspection.component.scss']
+  selector: 'app-key-abstract-units',
+  templateUrl: './key-abstract-units.component.html',
+  styleUrls: ['./key-abstract-units.component.scss']
 })
-export class PreInspectionComponent {
+export class KeyAbstractUnitsComponent {
   document_id:string | null='';
 
   units:string[] | any=[];
   val:string|null ='';
   constructor(private route: ActivatedRoute,private dataService: ApicallService,private http :HttpClient,private router:Router){
-    this.document_id = sessionStorage.getItem('document_id');
-    console.log('document id is ',this.document_id);
+    // this.document_id = sessionStorage.getItem('document_id');
+    // console.log('document id is ',this.document_id);
+    this.document_id = this.route.snapshot.paramMap.get('document_id');
     this.route.paramMap.subscribe(params => {
       this.val = params.get('c_no');
       console.log(this.val);
@@ -57,7 +58,7 @@ export class PreInspectionComponent {
     console.log("Clicked on unit:", unit);
   
 if (unit) {
-      this.router.navigate(['certificate', unit,this.val]).then(
+      this.router.navigate(['key_abstract', unit,this.val,this.document_id]).then(
         () => console.log('Navigation successful'),
         (error) => console.error('Navigation failed:', error)
       );
@@ -65,5 +66,5 @@ if (unit) {
       console.error('Invalid unit value:', unit);
     }
   }
-    
+
 }

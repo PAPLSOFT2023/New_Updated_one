@@ -85,7 +85,7 @@ export class SalesFormComponent {
   }
 
   check(){
-    console.log('tpt6 flag',this.tpt6_flag);
+    console.log('tpt6 flag',this.tpt6);
     console.log('tpt7 flag',this.tpt7_flag);
     console.log('load test flag',this.load_test_flag);
     console.log('pmt flag',this.pmt_flag);
@@ -278,6 +278,10 @@ openDialog1(){
   // moving_walk:number=0;
   // travelator:number=0;
 
+    
+  }
+  submit(){
+    console.log('tpt 6 ',this.tpt6_flag);
     
   }
 
