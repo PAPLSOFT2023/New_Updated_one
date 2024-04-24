@@ -224,6 +224,7 @@ BriefmultiDimArray: {
   remark = 'All snags should be attended and completed to improve the ratings and performance of the elevators.';
 
   constructor(private apicallservice: ApicallService, private route: ActivatedRoute,public dataservice:ReportDataService) {
+    
     this.contractNo = this.route.snapshot.params['contractNumber'];
     this.documentidForUrl = decodeURIComponent(this.route.snapshot.params['documentid_For_Url']);
     this.Ordered_unit=this.dataservice.Order_unit
@@ -261,8 +262,6 @@ private initializeUnits() {
 
     
 
-    this.contractNo = this.route.snapshot.params['contractNumber'];
-    this.documentidForUrl = decodeURIComponent(this.route.snapshot.params['documentid_For_Url']);
     
       this.apicallservice.getinfdata_forReport(this.contractNo).subscribe((result:any)=>{
       if(result.length >0 && result){
@@ -272,8 +271,8 @@ private initializeUnits() {
           {
             console.log("Unit details",unit)
             console.log("---->",this.contractNo, this.documentidForUrl,unit[0].unit_no);
-            this.apicallservice.getBrief_spec_value(this.documentidForUrl,unit[0].unit_no).subscribe((brief:any)=>{
-              if(brief.length>0)
+            this.apicallservice.getBrief_spec_value(this.documentidForUrl,this.Ordered_unit).subscribe((brief:any)=>{
+              if(brief.length>0) 
               {        console.log("Brief spec",brief);
               
 
@@ -285,6 +284,7 @@ private initializeUnits() {
                       if(record_data)
                       {
 
+                        console.log("Val",record_data)
                         
                         // Record_Values
                         record_data.forEach((item: any) => {
@@ -487,7 +487,7 @@ private initializeUnits() {
                        this.checkEmergency();
                        
                        this.Pit_Report_Gen();
-                       
+                       this.Report_Quality_Gen();
                         
   
                       
@@ -840,63 +840,63 @@ Pit_Report_Gen(){
   const selected_unit=['p1','p2','a1','a2']
   console.log("descarray","descArray")
 
-  for (const key of Object.keys(this.Result_Of_pit_variables)) {
-    const descArray = this.Result_Of_pit_variables[key];
+//   for (const key of Object.keys(this.Result_Of_pit_variables)) {
+//     const descArray = this.Result_Of_pit_variables[key];
     
-    for (const desc of descArray) {
-      console.log("desc+",descArray)
-        for (const brief of this.BriefmultiDimArray) { 
-          if (selected_unit.indexOf(brief.unit_no) !== -1) {
-        //    const desc_keyToFind="description";
-        //     const desc_valueToFind=desc.actual_description;
-        //      const unit=brief.unit_no;
-        //       const unit_key="unit_no"
+//     for (const desc of descArray) {
+//       console.log("desc+",descArray)
+//         for (const brief of this.BriefmultiDimArray) { 
+//           if (selected_unit.indexOf(brief.unit_no) !== -1) {
+//            const desc_keyToFind="description";
+//             const desc_valueToFind=desc.actual_description;
+//              const unit=brief.unit_no;
+//               const unit_key="unit_no"
 
 
-        //       const template = {
-        //         unit:unit , status: "", image: null, report_string: "",has_image:false,actual_description:""};
-        //     for (const obj of this.Record_Values) {
-        //       if (obj.hasOwnProperty(desc_keyToFind) && obj[desc_keyToFind] === desc_valueToFind && obj.hasOwnProperty(unit_key) && obj[unit_key] === unit) {
+//               const template = {
+//                 unit:unit , status: "", image: null, report_string: "",has_image:false,actual_description:""};
+//             for (const obj of this.Record_Values) {
+//               if (obj.hasOwnProperty(desc_keyToFind) && obj[desc_keyToFind] === desc_valueToFind && obj.hasOwnProperty(unit_key) && obj[unit_key] === unit) {
                 
-        //         if(obj.checked)
-        //         {
-        //           template.unit=unit
-        //            console.log(desc_keyToFind,desc_valueToFind,unit,unit_key)
-        //            console.log("Row found:++",obj)
-        //           template.status="N"
+//                 if(obj.checked)
+//                 {
+//                   template.unit=unit
+//                    console.log(desc_keyToFind,desc_valueToFind,unit,unit_key)
+//                    console.log("Row found:++",obj)
+//                   template.status="N"
                   
-        //            if(template.report_string)
-        //             {
-        //               // desc.report_string+=+", "+obj.dropdown_option
-        //               template.report_string=template.report_string+", "+obj.dropdown_option
-        //             }
-        //             else{
-        //               template.report_string=obj.dropdown_option
+//                    if(template.report_string)
+//                     {
+//                       // desc.report_string+=+", "+obj.dropdown_option
+//                       template.report_string=template.report_string+", "+obj.dropdown_option
+//                     }
+//                     else{
+//                       template.report_string=obj.dropdown_option
 
-        //             }
-        //             if(obj.img && obj.needforReport)
-        //               {
-        //                 template.has_image=true;
-        //                 template.image=obj.img;
-        //               }
-
-
-        //         }
+//                     }
+//                     if(obj.img && obj.needforReport)
+//                       {
+//                         template.has_image=true;
+//                         template.image=obj.img;
+//                       }
 
 
+//                 }
 
-        //       }
-        //     }
+
+
+//               }
+//             }
 
             
 
 
-          }
-        }
+//           }
+//         }
        
         
-    }
-}
+//     }
+// }
 
 console.log("PIT Report+",this.Result_Of_pit_variables)
 

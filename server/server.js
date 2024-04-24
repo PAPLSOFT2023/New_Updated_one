@@ -248,21 +248,6 @@ const TransporterData = () => {
   });
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 const sendVerificationEmail= async (email, token) => {
   try {
     
@@ -523,10 +508,13 @@ app.get('/api/getBrief_spec_value', (req, res) => {
   const { docid } = req.query;
   console.log("docid", docid);
 
-  // Assuming unit_id is a stringified JSON array coming from the client
+
+
+  // Assuming unit_id is a stringified JSON array 
   let unitIdsArray;
   try {
-    unitIdsArray = JSON.parse(req.query.unit_id.replace(/'/g, '"'));
+    console.log("unit_id",req.query.unit_id);
+    unitIdsArray = req.query.unit_id.split(',');
   } catch (e) {
     return res.status(400).json({ message: "Invalid unit_id format" });
   }
@@ -555,6 +543,9 @@ app.get('/api/getBrief_spec_value', (req, res) => {
 
 
 
+
+
+
 // getinsectionmasterData
 
 app.get('/api/getinsectionmasterData', (req, res) => {
@@ -564,7 +555,6 @@ app.get('/api/getinsectionmasterData', (req, res) => {
 
 
 console.log("SQL Query:", sql); // Log the constructed SQL query
-
 db1.query(sql, (error, results) => {
   if (error) {
     console.error("Database error:", error);
@@ -573,9 +563,17 @@ db1.query(sql, (error, results) => {
   // console.log("Result:", results); // Log the results from the database
   return res.json(results);
 });
-
 });
-
+// getinspectionmaster_description_for_Variable
+app.get('/api/getinspectionmaster_description_for_Variable',(req,res)=>{
+  const{part}=req.query;
+  db1.query('SELECT    `Description` FROM `inspection_master` WHERE `Parts`=?', [part], (error, result) => {
+    if( result)
+    {
+     return res.json(result)
+    }
+  });
+})
 
 // getChecklist_Record_Val
 
