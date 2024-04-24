@@ -1,6 +1,6 @@
 import { Component,ChangeDetectionStrategy,ChangeDetectorRef } from '@angular/core';
 import { ApicallService } from 'src/app/apicall.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ReportDataService } from 'src/app/Data/report-data.service';
 import { HttpClient } from '@angular/common/http';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
@@ -44,7 +44,7 @@ export class UnitselectionforReportComponent {
   contractNo:string="";
 
 
-  constructor(private sanitizer: DomSanitizer,private http: HttpClient,private apicallservice: ApicallService,public dataservice:ReportDataService, private route: ActivatedRoute,private cdr: ChangeDetectorRef) {
+  constructor(private router:Router,private sanitizer: DomSanitizer,private http: HttpClient,private apicallservice: ApicallService,public dataservice:ReportDataService, private route: ActivatedRoute,private cdr: ChangeDetectorRef) {
     this.loadUnits();
 
 
@@ -125,7 +125,9 @@ export class UnitselectionforReportComponent {
     return btoa(binary);
   }
 
-
+  GenReport(){
+    this.router.navigate(['/Report_View',this.contractNo,this.documentidForUrl]);
+  }
  
   proceed() {
    
@@ -137,7 +139,8 @@ export class UnitselectionforReportComponent {
       }
       this.showSecondTable = true;
       this.parts_for_UI=this.dataservice.Orderd_parts
-      // console.log("***",this.documentidForUrl,this.selectedOrder)
+      this.dataservice.Order_unit=this.selectedOrder;
+      console.log("***",this.documentidForUrl,this.selectedOrder)
       this.getImages();
 
       // this.apicallservice.getChecklist_Record_Val_with_unit(this.documentidForUrl,this.selectedOrder).subscribe((record_data:any)=>{

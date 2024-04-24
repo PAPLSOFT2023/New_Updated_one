@@ -39,32 +39,32 @@ app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 
 // Firebase Next Link
-try{
+try {
   const admin = require('firebase-admin');
-const serviceAccount = require('./paplapplication-firebase-adminsdk-dlrxg-4adbf847ee.json');
+  const serviceAccount = require('./paplapplication-firebase-adminsdk-dlrxg-4adbf847ee.json');
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: 'https://paplapplication-default-rtdb.firebaseio.com',
-});
-  
-  // Wait for Firebase to initialize
-  admin.database().ref('/').once('value', (snapshot) => {
-    // Firebase initialized successfully
-    const Firebase_db = admin.database();
-const ref = Firebase_db.ref('/Leave/Leaveforleadknown/krishnannarayananpaplcorpcom');
-
-    
-    // Now you can use 'ref' and perform database operations
-  }).catch((error) => {
-    // Error occurred during Firebase initialization
-    console.error('Firebase initialization error:', error);
+  admin.initializeApp({
+      credential: admin.credential.cert(serviceAccount),
+      databaseURL: 'https://paplapplication-default-rtdb.firebaseio.com',
   });
-  
+
+  // Wait for Firebase to initialize
+  admin.database().ref('/Leave/Leaveforleadknown/krishnannarayananpaplcorpcom').once('value')
+      .then((snapshot) => {
+          // Firebase initialized successfully
+          const data = snapshot.val();
+          console.log('Data:', data);
+          // Now you can use 'data' and perform further operations
+      })
+      .catch((error) => {
+          // Error occurred during Firebase database query
+          console.error('Firebase database query error:', error);
+      });
+} catch (error) {
+  // Error occurred during Firebase initialization or require statements
+  console.error('Firebase initialization error:', error.message);
 }
-catch(error){
-  console.error(error.message);
-}
+
 
 
 
@@ -490,10 +490,13 @@ app.get('/api/getBrief_spec_value', (req, res) => {
   const { docid } = req.query;
   console.log("docid", docid);
 
-  // Assuming unit_id is a stringified JSON array coming from the client
+
+
+  // Assuming unit_id is a stringified JSON array 
   let unitIdsArray;
   try {
-    unitIdsArray = JSON.parse(req.query.unit_id.replace(/'/g, '"'));
+    console.log("unit_id",req.query.unit_id);
+    unitIdsArray = req.query.unit_id.split(',');
   } catch (e) {
     return res.status(400).json({ message: "Invalid unit_id format" });
   }
@@ -555,7 +558,7 @@ app.get('/api/getinspectionmaster_description_for_Variable',(req,res)=>{
 
 app.get('/api/getChecklist_Record_Val',(req,res)=>{
   const{doc_id}=req.query;
-  db1.query('SELECT `id`, `document_id`, `inspector_name`, `unit_no`, `description`, `dropdown_option`, `checked`, `img`, `needforReport`, `section` FROM `record_values` WHERE `document_id`=?', [doc_id], (error, result) => {
+  db1.query('SELECT `id`, `document_id`, `inspector_name`, `unit_no`, `description`, `dropdown_option`, `checked`, `img`, `needforReport`, `section`,`Positive_MNT`, `Positive_ADJ`, `Negative_MNT`, `Negative_ADJ`, `Emergency_Features`,`Customer_Scope` FROM `record_values` WHERE `document_id`=?', [doc_id], (error, result) => {
     if( result)
     {
      return res.json(result)
@@ -599,7 +602,7 @@ app.get('/api/getUnitNumbers',(req,res)=>{
 
   app.get('/api/getChecklist_Record_Val_with_unit', (req, res) => {
     const { doc_id, unit_array } = req.query;
-    console.log("888",doc_id)
+    // console.log("888",doc_id)
     const unitArr_for_img = unit_array.split(',');
 
     // db1.query('SELECT `id`, `document_id`, `inspector_name`, `unit_no`, `description`, `dropdown_option`, `checked`, `img`, `needforReport`, `section` FROM `record_values` WHERE `document_id`=? AND `unit_no` IN (?)', [doc_id, unitArr_for_img], (error, result) => {
@@ -672,6 +675,35 @@ app.get('/api/getUnitNumbers',(req,res)=>{
     });
   });
   
+
+  // getQuality_emergency
+  app.get('/api/getQuality_emergency', (req, res) => {
+    const { doc_id, unit_array } = req.query;
+    const unitArr_for_img = unit_array.split(',');
+    console.log("##",doc_id,unitArr_for_img)
+
+    const sql = 'SELECT  unit_no, description, dropdown_option, checked, section, Positive_MNT, Positive_ADJ, Negative_MNT, Negative_ADJ, Emergency_Features, Customer_Scope FROM record_values WHERE Emergency_Features=? AND unit_no IN (?) AND document_id =?';
+    db1.query(sql,[1,unitArr_for_img,doc_id], (err, result) => {
+      if (err) {
+        console.error('Error fetching image from database:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+        return;
+      }
+      else if (result.length === 0) {
+        res.status(404).json({ error: 'Image not found' });
+        return;
+      }
+      else{
+        return res.json(result) // Change this to the appropriate type for your images
+  
+
+      }
+      
+     
+     
+     
+    });
+  });
 
 
 

@@ -458,7 +458,7 @@ if (inspector_array.length === 0) {
   // Push the new object into the array
   inspector_array.push({
       name: this.inspector_name,
-      headChecked: false,
+      headChecked: true,
       fromDate: new Date(),
       toDate: new Date(),
       i_approved: 0,

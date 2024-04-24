@@ -77,6 +77,7 @@ const routes: Routes = [
   {path:"neworganization", component:NeworganizationComponent},
   {path:"forgotpassword",component:ForgotpasswordComponent},
   {path:"reset",component:ResetPasswordComponent},
+  { path: 'Report_View/:contractNumber/:documentid_For_Url', component: ReportForElevComponent },
 
 
   { path: 'ReportElevator1/:contractNumber/:documentid_For_Url', component: ReportForElevComponent },
