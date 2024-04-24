@@ -24,6 +24,13 @@ export class CabincheckpointsComponent {
   reference:string[]=[];
 
 
+  positive_MNT:number=0;
+  positive_ADJ:number=0;
+  Negative_MNT:string[]=[];
+  Negative_ADJ:string[]=[];
+  Emergency_Features:boolean=false;
+  Customerscope:boolean=false;
+
   documentId:string='';
   unitNo:string='';
   inspectorName:string='';
@@ -80,6 +87,13 @@ save_button_enable_flag:boolean=false
           this.dropdownArray=response[0].Dropdown.split('~');
           this.photoArray=response[0].Photo.split('~');
           this.reference=response[0].Reference.split('~');  
+          this.Negative_MNT=response[0].Negative_MNT.split('~');
+          this.Negative_ADJ=response[0].Negative_ADJ.split('~');
+
+          this.positive_ADJ=response[0].Positive_ADJ;
+          this.positive_MNT=response[0].Positive_MNT;
+         this.Emergency_Features=response[0].Emergency_Features;
+         this.Customerscope=response[0].Customer_Scope;
          
 
            this.photoSelected = new Array(this.dropdownArray.length).fill(false);
@@ -314,7 +328,7 @@ async save(): Promise<void> {
     this.submitDataToServer(valueArray).then(() => {
       // console.log("Data submitted successfully");
       if ('indexedDB' in window) {
-        this.saveDataLocally(valueArray).then(() => {
+        this.saveDataLocally(valueArray,this.Negative_ADJ,this.Negative_MNT).then(() => {
           // console.log("Data saved successfully");  
         }).catch((error) => {
           console.error("Error saving data locally:", error);
@@ -327,7 +341,7 @@ async save(): Promise<void> {
   else {
     // Offline - Save data locally
     if ('indexedDB' in window) {
-      this.saveDataLocally(valueArray).then(() => {
+      this.saveDataLocally(valueArray,this.Negative_ADJ,this.Negative_MNT).then(() => {
         alert("Data saved to OutBox");
       }).catch((error) => {
         console.error("Error saving data locally:", error);
@@ -351,6 +365,12 @@ private async submitDataToServer(valueArray: string[]): Promise<void> {
       this.unitNo, 
       this.title, 
       valueArray, 
+      this.positive_MNT,
+      this.positive_ADJ,
+      this.Negative_MNT,
+      this.Negative_ADJ,      
+      this.Emergency_Features,
+      this.Customerscope,
       this.checkpoint, 
       this.capturedImages, 
       this.NeedforReport
@@ -361,7 +381,7 @@ private async submitDataToServer(valueArray: string[]): Promise<void> {
   }
 }
 
-private async saveDataLocally(valueArray: string[]): Promise<void> {
+private async saveDataLocally(valueArray: string[],Negative_ADJ:string[],Negative_MNT:string[]): Promise<void> {
   const db = await this.openIndexedDB();
   const transaction = db.transaction("Offline", "readwrite");
   const store = transaction.objectStore("Offline");
@@ -377,6 +397,12 @@ private async saveDataLocally(valueArray: string[]): Promise<void> {
     checkpoint: this.checkpoint,
     capturedImages: this.capturedImages,
     needForReport: this.NeedforReport,
+    positive_MNT: this.positive_MNT,
+   positive_ADJ:this.positive_ADJ,
+   Negative_MNT,
+  Negative_ADJ,
+  emergency_Features:this.Emergency_Features,
+  customerscope:this.Customerscope,
     updatedAt: new Date()
   };
 

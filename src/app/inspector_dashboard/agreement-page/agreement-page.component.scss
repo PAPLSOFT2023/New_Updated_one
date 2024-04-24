@@ -1,7 +1,7 @@
 /* Global Styles */
 body {
     font-family: Arial, sans-serif;
-    // background-color: #f9f9f9;
+    background-color: #f9f9f9;
     margin: 0;
     padding: 0;
 }
@@ -15,7 +15,7 @@ body {
 
 /* Opening Meeting Container */
 .opening-meeting {
-    max-width: 900px;
+    max-width: 700px;
     padding: 30px;
     background-color: #ffffff; /* White background */
     border-radius: 10px;
@@ -39,7 +39,7 @@ body {
 /* Opening Meeting Paragraphs */
 .opening-meeting p {
     color: #555555; /* Gray color */
-    font-size: 18px;
+    font-size: 16px;
     line-height: 1.6;
     margin-bottom: 15px;
     text-align: justify;
@@ -58,7 +58,7 @@ body {
 }
 
 .opening-meeting p.disclaimer {
-    font-size: 17px;
+    font-size: 14px;
     color: #888888; /* Light gray color */
     margin-top: 30px; /* Increased margin top */
     border-top: 1px solid #cccccc; /* Light gray border top */
@@ -90,16 +90,4 @@ body {
 }
 .action-button:hover {
     background-color: #45a049; /* Darker green color on hover */
-}
-.center{
-    text-align: center;
-    font-size: 25px;
-}
-.thank-you_one{
-    font-size: 20px;
-    margin-top: 30px;
-}
-.thank-you{
-    font-size: 20px;
-    margin-top: 30px;
 }

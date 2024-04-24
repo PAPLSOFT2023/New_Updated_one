@@ -1,0 +1,41 @@
+td {
+  text-align: left;
+  width: 150px; /* Adjust as needed */
+  white-space: nowrap; /* Prevent text from wrapping */
+  overflow: hidden; /* Hide overflowing content */
+  text-overflow: ellipsis; /* Add ellipsis for truncated text */
+}
+
+
+
+.container {
+  width: 80%;
+  margin: 20px auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+  font-size: 16px;
+}
+
+
+
+
+@media screen and (max-width: 768px) {
+  .container {
+      width: 90%;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .container {
+      width: 95%;
+  }
+}

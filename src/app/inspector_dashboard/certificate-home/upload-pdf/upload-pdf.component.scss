@@ -1,70 +1,62 @@
-@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400&display=swap');
+/* Reset CSS */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-.container {
-    width: 100%; 
-    margin-top: 50px;
+body {
+    font-family: 'Inter', sans-serif;
     display: flex;
     justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: whitesmoke;
+}
+
+.container {
+    width: 80%;
+    margin-top: 50px;
 }
 
 table {
-    width: 80%; 
+    width: 100%;
     border-collapse: collapse;
-    max-width: 100%;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    margin-top:5px; 
 }
 
-table th,
-table td {
-    padding: 15px;
+table th, table td {
+    padding: 10px;
     border-bottom: 1px solid #ccc;
-    text-align: center;
+    text-align: left;
 }
 
-.thg {
-    background-image: linear-gradient(125deg, #2c3e50 50%,#000000 50%);
-    color: white;
-    font-weight: bold;
-    text-align: center;
-    
+table th {
+    background-color: #f0f0f0;
 }
 
-.custom-file-upload {
-    display: inline-block;
-    padding: 8px 12px;
-    border: 1px solid #007bff;
-    border-radius: 4px;
-    cursor: pointer;
-    background-color: #007bff;
-    color: #fff;
-    margin-right: 5px;
-}
-
-
-.custom-file-upload input[type="file"] {
+table td input[type="file"] {
     display: none;
 }
-button {
-    padding: 10px 20px; 
-    background-color: #4CAF50; 
-    color: white;
+
+table td button {
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: #fff;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.3s ease; 
 }
-p{
-    text-align: center;
-    font-size: 18px;
-    font-weight: bold;
-    margin-top: 30px;
+.custom-file-upload input[type="file"] {
+    display: none;
 }
 
+.custom-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+}
 
-.drop-icon i {
-    color: #888; 
-    font-size: 3rem; 
-  }
+table td button:hover {
+    background-color: #0056b3;
+}

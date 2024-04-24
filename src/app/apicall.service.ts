@@ -532,11 +532,11 @@ getinfdata_forReport(id:string):Observable<any>{
 
 
 // getUnit_details_Report
-getUnit_details_Report(contact_num:string):Observable<any>
+getUnit_details_Report(doc_id: string, contact_num: string):Observable<any>
 {
   console.log("api called===")
   const url = `${this.apiURL}getUnit_details_Report`;
-  const params = new HttpParams().set('contact_num', contact_num);
+  const params = new HttpParams() .set('doc_id', doc_id).set('contact_num', contact_num);
 
   const headers = new HttpHeaders({
     'Content-Type': 'application/json'
@@ -556,6 +556,7 @@ getBrief_spec_value(docid: string, unit_id: any): Observable<any> {
   console.log("api called===", docid);
  
   const url = `${this.apiURL}getBrief_spec_value`;
+ 
 
   // Check if unit_id is an array, if not convert it to an array
   const unitIdsArray = Array.isArray(unit_id) ? unit_id : [unit_id];
@@ -563,7 +564,7 @@ getBrief_spec_value(docid: string, unit_id: any): Observable<any> {
   // Convert unitIdsArray to a comma-separated string
   const unitIdsString = unitIdsArray.join(',');
 
-  
+  console.log("unit*",unitIdsString)
 
   const params = new HttpParams().set('docid', docid).set('unit_id', unitIdsString);
 
@@ -597,7 +598,7 @@ getinsectionmasterData(): Observable<any> {
 // getChecklist_Record_Val
 getChecklist_Record_Val(doc_id:string):Observable<any>
 {
-  console.log("api called===")
+  console.log("api called===+")
   const url = `${this.apiURL}getChecklist_Record_Val`;
   const params = new HttpParams().set('doc_id', doc_id);
 
@@ -612,6 +613,125 @@ getChecklist_Record_Val(doc_id:string):Observable<any>
 
   return this.httpClient.get(url, options);
 }
+
+// getinspectionmaster_description_for_Variable
+getinspectionmaster_description_for_Variable(part:string):Observable<any>
+{
+  const url = `${this.apiURL}getinspectionmaster_description_for_Variable`;
+  const params = new HttpParams().set('part', part);
+  const headers = new HttpHeaders({
+    'Content-Type': 'application/json'
+  });
+
+  const options = {
+    headers: headers,
+    params: params
+  };
+
+  return this.httpClient.get(url, options);
+}
+getUnitNumbers(contractNo: string, documentidForUrl: string): Observable<any> {
+  // Constructing the query parameters using HttpParams
+  const params = new HttpParams()
+    .set('contractNo', contractNo)
+    .set('documentidForUrl', documentidForUrl);
+
+  // Making the GET request with the constructed parameters
+  return this.httpClient.get<any>(this.apiURL + 'getUnitNumbers', { params: params });
+}
+
+
+
+getChecklist_Record_Val_with_unit(doc_id: string, unitArr_for_img: string[]): Observable<any> {
+  console.log("api called===",doc_id,unitArr_for_img)
+  const url = `${this.apiURL}getChecklist_Record_Val_with_unit`;
+  
+  // Convert unitArr_for_img to a comma-separated string
+  const unitArrayString = unitArr_for_img.join(',');
+  // console.log("&&",unitArrayString)
+
+  const params = new HttpParams().set('doc_id', doc_id).set('unit_array', unitArrayString);
+
+  const headers = new HttpHeaders({
+    'Content-Type': 'application/json'
+  });
+
+  const options = {
+    headers: headers,
+    params: params
+  };
+
+  return this.httpClient.get(url, options);
+}
+
+// getQuality_emergency
+getQuality_emergency(doc_id:string,unitArray:string[]): Observable<any> {
+  
+  const url = `${this.apiURL}getQuality_emergency`;
+  const unitString= unitArray.join(',');
+  // Convert unitArr_for_img to a comma-separated string
+  console.log("^^^^^called",doc_id,unitString)
+ 
+  const params = new HttpParams().set('doc_id', doc_id).set('unit_array', unitString);
+
+  const headers = new HttpHeaders({
+    'Content-Type': 'application/json'
+  });
+
+  const options = {
+    headers: headers,
+    params: params
+  };
+
+  return this.httpClient.get(url, options);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -787,10 +907,16 @@ get_insp_master_checklist(Description:string):Observable<any>{
 }
 
 
+
+
+
 // 
-insert_Record_Values(documentId: string, inspectorName: string,section:string, unitNo: string, title: string, valueArray: string[], checkpoint: boolean[], capturedImages: any[], NeedforReport: boolean[]):Observable<any> {
-  const body={documentId, inspectorName,section, unitNo, title, valueArray, checkpoint, capturedImages, NeedforReport};  
- console.log("api called ")
+insert_Record_Values(documentId: string, inspectorName: string,section:string, unitNo: string, title: string, valueArray: string[],
+  positive_MNT:number,positive_ADJ:number, Negative_MNT:string[], Negative_ADJ:string[],Emergency_Features:boolean, Customerscope:boolean,
+
+   checkpoint: boolean[], capturedImages: any[], NeedforReport: boolean[]):Observable<any> {
+  const body={documentId, inspectorName,section, unitNo, title, valueArray, checkpoint, capturedImages, NeedforReport,positive_MNT,positive_ADJ,Negative_MNT,Negative_ADJ,Emergency_Features,Customerscope};  
+ console.log("api called ",body)
   return this.httpClient.post(this.apiURL+'insert_Record_Values',body);
 }
 // Check_check_data_exists

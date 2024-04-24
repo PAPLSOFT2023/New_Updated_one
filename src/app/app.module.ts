@@ -138,6 +138,7 @@ import { AgreementPageComponent } from './inspector_dashboard/agreement-page/agr
 import { SiteRiskAssessmentComponent } from './inspector_dashboard/site-risk-assessment/site-risk-assessment.component';
 import { PreInspectionComponent } from './inspector_dashboard/pre-inspection/pre-inspection.component';
 import { MailAutomationInspComponent } from './inspector_dashboard/mail-automation-insp/mail-automation-insp.component';
+import { UnitselectionforReportComponent } from './inspector_dashboard/report-home/unitselectionfor-report/unitselectionfor-report.component';
 import { ListCertificateComponent } from './inspector_dashboard/list-certificate/list-certificate.component';
 import { CertificateComponent } from './inspector_dashboard/certificate/certificate.component';
 import { CertificateOComponent } from './certificate-o/certificate-o.component';
@@ -147,16 +148,7 @@ import { UploadCertificateComponent } from './inspector_dashboard/certificate-ho
 import { ViewCertificateComponent } from './inspector_dashboard/certificate-home/view-certificate/view-certificate.component';
 import { UploadPdfComponent } from './inspector_dashboard/certificate-home/upload-pdf/upload-pdf.component';
 import { ViewofcertificateComponent } from './inspector_dashboard/certificate-home/viewofcertificate/viewofcertificate.component';
-import { MoreOptionsComponent } from './inspector_dashboard/more-options/more-options.component';
-import { ClosingMeetingComponent } from './inspector_dashboard/more-options/closing-meeting/closing-meeting.component';
-import { KeyAbstractComponent } from './inspector_dashboard/more-options/key-abstract/key-abstract.component';
-import { FeedBackFormComponent } from './inspector_dashboard/more-options/feed-back-form/feed-back-form.component';
-import { ArrayJoinPipe } from './array-join.pipe';
-import { CloseoutComponent } from './inspector_dashboard/more-options/closeout/closeout.component';
-import { FeedBackFillComponent } from './inspector_dashboard/more-options/feed-back-fill/feed-back-fill.component';
-import { KeyAbstractListComponent } from './inspector_dashboard/more-options/key-abstract-list/key-abstract-list.component';
-import { KeyAbstractUnitsComponent } from './inspector_dashboard/more-options/key-abstract-units/key-abstract-units.component';
-
+import { SafeUrlPipe } from './Data/safe-url.pipe';
 // import { RejectionComponent } from './inspector_dashboard/rejection/rejection.component';
 
 
@@ -173,6 +165,7 @@ import { KeyAbstractUnitsComponent } from './inspector_dashboard/more-options/ke
     LoginComponent,
     UiElementsComponent,
     MailAutomationInspComponent,
+    SafeUrlPipe,
   
    
     NeworganizationComponent,
@@ -255,6 +248,7 @@ import { KeyAbstractUnitsComponent } from './inspector_dashboard/more-options/ke
                AgreementPageComponent,
                SiteRiskAssessmentComponent,
                PreInspectionComponent,
+               UnitselectionforReportComponent,
                ListCertificateComponent,
                CertificateComponent,
                CertificateOComponent,
@@ -264,15 +258,6 @@ import { KeyAbstractUnitsComponent } from './inspector_dashboard/more-options/ke
                ViewCertificateComponent,
                UploadPdfComponent,
                ViewofcertificateComponent,
-               MoreOptionsComponent,
-               ClosingMeetingComponent,
-               KeyAbstractComponent,
-               FeedBackFormComponent,
-               ArrayJoinPipe,
-               CloseoutComponent,
-               FeedBackFillComponent,
-               KeyAbstractListComponent,
-               KeyAbstractUnitsComponent,
              
         // RejectionComponent,
         

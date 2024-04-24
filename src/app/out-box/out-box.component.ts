@@ -11,6 +11,7 @@ export class OutBoxComponent {
 
    allValues!: any[];
    syncing: boolean = false;
+   DataNotAvai:string="No Data Available in OutBox"
 
   constructor(private route: ActivatedRoute,private apicallservice:ApicallService) {
 
@@ -30,6 +31,7 @@ getvalu(){
     checkpoint: boolean[];
     capturedImages: any[];
     needForReport: boolean[]; 
+
   }
   
   const openRequest: IDBOpenDBRequest = indexedDB.open("OutBox", 1);
@@ -55,7 +57,7 @@ const getAllRequest: IDBRequest<ValuesObj[]> = offlineStore.getAll();
 
 getAllRequest.onsuccess = () => {
    this.allValues = getAllRequest.result;
-  // console.log("All records:", JSON.stringify(this.allValues));
+  console.log("All records:", JSON.stringify(this.allValues));
 };
 
 getAllRequest.onerror = () => console.error("Error retrieving records", getAllRequest.error);
@@ -70,15 +72,37 @@ getAllRequest.onerror = () => console.error("Error retrieving records", getAllRe
 syncData(): void {
   this.syncing = true;
   const syncPromises = this.allValues.map((value) => {
-    console.log("OutBox ",value)
+    // console.log("OutBox ",value)
     return this.apicallservice.syncValue(value).toPromise();
   });
   const syncStartedAt = Date.now();
   Promise.all(syncPromises)
     .then((results) => {
       console.log('Data synchronized successfully', results);
-      // Update UI or local data as necessary
+
+      
       deleteMultipleFromIndexedDB(results);
+
+      // Iterate through results array
+      results.forEach((result: any) => {
+      // Check if message is "Data synchronization complete"
+      if (result.message === "Data synchronization complete") {
+      // Extract the key from the result object
+      const keyToRemove = result.key;
+
+      // Find the index of the object in allValues array with the same key
+      const indexToRemove = this.allValues.findIndex((value: any) => value.key === keyToRemove);
+
+      // If index is found (not -1), remove the object from allValues array
+      if (indexToRemove !== -1) {
+          this.allValues.splice(indexToRemove, 1);
+      }
+     }
+       });
+       this.DataNotAvai="Synced Successfull"
+
+
+
     })
     .catch((error) => {
       console.error('Error synchronizing data', error); 
@@ -91,7 +115,8 @@ syncData(): void {
         setTimeout(() => {
           this.syncing = false;
         }, minDisplayTime - elapsedTime);
-      } else {
+      } 
+      else {
         this.syncing = false;
       }
     });

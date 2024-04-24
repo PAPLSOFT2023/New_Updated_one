@@ -42,7 +42,7 @@ export class InspectorHomeComponent implements OnInit {
   isGetMailSetupEnabled = false;
   isSendingMailEnabled = false;
   isMailReportEnabled = false;
-  request : any ;
+  // request : any ;
  
 
   // location:string='/assets/logo1.png'
@@ -99,11 +99,11 @@ export class InspectorHomeComponent implements OnInit {
 
   Send_Mail_Client(id:string){
     this.open_popUp=!this.open_popUp;
-    // console.log(id);
+    console.log("id,",id);
     // const sender=sessionStorage.getItem("Email") as string
 
     
-    if(id){
+    if(id!=null){
       this.apicallservice.getinfdata_forMail(id).subscribe(
         (response: any) => {
         if (response && response.length !== 0) {
@@ -315,7 +315,7 @@ export class InspectorHomeComponent implements OnInit {
       .subscribe(
         count => {
             this.records = count;
-            console.log("IIIIIIIiiiiiiiiiii",count)
+            console.log(" ",count)
         },
         error => {
           console.error('Error fetching record count:', error);

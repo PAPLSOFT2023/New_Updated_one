@@ -53,6 +53,7 @@ import { ReportHomeComponent } from './inspector_dashboard/report-home/report-ho
 import { AgreementPageComponent } from './inspector_dashboard/agreement-page/agreement-page.component';
 import { SiteRiskAssessmentComponent } from './inspector_dashboard/site-risk-assessment/site-risk-assessment.component';
 import { PreInspectionComponent } from './inspector_dashboard/pre-inspection/pre-inspection.component';
+import { UnitselectionforReportComponent } from './inspector_dashboard/report-home/unitselectionfor-report/unitselectionfor-report.component';
 import { ListCertificateComponent } from './inspector_dashboard/list-certificate/list-certificate.component';
 import { CertificateComponent } from './inspector_dashboard/certificate/certificate.component';
 import { CertificateOComponent } from './certificate-o/certificate-o.component';
@@ -60,12 +61,6 @@ import { CertificateHomeComponent } from './inspector_dashboard/certificate-home
 import { UploadCertificateComponent } from './inspector_dashboard/certificate-home/upload-certificate/upload-certificate.component';
 import { UploadPdfComponent } from './inspector_dashboard/certificate-home/upload-pdf/upload-pdf.component';
 import { ViewofcertificateComponent } from './inspector_dashboard/certificate-home/viewofcertificate/viewofcertificate.component';
-import { MoreOptionsComponent } from './inspector_dashboard/more-options/more-options.component';
-import { ClosingMeetingComponent } from './inspector_dashboard/more-options/closing-meeting/closing-meeting.component';
-import { CloseoutComponent } from './inspector_dashboard/more-options/closeout/closeout.component';
-import { FeedBackFormComponent } from './inspector_dashboard/more-options/feed-back-form/feed-back-form.component';
-import { KeyAbstractUnitsComponent } from './inspector_dashboard/more-options/key-abstract-units/key-abstract-units.component';
-import { KeyAbstractComponent } from './inspector_dashboard/more-options/key-abstract/key-abstract.component';
 // import { OutBoxComponent } from './out-box/out-box.component';
 // import { UnitDetailsComponent } from './inspector_dashboard/unit-details/unit-details.component';
 const routes: Routes = [
@@ -73,8 +68,6 @@ const routes: Routes = [
   {path:'app-home',component:AppHomeComponent,},
   {path:'pdf/:c_no',component:InfPdfComponent},
   {path:'certificate/:unit/:document_id',component:CertificateComponent},
-  {path:'key_abstract/:unit/:document_id/:contract_no',component:KeyAbstractComponent},
-
   {path:'view_c/:unit/:document_id/:id/:contract',component:ViewofcertificateComponent},
 
   // {path:"",redirectTo:"app-home",pathMatch:'full'},
@@ -84,9 +77,11 @@ const routes: Routes = [
   {path:"neworganization", component:NeworganizationComponent},
   {path:"forgotpassword",component:ForgotpasswordComponent},
   {path:"reset",component:ResetPasswordComponent},
+  { path: 'Report_View/:contractNumber/:documentid_For_Url', component: ReportForElevComponent },
 
 
   { path: 'ReportElevator1/:contractNumber/:documentid_For_Url', component: ReportForElevComponent },
+  { path: 'unit_selection', component: UnitselectionforReportComponent },
   // '/afterlogin/software_admin_dashboard_user_manage/organization_admin_login_details'
   {path: 'afterlogin',component: AfterloginComponent,
     children: [
@@ -117,11 +112,13 @@ const routes: Routes = [
         {path:"mail_automation",component:MailAutomationInspComponent},
         {path:"ReportHome",component:ReportHomeComponent},
         {path:"ReportElevator",component:ReportForElevComponent},
+        { path: 'Report_unitSelection/:contractNumber/:documentid_For_Url', component: UnitselectionforReportComponent },
         {path:"outbox",component:OutBoxComponent},
        
 
         
          {path:'inspection_home', component:InspectionInfComponent},
+        
          {path:'RescheduleRequest',component:RescheduleRequestComponent},
 
          {path:'inspection_inf/:c_no',component:InspectionFormComponent},
@@ -143,10 +140,6 @@ const routes: Routes = [
          {path:'upload_certificate/:c_no',component:UploadPdfComponent},
          {path:'list_certificate',component:ListCertificateComponent},
          {path:'certificate_home',component:CertificateHomeComponent},
-         {path:'more_options',component:MoreOptionsComponent},
-         {path:'closing_meeting/:c_no',component:CloseoutComponent},
-         {path:'feedback/:c_no',component:FeedBackFormComponent},
-         {path:'key_abstract_units/:c_no/:document_id',component:KeyAbstractUnitsComponent},
         
          {path:'pit/:c_no',component:PitComponent},
          { path: 'pitcheckpoint/:id/:documentid/:unitno/:inspectorname/:section', component: PitcheckpointsComponent },

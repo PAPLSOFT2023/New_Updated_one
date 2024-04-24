@@ -24,6 +24,13 @@ export class PitcheckpointsComponent  {
   photoArray: string[] = [];
   reference:string[]=[];
 
+  positive_MNT:number=0;
+  positive_ADJ:number=0;
+  Negative_MNT:string[]=[];
+  Negative_ADJ:string[]=[];
+  Emergency_Features:boolean=false;
+  Customerscope:boolean=false;
+
 
   documentId:string='';
   unitNo:string='';
@@ -63,11 +70,11 @@ save_button_enable_flag:boolean=false
 
     const encodedId = this.route.snapshot.paramMap.get('id');
 
-    this.section=this.route.snapshot.paramMap.get('section')||'section Not Get';
+    this.section=this.route.snapshot.paramMap.get('section')??'section Not Get';
    
-    this.documentId = this.route.snapshot.paramMap.get('documentid') || ''; // Use type assertion and provide a default value
-    this.unitNo = this.route.snapshot.paramMap.get('unitno') || ''; // Use type assertion and provide a default value
-    this.inspectorName = this.route.snapshot.paramMap.get('inspectorname') || ''; // Use type assertion and provide a default value
+    this.documentId = this.route.snapshot.paramMap.get('documentid') ?? ''; // Use type assertion and provide a default value
+    this.unitNo = this.route.snapshot.paramMap.get('unitno') ?? ''; // Use type assertion and provide a default value
+    this.inspectorName = this.route.snapshot.paramMap.get('inspectorname') ?? ''; // Use type assertion and provide a default value
     // Do whatever you need with the id parameter
     if (encodedId) {
       this.id = decodeURIComponent(encodedId);
@@ -75,18 +82,29 @@ save_button_enable_flag:boolean=false
       this.title=this.id;
       console.log('ID:', this.id);
       this.apicallservice.get_insp_master_checklist(this.id).subscribe((response:any)=>{
+        console.log('ID_res:',response[0]);
 
         if(response)
         {
           this.dropdownArray=response[0].Dropdown.split('~');
           this.photoArray=response[0].Photo.split('~');
-          this.reference=response[0].Reference.split('~');  
+          this.reference=response[0].Reference.split('~');
+          this.Negative_MNT=response[0].Negative_MNT.split('~');
+          this.Negative_ADJ=response[0].Negative_ADJ.split('~');
+
+          // this.positive_ADJ=parseInt(response[0].positive_ADJ, 10);
+          this.positive_ADJ=response[0].Positive_ADJ;
+          // this.positive_MNT=parseInt(response[0].positive_MNT,10);
+          this.positive_MNT=response[0].Positive_MNT
+         this.Emergency_Features=response[0].Emergency_Features;
+         this.Customerscope=response[0].Customer_Scope;
          
 
            this.photoSelected = new Array(this.dropdownArray.length).fill(false);
            this.checkpoint= new Array(this.dropdownArray.length).fill(false);
           this.NeedforReport = new Array(this.dropdownArray.length).fill(false);
           this.capturedImages=new Array(this.dropdownArray.length).fill(null);
+
          
         }
 
@@ -310,12 +328,17 @@ async save(): Promise<void> {
     return item;
   });
 
+  console.log("Checkpoint_valarray",valueArray);
+  
+
   if (navigator.onLine) {
+
+    console.log("III",this.Customerscope)
     // Online - Submit data to server
     this.submitDataToServer(valueArray).then(() => {
       // console.log("Data submitted successfully");
       if ('indexedDB' in window) {
-        this.saveDataLocally(valueArray).then(() => {
+        this.saveDataLocally(valueArray,this.Negative_ADJ,this.Negative_MNT).then(() => {
           // console.log("Data saved successfully");  
         }).catch((error) => {
           console.error("Error saving data locally:", error);
@@ -328,7 +351,7 @@ async save(): Promise<void> {
   else {
     // Offline - Save data locally
     if ('indexedDB' in window) {
-      this.saveDataLocally(valueArray).then(() => {
+      this.saveDataLocally(valueArray,this.Negative_ADJ,this.Negative_MNT).then(() => {
         alert("Data saved to OutBox");
       }).catch((error) => {
         console.error("Error saving data locally:", error);
@@ -341,7 +364,7 @@ async save(): Promise<void> {
 }
 
 private async submitDataToServer(valueArray: string[]): Promise<void> {
-  // Replace with your API call logic
+ 
  
   try {
     const result = await this.apicallservice.insert_Record_Values(
@@ -351,7 +374,15 @@ private async submitDataToServer(valueArray: string[]): Promise<void> {
       
       this.unitNo, 
       this.title, 
-      valueArray, 
+      valueArray,
+      
+      this.positive_MNT,
+      this.positive_ADJ,
+      this.Negative_MNT,
+      this.Negative_ADJ,      
+      this.Emergency_Features,
+      this.Customerscope,
+     
       this.checkpoint, 
       this.capturedImages, 
       this.NeedforReport
@@ -362,7 +393,7 @@ private async submitDataToServer(valueArray: string[]): Promise<void> {
   }
 }
 
-private async saveDataLocally(valueArray: string[]): Promise<void> {
+private async saveDataLocally(valueArray: string[],Negative_ADJ:string[],Negative_MNT:string[]): Promise<void> {
   const db = await this.openIndexedDB();
   const transaction = db.transaction("Offline", "readwrite");
   const store = transaction.objectStore("Offline");
@@ -378,6 +409,15 @@ private async saveDataLocally(valueArray: string[]): Promise<void> {
     checkpoint: this.checkpoint,
     capturedImages: this.capturedImages,
     needForReport: this.NeedforReport,
+
+
+   positive_MNT: this.positive_MNT,
+   positive_ADJ:this.positive_ADJ,
+   Negative_MNT,
+  Negative_ADJ,
+  emergency_Features:this.Emergency_Features,
+  customerscope:this.Customerscope,
+
     updatedAt: new Date()
   };
 
