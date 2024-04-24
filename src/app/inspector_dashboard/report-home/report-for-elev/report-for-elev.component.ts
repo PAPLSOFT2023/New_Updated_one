@@ -625,59 +625,50 @@ private initializeUnits() {
          console.log("^^*",result_emergency);
          
           
-          for (const  dataarray_first of this.dataservice.first)
+         for(const unit of this.Ordered_unit)
+          {
+            let const_Mnt:number=0;
+            let const_Adj:number=0;
+           for (const  dataarray_first of this.dataservice.first)
             {
-              for(const unit of this.Ordered_unit)
-                {
+             
 
                 let flag_check:boolean=false;
-                let value_Negative_MNT:number=0;
-                let value_Negative_ADJ:number=0;
-                let value_Positive_MNT:number=0;
-                let value_Positive_ADJ:number=0;
+                let temp_Mnt:number=0;
+                let temp_Adj:number=0;
+                let temp_positive_Mnt:number=0;
+                let temp_positive_Adj:number=0;
                 for(const Singleresult_emergency of result_emergency)
                   {
                     if(dataarray_first == Singleresult_emergency.description)
                       {
 
-                        if(Singleresult_emergency.checked)
+
+                         if(Singleresult_emergency.checked)
                           {
                             flag_check=true
-                            value_Negative_MNT=+value_Negative_MNT+Singleresult_emergency.Negative_MNT;
-                            value_Negative_ADJ=+value_Negative_ADJ+Singleresult_emergency.Negative_ADJ;
 
                           }
                           else{
-                             value_Positive_MNT=value_Positive_MNT+Singleresult_emergency.Positive_MNT;
-                             value_Positive_ADJ=value_Positive_ADJ+Singleresult_emergency.Positive_ADJ;
-                             
-
-                          }
-
-                       
-                      
+                            temp_positive_Adj=Singleresult_emergency.Positive_ADJ;
+                            temp_positive_Mnt=Singleresult_emergency.Positive_MNT;
+                          }                   
                       }
-
                   }
+                  if(flag_check)
+                    {
 
 
-                 
-                  if(!flag_check){
+                      
+                    }
+                    else{
+                      const_Adj=const_Adj+temp_positive_Adj;
+                      const_Mnt=const_Mnt+temp_positive_Mnt;
+                    }
 
-                    console.log(dataarray_first," in this drop down ",unit,"is not checked  ",value_Positive_MNT,value_Positive_ADJ)
-                  }
-                  else{
-                    console.log("Negative MNT,ADJ",value_Negative_MNT,value_Negative_ADJ);
-                  }
-                  flag_check=false;
-                  value_Negative_MNT=0;
-                  value_Negative_ADJ=0;
-                  value_Positive_MNT=0;
-                  value_Positive_ADJ=0;
-
-                 
-                }
-            }
+                
+           }
+          }
           
         }
 
